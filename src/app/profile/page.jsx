@@ -32,7 +32,7 @@ function Page() {
 
   useEffect(() => {
     // if (ID) {
-      getDetails();
+    getDetails();
     // }
   }, [ID]);
 

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { GrLocation } from "react-icons/gr";
@@ -15,9 +15,9 @@ import contractorService from "../../api/services/contractorService";
 import { IMAGE_PATH } from "@/api/BaseUrl";
 import reviewService from "../../api/services/reviewService";
 import moment from "moment";
-import {Link} from 'next/link'
-import {useRouter} from 'next/navigation'
-import {Footer} from "@/components/Footer";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Footer } from "@/components/Footer";
 
 const data = {
   suggestedFilters: ["Verified Licence", "Hired On Helperzz"],
@@ -72,7 +72,7 @@ const Page = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [ID, setID] = useState();
   const [contractors, setContractors] = useState([]);
-  const [reviews, setReviews] = useState([])
+  const [reviews, setReviews] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleCheckboxChange = (e) => {
@@ -156,8 +156,8 @@ const Page = () => {
   const getReviews = async (id) => {
     try {
       const response = await reviewService.category(id);
-      console.log(response)
-      setReviews(response.contractorReviews)
+      console.log(response);
+      setReviews(response.contractorReviews);
     } catch (error) {
       console.error(error);
     }
@@ -166,7 +166,7 @@ const Page = () => {
   useEffect(() => {
     if (ID) {
       getContractors(ID);
-      getReviews(ID)
+      getReviews(ID);
     }
   }, [ID]);
 
@@ -591,93 +591,93 @@ const Page = () => {
               </div>
             </div>
             <div className="lg:w-[75%] w-full max-md:mt-5 gap-2 ">
-              {/*{contractors?.map((value, index) => (*/}
-              {/*  <div*/}
-              {/*    key={index}*/}
-              {/*    className="bg-[#F7F9FB] sm:p-4 p-1 flex max-md:flex-col items-center gap-5 mb-5"*/}
-              {/*  >*/}
-              {/*    <div className="">*/}
-              {/*      <img*/}
-              {/*        src={`${IMAGE_PATH}${value.image}`}*/}
-              {/*        className={`h-[250px] w-[250px]`}*/}
-              {/*        alt=""*/}
-              {/*        height={250}*/}
-              {/*        width={550}*/}
-              {/*      />*/}
-              {/*    </div>*/}
-              {/*    <div className="w-[80%]">*/}
-              {/*      <div className="flex gap-2">*/}
-              {/*        <div className="bg-white p-3 rounded-full">*/}
-              {/*          <img*/}
-              {/*            src={`${IMAGE_PATH}${value.image}`}*/}
-              {/*            alt=""*/}
-              {/*            className="sm:h-16 sm:w-16 h-auto w-36"*/}
-              {/*          />*/}
-              {/*        </div>*/}
-              {/*        <div className="">*/}
-              {/*          <h4 className="text-[1.2rem] md:text-lg font-[500] ">*/}
-              {/*            {value.company_name}*/}
-              {/*          </h4>*/}
-              {/*          <div className="flex flex-wrap">*/}
-              {/*            {value.trust_seal ? (*/}
-              {/*              <Image*/}
-              {/*                src={trustsealimg}*/}
-              {/*                width={120}*/}
-              {/*                height={20}*/}
-              {/*                alt="trustSeal badge"*/}
-              {/*              />*/}
-              {/*            ) : null}*/}
-              {/*            <div className="sm:ml-4 ml-0 flex  items-center gap-1 ">*/}
-              {/*              <MdStar className="text-[#12937C] sm:text-[1.8rem] text-[1.2rem] " />*/}
-              {/*              <span className="sm:text-md text-sm font-[600]">*/}
-              {/*                {`${value.ratings / value.users} / 5`}*/}
-              {/*              </span>*/}
-              {/*              <span className="sm:ml-3 ml-1 sm:text-md text-sm text-gray-500">*/}
-              {/*                {`(${value.users} Reviews)`}*/}
-              {/*              </span>*/}
-              {/*            </div>*/}
-              {/*          </div>*/}
-              {/*        </div>*/}
-              {/*      </div>*/}
-              {/*      <div className="flex gap-2 mt-4">*/}
-              {/*        <div className="flex items-center gap-3 bg-[#12937C1A] border-[1px] border-[#12937C] py-1 px-2 rounded-lg">*/}
-              {/*          <span>*/}
-              {/*            <FiBox />*/}
-              {/*          </span>*/}
-              {/*          <p className="text-sm font-semibold text-gray-600">*/}
-              {/*            Provides 3D visualization*/}
-              {/*          </p>*/}
-              {/*        </div>*/}
-              {/*      </div>*/}
-              {/*      <div className="mt-2">*/}
-              {/*        <h4 className="text-[15px] font-[600] text-gray-600">*/}
-              {/*          {value.skills}*/}
-              {/*        </h4>*/}
-              {/*        <h5*/}
-              {/*          className="text-sm font-[500] mt-3 text-ellipsis line-clamp-2"*/}
-              {/*          dangerouslySetInnerHTML={{*/}
-              {/*            __html: value.description,*/}
-              {/*          }}*/}
-              {/*        ></h5>*/}
-              {/*      </div>*/}
-              {/*      <div className="flex justify-between w-full mt-2 ">*/}
-              {/*        <h5 className="text-sm font-[500]">{value.name}</h5>*/}
-              {/*        <Link*/}
-              {/*          className="text-sm font-[600] text-[#12937C] "*/}
-              {/*          to={`/profile?id=${value.id}`}*/}
-              {/*        >*/}
-              {/*          Read More*/}
-              {/*        </Link>*/}
-              {/*      </div>*/}
-              {/*      <h4 className="text-md font-[600] mt-1">*/}
-              {/*        4 projects in the {cityName}*/}
-              {/*      </h4>*/}
-              {/*      <button className="py-2 px-5 mt-4 bg-[#12937C] text-white text-md rounded-[10px] text-opacity-70 cursor-pointer hover:bg-opacity-80 font-[600]">*/}
-              {/*        Send Message*/}
-              {/*      </button>*/}
-              {/*    </div>*/}
-              {/*  </div>*/}
-              {/*))}*/}
+              {contractors?.map((value, index) => (
+                <div
+                  key={index}
+                  className="bg-[#F7F9FB] sm:p-4 p-1 flex max-md:flex-col items-center gap-5 mb-5"
+                >
+                  <div className="">
+                    <img
+                      src={`${IMAGE_PATH}${value.image}`}
+                      className={`h-[250px] w-[250px]`}
+                      alt=""
+                      height={250}
+                      width={550}
+                    />
+                  </div>
+                  <div className="w-[80%]">
+                    <div className="flex gap-2">
+                      <div className="bg-white p-3 rounded-full">
+                        <img
+                          src={`${IMAGE_PATH}${value.image}`}
+                          alt=""
+                          className="sm:h-16 sm:w-16 h-auto w-36"
+                        />
+                      </div>
+                      <div className="">
+                        <h4 className="text-[1.2rem] md:text-lg font-[500] ">
+                          {value.company_name}
+                        </h4>
+                        <div className="flex flex-wrap">
+                          {value.trust_seal ? (
+                            <Image
+                              src={trustsealimg}
+                              width={120}
+                              height={20}
+                              alt="trustSeal badge"
+                            />
+                          ) : null}
+                          <div className="sm:ml-4 ml-0 flex  items-center gap-1 ">
+                            <MdStar className="text-[#12937C] sm:text-[1.8rem] text-[1.2rem] " />
+                            <span className="sm:text-md text-sm font-[600]">
+                              {`${value.ratings / value.users} / 5`}
+                            </span>
+                            <span className="sm:ml-3 ml-1 sm:text-md text-sm text-gray-500">
+                              {`(${value.users} Reviews)`}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 mt-4">
+                      <div className="flex items-center gap-3 bg-[#12937C1A] border-[1px] border-[#12937C] py-1 px-2 rounded-lg">
+                        <span>
+                          <FiBox />
+                        </span>
+                        <p className="text-sm font-semibold text-gray-600">
+                          Provides 3D visualization
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <h4 className="text-[15px] font-[600] text-gray-600">
+                        {value.skills}
+                      </h4>
+                      <h5
+                        className="text-sm font-[500] mt-3 text-ellipsis line-clamp-2"
+                        dangerouslySetInnerHTML={{
+                          __html: value.description,
+                        }}
+                      ></h5>
+                    </div>
+                    <div className="flex justify-between w-full mt-2 ">
+                      <h5 className="text-sm font-[500]">{value.name}</h5>
+                      <Link
+                        className="text-sm font-[600] text-[#12937C] "
+                        href={`/profile`}
+                      >
+                        Read More
+                      </Link>
+                    </div>
+                    <h4 className="text-md font-[600] mt-1">
+                      4 projects in the {cityName}
+                    </h4>
+                    <button className="py-2 px-5 mt-4 bg-[#12937C] text-white text-md rounded-[10px] text-opacity-70 cursor-pointer hover:bg-opacity-80 font-[600]">
+                      Send Message
+                    </button>
+                  </div>
+                </div>
+              ))}
 
               <ul class="list-style-none flex mt-2 mx-auto justify-center">
                 <li>
@@ -800,7 +800,8 @@ const Page = () => {
                     </div>
                   </div>
 
-                  <p className="mt-5 text-[.9rem] max-md:text-[.8rem] ">{value.review}
+                  <p className="mt-5 text-[.9rem] max-md:text-[.8rem] ">
+                    {value.review}
                   </p>
                 </div>
               ))}
