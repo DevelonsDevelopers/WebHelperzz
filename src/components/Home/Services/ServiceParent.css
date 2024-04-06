@@ -1,0 +1,40 @@
+.service_parent {
+  background-color: white;
+  padding: 2% 11%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  font-size: 1.9rem;
+  font-weight: bold;
+}
+
+.layout_cart {
+  margin: auto;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.layout_cart * {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+.carousel-buttons {
+  margin-top: 20px;
+}
+@media screen and (max-width: 600px) {
+  .service_parent {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .heading {
+    font-size: 1.5rem;
+  }
+}
