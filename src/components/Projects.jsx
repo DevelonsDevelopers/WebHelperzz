@@ -1,6 +1,23 @@
-'use client'
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
+
+const ZoomedImageModal = ({ imageUrl, onClose }) => {
+  return (
+    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center">
+      <div className="max-w-full max-h-full overflow-auto">
+        <Image src={imageUrl} alt="Zoomed" className="max-w-full max-h-full" />
+        <button
+          onClick={onClose}
+          className="absolute top-0 right-0 m-4 p-5 text-white text-lg"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export const Projects = () => {
   const buttons = [
     "Bathroom",
@@ -26,6 +43,16 @@ export const Projects = () => {
       title: "Interior Renovation",
     },
   ];
+
+  const [zoomedImageUrl, setZoomedImageUrl] = useState(null);
+
+  const openZoomedImage = (imageUrl) => {
+    setZoomedImageUrl(imageUrl);
+  };
+
+  const closeZoomedImage = () => {
+    setZoomedImageUrl(null);
+  };
   return (
     <div className="profile_container max-w-[1200px] mx-auto md:px-6 px-1">
       <h2 className="text-2xl md:text-3xl font-semibold mb-5 text-text">
@@ -49,18 +76,28 @@ export const Projects = () => {
         Filtered results based on the selected room categories{" "}
       </p>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0 md:gap-10 lg:gap-[72px]">
-        {projectCards.map((project, index) => (
-          <div className="mt-9" key={index}>
-            <Image className="rounded-[22px] " src={project.img} alt="" />
+        {projectCards.slice(0, 3).map((project, index) => (
+          <div
+            className="mt-9"
+            key={index}
+            onClick={() => openZoomedImage(project.img)}
+          >
+            <Image src={project.img} alt="" className="rounded-[22px]" />
             <h2 className="text-lg md:text-[22px] text-center md:text-left font-semibold mt-5 text-text">
               {project.title}
             </h2>
           </div>
         ))}
       </div>
+      {zoomedImageUrl && (
+        <ZoomedImageModal
+          imageUrl={zoomedImageUrl}
+          onClose={closeZoomedImage}
+        />
+      )}
       <div className="mt-8 lg:mt-16 flex justify-center text-center">
         <a class=" hover:bg-secondary hover:text-white transition-all cursor-pointer text-text w-[300px]  text-base lg:text-xl justify-center border border-secondary px-5 py-4 rounded-2xl font-bold bg-[#fff] text-transform: uppercase">
-          See All reviewS
+          See All Photos
         </a>
       </div>
     </div>
