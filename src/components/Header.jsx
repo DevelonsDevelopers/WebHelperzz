@@ -107,9 +107,13 @@ function Header() {
       <Container maxWidth="xl">
         <Toolbar className="header_top py-2 select-text" disableGutters>
           <div className="w-28 md:mr-10 select-text">
-          
-              <Image    onClick={() => navigate.push('/')} src={imgLogo} alt="" width={150} height={100} />
-          
+            <Image
+              onClick={() => navigate.push("/")}
+              src={imgLogo}
+              alt=""
+              width={150}
+              height={100}
+            />
           </div>
 
           <div>
@@ -197,7 +201,7 @@ function Header() {
                   <Button
                     style={{ userSelect: "text" }}
                     className="whitespace-nowrap"
-                    href="/review"
+                    href="/write_review"
                     sx={{
                       my: 2,
                       color: "black",
@@ -255,13 +259,13 @@ function Header() {
                     <div className="gap-2 2xl:mr-5 mr-2 hidden md:flex">
                       <p
                         className="text-text text-sm font-medium whitespace-nowrap cursor-pointer"
-                        onClick={() => navigate.push('/login')}
+                        onClick={() => navigate.push("/login")}
                       >
                         Log In
                       </p>
                       <p
                         className="text-text text-sm font-medium whitespace-nowrap cursor-pointer"
-                        onClick={() => navigate.push('/signup')}
+                        onClick={() => navigate.push("/signup")}
                       >
                         Sign up
                       </p>
@@ -339,7 +343,7 @@ function Header() {
             <Button
               style={{ userSelect: "text" }}
               className="whitespace-nowrap"
-              href="/review"
+              href="/write_review"
               sx={{
                 my: 2,
                 color: "black",
@@ -388,10 +392,7 @@ function Header() {
                   <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>My account</MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>
-                    <p
-                      className="cursor-pointer"
-                      onClick={() => setUser(null)}
-                    >
+                    <p className="cursor-pointer" onClick={() => setUser(null)}>
                       Logout
                     </p>
                   </MenuItem>
@@ -401,13 +402,13 @@ function Header() {
               <div className="gap-2 2xl:mr-5 mr-2 hidden md:flex">
                 <p
                   className="text-text text-sm font-medium whitespace-nowrap cursor-pointer"
-                  onClick={() => navigate.push('/login')}
+                  onClick={() => navigate.push("/login")}
                 >
                   Log In{" "}
                 </p>
                 <p
                   className="text-text text-sm font-medium whitespace-nowrap cursor-pointer"
-                  onClick={() => navigate.push('/signup')}
+                  onClick={() => navigate.push("/signup")}
                 >
                   Sign up
                 </p>

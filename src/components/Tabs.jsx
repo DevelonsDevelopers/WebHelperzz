@@ -27,7 +27,7 @@ function Reviews({ details, a }) {
   // const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    navigate("/review?id=" + details.contractor.id);
+    navigate("/write-review?id=" + details.contractor.id);
   };
   const handleOpenDialog = () => {
     setIsDialogOpen(true);

@@ -34,6 +34,7 @@ function Review() {
   return (
     <div className="Review_cart w-screen sm:w-[320px] text-center px-8 select-text">
       <p className="heading_review">HELPERZZ REVIEW</p>
+
       <div className="review_stars">
         <img
           src={require("../../public/assets/star.png")}
@@ -263,7 +264,7 @@ function Home() {
 
   const categorySettings = {
     dots: false,
-    infinite: true,
+    infinite: categories.length > 6,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 3,
@@ -312,7 +313,7 @@ function Home() {
   // Section 5
   const guidesBlogSettings = {
     dots: false,
-    infinite: true,
+    infinite: blogs.length > 3,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -649,9 +650,9 @@ function Home() {
               {blogs.map((value) => (
                 <div key={value.id} className="p-2">
                   <div className="h-full rounded-lg overflow-hidden select-text">
-                    <Image
+                    <img
                       className="object-cover object-center rounded-3xl"
-                      src={Image1}
+                      src={`${IMAGE_PATH}${value.image}`}
                       alt="blog"
                     />
                     <div className="py-4">
@@ -764,9 +765,9 @@ function Home() {
                         <div class="h-[280px]  items-start select-text">
                           <div class="flex p-3">
                             <a class="inline-flex">
-                              <Image
+                              <img
                                 alt="blog"
-                                src={require("../../public/assets/images/helperz-01.png")}
+                                src={`${IMAGE_PATH}${value.image}`}
                                 class="h-16 sm:w-16 rounded-full flex-shrink-0 object-cover object-center"
                               />
                               <span class="flex-grow flex flex-col pl-2  items-center">
