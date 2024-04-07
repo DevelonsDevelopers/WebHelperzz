@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import Image from "next/image";
 import Header from "@/components/Header";
-
+import "../../style/category_list.css";
 function GetQuotes() {
   const navigate = useRouter();
 
@@ -25,52 +25,27 @@ function GetQuotes() {
           home service pros that are eager to help.
         </h3>
       </div>
-      <div className="flex-col p-2 border-[1px] border-gray-500 mx-7 max-h-[200px] mb-10">
-        <div>
-          <h1 className="font-bold text-lg">col1</h1>
-          <Link
-            href="/"
-            className="text-[#2ab0e7] hover:text-[#177aa5] cursor-pointer"
-          >
-            endkj
-          </Link>
-          <p>endkj</p>
-          <p>endkj</p>
-        </div>
-        <div>
-          <h1 className="font-bold text-lg">col1</h1>
-          <Link
-            href="/"
-            className="text-[#2ab0e7] hover:text-[#177aa5] cursor-pointer"
-          >
-            endkj
-          </Link>
-          <p>endkj</p>
-          <p>endkj</p>
-        </div>
-        <div>
-          <h1 className="font-bold text-lg">col1</h1>
-          <Link
-            href="/"
-            className="text-[#2ab0e7] hover:text-[#177aa5] cursor-pointer"
-          >
-            endkj
-          </Link>
-          <p>endkj</p>
-          <p>endkj</p>
-        </div>
-        <div>
-          <h1 className="font-bold text-lg">col1</h1>
-          <Link
-            href="/"
-            className="text-[#2ab0e7] hover:text-[#177aa5] cursor-pointer"
-          >
-            endkj
-          </Link>
-          <p>endkj</p>
-          <p>endkj</p>
-        </div>
-      </div>
+      <ul className="list_container">
+        <li className="flex-col">
+          <h1 className="font-bold text-lg">Main Category</h1>
+          <div className="py-[6px]">
+            <Link
+              href="/"
+              className="text-[#2ab0e7] hover:text-[#177aa5] cursor-pointer"
+            >
+              subcategory
+            </Link>
+          </div>
+          <div className="py-[6px]">
+            <Link
+              href="/"
+              className="text-[#2ab0e7] hover:text-[#177aa5] cursor-pointer "
+            >
+              subcategory
+            </Link>
+          </div>
+        </li>
+      </ul>
     </>
   );
 }
