@@ -204,7 +204,7 @@ function Home() {
   const getTestimonials = async () => {
     try {
       const response = await testimonialService.featured();
-      console.log(response)
+      console.log(response);
       setTestimonials(response.testimonials);
     } catch (error) {
       console.error(error);
@@ -652,7 +652,7 @@ function Home() {
                 <div key={value.id} className="p-2">
                   <div className="h-full rounded-lg overflow-hidden select-text">
                     <img
-                      className="object-cover object-center rounded-3xl"
+                      className="object-cover h-[300px] object-center rounded-3xl"
                       src={`${IMAGE_PATH}${value.image}`}
                       alt="blog"
                     />
