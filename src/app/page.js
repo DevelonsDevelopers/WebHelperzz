@@ -55,13 +55,13 @@ function Review() {
 }
 
 function ServicesCart(props) {
-  const { id, imageSrc, text } = props;
+  const { id, imageSrc, text, tag } = props;
   const navigate = useRouter();
 
   return (
     <div
       className="flex flex-col justify-center text-center font-semibold items-center bg-[#F7F9FB] rounded-xl p-6 h-[150px] cursor-pointer border-r-2 border-b-2 border-white hover:border-[#119DED99] hover:shadow-md hover:shadow-[#119DED99] mx-2 my-3 lg:mx-3 lg:my-4"
-      onClick={() => navigate.push("/category/toronto/" + id)}
+      onClick={() => navigate.push(`/category/on/toronto/${tag}`)}
     >
       <img
         src={imageSrc}
@@ -558,6 +558,7 @@ function Home() {
               <ServicesCart
                 key={value.id}
                 id={value.id}
+                tag={value.tag}
                 imageSrc={`${IMAGE_PATH}${value.image}`}
                 text={value.name}
               />

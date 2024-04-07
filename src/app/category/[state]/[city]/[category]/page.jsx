@@ -4,20 +4,22 @@ import React, { useState, useEffect } from "react";
 import { GrLocation } from "react-icons/gr";
 import { IoSearch } from "react-icons/io5";
 
-import Header from "../../../../components/Header";
+import Header from "../../../../../components/Header";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { FiBox } from "react-icons/fi";
 import { MdStar } from "react-icons/md";
 import Image from "next/image";
-import imgpfp from "../../../../../public/assets/profile2.png";
-import trustsealimg from "../../../../../public/assets/trustsealbadge.png";
-import contractorService from "../../../../api/services/contractorService";
+import imgpfp from "../../../../../../public/assets/profile2.png";
+import trustsealimg from "../../../../../../public/assets/trustsealbadge.png";
+import contractorService from "../../../../../api/services/contractorService";
 import { IMAGE_PATH } from "@/api/BaseUrl";
-import reviewService from "../../../../api/services/reviewService";
+import reviewService from "../../../../../api/services/reviewService";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Footer } from "@/components/Footer";
+import categoryService from "@/api/services/categoryService";
+import cityService from "@/api/services/cityService";
 
 const data = {
   suggestedFilters: ["Verified Licence", "Hired On Helperzz"],
@@ -74,6 +76,8 @@ const Page = ({ params }) => {
   const [contractors, setContractors] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [category, setCategory] = useState()
+  const [city, setCity] = useState()
 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
@@ -143,7 +147,27 @@ const Page = ({ params }) => {
   useEffect(() => {
     console.log(params)
     setID(26);
+    getCategoryByTag()
+    getCityByTag()
   }, []);
+
+  const getCategoryByTag = async () => {
+    try {
+      const response = await categoryService.fetchByTag(params.category);
+      setCategory(response.category);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getCityByTag = async () => {
+    try {
+      const response = await cityService.fetchByTag(params.city);
+      setCity(response.city);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const getContractors = async (id) => {
     try {
@@ -165,11 +189,11 @@ const Page = ({ params }) => {
   };
 
   useEffect(() => {
-    if (ID) {
-      getContractors(ID);
-      getReviews(ID);
+    if (category) {
+      getContractors(category.id);
+      getReviews(category.id);
     }
-  }, [ID]);
+  }, [category]);
 
   const handleInputChange = (e) => {
     setInputCity(e.target.value);
@@ -212,14 +236,10 @@ const Page = ({ params }) => {
         </div>
         <div className="py-10 md:px-[4rem] px-4  max-w-[1200px] justify-center mx-auto">
           <h5 className="sm:text-[1.8rem] text-2xl font-[500] ">
-            Basement Remodelers in {cityName}
+            {category?.name} in {city?.name}
           </h5>
           <p className="text-gray-600 sm:text-md text-sm">
-            Basement Remodelers in Toronto: Trusted professionals specializing
-            in transforming underutilized basement spaces into functional and
-            aesthetically pleasing areas. From creating cozy living spaces to
-            installing home theaters, these experts excel in maximizing the
-            potential of your basement.
+            {category?.name} in {city?.name}: {category?.details}
           </p>{" "}
           <div className="flex max-sm:flex-col mt-14 w-full justify-between items-center ">
             <div className="flex flex-wrap gap-3 lg:gap-5 max-md:gap-2">
@@ -763,7 +783,7 @@ const Page = ({ params }) => {
         <div className="bg-[#F7F9FB] md:px-[4rem] px-6 py-10  ">
           <div className="max-w-[1100px] justify-center mx-auto">
             <h5 className="sm:text-[1.8rem] text-2xl font-[600] ">
-              Featured Reviews for Basement Remodelers in Chicago
+              Featured Reviews for {category?.name} in {city?.name}
             </h5>
 
             <div className="grid lg:grid-cols-2 gap-5 sm:mt-[3rem] mt-3">
