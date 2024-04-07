@@ -61,7 +61,7 @@ function ServicesCart(props) {
   return (
     <div
       className="flex flex-col justify-center text-center font-semibold items-center bg-[#F7F9FB] rounded-xl p-6 h-[150px] cursor-pointer border-r-2 border-b-2 border-white hover:border-[#119DED99] hover:shadow-md hover:shadow-[#119DED99] mx-2 my-3 lg:mx-3 lg:my-4"
-      onClick={() => navigate.push("/category?id=" + id)}
+      onClick={() => navigate.push("/category/toronto/" + id)}
     >
       <img
         src={imageSrc}
@@ -203,7 +203,8 @@ function Home() {
 
   const getTestimonials = async () => {
     try {
-      const response = await testimonialService.fetchAll();
+      const response = await testimonialService.featured();
+      console.log(response)
       setTestimonials(response.testimonials);
     } catch (error) {
       console.error(error);
@@ -759,7 +760,7 @@ function Home() {
                       <div
                         class="py-3 px-2 mr-2 mb-2 border-primary border rounded-3xl relative cursor-pointer"
                         onClick={() =>
-                          navigate.push("/profile?id=" + value.contractor)
+                          navigate.push("/profile/" + value.contractor)
                         }
                       >
                         <div class="h-[280px]  items-start select-text">

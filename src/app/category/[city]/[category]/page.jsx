@@ -4,16 +4,16 @@ import React, { useState, useEffect } from "react";
 import { GrLocation } from "react-icons/gr";
 import { IoSearch } from "react-icons/io5";
 
-import Header from "../../components/Header";
+import Header from "../../../../components/Header";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { FiBox } from "react-icons/fi";
 import { MdStar } from "react-icons/md";
 import Image from "next/image";
-import imgpfp from "../../../public/assets/profile2.png";
-import trustsealimg from "../../../public/assets/trustsealbadge.png";
-import contractorService from "../../api/services/contractorService";
+import imgpfp from "../../../../../public/assets/profile2.png";
+import trustsealimg from "../../../../../public/assets/trustsealbadge.png";
+import contractorService from "../../../../api/services/contractorService";
 import { IMAGE_PATH } from "@/api/BaseUrl";
-import reviewService from "../../api/services/reviewService";
+import reviewService from "../../../../api/services/reviewService";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -60,7 +60,7 @@ const reviewsData = [
   { name: "one" },
 ];
 
-const Page = () => {
+const Page = ({ params }) => {
   const [suggestedFilterOpen, setSuggestedFilterOpen] = useState(true);
   const [categoryOpen, setCategoryOpen] = useState(true);
   const [credentialsOpen, setCredentialsOpen] = useState(true);
@@ -98,7 +98,7 @@ const Page = () => {
   };
 
   const location = useRouter();
-  const params = new URLSearchParams(location.query);
+  // const params = new URLSearchParams(location.query);
 
   const handleBoxClose = () => {
     setIsVisible(false);
@@ -141,6 +141,7 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
+    console.log(params)
     setID(26);
   }, []);
 

@@ -1,27 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import BreadCrumbs from "../../components/BreadCrumbs";
-import Tabs from "../../components/Tabs";
-import Header from "../../components/Header";
-import { Footer } from "../../components/Footer";
-import contractorService from "../../api/services/contractorService";
-import Loading from "../../components/Loading";
+import BreadCrumbs from "../../../components/BreadCrumbs";
+import Tabs from "../../../components/Tabs";
+import Header from "../../../components/Header";
+import { Footer } from "../../../components/Footer";
+import contractorService from "../../../api/services/contractorService";
+import Loading from "../../../components/Loading";
 import { useRouter } from "next/navigation";
 
-function Page() {
-  const [ID, setID] = useState(3);
+function Page({ params }) {
+  const [ID, setID] = useState();
   const [details, setDetails] = useState();
 
   const location = useRouter();
-  const params = new URLSearchParams(location.search);
+  // const params = new URLSearchParams(location.search);
 
   useEffect(() => {
-    setID(params.get("id"));
+    setID(params.id)
   }, []);
 
   const getDetails = async () => {
     try {
-      const response = await contractorService.details(3);
+      const response = await contractorService.details(ID);
       console.log(ID);
       console.log(response);
       setDetails(response.data);
@@ -31,9 +31,9 @@ function Page() {
   };
 
   useEffect(() => {
-    // if (ID) {
-    getDetails();
-    // }
+    if (ID) {
+      getDetails();
+    }
   }, [ID]);
 
   return (

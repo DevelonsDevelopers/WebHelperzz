@@ -5,9 +5,12 @@ import { useRouter } from "next/navigation";
 
 import Image from "next/image";
 import Header from "@/components/Header";
-import "../../style/category_list.css";
-function GetQuotes() {
+import "../../../style/category_list.css";
+function CategoryList({ params }) {
+
   const navigate = useRouter();
+
+
 
   return (
     <>
@@ -17,7 +20,7 @@ function GetQuotes() {
 
       <div className="mt-32" style={{ alignItems: "center" }}>
         <h1 className="text-center text-4xl font-semibold">
-          Service Providers in Toronto, Ontario
+          {`Service Providers in ${params.city}`}
         </h1>
         <h3 className="text-gray-500 mt-10 mx-7 mb-3">
           Looking for a trusted company in Toronto for your next home
@@ -50,4 +53,4 @@ function GetQuotes() {
   );
 }
 
-export default GetQuotes;
+export default CategoryList;

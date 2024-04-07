@@ -8,6 +8,14 @@ const testimonialService = {
         } catch (error) {
             throw error.response.data
         }
+    },
+    featured: async () => {
+        try {
+            const response = await axiosInstance.get('/testimonials/featured')
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
     }
 }
 

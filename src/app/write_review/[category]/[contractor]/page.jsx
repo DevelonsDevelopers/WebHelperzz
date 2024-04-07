@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Dialog } from "@mui/material";
-import { Rating } from "@material-tailwind/react";
-import contractorService from "../../api/services/contractorService";
-import { useLocation } from "react-router-dom";
-import uploadService from "../../api/services/uploadService";
+"use client"
 
-const WriteReview = ({ details, open, setOpen }) => {
+import React, { useEffect, useState } from "react";
+import { Rating } from "@material-tailwind/react";
+import contractorService from "../../../../api/services/contractorService";
+import uploadService from "../../../../api/services/uploadService";
+
+const Page = ({ params }) => {
   const [clicked, setClicked] = useState(false);
   const [images, setImages] = useState([]);
   const [invalidFile, setInvalidFile] = useState(false);
@@ -26,11 +26,11 @@ const WriteReview = ({ details, open, setOpen }) => {
 
   // const navigate = useNavigate()
 
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
+  // const location = useLocation();
+  // const params = new URLSearchParams(location.search);
 
   useEffect(() => {
-    setReviewData((data) => ({ ...data, contractor: params.get("id") }));
+    setReviewData((data) => ({ ...data, contractor: params.contractor }));
   }, []);
 
   useEffect(() => {
@@ -44,12 +44,9 @@ const WriteReview = ({ details, open, setOpen }) => {
     console.log(reviewData);
   }, [reviewData]);
 
-  // useEffect(() => {
-  //   if (details){
-  //     console.log(details)
-  //     setReviewData(data => ({...data, category: details?.details?.category}))
-  //   }
-  // }, [details]);
+  useEffect(() => {
+      setReviewData(data => ({...data, category: params.category}))
+  }, []);
 
   const handleFileChange = (event) => {
     const files = event.target.files;
@@ -268,4 +265,4 @@ const WriteReview = ({ details, open, setOpen }) => {
   );
 };
 
-export default WriteReview;
+export default Page;
