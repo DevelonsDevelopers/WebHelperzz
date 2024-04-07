@@ -2,168 +2,166 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
-    margin: 0;
-    font-family: "Heebo", sans-serif;
-  }
-  
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-      monospace;
-  }
-  
-  .select_bar div {
-    border: 0px !important;
-    box-shadow: none !important;
-  }
-  
-  .select_bar div > div > span,
-  .select_bar div > span ~ div {
-    display: none !important;
-  }
-  
+  margin: 0;
+  font-family: "Heebo", sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.select_bar div {
+  border: 0px !important;
+  box-shadow: none !important;
+}
+
+.select_bar div > div > span,
+.select_bar div > span ~ div {
+  display: none !important;
+}
+
+.hero_image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../../public/assets/images/hero-image.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  margin-top: -20px;
+}
+
+@media (max-width: 767px) {
   .hero_image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url("../../public/assets/images/hero-image.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    margin-top: -20px;
+    background-color: #f6f6f6;
+    background-image: url("../../public/assets/images/table.png");
+    background-size: 70%;
+    background-position: bottom right;
   }
-  
-  @media (max-width: 767px) {
-    .hero_image {
-      background-color: #f6f6f6;
-      background-image: url("../../public/assets/images/table.png");
-      background-size: 70%;
-      background-position: bottom right;
-    }
-    .layout_catlog_cart {
-      justify-content: space-between;
-    }
-  }
-  
-  .MuiBox-root.css-1t6c9ts button {
-    color: #000;
-    font-weight: bold;
-  }
-  .MuiBox-root.css-1t6c9ts {
-    align-items: center !important;
-  }
-  
-  button.slick-arrow {
-    display: none !important;
-  }
-  
-  button.btn-next,
-  button.btn-prev {
-    background-color: #f7f9fb;
-    padding: 10px;
-    margin: 0 10px;
-    transition: all 0.3s ease;
-  }
-  
-  button.btn-next:hover,
-  button.btn-prev:hover {
-    background-color: #119ded;
-    padding: 10px;
-    margin: 0 10px;
-  }
-  
-  button.btn-prev {
-    border-radius: 20px 0px 0px 0px;
-  }
-  
-  button.btn-next {
-    border-radius: 0px 0px 20px 0px;
-  }
-  
-  .btn_header {
-    background-color: rgba(17, 157, 237, 1) !important;
-    border-radius: 14px !important;
-    font-weight: 600 !important;
-    padding: 10px !important;
-    font-size: 12px !important;
-  }
-  .header_top {
+  .layout_catlog_cart {
     justify-content: space-between;
   }
-  
-  @font-face {
-    font-family: "Heebo";
-    src: url("https://fonts.gstatic.com/s/heebo/v3/NGSRv5JBJXRRo1i0jSi7jxCvgxBamwzCj5OzvPSqUxFWxw.ttf")
-      format("truetype");
-    font-weight: 400;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: "Heebo";
-    src: url("https://fonts.gstatic.com/s/heebo/v3/NGSRv5JBJXRRo1i0jSi7jxCvgxBamwzCj5OzvPSqUxFWxw.ttf")
-      format("truetype");
-    font-weight: 700;
-    font-style: normal;
-  }
-  header.MuiPaper-root.MuiPaper-elevation.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionFixed {
-    background-color: transparent;
-  }
-  
-  .shadow-md {
-    box-shadow: 0 0.0666666667rem 0.1333333333rem 0 rgba(35, 47, 58, 0.2) !important;
-  }
-  .monthy_yearly_chart .MuiPaper-root {
-    padding: 0 !important;
-  }
-  span.MuiLinearProgress-bar {
-    background-color: #0d14fd !important;
-  }
-  
-  span.MuiLinearProgress-root {
-    height: 10px !important;
-    border-radius: 20px;
-    background: #d9d9d9 !important;
-  }
-  
-  .shadow-md {
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-  }
-  div#root {
-    overflow: hidden;
-  }
-  .tabs_ .MuiTabs-flexContainer {
-    justify-content: space-between;
-  }
-  
-  .tabs_ .MuiTabs-indicator {
-    display: none;
-  }
-  .mui_accordion::before {
-    display: none !important;
-  }
-  .mui_accordion {
-    box-shadow: none !important;
-  }
-  
+}
+
+.MuiBox-root.css-1t6c9ts button {
+  color: #000;
+  font-weight: bold;
+}
+.MuiBox-root.css-1t6c9ts {
+  align-items: center !important;
+}
+
+button.slick-arrow {
+  display: none !important;
+}
+
+button.btn-next,
+button.btn-prev {
+  background-color: #f7f9fb;
+  padding: 10px;
+  margin: 0 10px;
+  transition: all 0.3s ease;
+}
+
+button.btn-next:hover,
+button.btn-prev:hover {
+  background-color: #119ded;
+  padding: 10px;
+  margin: 0 10px;
+}
+
+button.btn-prev {
+  border-radius: 20px 0px 0px 0px;
+}
+
+button.btn-next {
+  border-radius: 0px 0px 20px 0px;
+}
+
+.btn_header {
+  background-color: rgba(17, 157, 237, 1) !important;
+  border-radius: 14px !important;
+  font-weight: 600 !important;
+  padding: 10px !important;
+  font-size: 12px !important;
+}
+.header_top {
+  justify-content: space-between;
+}
+
+@font-face {
+  font-family: "Heebo";
+  src: url("https://fonts.gstatic.com/s/heebo/v3/NGSRv5JBJXRRo1i0jSi7jxCvgxBamwzCj5OzvPSqUxFWxw.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Heebo";
+  src: url("https://fonts.gstatic.com/s/heebo/v3/NGSRv5JBJXRRo1i0jSi7jxCvgxBamwzCj5OzvPSqUxFWxw.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+header.MuiPaper-root.MuiPaper-elevation.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionFixed {
+  background-color: transparent;
+}
+
+.shadow-md {
+  box-shadow: 0 0.0666666667rem 0.1333333333rem 0 rgba(35, 47, 58, 0.2) !important;
+}
+.monthy_yearly_chart .MuiPaper-root {
+  padding: 0 !important;
+}
+span.MuiLinearProgress-bar {
+  background-color: #0d14fd !important;
+}
+
+span.MuiLinearProgress-root {
+  height: 10px !important;
+  border-radius: 20px;
+  background: #d9d9d9 !important;
+}
+
+.shadow-md {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+div#root {
+  overflow: hidden;
+}
+.tabs_ .MuiTabs-flexContainer {
+  justify-content: space-between;
+}
+
+.tabs_ .MuiTabs-indicator {
+  display: none;
+}
+.mui_accordion::before {
+  display: none !important;
+}
+.mui_accordion {
+  box-shadow: none !important;
+}
+
+.tabs_ .MuiTab-root.Mui-selected {
+  transition: all 0.5s ease;
+  background-color: #fff;
+  border-radius: 18px;
+  color: #12937c;
+}
+@media (min-width: 1024px) {
   .tabs_ .MuiTab-root.Mui-selected {
-    transition: all 0.5s ease;
-    background-color: #fff;
-    border-radius: 18px;
-    color: #12937c;
+    min-width: 40%;
   }
-  @media (min-width: 1024px) {
-    .tabs_ .MuiTab-root.Mui-selected {
-      min-width: 40%;
-    }
+}
+@media (max-width: 767px) {
+  .tabs_ .MuiTabs-flexContainer {
+    overflow-x: scroll;
+    padding-bottom: 10px;
+    padding-top: 10px;
   }
-  @media (max-width: 767px) {
-    .tabs_ .MuiTabs-flexContainer {
-      overflow-x: scroll;
-      padding-bottom: 10px;
-      padding-top: 10px;
-    }
-  }
-  
+}

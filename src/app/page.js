@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
+import { Suspense } from "react";
+
 import { LocationIcon, SearchIcon } from "@/components/svg";
 import { Posts } from "@/components/Post";
 import Link from "next/link";

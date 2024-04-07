@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
@@ -9,8 +9,8 @@ function handleClick(event) {
   console.info("You clicked a breadcrumb.");
 }
 
-const BreadCrumbs = ({details}) => { 
-   return (
+const BreadCrumbs = ({ details }) => {
+  return (
     <div role="presentation" onClick={handleClick}>
       <Breadcrumbs aria-label="breadcrumb">
         <Link
