@@ -50,7 +50,8 @@ function Header() {
   };
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    // setAnchorEl(event.currentTarget);
+    navigate.push('/category_list/toronto')
   };
 
   const handleClose = () => {
@@ -95,6 +96,7 @@ function Header() {
   }, []);
 
   const handleLogout = () => {
+    setAnchorElUser(null);
     setUser(null);
     localStorage.removeItem("HELPERZZ-USER");
   };
@@ -391,7 +393,7 @@ function Header() {
                 >
                   <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>My account</MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
+                  <MenuItem onClick={handleLogout}>
                     <p className="cursor-pointer" onClick={() => setUser(null)}>
                       Logout
                     </p>

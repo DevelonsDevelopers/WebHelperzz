@@ -70,7 +70,7 @@ const Page = () => {
       authenticationService
         .register(registerData)
         .then((response) => {
-          navigate("/login");
+          navigate.push("/login");
           toast.success(response.message);
         })
         .catch((error) => {

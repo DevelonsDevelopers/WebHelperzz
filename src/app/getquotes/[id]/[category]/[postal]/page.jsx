@@ -2,13 +2,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "../../style/GetQuotes.css";
+import "../../../../../style/GetQuotes.css";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import subcategoryService from "../../api/services/subcategoryService";
-import requestService from "../../api/services/requestService";
-import customerService from "../../api/services/customerService";
-import imgLogo from "../../../public/assets/logo.jpeg";
+import subcategoryService from "../../../../../api/services/subcategoryService";
+import requestService from "../../../../../api/services/requestService";
+import customerService from "../../../../../api/services/customerService";
+import imgLogo from "../../../../../../public/assets/logo.jpeg";
 import Image from "next/image";
 
 function SentRequest() {
@@ -79,7 +79,7 @@ function SentRequest() {
   );
 }
 
-function GetQuotes() {
+function GetQuotes({ params }) {
   const [requestData, setRequestData] = useState({
     user: 2,
     subcategory: "",
@@ -126,8 +126,8 @@ function GetQuotes() {
   const fifthBoxRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
 
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams.search);
+  // const searchParams = useSearchParams();
+  // const params = new URLSearchParams(searchParams.search);
 
   const handleNameChange = (e) => {
     const inputName = e.target.value;
@@ -220,7 +220,7 @@ function GetQuotes() {
         data.user = customer;
         requestService.create(data).then((response) => {
           setSubmitting(false);
-          navigate("/getquote/complete");
+          navigate.push("/");
         });
       });
       // requestService.create(requestData).then((response) => {
@@ -264,9 +264,9 @@ function GetQuotes() {
   };
 
   useEffect(() => {
-    setCategory(params.get("c"));
-    setCATID(params.get("id"));
-    setRequestData((data) => ({ ...data, postal_code: params.get("p") }));
+    setCategory(params.category);
+    setCATID(params.id);
+    setRequestData((data) => ({ ...data, postal_code: params.postal }));
   }, []);
 
   useEffect(() => {
