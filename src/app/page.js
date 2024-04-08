@@ -140,14 +140,6 @@ function Home() {
   const [reviewLoading, setReviewLoading] = useState(true);
   const [contractorLoading, setContractorLoading] = useState(true);
 
-  const [_window, setWindowObject] = useState(null);
-  const [_document, setDocumentObject] = useState(null);
-
-  useEffect(() => {
-    // you can access window, document here.
-    setWindowObject(window);
-    setDocumentObject(document);
-  }, []);
   const handleSelectChange = (selectedOption) => {
     setSelectedOption(selectedOption);
     setSelectedError(false);
@@ -329,7 +321,7 @@ function Home() {
   {
     /* Section 4 */
   }
-  const isMobile = _window.innerWidth < 768;
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const displayedGuides = isMobile ? costGuides.slice(0, 2) : costGuides;
 
   // Section 5
@@ -373,7 +365,8 @@ function Home() {
   };
 
   // Section 7
-  const isTopHelperzzMobile = _window.innerWidth < 768;
+  const isTopHelperzzMobile =
+    typeof window !== "undefined" && window.innerWidth < 768;
   const displayedTopHelperzz = isTopHelperzzMobile
     ? contractors.slice(0, 2)
     : contractors;
