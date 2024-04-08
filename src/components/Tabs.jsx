@@ -579,21 +579,6 @@ export default function Tabs({ id, details }) {
                     </p>
                   </div>
                 </div>
-                <div className="head_align lg:w-full pl-2 md:pl-0">
-                  <p className="colored_text md:text-2xl text-lg">Photos</p>
-                  <p className="colored_text lg:mr-0 mr-10">See More</p>
-                </div>
-                {/* <div className="img_align w-[screen] pl-2 md:pl-0  overflow-x-auto  flex flex-wrap gap-10">
-                  {details?.reviews?.slice(0, 7).map((value) => (
-                    <div key={value.id} className="flex">
-                      <img
-                        className="img_sizing mx-1"
-                        src={`${IMAGE_PATH}${value.images}`}
-                        alt="review_photo"
-                      />
-                    </div>
-                  ))}
-                </div> */}
                 <div className="sorting_review w-[55%] flex pl-2 md:pl-0">
                   <p className="sm:text-2xl mt-2 font-semibold text-lg">
                     Sort by:
@@ -910,21 +895,6 @@ export default function Tabs({ id, details }) {
                     </p>
                   </div>
                 </div>
-                <div className="head_align lg:w-full pl-2 md:pl-0">
-                  <p className="colored_text md:text-2xl text-lg">Photos</p>
-                  <p className="colored_text lg:mr-0 mr-10">See More</p>
-                </div>
-                {/* <div className="img_align w-[screen] pl-2 md:pl-0  overflow-x-auto  flex flex-wrap gap-10">
-                  {details?.reviews?.slice(0, 7).map((value) => (
-                    <div key={value.id} className="flex">
-                      <img
-                        className="img_sizing mx-1"
-                        src={`${IMAGE_PATH}${value.images}`}
-                        alt="review_photo"
-                      />
-                    </div>
-                  ))}
-                </div> */}
                 <div className="sorting_review w-[55%] flex pl-2 md:pl-0">
                   <p className="sm:text-2xl mt-2 font-semibold text-lg">
                     Sort by:

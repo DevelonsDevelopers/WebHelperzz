@@ -30,10 +30,7 @@
   margin-top: 25px;
   flex-wrap: wrap;
 }
-.img_sizing {
-  height: 100px;
-  width: 150px;
-}
+
 .sorting_review {
   display: flex;
   margin-top: 25px;
