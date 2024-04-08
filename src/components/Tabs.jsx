@@ -112,7 +112,6 @@ function SubReview(props) {
             {productImage.map((image, index) => (
               <div key={index}>
                 <img
-                  
                   src={`${IMAGE_PATH}${image.image}`}
                   className="sm:w-[200px] sm:h-[100px] sm:px-1  w-28 h-auto my-2"
                 />
@@ -618,7 +617,7 @@ export default function Tabs({ id, details }) {
                   <div className="flex-col justify-between flex-wrap lg:flex-nowrap gap-3 md:gap-4 w-[75%]">
                     {details?.reviews?.slice(0, 3).map((value) => (
                       <SubReview
-                      key={value.id}
+                        key={value.id}
                         name={value.name}
                         profileImage={require("../../public/assets/profileImage.png")}
                         jobPrice={` ${value.price}`}
@@ -894,7 +893,6 @@ export default function Tabs({ id, details }) {
           <TabPanel value="4">
             <div className="review_section ">
               <div className=" md:px-6 px-0 py-10 lg::mx-auto">
-                {" "}
                 <div style={{ display: "flex", flexDirection: "row" }}>
                   <p className=" text-2xl md:text-3xl font-bold lg:pl-2 pl-0">
                     REVIEWS
@@ -941,7 +939,7 @@ export default function Tabs({ id, details }) {
                   <div className="flex-col justify-between flex-wrap lg:flex-nowrap gap-3 md:gap-4 w-[75%]">
                     {details?.reviews?.map((value) => (
                       <SubReview
-                      key={value.id}
+                        key={value.id}
                         name={value.name}
                         profileImage={require("../../public/assets/profileImage.png")}
                         jobPrice={`${value.price}`}

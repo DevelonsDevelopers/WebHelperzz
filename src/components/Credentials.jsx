@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { IMAGE_PATH } from "../api/BaseUrl";
 
@@ -25,7 +25,10 @@ export const Credentials = ({ details }) => {
                 //     {value.title}
                 //   </p>
                 // </div>
-                <div className="border-[1px] border-[#12937C] w-[100px] h-[120px] justify-center flex items-center rounded-xl">
+                <div
+                  className="border-[1px] border-[#12937C] w-[100px] h-[120px] justify-center flex items-center rounded-xl"
+                  key={value.id}
+                >
                   <img
                     className="w-[100px] h-[118px] object-cover rounded-xl"
                     src={`${IMAGE_PATH}${value.image}`}
@@ -51,7 +54,10 @@ export const Credentials = ({ details }) => {
                 //     src={`${IMAGE_PATH}${value.image}`}
                 //   />
                 // </div>
-                <div className="border-[1px] border-[#12937C] w-[100px] h-[120px] justify-center flex items-center rounded-xl">
+                <div
+                  className="border-[1px] border-[#12937C] w-[100px] h-[120px] justify-center flex items-center rounded-xl"
+                  key={value.id}
+                >
                   <img
                     className="w-[100px] h-[118px] object-cover rounded-xl"
                     src={`${IMAGE_PATH}${value.image}`}
@@ -67,7 +73,10 @@ export const Credentials = ({ details }) => {
             </h2>
             <div className="flex gap-3">
               {details?.affiliations?.slice(0, 3).map((value) => (
-                <div className="border-[1px] border-[#12937C] w-[100px] h-[120px] justify-center flex items-center rounded-xl">
+                <div
+                  className="border-[1px] border-[#12937C] w-[100px] h-[120px] justify-center flex items-center rounded-xl"
+                  key={value.id}
+                >
                   <img
                     className="w-[100px] h-[118px] object-cover rounded-xl"
                     src={`${IMAGE_PATH}${value.image}`}
