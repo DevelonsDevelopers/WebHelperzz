@@ -94,6 +94,9 @@ const Page = ({ params }) => {
             const data = { review: response?.review?.id, image: file.fileName };
             contractorService.addImage(data).then((response) => {
               console.log(response);
+              if (i === allImages.length - 1){
+                navigate.replace('/profile/' + params.contractor)
+              }
             });
           });
         }

@@ -704,7 +704,7 @@ const Page = ({ params }) => {
                           <h5 className="text-sm font-[500]">{value.name}</h5>
                           <Link
                             className="text-sm font-[600] text-[#12937C] "
-                            href={`/profile`}
+                            href={`/profile/` + value.id}
                           >
                             Read More
                           </Link>
