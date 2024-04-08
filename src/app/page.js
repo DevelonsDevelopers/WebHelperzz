@@ -74,7 +74,7 @@ function ServicesCart(props) {
 }
 
 function CategoryCart(props) {
-  const { id, imageSrc, text, title } = props;
+  const { id, imageSrc, text, title, tag } = props;
   const navigate = useRouter();
 
   return (
@@ -609,6 +609,7 @@ function Home() {
                     imageSrc={`${IMAGE_PATH}${category.image}`}
                     text={category.details}
                     title={category.name}
+                    tag={category.tag}
                   />
                 </div>
               ))}
