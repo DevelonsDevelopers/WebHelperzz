@@ -17,7 +17,7 @@ import "../style/Profile.css";
 
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 
 function SubReview(props) {
   const sliderRef = useRef(null);
@@ -90,7 +90,7 @@ function SubReview(props) {
       <div className="flex md:flex-row flex-col">
         <div className="flex-wrap sm:w-[60%] w-screen">
           <p className="md:text-[16px] text-sm md:font-[550] flex sm:pt-4 sm:pl-8 pl-4 mt-4 mr-10 lg:mr-0 text-gray-700">
-            "{reviewText}"
+            {reviewText}
           </p>
           <div className="sm:pl-12 pl-6 pt-4 flex-wrap">
             <p className="flex md:text-xl text-lg font-bold ">
@@ -110,9 +110,9 @@ function SubReview(props) {
         <div className="flex-col justify-between w-[35%]">
           <Slider {...settings} ref={sliderRef}>
             {productImage.map((image, index) => (
-              <div>
+              <div key={index}>
                 <img
-                  key={index}
+                  
                   src={`${IMAGE_PATH}${image.image}`}
                   className="sm:w-[200px] sm:h-[100px] sm:px-1  w-28 h-auto my-2"
                 />
@@ -159,7 +159,9 @@ export default function Tabs({ id, details }) {
   const navigate = useRouter();
 
   const handleButtonClick = () => {
-    navigate.push("/write_review/" + details.details.category + "/" + details.contractor.id);
+    navigate.push(
+      "/write_review/" + details.details.category + "/" + details.contractor.id
+    );
   };
 
   useEffect(() => {
@@ -307,9 +309,13 @@ export default function Tabs({ id, details }) {
                       {details?.details?.address}
                     </p>
                     <div className="flex gap-2 items-center text-text md:text-md text-sm">
-                      <StarIcon color={"#12937C"} />{" "}
-                      <span>{`${givenRating.toFixed(2)} / 5`}</span>{" "}
-                      <span className="text-[#444444]">{`(${details?.reviews?.length} Reviews)`}</span>
+                      {details?.reviews?.length > 0 ? (
+                        <>
+                          <StarIcon color={"#12937C"} />{" "}
+                          <span>{`${givenRating.toFixed(2)} / 5`}</span>{" "}
+                          <span className="text-[#444444]">{`(${details.reviews.length} Reviews)`}</span>
+                        </>
+                      ) : null}
                     </div>
                   </div>
                 </div>
@@ -530,7 +536,11 @@ export default function Tabs({ id, details }) {
                     <div
                       className="mt-9"
                       key={index}
-                      onClick={() => openZoomedImage(`${IMAGE_PATH}${project.images[0].image}`)}
+                      onClick={() =>
+                        openZoomedImage(
+                          `${IMAGE_PATH}${project.images[0].image}`
+                        )
+                      }
                     >
                       <img
                         src={`${IMAGE_PATH}${project.images[0].image}`}
@@ -608,6 +618,7 @@ export default function Tabs({ id, details }) {
                   <div className="flex-col justify-between flex-wrap lg:flex-nowrap gap-3 md:gap-4 w-[75%]">
                     {details?.reviews?.slice(0, 3).map((value) => (
                       <SubReview
+                      key={value.id}
                         name={value.name}
                         profileImage={require("../../public/assets/profileImage.png")}
                         jobPrice={` ${value.price}`}
@@ -858,23 +869,25 @@ export default function Tabs({ id, details }) {
           <TabPanel value="3">
             <div className="img_align w-[screen] pl-2 md:pl-0  overflow-x-auto  flex flex-wrap gap-10">
               {details?.projects?.map((project, index) => (
-                  <>
-                  {project.images.map(img => (
-                <div
-                  onClick={() => openZoomedImage(`${IMAGE_PATH}${img.image}`)}
-                  className="mt-5"
-                  key={index}
-                >
-                  <img
-                    src={`${IMAGE_PATH}${img.image}`}
-                    alt=""
-                    className="h-[280px] w-[350px] rounded-[22px]"
-                    width={350}
-                    height={280}
-                  />
-                </div>
+                <>
+                  {project.images.map((img) => (
+                    <div
+                      onClick={() =>
+                        openZoomedImage(`${IMAGE_PATH}${img.image}`)
+                      }
+                      className="mt-5"
+                      key={index}
+                    >
+                      <img
+                        src={`${IMAGE_PATH}${img.image}`}
+                        alt=""
+                        className="h-[280px] w-[350px] rounded-[22px]"
+                        width={350}
+                        height={280}
+                      />
+                    </div>
                   ))}
-                  </>
+                </>
               ))}
             </div>
           </TabPanel>
@@ -928,6 +941,7 @@ export default function Tabs({ id, details }) {
                   <div className="flex-col justify-between flex-wrap lg:flex-nowrap gap-3 md:gap-4 w-[75%]">
                     {details?.reviews?.map((value) => (
                       <SubReview
+                      key={value.id}
                         name={value.name}
                         profileImage={require("../../public/assets/profileImage.png")}
                         jobPrice={`${value.price}`}

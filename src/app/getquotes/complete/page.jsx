@@ -22,7 +22,7 @@ export default function SentRequest() {
               Your Service Request Was Sent!
             </div>
             <div className="text-md font-medium my-3 text-gray-500 md:w-[600px] w-full">
-              We're matching you with qualified pros. You'll receive an
+              {`We're matching you with qualified pros. You'll receive an`}
               <span className="font-bold text-gray-600"> email</span> when they
               respond. Complete your account setup to chat with pros in your
               HomeStars{" "}

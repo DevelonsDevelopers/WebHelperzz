@@ -667,14 +667,21 @@ const Page = ({ params }) => {
                                   alt="trustSeal badge"
                                 />
                               ) : null}
-                              <div className="sm:ml-4 ml-0 flex  items-center gap-1 ">
-                                <MdStar className="text-[#12937C] sm:text-[1.8rem] text-[1.2rem] " />
-                                <span className="sm:text-md text-sm font-[600]">
-                                  {`${value.ratings / value.users} / 5`}
-                                </span>
-                                <span className="sm:ml-3 ml-1 sm:text-md text-sm text-gray-500">
-                                  {`(${value.users} Reviews)`}
-                                </span>
+                              <div className="sm:ml-4 ml-0 flex items-center gap-1">
+                                {value.users > 0 ? (
+                                  <>
+                                    {" "}
+                                    <MdStar className="text-[#12937C] sm:text-[1.8rem] text-[1.2rem]" />
+                                    <span className="sm:text-md text-sm font-[600]">
+                                      {`${(value.ratings / value.users).toFixed(
+                                        2
+                                      )} / 5`}
+                                    </span>
+                                    <span className="sm:ml-3 ml-1 sm:text-md text-sm text-gray-500">
+                                      {`(${value.users} Reviews)`}
+                                    </span>
+                                  </>
+                                ) : null}
                               </div>
                             </div>
                           </div>

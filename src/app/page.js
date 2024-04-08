@@ -814,8 +814,8 @@ function Home() {
                               </a>
 
                               <div class="text-primary absolute text-sm mt-24 font-bold mb-8 flex flex-wrap gap-x-4">
-                                {value.skills.split(",").map((skill) => (
-                                  <span>{skill}</span>
+                                {value.skills.split(",").map((skill, index) => (
+                                  <span key={index}>{skill}</span>
                                 ))}
                               </div>
                               <a class="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[70%] text-xs mt-3 cursor-pointer hover:bg-primary hover:text-white transition-none text-text mb-2 min-w-55 justify-center px-3 py-3 rounded-2xl font-bold bg-transparent border-primary border inline-flex items-center mx-auto">
@@ -968,7 +968,7 @@ function Home() {
           <div className="layout_review_cart select-text">
             <Slider ref={reviewSliderRef} {...reviewSettings}>
               {testimonials.map((value) => (
-                <Review review={value} />
+                <Review key={value.id} review={value} />
               ))}
             </Slider>
           </div>

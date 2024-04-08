@@ -337,6 +337,7 @@ function Header() {
                 {categories?.map((value) => (
                   <MenuItem
                     onClick={() => navigate.push("/category?id=" + value.id)}
+                    key={value.id}
                   >
                     {value.name}
                   </MenuItem>

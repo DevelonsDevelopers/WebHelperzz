@@ -269,8 +269,8 @@ function GetQuotes({ params }) {
               project
             </h2>
             <p className="md:text-xl text-md mt-2">
-              Let us know some details and we'll match you with Pros for you to
-              compare
+              {` Let us know some details and we'll match you with Pros for you to
+              compare`}
             </p>
           </div>
         </div>
