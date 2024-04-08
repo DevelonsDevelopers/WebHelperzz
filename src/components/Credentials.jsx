@@ -27,7 +27,7 @@ export const Credentials = ({ details }) => {
                 // </div>
                 <div className="border-[1px] border-[#12937C] w-[100px] h-[120px] justify-center flex items-center rounded-xl">
                   <img
-                    className="w-[100px] object-cover"
+                    className="w-[100px] h-[118px] object-cover rounded-xl"
                     src={`${IMAGE_PATH}${value.image}`}
                     alt="blog"
                   />
@@ -53,7 +53,7 @@ export const Credentials = ({ details }) => {
                 // </div>
                 <div className="border-[1px] border-[#12937C] w-[100px] h-[120px] justify-center flex items-center rounded-xl">
                   <img
-                    className="w-[100px] object-cover"
+                    className="w-[100px] h-[118px] object-cover rounded-xl"
                     src={`${IMAGE_PATH}${value.image}`}
                     alt="blog"
                   />
@@ -69,7 +69,7 @@ export const Credentials = ({ details }) => {
               {details?.affiliations?.slice(0, 3).map((value) => (
                 <div className="border-[1px] border-[#12937C] w-[100px] h-[120px] justify-center flex items-center rounded-xl">
                   <img
-                    className="w-[100px] object-cover"
+                    className="w-[100px] h-[118px] object-cover rounded-xl"
                     src={`${IMAGE_PATH}${value.image}`}
                     alt="blog"
                   />

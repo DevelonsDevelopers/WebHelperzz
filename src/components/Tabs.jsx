@@ -17,6 +17,7 @@ import "../style/Profile.css";
 
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
+import {useRouter} from "next/navigation";
 
 function SubReview(props) {
   const sliderRef = useRef(null);
@@ -128,7 +129,7 @@ const ZoomedImageModal = ({ imageUrl, onClose }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center">
       <div className="max-w-full max-h-full overflow-auto">
-        <Image src={imageUrl} alt="Zoomed" className="w-[1000px] " />
+        <img src={imageUrl} alt="Zoomed" className="w-[1000px] " />
         <button
           onClick={onClose}
           className="absolute top-0 right-0 m-4 p-5 text-white text-lg"
@@ -155,10 +156,10 @@ export default function Tabs({ id, details }) {
     "exterior",
     "entry",
   ];
-  // const navigate = useNavigate();
+  const navigate = useRouter();
 
   const handleButtonClick = () => {
-    navigate("/write-review?id=" + details.contractor.id);
+    navigate.push("/write_review/" + details.details.category + "/" + details.contractor.id);
   };
 
   useEffect(() => {
@@ -525,16 +526,16 @@ export default function Tabs({ id, details }) {
                   Filtered results based on the selected room categories{" "}
                 </p>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0 md:gap-10 lg:gap-[72px]">
-                  {projectCards.slice(0, 3).map((project, index) => (
+                  {details?.projects?.slice(0, 3).map((project, index) => (
                     <div
                       className="mt-9"
                       key={index}
-                      onClick={() => openZoomedImage(project.img)}
+                      onClick={() => openZoomedImage(`${IMAGE_PATH}${project.images[0].image}`)}
                     >
-                      <Image
-                        src={project.img}
+                      <img
+                        src={`${IMAGE_PATH}${project.images[0].image}`}
                         alt=""
-                        className="rounded-[22px]"
+                        className="rounded-[22px] w-full h-[250px] object-cover"
                       />
                       <h2 className="text-lg md:text-[22px] text-center md:text-left font-semibold mt-5 text-text">
                         {project.title}
@@ -856,20 +857,24 @@ export default function Tabs({ id, details }) {
           </TabPanel>
           <TabPanel value="3">
             <div className="img_align w-[screen] pl-2 md:pl-0  overflow-x-auto  flex flex-wrap gap-10">
-              {projectCards.map((project, index) => (
+              {details?.projects?.map((project, index) => (
+                  <>
+                  {project.images.map(img => (
                 <div
-                  onClick={() => openZoomedImage(project.img)}
+                  onClick={() => openZoomedImage(`${IMAGE_PATH}${img.image}`)}
                   className="mt-5"
                   key={index}
                 >
-                  <Image
-                    src={project.img}
+                  <img
+                    src={`${IMAGE_PATH}${img.image}`}
                     alt=""
                     className="h-[280px] w-[350px] rounded-[22px]"
                     width={350}
                     height={280}
                   />
                 </div>
+                  ))}
+                  </>
               ))}
             </div>
           </TabPanel>

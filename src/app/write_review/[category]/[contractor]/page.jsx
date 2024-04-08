@@ -151,10 +151,10 @@ const Page = ({ params }) => {
                       </label>
                       <input
                         type="number"
-                        onChange={(e) => (data) => ({
+                        onChange={(e) => setReviewData((data) => ({
                           ...data,
                           price: e.target.value,
-                        })}
+                        }))}
                         className={`w-full border-[1px] bg-transparent px-4 py-2  outline-none border-gray-300`}
                       />
                     </div>
