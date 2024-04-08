@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Rating } from "@material-tailwind/react";
 import contractorService from "../../../../api/services/contractorService";
 import uploadService from "../../../../api/services/uploadService";
+import {useRouter} from "next/navigation";
 
 
 const Page = ({ params }) => {
@@ -25,7 +26,7 @@ const Page = ({ params }) => {
     review: "",
   });
 
-  // const navigate = useNavigate()
+  const navigate = useRouter()
 
   // const location = useLocation();
   // const params = new URLSearchParams(location.search);
