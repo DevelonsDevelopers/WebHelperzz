@@ -584,7 +584,7 @@ function GetQuotes({ params }) {
                             validInput.isNameEntered
                               ? "border-gray-400"
                               : "border-red-700"
-                          } text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3  `}
+                          } text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-lg `}
                           placeholder="Your Name"
                           value={userData.name}
                           onChange={handleUserDataChange}
@@ -611,7 +611,7 @@ function GetQuotes({ params }) {
                             validInput.isValidEmail
                               ? "border-gray-400"
                               : "border-red-700"
-                          } text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 `}
+                          } text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-lg `}
                           placeholder="Your Email Address"
                           value={userData.email}
                           onChange={handleUserDataChange}
@@ -638,7 +638,7 @@ function GetQuotes({ params }) {
                             validInput.isStreetEntered
                               ? "border-gray-400"
                               : "border-red-700"
-                          } text-gray-600 placeholder-gray-400 text-sm md:text-md rounded-md block w-full p-3  `}
+                          } text-gray-600 placeholder-gray-400 text-sm md:text-md rounded-md block w-full p-3  placeholder:text-lg `}
                           placeholder="Your Street Address"
                           value={userData.street}
                           onChange={handleUserDataChange}
@@ -665,7 +665,7 @@ function GetQuotes({ params }) {
                             validInput.isPhoneEntered
                               ? "border-gray-400"
                               : "border-red-700"
-                          } text-gray-600 placeholder-gray-400 text-sm md:text-md rounded-md block w-full p-3 `}
+                          } text-gray-600 placeholder-gray-400 text-sm md:text-md rounded-md block w-full p-3 placeholder:text-lg`}
                           placeholder="Your Phone"
                           value={userData.phone}
                           onChange={handleUserDataChange}

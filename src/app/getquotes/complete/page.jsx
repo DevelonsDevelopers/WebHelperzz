@@ -2,25 +2,23 @@
 import React from "react";
 import "../../../style/GetQuotes.css";
 import Link from "next/link";
+import imgLogo from "/public/assets/logo.png";
+import Image from "next/image";
 
 export default function SentRequest() {
   return (
     <div>
       <header>
         <Link href="/">
-          <div className="logo p-4 text-2xl font-bold text-gray-600  h-[10vh] shadow-lg background-color-gray color-gray shadow-gray-200">
-            Helperzz
+          <div className="w-32 md:mr-10 select-text logo p-4  h-[5vh] ">
+            <Image src={imgLogo} alt="" width={150} height={100} />
           </div>
         </Link>
       </header>
       <div className=" items-center text-center justify-center  flex flex-col w-full mx-auto ">
-        <div className="h-[70vh] bg-gray-50 w-full">
+        <div className="h-[55vh] bg-gray-50 w-full">
           <div className="flex-col flex justify-center mt-10 max-auto items-center">
-            <img
-              className=""
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFWklEQVR4nO2bW0wcVRjH/zPusizh1oEul9SimC4lhpRggARpUgtpQ1RKoqEo2hdDS/XNF1oTKUoUHnjRpqlNTBWTBoSgGB6IQapSIkp4qAnhYtgaaculklQNtxaWz3yTGTJZdoZLl3Z7ln9yspvZZOb8f2e+b75z9gwQHHoCQA+AewBuAPgcQDZCSK8AIJ/mBfCJBkd4/cKmz58/T8PDw3T27FlyOBw6iEYIrufZaHx8PM3NzZGu/v5+io6O1iG8CoH1LZusrq4mX12+fFkHcB2Cys2x7nQ6aXp6eg2ApaUliouL0yE8BQF1ic1VVlaSmQoKCnQAL0AwuWRZXpRlmUZHR00BHDp0aEkDUADB9AEbKykpISspinJPA/A0BFKE3W7/h4319vaamudHomZ+GoAEgfQOG8vJybEc/YsXL+oAmiCQ5IiIiFtsrK2tzRJAWVmZDqASopW9qamptLy8bAkgKSlpRQOwH6IoNjZ2kE1duHDB0rwh/idFiv98NqUoCs3OzoZe/CcnJ/eyqXPnzlmaFzX+3ZIkrfAsb3Jycl0AycnJJFT879u3r4MNnTp1al3zevzLsizM89/lcDi8kiTR0NDQugCEi/+srKzGjZS9jzr+XwSgFigBaLMAurVzRsTExNzn4z09Paam8/LyAnHdjfTrRwAv+wNwc5su2sefubm5lqOen5//MAAY20e+ANQfTlydWm0l309Q2td/bbo981k/7X79DEk2++oFW1tb6VHr9u3bVF9fT3a7Xa8wX7IE8ObVqS0B0BtD4HPu2bNn3bL3YYohaH6vmgLY/Wz26ug592dv7U64NED6gmcwiesQzdt/pgBcGbkGADlbvgv0cwSTePWZ+yRJ0j3LEDjxgCEQrAC6urr0Qms45ADMzMxQRkaGV+tXdUgA4OzPo15TU0OJiYlqTQJgFEDktibBYABw+PBhfzUA3/pPWtYBoiTBwsJCfwAWAJSuWwiJEgIsr9er/v9QXl5+xwAhPWQAGFVRUTGv9evLkATg8XjUPkVGRv4rfBL0p4WFBS6CeA/CfeGToD9du3ZNrwR/D7kQuHv3LmVmZt4PqUJoamqKuru7qba2llJSUvSp8B+8WCM8gOLiYn91wG+8Sg+rOkCUJMjrkEbzTqfzJ7OVZhI1CeorQWFhYeRvJUjoEDBZCeIF2zUSHoDZSlDIAOD5gNYffhKskZBJ0KiRkRG9P7dCKgnqo19UVKTPBL8ImRDweDzU3NxMBw8eXDLEv1t4AIuLi+R2u30LoL8BFPozv2kA7itjpBRXkm2Xi2y7Ekg5dlo9FkwA0tLSfAH8CiAMJqLNJEE2zL85UtLJsTdd/c7HggWA8T+AlpYWdVuOvwnQlpMgjzobT2v+U238nY8FGwBdjY2Nel88AQkB2xoA+4MawPj4uN6X5Q3NBU6sA2A1BPYaQqDk7aAF0NHRMWNVA2wtCR47rY56MCZBo8bGxlaioqLGtb58ChPR41AJzs/P08TEhLrXqK+vjzo7O6mpqUndV1RXV0dVVVV08uRJKi0tpSNHjtCBAwdWJEnyGhZB4jcEwBWASpA3SujnaGhooPb2dhoYGFDb4ODgGgM8W2MDvJPs+PHjdPToUXVnCT/OEhISjC9SbbZxEXQFQJKZeb8h8MaDbpB4rWqrHTZtNpttPjw8/E5UVNSNmJiY63FxcT2KorS7XK7G2NjYBkVR3pdluUJ70YqLnkzfpa8NAygJzBYZnnm9B+BjAN8A+AHAgNZ+BvAdgK+02PwQwLsA3tI2VfNbIs8BSAWgbPc7hDcDPVqa+TN4TFQUQAj8yOm0qrt3tKMd7QhBoP8BQJ+7/+dzTTQAAAAASUVORK5CYII="
-            />
-            <div className="text-3xl font-bold mt-8 mb-3">
+            <div className="text-3xl font-bold mt-10 mb-3">
               Your Service Request Was Sent!
             </div>
             <div className="text-md font-medium my-3 text-gray-500 md:w-[600px] w-full">
@@ -31,7 +29,7 @@ export default function SentRequest() {
               <span className="font-bold text-gray-600">dashboard</span>
             </div>
             <div className="mt-3 md:mt-5 flex justify-center text-center">
-              <a class=" hover:bg-[#2f92c3]  bg-[#27a9e1] transition-all cursor-pointer text-white   text-sm md:text-lg justify-center rounded-md px-5  py-3  font-bold text-transform: uppercase">
+              <a class=" hover:bg-[#12937C]  bg-[#12936C] transition-all cursor-pointer text-white   text-sm md:text-lg justify-center rounded-md px-5  py-3  font-bold text-transform: uppercase">
                 complete profile
               </a>
             </div>

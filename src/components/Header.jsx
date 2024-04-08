@@ -20,6 +20,8 @@ import Signup from "../app/signup/page";
 import Login from "../app/login/page";
 
 import categoryService from "../api/services/categoryService";
+import contractorService from "../api/services/contractorService";
+
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 function Header() {
@@ -27,6 +29,8 @@ function Header() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [categories, setCategories] = useState();
+  const [contractors, setContractors] = useState();
+
   const open = Boolean(anchorEl);
   const openUser = Boolean(anchorElUser);
 
@@ -51,7 +55,7 @@ function Header() {
 
   const handleClick = (event) => {
     // setAnchorEl(event.currentTarget);
-    navigate.push('/category_list/toronto')
+    navigate.push("/category_list/toronto");
   };
 
   const handleClose = () => {
@@ -82,8 +86,18 @@ function Header() {
     }
   };
 
+  const getContractor = async () => {
+    try {
+      const response = await contractorService.fetchAll();
+      setContractor(response.contractors);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getCategories();
+    getContractor();
   }, []);
 
   useEffect(() => {
@@ -200,10 +214,11 @@ function Header() {
                   >
                     Blog
                   </Button>
-                  <Button
+             
+                  {/* <Button
                     style={{ userSelect: "text" }}
                     className="whitespace-nowrap"
-                    href="/write_review"
+                    href={`/write_review/${categories.value}/${contractors.value}`}
                     sx={{
                       my: 2,
                       color: "black",
@@ -212,7 +227,7 @@ function Header() {
                     }}
                   >
                     Write A review
-                  </Button>
+                  </Button> */}
                   {user ? (
                     <div>
                       <Button
@@ -342,7 +357,7 @@ function Header() {
             >
               Blog
             </Button>
-            <Button
+            {/* <Button
               style={{ userSelect: "text" }}
               className="whitespace-nowrap"
               href="/write_review"
@@ -354,7 +369,7 @@ function Header() {
               }}
             >
               Write A review
-            </Button>
+            </Button> */}
 
             <div className="flex bg-transparent border border-[#888888] w-auto min-h-9 items-center  rounded-xl ml-auto mr-4 px-2 h-fit lg:w-auto">
               <input
