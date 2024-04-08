@@ -126,7 +126,7 @@ function SubReview(props) {
 
 const ZoomedImageModal = ({ imageUrl, onClose }) => {
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center">
+    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center z-10">
       <div className="max-w-full max-h-full overflow-auto">
         <img src={imageUrl} alt="Zoomed" className="w-[1000px] " />
         <button
@@ -789,9 +789,14 @@ export default function Tabs({ id, details }) {
                         <h2 className="whitespace-nowrap text-lg md:text-xl font-semibold mb-3 text-text">
                           Star Score
                         </h2>
-                        <div className="flex gap-2 items-center text-text">
-                          <StarIcon color={"#12937C"} />{" "}
-                          <span>{`${givenRating.toFixed(2)} / 5`}</span>{" "}
+                        <div className="flex gap-2 items-center text-text md:text-md text-sm">
+                          {details?.reviews?.length > 0 ? (
+                            <>
+                              <StarIcon color={"#12937C"} />{" "}
+                              <span>{`${givenRating.toFixed(2)} / 5`}</span>{" "}
+                              <span className="text-[#444444]">{`(${details.reviews.length} Reviews)`}</span>
+                            </>
+                          ) : null}
                         </div>
                         <span className="text-[#444444] mt-2 block">
                           {`(${details?.reviews?.length} Reviews)`}
