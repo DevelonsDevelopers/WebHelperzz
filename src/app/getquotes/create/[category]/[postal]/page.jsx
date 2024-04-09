@@ -2,11 +2,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import subcategoryService from "../../../../../../api/services/subcategoryService";
-import requestService from "../../../../../../api/services/requestService";
-import customerService from "../../../../../../api/services/customerService";
-import imgLogo from "../../../../../../../public/assets/logo.jpeg";
+import subcategoryService from "../../../../../api/services/subcategoryService";
+import requestService from "../../../../../api/services/requestService";
+import customerService from "../../../../../api/services/customerService";
+import imgLogo from "../../../../../../public/assets/logo.jpeg";
 import Image from "next/image";
+import categoryService from "@/api/services/categoryService";
 
 function GetQuotes({ params }) {
   const [requestData, setRequestData] = useState({
@@ -33,18 +34,30 @@ function GetQuotes({ params }) {
   });
 
   const [validInput, setValidInput] = useState({
-    isValidEmail: false,
-    isNameEntered: false,
-    isPostalCode: false,
-    isStreetEntered: false,
-    isPhoneEntered: false,
+    isValidEmail: true,
+    isNameEntered: true,
+    isPostalCode: true,
+    isStreetEntered: true,
+    isPhoneEntered: true,
   });
 
   const handlePostalChange = (e) => {
     const inputPostal = e.target.value;
     const postalCoderegex = /^[A-Z]\d[A-Z] \d[A-Z]\d$/;
+    setPostalCode(inputPostal)
     if (postalCoderegex.test(inputPostal)) {
-      requestData.postal_code(inputPostal);
+      setRequestData((data) => ({...data, postal_code: inputPostal}));
+      setValidInput((prevState) => ({
+        ...prevState,
+        isPostalCode: true,
+      }));
+      setPostalError(false)
+    } else {
+      setPostalError(true)
+      setValidInput((prevState) => ({
+        ...prevState,
+        isPostalCode: false,
+      }));
     }
   };
 
@@ -54,9 +67,11 @@ function GetQuotes({ params }) {
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [imagePressed, setImagePressed] = useState(false);
 
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState();
   const [CATID, setCATID] = useState();
   const [subcategories, setSubcategories] = useState([]);
+  const [postalCode, setPostalCode] = useState()
+  const [postalError, setPostalError] = useState(false)
 
   const nextBoxRef = useRef(null);
   const thirdBoxRef = useRef(null);
@@ -66,6 +81,26 @@ function GetQuotes({ params }) {
 
   // const searchParams = useSearchParams();
   // const params = new URLSearchParams(searchParams.search);
+
+  useEffect(() => {
+    getCategoryByTag()
+  }, []);
+
+  useEffect(() => {
+    const u = JSON.parse(localStorage.getItem("HELPERZZ-USER"));
+    if (u) {
+      setUserData({ name: u.name, email: u.email, phone: u.phone, street: u.address })
+    }
+  }, []);
+
+  const getCategoryByTag = async () => {
+    try {
+      const response = await categoryService.fetchByTag(params.category);
+      setCategory(response.category);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleUserDataChange = (e) => {
     setUserData((data) => ({ ...data, [e.target.name]: e.target.value }));
@@ -110,11 +145,17 @@ function GetQuotes({ params }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const canadianPhoneRegex = /^(\+1)?\d{10}$/;
+    const postalCoderegex = /^[A-Z]\d[A-Z] \d[A-Z]\d$/;
+    let validation = { isNameEntered: userData.name.trim() !== "", isValidEmail: emailRegex.test(userData.email), isPhoneEntered: canadianPhoneRegex.test(userData.phone), isStreetEntered: userData.street.trim() !== "", isPostalCode: postalCoderegex.test(postalCode) }
+    setValidInput(validation)
     if (
-      validInput.isValidEmail &&
-      validInput.isNameEntered &&
-      validInput.isStreetEntered &&
-      validInput.isPhoneEntered
+        validation.isValidEmail &&
+        validation.isNameEntered &&
+        validation.isStreetEntered &&
+        validation.isPhoneEntered &&
+        validation.isPostalCode
     ) {
       setSubmitting(true);
       customerService.passwordLessCreate(userData).then((response) => {
@@ -123,7 +164,7 @@ function GetQuotes({ params }) {
         data.user = customer;
         requestService.create(data).then((response) => {
           setSubmitting(false);
-          navigate.push("/getquotes/complete");
+          navigate.replace("/getquotes/complete");
         });
       });
       // requestService.create(requestData).then((response) => {
@@ -167,10 +208,18 @@ function GetQuotes({ params }) {
   };
 
   useEffect(() => {
-    setCategory(params.category);
-    setCATID(params.id);
-    setRequestData((data) => ({ ...data, postal_code: params.postal }));
+    if (params.postal !== "any") {
+      let postal = params.postal?.replace("-", " ").toUpperCase()
+      setRequestData((data) => ({...data, postal_code: postal}));
+      setPostalCode(postal)
+    }
   }, []);
+
+  useEffect(() => {
+    if (category){
+      setCATID(category.id)
+    }
+  }, [category]);
 
   useEffect(() => {
     console.log(requestData);
@@ -236,7 +285,7 @@ function GetQuotes({ params }) {
         <div className="header h-[15vh] shadow-lg background-color-gray color-gray flex items-center justify-center relative shadow-gray-200">
           <div className="header-content text-center text-gray-500">
             <h2 className="md:text-3xl text-xl ">
-              Tell us about your <span className="font-bold">{category}</span>{" "}
+              Tell us about your <span className="font-bold">{category?.name}</span>{" "}
               project
             </h2>
             <p className="md:text-xl text-md mt-2">
@@ -265,7 +314,7 @@ function GetQuotes({ params }) {
                   id="postal"
                   class="w-[screen]  md:w-[700px] block p-5 ps-10 text-md md:text-xl border  mt-3  border-gray-400 rounded-md bg-gray-50 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black "
                   placeholder="Postal Code"
-                  value={requestData.postal_code}
+                  value={postalCode}
                   onChange={(e) => handlePostalChange(e)}
                   required
                   style={{
