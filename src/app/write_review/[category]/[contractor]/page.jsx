@@ -72,7 +72,7 @@ const Page = ({ params }) => {
   }, []);
 
   useEffect(() => {
-    let rating = (reviewData.satisfaction + reviewData.recommendation)/2
+    let rating = (reviewData.satisfaction + reviewData.recommendation) / 2;
     setReviewData((data) => ({ ...data, rating: rating }));
   }, [reviewData.satisfaction, reviewData.recommendation]);
 
@@ -112,18 +112,18 @@ const Page = ({ params }) => {
   };
 
   const handlePaid = (e) => {
-    if (e.target.checked){
+    if (e.target.checked) {
       setReviewData((data) => ({
         ...data,
         paid: 1,
-      }))
+      }));
     } else {
       setReviewData((data) => ({
         ...data,
         paid: 0,
-      }))
+      }));
     }
-  }
+  };
 
   const handleSubmit = () => {
     contractorService
@@ -337,11 +337,11 @@ const Page = ({ params }) => {
                 ))}
               </div>
 
-              <div className=" bg-[#27a9e1] bg-opacity-10 border-[#27a9e1] border-2 p-5">
+              <div className="p-5 w-full mx-auto border-1 border-gray-500 bg-gray-200 bg-opacity-50">
                 {!loggedIn && (
                   <>
                     <div className="mb-4 mt-3">
-                      <label className="text-left text-gray-700 font-bold mb-2">
+                      <label className="block mb-2 md:text-xl text-base font-normal text-gray-500 ">
                         Email
                       </label>
                       <input
@@ -354,46 +354,81 @@ const Page = ({ params }) => {
                             title: e.target.value,
                           }))
                         }
-                        className={`w-full border-[1px] bg-white px-4 py-2  outline-none border-gray-400`}
+                        className={`border text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-base `}
                       />
                     </div>
                     <div className="mb-4 mt-5">
-                      <label className="text-left text-gray-700 font-bold mb-2">
+                      <label className="block mb-2 md:text-xl text-md font-normal text-gray-500">
                         Password
                       </label>
                       <input
-                        type="text"
-                        name="title"
-                        placeholder="Project, product, or service, e.g, Kitchen Renovation"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
                         onChange={(e) =>
                           setReviewData((data) => ({
                             ...data,
                             title: e.target.value,
                           }))
                         }
-                        className={`w-full border-[1px] bg-white px-4 py-2  outline-none border-gray-400`}
+                        className={`border text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-base `}
                       />
                     </div>
                   </>
                 )}
                 <div className="mb-4 mt-5">
-                  <label className="text-left text-gray-700 font-bold mb-2">
-                    Create Display Name
+                  <label className="block mb-2 md:text-xl text-md font-normal text-gray-500">
+                    Full Name
                   </label>
                   <input
                     type="text"
-                    name="title"
-                    placeholder="Project, product, or service, e.g, Kitchen Renovation"
+                    name="name"
+                    placeholder="Full Name"
                     onChange={(e) =>
                       setReviewData((data) => ({
                         ...data,
                         title: e.target.value,
                       }))
                     }
-                    className={`w-full border-[1px] bg-white px-4 py-2  outline-none border-gray-400`}
+                    className={`border text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-base `}
+                  />
+                </div>
+                <div className="mb-4 mt-5">
+                  <label className="block mb-2 md:text-xl text-md font-normal text-gray-500">
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    name="address"
+                    placeholder="Address"
+                    onChange={(e) =>
+                      setReviewData((data) => ({
+                        ...data,
+                        title: e.target.value,
+                      }))
+                    }
+                    className={`border text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-base `}
+                  />
+                </div>
+                <div className="mb-4 mt-5">
+                  <label className="block mb-2 md:text-xl text-md font-normal text-gray-500">
+                    Phone Number
+                  </label>
+                  <input
+                    type="number"
+                    name="phone"
+                    placeholder="Phone Number"
+                    onChange={(e) =>
+                      setReviewData((data) => ({
+                        ...data,
+                        title: e.target.value,
+                      }))
+                    }
+                    className={`border text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-base `}
                   />
                 </div>
               </div>
+
               <div className="mb-4 pb-1 pt-5 text-center">
                 <button
                   onClick={() => handleSubmit()}

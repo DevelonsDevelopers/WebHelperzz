@@ -61,7 +61,7 @@ function ServicesCart(props) {
   return (
     <div
       className="flex flex-col justify-center text-center font-semibold items-center bg-[#F7F9FB] rounded-xl p-6 h-[150px] cursor-pointer border-r-2 border-b-2 border-white hover:border-[#119DED99] hover:shadow-md hover:shadow-[#119DED99] mx-2 my-3 lg:mx-3 lg:my-4"
-      onClick={() => navigate.push(`/getquotes/create/${tag}/any`)}
+      onClick={() => navigate.push(`/category/on/toronto/${tag}`)}
     >
       <img
         src={imageSrc}
@@ -159,12 +159,14 @@ function Home() {
       return;
     }
     if (selectedOption && isValidPostalCode) {
-      let postal = postalCode.replace(" ", "-").toLowerCase()
+      console.log(selectedOption);
       navigate.push(
         "/getquotes/create/" +
           selectedOption.value +
           "/" +
-          postal
+          selectedOption.label +
+          "/" +
+          postalCode
       );
     }
   };
@@ -175,15 +177,13 @@ function Home() {
   };
 
   const options = categories.map((category) => ({
-    value: category.tag,
+    value: category.id,
     label: category.name,
   }));
 
   const getCategories = async () => {
     try {
       const response = await categoryService.fetchAll();
-      console.log(response);
-
       setCategories(response.categories);
       setCategoryLoading(false);
       setTopCategoryLoading(false);
@@ -310,7 +310,6 @@ function Home() {
     ],
   };
 
-  console.log(options);
   const categoryPrevSlide = () => {
     categoriesSliderRef.current.slickPrev();
   };
@@ -599,10 +598,12 @@ function Home() {
       {/* Section 3 */}
       <div className="category_parent">
         <h1 className="heading_category">Our Most Popular Categories</h1>
-        {topCategoryLoading ? (
-          <Loading />
-        ) : (
-          <div className="layout_category_cart">
+
+        <div className="layout_category_cart">
+          {" "}
+          {topCategoryLoading ? (
+            <Loading />
+          ) : (
             <Slider {...categorySettings} ref={categoriesSliderRef}>
               {categories.map((category) => (
                 <div key={category.id}>
@@ -616,8 +617,9 @@ function Home() {
                 </div>
               ))}
             </Slider>
-          </div>
-        )}
+          )}
+        </div>
+
         <div className="slider-controls">
           <div className="carousel-buttons">
             <button className="btn-prev" onClick={categoryPrevSlide}>
