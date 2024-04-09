@@ -122,7 +122,7 @@ function Header() {
     >
       <Container maxWidth="xl">
         <Toolbar className="header_top py-2 select-text" disableGutters>
-          <div className="w-28 md:mr-10 select-text">
+          <div className="w-28 md:mr-10 select-text cursor-pointer">
             <Image
               onClick={() => navigate.push("/")}
               src={imgLogo}
@@ -214,7 +214,7 @@ function Header() {
                   >
                     Blog
                   </Button>
-             
+
                   {/* <Button
                     style={{ userSelect: "text" }}
                     className="whitespace-nowrap"

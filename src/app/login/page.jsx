@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Header from "../../components/Header";
 import authenticationService from "../../api/services/authenticationService";
@@ -6,37 +6,43 @@ import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
-
 const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
-
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
 
+  const [error, setError] = useState({
+    email: false,
+    password: false,
+    auth: false,
+  });
   const navigate = useRouter();
 
   const handleChange = (e) => {
     setLoginData((data) => ({ ...data, [e.target.name]: e.target.value }));
+    setError((prevError) => ({
+      ...prevError,
+      [e.target.name]: false,
+      auth: false,
+    }));
   };
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (loginData.email.length === 0) {
-      toast.error("Please fill the email field", {
-        position: "top-center",
-        id: "login",
-      });
-      return;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let hasError = false;
+    setError((prevError) => ({ ...prevError, auth: false }));
+    if (loginData.email.length === 0 || emailRegex.test(loginData.email)) {
+      setError((prevError) => ({ ...prevError, email: true }));
+      hasError = true;
     }
     if (loginData.password.length === 0) {
-      toast.error("Please fill the password field.", {
-        position: "top-center",
-        id: "login",
-      });
-      return;
+      setError((prevError) => ({ ...prevError, password: true }));
+      hasError = true;
     }
+    if (hasError) return;
     // setSubmitting(true)
 
     authenticationService
@@ -52,8 +58,7 @@ const Page = () => {
         toast.success(response.message);
       })
       .catch((error) => {
-        toast.error(error.message);
-        // setSubmitting(false)
+        setError((prevError) => ({ ...prevError, auth: true }));
       });
   };
   // setSubmitting(true)
@@ -73,6 +78,44 @@ const Page = () => {
                   <p className="mb-8 text-left mt-10 font-semibold text-2xl">
                     Login to your account
                   </p>
+                  {error.auth && (
+                    <div
+                      className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
+                      role="alert"
+                    >
+                      <strong className="font-bold">Error!</strong>
+                      <span className="block sm:inline">
+                        {" "}
+                        Invalid Email or Password
+                      </span>
+                    </div>
+                  )}
+
+                  {error.email && (
+                    <div
+                      className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
+                      role="alert"
+                    >
+                      <strong className="font-bold">Error!</strong>
+                      <span className="block sm:inline">
+                        {" "}
+                        Please enter a valid email.
+                      </span>
+                    </div>
+                  )}
+                  {error.password && (
+                    <div
+                      className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
+                      role="alert"
+                    >
+                      <strong className="font-bold">Error!</strong>
+                      <span className="block sm:inline">
+                        {" "}
+                        Please enter your password.
+                      </span>
+                    </div>
+                  )}
+
                   <div className="mb-4">
                     <label className="text-left text-gray-700 font-bold mb-2">
                       Email
@@ -116,15 +159,26 @@ const Page = () => {
                     </button>
                   </div>
 
-                  <div className="flex items-center pb-10 mx-auto justify-center">
+                  <div className="flex items-center pb-3 mx-auto justify-center">
                     <p className="mb-0 me-2">Don&apos;t have an account?</p>
                     <p
                       // href={"/signup"}
-                      onClick={() => navigate.push('/signup')}
+                      onClick={() => navigate.push("/signup")}
                       className="inline-block rounded
-                      text-[#27a9e1] text-base"
+                      text-[#27a9e1] text-base cursor-pointer"
                     >
                       Sign Up
+                    </p>
+                  </div>
+
+                  <div className="flex items-center pb-6 mx-auto justify-center">
+                    <p
+                      // href={"/signup"}
+                      onClick={() => navigate.push("/signup")}
+                      className="inline-block rounded
+                      text-[#27a9e1] text-base cursor-pointer"
+                    >
+                      Forgot your password?
                     </p>
                   </div>
                 </form>

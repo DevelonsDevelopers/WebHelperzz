@@ -256,7 +256,7 @@ function GetQuotes({ params }) {
   return (
     <>
       <header>
-        <div className="p-6 mt-2 select-text">
+        <div className="p-6 mt-2 select-text cursor-pointer">
           <Link href="/">
             <Image src={imgLogo} alt="" width={120} height={100} />
           </Link>

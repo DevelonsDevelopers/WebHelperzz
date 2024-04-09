@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Header from "../../components/Header";
 import React, { useState } from "react";
@@ -186,7 +186,9 @@ const Page = () => {
                           }}
                         />
                         {errors[4] && (
-                          <p className="text-red-500">Please Enter a Strong Password</p>
+                          <p className="text-red-500">
+                            Please Enter a Strong Password
+                          </p>
                         )}
                         {/* <button
                         type="button"
@@ -216,8 +218,8 @@ const Page = () => {
                     <p className="mb-0 me-2">Have an account?</p>
                     <p
                       // href={"/login"}
-                      onClick={() => navigate.push('/login')}
-                      className="inline-block rounded text-[#27a9e1]  text-base"
+                      onClick={() => navigate.push("/login")}
+                      className="inline-block rounded text-[#27a9e1]  text-base cursor-pointer"
                     >
                       Login
                     </p>
