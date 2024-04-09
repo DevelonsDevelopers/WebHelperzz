@@ -71,6 +71,11 @@ const Page = ({ params }) => {
     setReviewData((data) => ({ ...data, category: params.category }));
   }, []);
 
+  useEffect(() => {
+    let rating = (reviewData.satisfaction + reviewData.recommendation)/2
+    setReviewData((data) => ({ ...data, rating: rating }));
+  }, [reviewData.satisfaction, reviewData.recommendation]);
+
   const handleFileChange = (event) => {
     const files = event.target.files;
     let isValidFile = true;
@@ -105,6 +110,20 @@ const Page = ({ params }) => {
       setInvalidFile(true);
     }
   };
+
+  const handlePaid = (e) => {
+    if (e.target.checked){
+      setReviewData((data) => ({
+        ...data,
+        paid: 1,
+      }))
+    } else {
+      setReviewData((data) => ({
+        ...data,
+        paid: 0,
+      }))
+    }
+  }
 
   const handleSubmit = () => {
     contractorService
@@ -222,7 +241,7 @@ const Page = ({ params }) => {
                         id="checkbox"
                         type="checkbox"
                         value=""
-                        onChange={(e) => console.log(e)}
+                        onChange={(e) => handlePaid(e)}
                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
