@@ -132,7 +132,10 @@ function Home() {
   const categoriesSliderRef = useRef(null);
   const blogsSliderRef = useRef(null);
   const reviewSliderRef = useRef(null);
-  const topHelperzzSliderRef = useRef(null);
+  const /* The above code appears to be a comment block in JavaScript. It mentions a variable or
+  function named "topHelperzzSliderRef" but does not provide any specific details about its
+  purpose or functionality. */
+    topHelperzzSliderRef = useRef(null);
   const [categoryLoading, setCategoryLoading] = useState(true);
   const [topCategoryLoading, setTopCategoryLoading] = useState(true);
   const [blogLoading, setBlogLoading] = useState(true);

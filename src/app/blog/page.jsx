@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "../../components/Header";
 
 import Image from "next/image";
@@ -8,6 +8,15 @@ import Image from "next/image";
 import worker from "/public/assets/worker.png";
 import women from "/public/assets/women.png";
 import Loading from "../../components/loading";
+import costGuideService from "../../api/services/costGuideService";
+import contractorService from "../../api/services/contractorService";
+import { IMAGE_PATH } from "../../api/BaseUrl";
+
+import "../../style/Home.css";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function Costgguides(props) {
   const { buttonText, title } = props;
@@ -135,6 +144,10 @@ const updates = [
 const Blog = () => {
   const [selected, setSelected] = useState(0);
   const [guideLoading, setGuideLoading] = useState(true);
+  const [costGuides, setCostGuides] = useState([]);
+  const [contractorLoading, setContractorLoading] = useState(true);
+  const topHelperzzSliderRef = useRef(null);
+  const [contractors, setContractors] = useState([]);
 
   const getCostGuides = async () => {
     try {
@@ -145,17 +158,72 @@ const Blog = () => {
       console.error(error);
     }
   };
+  const getContractors = async () => {
+    try {
+      const response = await contractorService.featured();
+      setContractors(response.contractors);
+      setContractorLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const tophelperzzSlideNext = () => {
+    topHelperzzSliderRef.current.slickNext();
+  };
+
+  const topHelperzzSlidePrev = () => {
+    topHelperzzSliderRef.current.slickPrev();
+  };
+
+  const isTopHelperzzMobile =
+    typeof window !== "undefined" && window.innerWidth < 768;
+  const displayedTopHelperzz = isTopHelperzzMobile
+    ? contractors.slice(0, 2)
+    : contractors;
+
+  const TopHelperzzsettings = {
+    dots: true,
+    infinite: displayedTopHelperzz.length > 1,
+    speed: 500,
+    slidesToShow: Math.min(3, displayedTopHelperzz.length),
+    slidesToScroll: 1,
+    rows: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
 
   useEffect(() => {
     getCostGuides();
+    getContractors();
   }, []);
 
   return (
     <>
       <Header />
       <div className="mx-auto justify-center items-center mt-28">
-        <div className="flex ml-[9%] mt-8 max-w-[1100px] w-screen">
-          <h1 className="cursor-pointer">Helperzz /</h1>
+        <div className="flex text-left mt-8 lg:w-[1100px] w-screen mx-auto justify-center">
+          <h1 className="cursor-pointer ">Helperzz /</h1>
           <h1 className="cursor-pointer pl-2"> Blog </h1>
         </div>
         <div className="bg-[#12937C1A]  mx-auto justify-center items-center">
@@ -371,9 +439,86 @@ const Blog = () => {
         </div>
 
         {/* 6th section =========== */}
+        <section class="text-gray-600 body-font lg:w-[900px] w-screen mx-auto">
+          {contractorLoading ? (
+            <Loading />
+          ) : (
+            <div class="sm:w-[100%] sm:flex h-[100%] md:mx-auto">
+              <div class="rounded-3xl mr-2 mb-2 sm:w-[25%] px-4 py-7  bg-[#B7E2FA]">
+                <div class="h-[180px] sm:h-full flex ">
+                  <div class="relative flex-grow sm:p-3 p-0">
+                    <h2
+                      style={{ lineHeight: 1.45 }}
+                      className="text-xl pt-6  text-center sm:text-left font-bold  text-text w-full "
+                    >
+                      Find the
+                      <span className="mx-2 text-[#0067A1]">
+                        Top Rated Helperzz
+                      </span>
+                      for your project
+                    </h2>
+                    <a class="absolute bottom-[1px] left-1/2 transform -translate-x-1/2 w-[90%] shadow-lg mt-12 text-xs hover:bg-transparent hover:text-text hover:border-primary cursor-pointer transition-none text-text mt-4 justify-center border py-3 rounded-2xl font-bold bg-[#fff] inline-flex items-center mx-auto">
+                      View All top Helperzz
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className="sm:w-[75%]">
+                <Slider {...TopHelperzzsettings} ref={topHelperzzSliderRef}>
+                  {displayedTopHelperzz.map((value) => (
+                    <div key={value.id} className="flex">
+                      <div className="sm:w-[220px] w-full">
+                        <div
+                          class="py-3 px-2 mr-2 mb-2 border-primary border rounded-3xl relative cursor-pointer"
+                          onClick={() =>
+                            navigate.push(
+                              "/profile/" +
+                                value.company_name
+                                  .replaceAll(" ", "-")
+                                  .toLowerCase()
+                            )
+                          }
+                        >
+                          <div class="h-[280px]  items-start select-text">
+                            <div class="flex p-3">
+                              <a class="inline-flex">
+                                <img
+                                  alt="blog"
+                                  src={`${IMAGE_PATH}${value.image}`}
+                                  class="h-16 sm:w-16 rounded-full flex-shrink-0 object-cover object-center"
+                                />
+                                <span class="flex-grow flex flex-col pl-2  items-center">
+                                  <span class="text-lg font-semibold text-gray-900 line-clamp-1 text-ellipsis">
+                                    {value.company_name}
+                                  </span>
+                                  <span class="font-normal text-sm text-gray-900">
+                                    {value.category_name}
+                                  </span>
+                                </span>
+                              </a>
+
+                              <div class="text-primary absolute text-sm mt-24 font-bold mb-8 flex flex-wrap gap-x-4">
+                                {value.skills.split(",").map((skill, index) => (
+                                  <span key={index}>{skill}</span>
+                                ))}
+                              </div>
+                              <a class="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[70%] text-xs mt-3 cursor-pointer hover:bg-primary hover:text-white transition-none text-text mb-2 min-w-55 justify-center px-3 py-3 rounded-2xl font-bold bg-transparent border-primary border inline-flex items-center mx-auto">
+                                Get A Free Quote
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+            </div>
+          )}
+        </section>
 
         {/* 7th section =========== */}
-        <div className="costguides_main flex justify-center align-content-center">
+        <div className="costguides_main sm:w-[900px] w-screen mx-auto flex justify-center align-content-center">
           <div className="container px-5 sm:py-6">
             <div className="mb-8 flex justify-between items-center flex-wrap">
               <h1 className="heading_costguides pb-3">Popular Cost Guides</h1>
@@ -383,7 +528,7 @@ const Blog = () => {
             ) : (
               <>
                 <div className="mx-auto grid pr-5 mb-5 grid-cols-2 md:grid-cols-3  justify-between">
-                  {displayedGuides.map((value) => (
+                  {costGuides.map((value) => (
                     <Costgguides
                       key={value.id}
                       buttonText={value.subtitle}
@@ -391,30 +536,22 @@ const Blog = () => {
                     />
                   ))}
                 </div>
-                {isMobile && (
-                  <a
-                    className="guide_btn text-text mt-2 justify-center border px-4 py-3 rounded-2xl font-bold bg-[#fff] flex align-item-center  items-center mx-auto"
-                    href="#"
-                  >
-                    View All Guides
-                  </a>
-                )}
               </>
             )}
           </div>
         </div>
-        {/* 8th section =========== */}
 
+        {/* 8th section =========== */}
         <div className="bg-[#F7F9FB] py-10 my-10 ">
-          <div className="grid grid-cols-4 max-md:grid-cols-1 lg:w-[1100px] w-screen m-auto gap-6">
-            <div className="bg-[#12937C] rounded-xl p-4 flex flex-col justify-between  ">
-              <h1 className="text-[27px] text-white uppercase text-center max-md:text-[20px]">
+          <div className="grid grid-cols-4 max-md:grid-cols-1 sm:w-[900px] w-screen m-auto gap-6">
+            <div className="bg-[#12937C] rounded-3xl p-5 flex flex-col justify-between  ">
+              <h1 className="text-[22px] font-semibold pt-3 text-white uppercase text-center max-md:text-[20px]">
                 Helperzz Updates
               </h1>
               <div className="flex justify-center flex-grow"></div>
               <center>
-                <button className="bg-white rounded-lg shadow-md capitalize w-[10rem] max-md:w-[7rem] border-[1px] border-[#12937C] mt-4 text-gray-600 text-[14px] py-[5px]">
-                  view all
+                <button className="bg-white font-semibold rounded-xl shadow-md capitalize w-[10rem] max-md:w-[70%] border-[1px] border-[#12937C] mt-4  text-[15px] py-[7px]">
+                  View All
                 </button>
               </center>
             </div>
@@ -422,20 +559,20 @@ const Blog = () => {
             {updates?.map((value, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-b from-[#FFFFFF39] to-[#12937C28] p-4 border-[1px] border-[#12937C] rounded-xl flex flex-col justify-between min-h-[220px]"
+                className="bg-gradient-to-b from-[#FFFFFF39] to-[#12937C28] p-5 border-[1px] border-[#12937C] rounded-3xl flex flex-col justify-between min-h-[280px]"
               >
                 <div>
-                  <h1 className="font-[600] text-gray-700 text-[18px]">
+                  <h1 className="font-[600] text-gray-800 text-[18px]">
                     {value?.name}
                   </h1>
-                  <h1 className="font-[200] text-[14px] text-gray-500  mt-4">
+                  <h1 className="font-[500] text-[13px] text-gray-700  mt-4 line-clamp-3 text-ellipsis">
                     {value?.description}
                   </h1>
                 </div>
                 <div className="flex justify-center flex-grow"></div>
                 <center>
-                  <button className="bg-transparent rounded-lg shadow-md max-md:w-[7rem] capitalize w-[10rem] border-[1px] border-[#12937C] mt-4 text-gray-600 text-[14px] py-[5px]">
-                    view all
+                  <button className="bg-transparent font-semibold rounded-xl max-md:w-[70%] capitalize w-[10rem] border-[1px] border-[#12937C] mt-4 text-[15px] py-[7px]">
+                    Read More
                   </button>
                 </center>
               </div>
@@ -444,45 +581,44 @@ const Blog = () => {
         </div>
 
         {/* 9th section ========= */}
-
         <div className="py-6 my-10 bg-[#F7F9FB] ">
           <div className="flex max-md:flex-col-reverse max-md:flex-col gap-12 lg:w-[900px] w-screen m-auto align-center items-center">
-            <div className="bg-[#12937C] rounded-xl p-6 ">
-              <h1 className="text-center text-white font-[500] text-[20px] capitalize">
+            <div className="bg-[#12937C] rounded-xl p-7 ">
+              <h1 className="text-left text-white font-[500] text-[20px] capitalize">
                 Sign up for articles, hiring
               </h1>
-              <h1 className="text-center text-white font-[500] pb-6 text-[20px] capitalize">
+              <h1 className="text-left text-white font-[500] pb-6 text-[20px] capitalize">
                 tips, cost guides and more
               </h1>
               <div className="flex flex-col gap-2">
                 <input
                   type="text"
                   placeholder="First Name *"
-                  className="rounded-xl py-[7px] pl-2 text-gray-500 w-[18rem] mt-2 text-[14px] outline-none"
+                  className="rounded-lg py-[8px] pl-4 text-gray-500 w-[18rem] mt-2 text-[14px] outline-none"
                 />
                 <input
                   type="text"
                   placeholder="Last Name *"
-                  className="rounded-xl py-[7px] pl-2 text-gray-500 w-[18rem] mt-2 text-[14px] outline-none"
+                  className="rounded-lg py-[8px] pl-4 text-gray-500 w-[18rem] mt-2 text-[14px] outline-none"
                 />
                 <input
                   type="email"
                   placeholder="Email Address *"
-                  className="rounded-xl py-[7px] pl-2 text-gray-500 w-[18rem] mt-2 text-[14px] outline-none"
+                  className="rounded-lg py-[8px] pl-4 text-gray-500 w-[18rem] mt-2 text-[14px] outline-none"
                 />
                 <input
                   type="submit"
                   value="Sign Up"
-                  className="rounded-xl py-[5px] pl-2 text-gray-900 w-[18rem] font-[500] mt-2 text-[16px] outline-none bg-white"
+                  className="rounded-xl py-[9px] text-gray-900 w-[18rem] font-[600] mt-3 text-[16px] outline-none bg-white"
                 />
               </div>
             </div>
 
-            <div>
+            <div className="font-bold">
               <h1 className="text-[28px] text-[#12937C] capitalize">
                 Sign Up for articles,hiring
               </h1>
-              <h1 className="text-[28px] capitalize">
+              <h1 className="text-[28px] capitalize text-[#12937C]">
                 tips, cost guids and more{" "}
               </h1>
             </div>
