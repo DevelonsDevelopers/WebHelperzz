@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import "../../../style/GetQuotes.css";
 import Link from "next/link";
 import imgLogo from "/public/assets/logo.png";
 import Image from "next/image";
