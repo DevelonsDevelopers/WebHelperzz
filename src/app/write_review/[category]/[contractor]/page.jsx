@@ -13,6 +13,13 @@ const Page = ({ params }) => {
   const [limitLength, setLimitLength] = useState(false);
   const [allImages, setAllImages] = useState([]);
 
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
+
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,6 +67,7 @@ const Page = ({ params }) => {
     if (loggedInUser) {
       setLoggedIn(true);
       setReviewData((data) => ({ ...data, user: loggedInUser.id }));
+      setUserData({ name: loggedInUser.name, email: loggedInUser.email, address: loggedInUser.address, phone: loggedInUser.phone })
     }
   }, []);
 
@@ -338,25 +346,26 @@ const Page = ({ params }) => {
               </div>
 
               <div className="p-5 w-full mx-auto border-1 border-gray-500 bg-gray-200 bg-opacity-50">
+                <div className="mb-4 mt-3">
+                  <label className="block mb-2 md:text-xl text-base font-normal text-gray-500 ">
+                    Email
+                  </label>
+                  <input
+                    type="text"
+                    name="title"
+                    placeholder="Project, product, or service, e.g, Kitchen Renovation"
+                    onChange={(e) =>
+                      setReviewData((data) => ({
+                        ...data,
+                        title: e.target.value,
+                      }))
+                    }
+                    value={userData.email}
+                    className={`border text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-base `}
+                  />
+                </div>
                 {!loggedIn && (
                   <>
-                    <div className="mb-4 mt-3">
-                      <label className="block mb-2 md:text-xl text-base font-normal text-gray-500 ">
-                        Email
-                      </label>
-                      <input
-                        type="text"
-                        name="title"
-                        placeholder="Project, product, or service, e.g, Kitchen Renovation"
-                        onChange={(e) =>
-                          setReviewData((data) => ({
-                            ...data,
-                            title: e.target.value,
-                          }))
-                        }
-                        className={`border text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-base `}
-                      />
-                    </div>
                     <div className="mb-4 mt-5">
                       <label className="block mb-2 md:text-xl text-md font-normal text-gray-500">
                         Password
@@ -384,6 +393,7 @@ const Page = ({ params }) => {
                     type="text"
                     name="name"
                     placeholder="Full Name"
+                    value={userData.name}
                     onChange={(e) =>
                       setReviewData((data) => ({
                         ...data,
@@ -401,6 +411,7 @@ const Page = ({ params }) => {
                     type="text"
                     name="address"
                     placeholder="Address"
+                    value={userData.address}
                     onChange={(e) =>
                       setReviewData((data) => ({
                         ...data,
@@ -418,6 +429,7 @@ const Page = ({ params }) => {
                     type="number"
                     name="phone"
                     placeholder="Phone Number"
+                    value={userData.phone}
                     onChange={(e) =>
                       setReviewData((data) => ({
                         ...data,
