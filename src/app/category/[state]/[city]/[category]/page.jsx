@@ -10,6 +10,7 @@ import { FiBox } from "react-icons/fi";
 import { MdStar } from "react-icons/md";
 import Image from "next/image";
 import imgpfp from "../../../../../../public/assets/profile2.png";
+import imgThumb from "../../../../../../public/assets/project_thumb.jpg";
 import trustsealimg from "../../../../../../public/assets/trustsealbadge.png";
 import contractorService from "../../../../../api/services/contractorService";
 import { IMAGE_PATH } from "@/api/BaseUrl";
@@ -637,13 +638,22 @@ const Page = ({ params }) => {
                       className="bg-[#F7F9FB] sm:p-4 p-1 flex max-md:flex-col items-center gap-5 mb-5"
                     >
                       <div className="">
+                        {value.cover ?
                         <img
-                          src={`${IMAGE_PATH}${value.image}`}
-                          className={`h-[250px] w-[250px]`}
+                          src={`${IMAGE_PATH}${value.cover}`}
+                          className={`h-[250px] w-[250px] object-cover`}
                           alt=""
                           height={250}
                           width={550}
                         />
+                            :
+                            <Image
+                                src={imgThumb}
+                                className={`h-[250px] w-[250px]`}
+                                alt=""
+                                height={250}
+                                width={550}
+                            />}
                       </div>
                       <div className="w-[80%]">
                         <div className="flex gap-2">
@@ -717,7 +727,7 @@ const Page = ({ params }) => {
                           </Link>
                         </div>
                         <h4 className="text-md font-[600] mt-1">
-                          4 projects in the {cityName}
+                          {value.projects} projects
                         </h4>
                         <button className="py-2 px-5 mt-4 bg-[#12937C] text-white text-md rounded-[10px] text-opacity-70 cursor-pointer hover:bg-opacity-80 font-[600]">
                           Send Message

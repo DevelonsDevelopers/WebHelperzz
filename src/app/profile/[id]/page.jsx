@@ -8,11 +8,12 @@ import { Footer } from "../../../components/Footer";
 import contractorService from "../../../api/services/contractorService";
 
 import { useRouter } from "next/navigation";
+import Loading from "@/components/loading";
 
 function Page({ params }) {
   const [ID, setID] = useState();
   const [details, setDetails] = useState();
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const location = useRouter();
   // const params = new URLSearchParams(location.search);
@@ -27,6 +28,7 @@ function Page({ params }) {
       console.log(ID);
       console.log(response);
       setDetails(response.data);
+      setLoading(false)
     } catch (error) {
       console.error(error);
     }
@@ -41,6 +43,9 @@ function Page({ params }) {
   return (
     <>
       <Header />
+      {loading ?
+        <Loading/>
+          :
       <Suspense fallback={<p>Loading feed...</p>}>
         <div className="pt-14">
           <div className="profile_container max-w-[1200px] mx-auto  px-6  pt-10 md:pt-32">
@@ -51,6 +56,7 @@ function Page({ params }) {
           </div>
         </div>
       </Suspense>
+      }
       <Footer />
     </>
   );
