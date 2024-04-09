@@ -9,8 +9,10 @@ import Link from "next/link";
 
 const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [userAlreadyPresent, setUserAlreadyPresent] = useState(false);
   const [validInput, setValidInput] = useState({
     isPhoneEntered: true,
+    isEmailValid: false,
   });
 
   const [names, setNames] = useState([
@@ -34,6 +36,7 @@ const Page = () => {
   const handleChange = (e) => {
     let tempErrors = [...errors];
     const canadianPhoneRegex = /^\d{10}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     tempErrors[names.indexOf(e.target.name)] = false;
     setErrors(tempErrors);
@@ -45,17 +48,17 @@ const Page = () => {
       }));
     }
 
-    // if (e.target.name === "password" && e.target.value.length < 4) {
-    //   setErrors({
-    //     ...errors,
-    //     password: "Password must be at least 4 characters",
-    //   });
-    // } else {
-    //   setErrors({
-    //     ...errors,
-    //     password: "", // Clear the error if the input is valid
-    //   });
-    // }
+    if (e.target.name === "email") {
+      setValidInput((prevState) => ({
+        ...prevState,
+        isEmailValid: emailRegex.test(e.target.value),
+      }));
+    }
+
+    if (e.target.name === "password" && e.target.value.length < 4) {
+      tempErrors[names.indexOf("password")] = true;
+      setErrors(tempErrors);
+    }
   };
 
   const handleRegister = (e) => {
@@ -74,7 +77,7 @@ const Page = () => {
           toast.success(response.message);
         })
         .catch((error) => {
-          toast.error(error.message);
+          setUserAlreadyPresent(true);
           // setSubmitting(false)
         });
     }
@@ -95,12 +98,64 @@ const Page = () => {
                   <p className="mb-8 text-left sm:mt-4 mt-20 font-semibold text-2xl ">
                     Sign up for an account
                   </p>
-                  {errors[4] && (
-                    <p className="text-red-500">
-                      Please Enter a Strong Password
-                    </p>
+                  {(errors[0] || errors[1] || errors[2] || errors[3]) && (
+                    <div
+                      className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
+                      role="alert"
+                    >
+                      <strong className="font-bold">Error!</strong>
+                      <span className="block sm:inline">
+                        Please fill in all required fields!
+                      </span>
+                    </div>
                   )}
-                  <div className="grid sm:grid-cols-2 grid-cols-1">
+                  {errors[4] && (
+                    <div
+                      className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
+                      role="alert"
+                    >
+                      <strong className="font-bold">Error! </strong>
+                      <span className="block sm:inline">
+                        {" "}
+                        Please enter a strong password
+                      </span>
+                    </div>
+                  )}
+                  {userAlreadyPresent && (
+                    <div
+                      className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
+                      role="alert"
+                    >
+                      <strong className="font-bold">Error! </strong>
+                      <span className="block sm:inline">
+                        User may already exist! You can Login to use your
+                        account.{" "}
+                      </span>
+                    </div>
+                  )}
+                  {!validInput.isPhoneEntered && (
+                    <div
+                      className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
+                      role="alert"
+                    >
+                      <strong className="font-bold">Error!</strong>
+                      <span className="block sm:inline">
+                        Please enter your phone number!
+                      </span>
+                    </div>
+                  )}
+                  {!validInput.isEmailValid && (
+                    <div
+                      className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
+                      role="alert"
+                    >
+                      <strong className="font-bold">Error!</strong>
+                      <span className="block sm:inline">
+                        Please enter a valid email!
+                      </span>
+                    </div>
+                  )}
+                  <div className="grid sm:grid-cols-2 gap-4 grid-cols-1">
                     <div className="mb-4">
                       <label className="text-left text-gray-700 font-bold mb-2">
                         Display Name
@@ -165,11 +220,6 @@ const Page = () => {
                           boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
                         }}
                       />
-                      {!validInput.isPhoneEntered && (
-                        <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-                          Please enter your phone number!
-                        </p>
-                      )}
                     </div>
 
                     <div className="mb-8">
@@ -189,14 +239,6 @@ const Page = () => {
                             boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
                           }}
                         />
-
-                        {/* <button
-                        type="button"
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? "Hide" : "Show"}
-                      </button> */}
                       </div>
                     </div>
                   </div>
