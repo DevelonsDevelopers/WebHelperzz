@@ -61,7 +61,7 @@ function ServicesCart(props) {
   return (
     <div
       className="flex flex-col justify-center text-center font-semibold items-center bg-[#F7F9FB] rounded-xl p-6 h-[150px] cursor-pointer border-r-2 border-b-2 border-white hover:border-[#119DED99] hover:shadow-md hover:shadow-[#119DED99] mx-2 my-3 lg:mx-3 lg:my-4"
-      onClick={() => navigate.push(`/category/on/toronto/${tag}`)}
+      onClick={() => navigate.push(`/getquotes/create/${tag}/any`)}
     >
       <img
         src={imageSrc}
@@ -160,13 +160,12 @@ function Home() {
     }
     if (selectedOption && isValidPostalCode) {
       console.log(selectedOption);
+      let postal = postalCode.replaceAll(" ", "-").toLowerCase()
       navigate.push(
         "/getquotes/create/" +
           selectedOption.value +
           "/" +
-          selectedOption.label +
-          "/" +
-          postalCode
+          postal
       );
     }
   };
@@ -177,7 +176,7 @@ function Home() {
   };
 
   const options = categories.map((category) => ({
-    value: category.id,
+    value: category.tag,
     label: category.name,
   }));
 
@@ -796,7 +795,7 @@ function Home() {
                         <div
                           class="py-3 px-2 mr-2 mb-2 border-primary border rounded-3xl relative cursor-pointer"
                           onClick={() =>
-                            navigate.push("/profile/" + value.contractor)
+                            navigate.push("/profile/" + value.company_name.replaceAll(" ", "-").toLowerCase())
                           }
                         >
                           <div class="h-[280px]  items-start select-text">

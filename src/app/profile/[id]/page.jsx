@@ -24,7 +24,7 @@ function Page({ params }) {
 
   const getDetails = async () => {
     try {
-      const response = await contractorService.details(ID);
+      const response = await contractorService.detailsTag(ID);
       console.log(ID);
       console.log(response);
       setDetails(response.data);

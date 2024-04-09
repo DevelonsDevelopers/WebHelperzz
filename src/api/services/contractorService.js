@@ -25,6 +25,14 @@ const contractorService = {
             throw error.response.data
         }
     },
+    detailsTag: async (id) => {
+        try {
+            const response = await axiosInstance.get('/contractors/detailsTag/' + id)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
     createReview: async (payload) => {
         try {
             const response = await axiosInstance.post('/contractors/createReview', payload)
