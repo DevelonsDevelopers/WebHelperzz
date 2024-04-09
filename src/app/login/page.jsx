@@ -34,7 +34,7 @@ const Page = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let hasError = false;
     setError((prevError) => ({ ...prevError, auth: false }));
-    if (loginData.email.length === 0 || emailRegex.test(loginData.email)) {
+    if (loginData.email.length === 0 || emailRegex.test(e.target.value)) {
       setError((prevError) => ({ ...prevError, email: true }));
       hasError = true;
     }

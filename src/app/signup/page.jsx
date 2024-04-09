@@ -95,7 +95,11 @@ const Page = () => {
                   <p className="mb-8 text-left sm:mt-4 mt-20 font-semibold text-2xl ">
                     Sign up for an account
                   </p>
-
+                  {errors[4] && (
+                    <p className="text-red-500">
+                      Please Enter a Strong Password
+                    </p>
+                  )}
                   <div className="grid sm:grid-cols-2 grid-cols-1">
                     <div className="mb-4">
                       <label className="text-left text-gray-700 font-bold mb-2">
@@ -185,11 +189,7 @@ const Page = () => {
                             boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
                           }}
                         />
-                        {errors[4] && (
-                          <p className="text-red-500">
-                            Please Enter a Strong Password
-                          </p>
-                        )}
+
                         {/* <button
                         type="button"
                         className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"

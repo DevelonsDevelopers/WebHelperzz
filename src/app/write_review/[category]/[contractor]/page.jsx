@@ -13,6 +13,11 @@ const Page = ({ params }) => {
   const [limitLength, setLimitLength] = useState(false);
   const [allImages, setAllImages] = useState([]);
 
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [displayName, setDisplayName] = useState("");
+
   const [names, setNames] = useState([]);
   const [errors, setErrors] = useState([]);
   const [reviewData, setReviewData] = useState({
@@ -24,6 +29,18 @@ const Page = ({ params }) => {
     price: "",
     review: "",
   });
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleDisplayNameChange = (e) => {
+    setDisplayName(e.target.value);
+  };
 
   const navigate = useRouter();
 
@@ -37,6 +54,7 @@ const Page = ({ params }) => {
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("HELPERZZ-USER"));
     if (loggedInUser) {
+      setLoggedIn(true);
       setReviewData((data) => ({ ...data, user: loggedInUser.id }));
     }
   }, []);
@@ -295,41 +313,45 @@ const Page = ({ params }) => {
                 ))}
               </div>
 
-              <div className="bg-gray-300 border-gray-600">
-                <div className="mb-4 mt-5">
-                  <label className="text-left text-gray-700 font-bold mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="text"
-                    name="title"
-                    placeholder="Project, product, or service, e.g, Kitchen Renovation"
-                    onChange={(e) =>
-                      setReviewData((data) => ({
-                        ...data,
-                        title: e.target.value,
-                      }))
-                    }
-                    className={`w-full border-[1px] bg-transparent px-4 py-2  outline-none border-gray-300`}
-                  />
-                </div>
-                <div className="mb-4 mt-5">
-                  <label className="text-left text-gray-700 font-bold mb-2">
-                    Password
-                  </label>
-                  <input
-                    type="text"
-                    name="title"
-                    placeholder="Project, product, or service, e.g, Kitchen Renovation"
-                    onChange={(e) =>
-                      setReviewData((data) => ({
-                        ...data,
-                        title: e.target.value,
-                      }))
-                    }
-                    className={`w-full border-[1px] bg-transparent px-4 py-2  outline-none border-gray-300`}
-                  />
-                </div>
+              <div className=" bg-[#27a9e1] bg-opacity-10 border-[#27a9e1] border-2 p-5">
+                {!loggedIn && (
+                  <>
+                    <div className="mb-4 mt-3">
+                      <label className="text-left text-gray-700 font-bold mb-2">
+                        Email
+                      </label>
+                      <input
+                        type="text"
+                        name="title"
+                        placeholder="Project, product, or service, e.g, Kitchen Renovation"
+                        onChange={(e) =>
+                          setReviewData((data) => ({
+                            ...data,
+                            title: e.target.value,
+                          }))
+                        }
+                        className={`w-full border-[1px] bg-white px-4 py-2  outline-none border-gray-400`}
+                      />
+                    </div>
+                    <div className="mb-4 mt-5">
+                      <label className="text-left text-gray-700 font-bold mb-2">
+                        Password
+                      </label>
+                      <input
+                        type="text"
+                        name="title"
+                        placeholder="Project, product, or service, e.g, Kitchen Renovation"
+                        onChange={(e) =>
+                          setReviewData((data) => ({
+                            ...data,
+                            title: e.target.value,
+                          }))
+                        }
+                        className={`w-full border-[1px] bg-white px-4 py-2  outline-none border-gray-400`}
+                      />
+                    </div>
+                  </>
+                )}
                 <div className="mb-4 mt-5">
                   <label className="text-left text-gray-700 font-bold mb-2">
                     Create Display Name
@@ -344,11 +366,11 @@ const Page = ({ params }) => {
                         title: e.target.value,
                       }))
                     }
-                    className={`w-full border-[1px] bg-transparent px-4 py-2  outline-none border-gray-300`}
+                    className={`w-full border-[1px] bg-white px-4 py-2  outline-none border-gray-400`}
                   />
                 </div>
               </div>
-              <div className="mb-4 pb-1 pt-1 text-center">
+              <div className="mb-4 pb-1 pt-5 text-center">
                 <button
                   onClick={() => handleSubmit()}
                   className="mb-3 py-3 inline-block w-full rounded px-6 font-bold text-base uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out hover:shadow-dark-2 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:shadow-dark-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
