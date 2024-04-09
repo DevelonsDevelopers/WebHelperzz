@@ -25,6 +25,10 @@ const Page = ({ params }) => {
     contractor: 0,
     category: 0,
     rating: 3,
+    satisfaction: 3,
+    recommendation: 3,
+    paid: 0,
+    postal_code: "",
     title: "",
     price: "",
     review: "",
@@ -143,7 +147,7 @@ const Page = ({ params }) => {
                 <Rating
                   style={{ color: "#27a9e1" }}
                   onChange={(e) =>
-                    setReviewData((data) => ({ ...data, rating: e }))
+                    setReviewData((data) => ({ ...data, satisfaction: e }))
                   }
                 />
               </div>
@@ -155,7 +159,7 @@ const Page = ({ params }) => {
                 <Rating
                   style={{ color: "#27a9e1" }}
                   onChange={(e) =>
-                    setReviewData((data) => ({ ...data, rating: e }))
+                    setReviewData((data) => ({ ...data, recommendation: e }))
                   }
                 />
               </div>
@@ -190,7 +194,7 @@ const Page = ({ params }) => {
                     onChange={(e) =>
                       setReviewData((data) => ({
                         ...data,
-                        title: e.target.value,
+                        postal_code: e.target.value,
                       }))
                     }
                     className={`w-full border-[1px] bg-transparent px-4 py-2  outline-none border-gray-300`}
@@ -218,6 +222,7 @@ const Page = ({ params }) => {
                         id="checkbox"
                         type="checkbox"
                         value=""
+                        onChange={(e) => console.log(e)}
                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
