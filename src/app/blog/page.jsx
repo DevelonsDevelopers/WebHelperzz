@@ -1,12 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 
 import Image from "next/image";
 
 import worker from "/public/assets/worker.png";
 import women from "/public/assets/women.png";
+import Loading from "../../components/loading";
+
+function Costgguides(props) {
+  const { buttonText, title } = props;
+
+  return (
+    <div className="costguides_container">
+      <div className="btn_guides">
+        <p className="btn_text">{buttonText}</p>
+      </div>
+      <p className="cost_text">{title}</p>
+    </div>
+  );
+}
 
 const points = [
   { name: "Featured" },
@@ -120,6 +134,21 @@ const updates = [
 
 const Blog = () => {
   const [selected, setSelected] = useState(0);
+  const [guideLoading, setGuideLoading] = useState(true);
+
+  const getCostGuides = async () => {
+    try {
+      const response = await costGuideService.fetchAll();
+      setCostGuides(response.costGuides);
+      setGuideLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getCostGuides();
+  }, []);
 
   return (
     <>
@@ -344,7 +373,36 @@ const Blog = () => {
         {/* 6th section =========== */}
 
         {/* 7th section =========== */}
-
+        <div className="costguides_main flex justify-center align-content-center">
+          <div className="container px-5 sm:py-6">
+            <div className="mb-8 flex justify-between items-center flex-wrap">
+              <h1 className="heading_costguides pb-3">Popular Cost Guides</h1>
+            </div>
+            {guideLoading ? (
+              <Loading />
+            ) : (
+              <>
+                <div className="mx-auto grid pr-5 mb-5 grid-cols-2 md:grid-cols-3  justify-between">
+                  {displayedGuides.map((value) => (
+                    <Costgguides
+                      key={value.id}
+                      buttonText={value.subtitle}
+                      title={value.title}
+                    />
+                  ))}
+                </div>
+                {isMobile && (
+                  <a
+                    className="guide_btn text-text mt-2 justify-center border px-4 py-3 rounded-2xl font-bold bg-[#fff] flex align-item-center  items-center mx-auto"
+                    href="#"
+                  >
+                    View All Guides
+                  </a>
+                )}
+              </>
+            )}
+          </div>
+        </div>
         {/* 8th section =========== */}
 
         <div className="bg-[#F7F9FB] py-10 my-10 ">

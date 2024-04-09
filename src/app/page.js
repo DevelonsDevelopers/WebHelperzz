@@ -128,7 +128,7 @@ function Home() {
   const [selectedError, setSelectedError] = useState(false);
 
   const [isValidPostalCode, setIsValidPostalCode] = useState(true);
-  const [postalCode, setPostalCode] = useState("M1M 1W1");
+  const [postalCode, setPostalCode] = useState("");
   const categoriesSliderRef = useRef(null);
   const blogsSliderRef = useRef(null);
   const reviewSliderRef = useRef(null);
@@ -160,13 +160,8 @@ function Home() {
     }
     if (selectedOption && isValidPostalCode) {
       console.log(selectedOption);
-      let postal = postalCode.replaceAll(" ", "-").toLowerCase()
-      navigate.push(
-        "/getquotes/create/" +
-          selectedOption.value +
-          "/" +
-          postal
-      );
+      let postal = postalCode.replaceAll(" ", "-").toLowerCase();
+      navigate.push("/getquotes/create/" + selectedOption.value + "/" + postal);
     }
   };
 
@@ -795,7 +790,12 @@ function Home() {
                         <div
                           class="py-3 px-2 mr-2 mb-2 border-primary border rounded-3xl relative cursor-pointer"
                           onClick={() =>
-                            navigate.push("/profile/" + value.company_name.replaceAll(" ", "-").toLowerCase())
+                            navigate.push(
+                              "/profile/" +
+                                value.company_name
+                                  .replaceAll(" ", "-")
+                                  .toLowerCase()
+                            )
                           }
                         >
                           <div class="h-[280px]  items-start select-text">
