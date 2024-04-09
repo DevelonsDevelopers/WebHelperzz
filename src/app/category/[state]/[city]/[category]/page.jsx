@@ -638,7 +638,7 @@ const Page = ({ params }) => {
                       className="bg-[#F7F9FB] sm:p-4 p-1 flex max-md:flex-col items-center gap-5 mb-5"
                     >
                       <div className="">
-                        <Link href={`/profile/` + value.id}>
+                        <Link href={`/profile/` + value.company_name.replaceAll(" ", "-").toLowerCase()}>
                           {value.cover ? (
                             <img
                               src={`${IMAGE_PATH}${value.cover}`}
@@ -661,18 +661,18 @@ const Page = ({ params }) => {
                       <div className="w-[80%]">
                         <div className="flex gap-2">
                           <div className="bg-white p-3 rounded-full">
-                            <Link href={`/profile/` + value.id}>
+                            <Link href={`/profile/` + value.company_name.replaceAll(" ", "-").toLowerCase()}>
                               <img
                                 src={`${IMAGE_PATH}${value.image}`}
                                 alt=""
                                 className="sm:h-16 sm:w-16 h-auto w-36 cursor-pointer"
-                                href={`/profile/` + value.id}
+                                href={`/profile/` + value.company_name.replaceAll(" ", "-").toLowerCase()}
                               />
                             </Link>
                           </div>
                           <div className="">
                             <h4 className="text-[1.2rem] md:text-lg font-[500] cursor-pointer">
-                              <Link href={`/profile/` + value.id}>
+                              <Link href={`/profile/` + value.company_name.replaceAll(" ", "-").toLowerCase()}>
                                 {" "}
                                 {value.company_name}
                               </Link>
@@ -730,7 +730,7 @@ const Page = ({ params }) => {
                           <h5 className="text-sm font-[500]">{value.name}</h5>
                           <Link
                             className="text-sm font-[600] text-[#12937C] "
-                            href={`/profile/` + value.id}
+                            href={`/profile/` + value.company_name.replaceAll(" ", "-").toLowerCase()}
                           >
                             Read More
                           </Link>
@@ -738,7 +738,7 @@ const Page = ({ params }) => {
                         <div>
                           <Link
                             className="text-md font-[600] mt-1 cursor-pointer"
-                            href={`/profile/` + value.id}
+                            href={`/profile/` + value.company_name.replaceAll(" ", "-").toLowerCase()}
                           >
                             {value.projects} projects
                           </Link>
