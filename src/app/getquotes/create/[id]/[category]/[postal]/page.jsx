@@ -1,8 +1,5 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import "../../../../../../style/GetQuotes.css";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import subcategoryService from "../../../../../../api/services/subcategoryService";
@@ -38,9 +35,18 @@ function GetQuotes({ params }) {
   const [validInput, setValidInput] = useState({
     isValidEmail: false,
     isNameEntered: false,
+    isPostalCode: false,
     isStreetEntered: false,
     isPhoneEntered: false,
   });
+
+  const handlePostalChange = (e) => {
+    const inputPostal = e.target.value;
+    const postalCoderegex = /^[A-Z]\d[A-Z] \d[A-Z]\d$/;
+    if (postalCoderegex.test(inputPostal)) {
+      requestData.postal_code(inputPostal);
+    }
+  };
 
   const [selectedType, setSelectedType] = useState("");
 
@@ -60,26 +66,6 @@ function GetQuotes({ params }) {
 
   // const searchParams = useSearchParams();
   // const params = new URLSearchParams(searchParams.search);
-
-  const handleNameChange = (e) => {
-    const inputName = e.target.value;
-    setUserData((data) => ({ ...data, name: inputName }));
-    setValidInput((prevState) => ({
-      ...prevState,
-      isNameEntered: inputName.trim() !== "",
-    }));
-  };
-
-  const handleEmailChange = (e) => {
-    const inputEmail = e.target.value;
-    setUserData((data) => ({ ...data, email: inputEmail }));
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    setValidInput((prevState) => ({
-      ...prevState,
-      isValidEmail: emailRegex.test(inputEmail),
-    }));
-  };
 
   const handleUserDataChange = (e) => {
     setUserData((data) => ({ ...data, [e.target.name]: e.target.value }));
@@ -106,21 +92,6 @@ function GetQuotes({ params }) {
         isPhoneEntered: canadianPhoneRegex.test(e.target.value),
       }));
     }
-  };
-
-  const handleStreetChange = (e) => {
-    const inputStreet = e.target.value;
-    setUserData((data) => ({ ...data, street: inputStreet }));
-  };
-
-  const handlePhoneChange = (e) => {
-    const inputPhone = e.target.value;
-    const canadianPhoneRegex = /^(\+1)?\d{10}$/;
-    setUserData((data) => ({ ...data, phone: inputPhone }));
-    setValidInput((prevState) => ({
-      ...prevState,
-      isPhoneEntered: canadianPhoneRegex.test(inputPhone),
-    }));
   };
 
   const handleInputChange = (event) => {
@@ -283,18 +254,39 @@ function GetQuotes({ params }) {
         </center>
       ) : (
         <section className="bg-gray-50">
-          <div className="flex w-[screen] md:w-[800px] flex-col items-center justify-center px-6 py-8 mx-auto h-[screen] lg:py-0 md:mt-20 mt-10">
-            <div className="grid  grid-cols-1 align-items-start grid-rows-auto">
-              <h5 className="text-xl md:text-3xl font-bold leading-tight tracking-tight text-gray-700">
+          <div className="flex w-[screen] md:w-[700px] flex-col items-center justify-center px-6 mx-auto h-[screen] lg:py-0 md:pt-28px pt-10">
+            {requestData.postal_code === null ? null : (
+              <div className="md:pt-10 pt-5 text-left  w-[screen] md:w-[700px] mx-auto">
+                <h2 className="text-xl md:text-2xl font-bold text-gray-700">
+                  Postal Code
+                </h2>
+                <input
+                  type="text"
+                  id="postal"
+                  class="w-[screen]  md:w-[700px] block p-5 ps-10 text-md md:text-xl border  mt-3  border-gray-400 rounded-md bg-gray-50 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black "
+                  placeholder="Postal Code"
+                  value={requestData.postal_code}
+                  onChange={(e) => handlePostalChange(e)}
+                  required
+                  style={{
+                    "@media (max-width: 768px)": {
+                      borderColor: "red",
+                    },
+                  }}
+                />
+              </div>
+            )}
+            <div className="grid  grid-cols-1 align-items-start grid-rows-auto md:pt-10 pt-5">
+              <h5 className="text-xl md:text-2xl font-bold leading-tight tracking-tight text-gray-700">
                 What do you need done?
               </h5>
-              <p className="text-md md:text-xl text-gray-600">
+              <p className="text-base md:text-lg text-gray-600 pb-4">
                 Choose a task that best describes the work you need done on your
                 home
               </p>
-              <div className="md:w-[800px] w-[screen] bg-white  rounded-lg shadow dark:border md:mt-0 md:mx-auto xl:p-0">
-                <form class="flex w-[800px] items-center w-[screen] justify-center dark:border-gray-700 my-4">
-                  <div class="relative w-full items-center justify-center ml-5 ">
+              <div className="md:w-[700px] w-[screen] bg-white  rounded-lg shadow dark:border md:mt-0 md:mx-auto xl:p-0">
+                <form class="flex items-center w-[screen] justify-center dark:border-gray-700 my-4">
+                  <div class="relative w-full items-center justify-center md:mx-5 mx-2">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                       <svg
                         class="w-10 h-10 text-gray-500 dark:text-gray-400"
@@ -315,7 +307,7 @@ function GetQuotes({ params }) {
                     <input
                       type="search"
                       id="default-search"
-                      class="input_search block p-5 ps-10 text-md md:text-xl border  mt-3  border-gray-400 rounded-md bg-gray-50 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black "
+                      class="w-[100%] block px-4 py-3 ps-10 text-base md:text-xl border placeholder:text-lg  mt-2  border-gray-400 rounded-md bg-gray-50 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black "
                       placeholder="Search for a task"
                       value={searchQuery}
                       onChange={handleInputChange}
@@ -329,10 +321,10 @@ function GetQuotes({ params }) {
                   </div>
                 </form>
 
-                <div className="p-4 space-y-4 md:space-y-6 md:p-8  text-black">
+                <div className="p-4 space-y-4 md:space-y-6 md:py-4 md:px-8  text-black">
                   {subcategories.map((value, index) => (
                     <div
-                      className="flex items-center border-b pb-4"
+                      className="flex items-center border-b pb-3"
                       key={index}
                     >
                       <input
@@ -340,7 +332,7 @@ function GetQuotes({ params }) {
                         type="radio"
                         value={value.id}
                         name="default-radio"
-                        className="w-5 h-5 mr-3 text-blue-600 border-gray-500  bg-gray-100 focus:ring-blue-500"
+                        className="w-4 h-4 mr-3 text-blue-600 border-gray-500  bg-gray-100 focus:ring-blue-500"
                         onChange={(e) => {
                           console.log(e);
                           console.log(e.target);
@@ -353,7 +345,7 @@ function GetQuotes({ params }) {
                       />
                       <label
                         htmlFor={`radio-${index}`}
-                        className="ms-2 md:w-[700px] w-[screen] md:text-2xl text-md font-normal text-gray-500"
+                        className="ms-2 md:w-[700px] w-[screen] md:text-xl text-base font-normal text-gray-500"
                       >
                         {value.name}
                       </label>
@@ -363,11 +355,11 @@ function GetQuotes({ params }) {
               </div>
               <button
                 onClick={() => setNextBox({ ...nextBox, showNextBox: true })}
-                className={`md:w-[800px] w-[screen] text-white ${
+                className={`md:w-[700px] w-[screen] text-white ${
                   requestData.subcategory
                     ? "bg-emerald-600 hover:bg-emerald-800 focus:outline-none "
                     : "bg-gray-300 cursor-not-allowed"
-                } font-bold rounded-lg md:my-5 text-xl  md:text-2xl md:px-5 md:py-5 px-3 py-3 text-center bg-emerald-500 hover:bg-emerald-800 `}
+                } font-bold rounded-lg md:my-5 text-lg  md:text-xl md:px-5 md:py-4 px-3 py-3 text-center bg-emerald-500 hover:bg-emerald-800 `}
                 disabled={!requestData.subcategory}
               >
                 Next
@@ -377,13 +369,13 @@ function GetQuotes({ params }) {
           {nextBox.showNextBox && (
             <div
               ref={nextBoxRef}
-              className="flex w-[screen] md:w-[800px]  flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+              className="flex w-[screen] md:w-[700px]  flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
             >
               <div className="grid grid-cols-1 align-items-start grid-rows-auto ">
-                <h5 className="md:text-3xl text-xl font-bold leading-tight tracking-tight text-gray-700">
+                <h5 className="md:text-2xl text-xl font-bold leading-tight tracking-tight text-gray-700 pb-4">
                   What type of home do you live in?
                 </h5>
-                <div className="w-[screen]  md:w-[800px] bg-white rounded-lg shadow dark:border  md:mt-0 xl:p-0">
+                <div className="w-[screen]  md:w-[700px] bg-white rounded-lg shadow dark:border  md:mt-0 xl:p-0">
                   <div className="p-4 w-[screen] space-y-4 md:space-y-6 md:p-8 text-black">
                     <div className=" items-center justify-center flex flex-wrap ">
                       <div className="mx-5 my-3 items-center grid justify-center ">
@@ -412,7 +404,7 @@ function GetQuotes({ params }) {
                             alt="imageHome"
                           />
                         </div>{" "}
-                        <label className="mx-auto items-center flex justify-center text-lg md:text-2xl  font-normal text-gray-500">
+                        <label className="mx-auto items-center flex justify-center text-lg md:text-xl  font-normal text-gray-500">
                           Detached / Semi-Detached Home
                         </label>
                       </div>
@@ -444,7 +436,7 @@ function GetQuotes({ params }) {
                             alt="imageHome"
                           />
                         </div>
-                        <label className="mx-auto items-center flex justify-center text-lg md:text-2xl font-normal text-gray-500">
+                        <label className="mx-auto items-center flex justify-center text-lg md:text-xl font-normal text-gray-500">
                           Condo / Townhouse
                         </label>
                       </div>
@@ -453,11 +445,11 @@ function GetQuotes({ params }) {
                 </div>
                 <button
                   onClick={() => setNextBox({ ...nextBox, showThirdBox: true })}
-                  className={`md:w-[800px] w-[screen] text-white ${
+                  className={`md:w-[700px] w-[screen] text-white ${
                     requestData.home_type
                       ? "bg-emerald-600 hover:bg-emerald-800 focus:outline-none"
                       : "bg-gray-300 cursor-not-allowed"
-                  } font-bold rounded-lg md:my-5 text-xl  md:text-2xl md:px-5 md:py-5 px-3 py-3 text-center bg-emerald-500 hover:bg-emerald-800 `}
+                  } font-bold rounded-lg md:my-5 text-lg  md:text-xl md:px-5 md:py-4 px-3 py-3 text-center bg-emerald-500 hover:bg-emerald-800 `}
                   disabled={!requestData.home_type}
                 >
                   Next
@@ -468,17 +460,17 @@ function GetQuotes({ params }) {
           {nextBox.showThirdBox && (
             <div
               ref={thirdBoxRef}
-              className="flex flex-col md:w-[800px] w-[screen] items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+              className="flex flex-col md:w-[700px] w-[screen] items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
             >
               <div className="grid grid-cols-1 align-items-start grid-rows-auto">
-                <h5 className="md:text-3xl text-xl font-bold leading-tight tracking-tight text-gray-900 ">
+                <h5 className="md:text-2xl text-xl font-bold leading-tight tracking-tight text-gray-900 pb-4">
                   When do you want to start this project?
                 </h5>
-                <div className="md:w-[800px] w-[screen] bg-white rounded-lg shadow dark:border md:mt-0 xl:p-0">
-                  <div className="p-4 w-[800px] space-y-4 md:space-y-6  md:p-8 text-black ">
+                <div className="md:w-[700px] w-[screen] bg-white rounded-lg shadow dark:border md:mt-0 xl:p-0">
+                  <div className="p-4 space-y-4 md:space-y-6  md:p-8 text-black ">
                     {SecoundradioData.map((option, index) => (
                       <div
-                        className="flex items-center border-b pb-4"
+                        className="flex items-center border-b pb-3"
                         key={index}
                       >
                         <input
@@ -486,7 +478,7 @@ function GetQuotes({ params }) {
                           type="radio"
                           value={option}
                           name="third-default-radio"
-                          className="w-5 h-5 mr-3 text-blue-600 bg-gray-500 border-gray-300 focus:ring-blue-500"
+                          className="w-4 h-4 mr-3 text-blue-600 bg-gray-500 border-gray-300 focus:ring-blue-500"
                           onChange={(e) =>
                             setRequestData((data) => ({
                               ...data,
@@ -496,7 +488,7 @@ function GetQuotes({ params }) {
                         />
                         <label
                           htmlFor={`third-radio-${index}`}
-                          className="ms-2 md:w-[700px] w-[screen] md:text-2xl text-md font-normal text-gray-500"
+                          className="ms-2 md:w-[700px] w-[screen] md:text-xl text-md font-normal text-gray-500"
                         >
                           {option}
                         </label>
@@ -508,7 +500,7 @@ function GetQuotes({ params }) {
                   onClick={() =>
                     setNextBox({ ...nextBox, showFourthBox: true })
                   }
-                  className={`md:w-[800px] text-xl  md:text-2xl md:px-5 md:py-5 px-3 py-3 w-[screen] text-white ${
+                  className={`md:w-[700px] text-lg  md:text-xl md:px-5 md:py-4 px-3 py-3 w-[screen] text-white ${
                     requestData.time
                       ? "bg-emerald-600 hover:bg-emerald-800 focus:outline-none"
                       : "bg-gray-300 cursor-not-allowed"
@@ -523,16 +515,16 @@ function GetQuotes({ params }) {
           {nextBox.showFourthBox && (
             <div
               ref={fourthBoxRef}
-              className="flex w-[screen] md:w-[800px] sm:w-[600px]  flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+              className="flex w-[screen] md:w-[700px] sm:w-[600px]  flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
             >
               <div className="grid grid-cols-1 align-items-start grid-rows-auto">
-                <h5 className="text-xl md:text-3xl font-bold leading-tight tracking-tight text-gray-700 ">
+                <h5 className="text-xl md:text-2xl font-bold leading-tight tracking-tight text-gray-700 ">
                   Provide some details about your project
                 </h5>
-                <p className="text-md md:text-xl text-gray-600">
+                <p className="text-base md:text-lg text-gray-600 pb-4">
                   This step is optional
                 </p>
-                <div className="w-[screen] sm:w-[600px] md:w-[800px]  bg-white rounded-lg shadow dark:border md:mt-0 xl:p-0">
+                <div className="w-[screen] sm:w-[600px] md:w-[700px]  bg-white rounded-lg shadow dark:border md:mt-0 xl:p-0">
                   <textarea
                     onChange={(e) =>
                       setRequestData((data) => ({
@@ -542,13 +534,13 @@ function GetQuotes({ params }) {
                     }
                     id="message"
                     rows="4"
-                    class="block p-2.5 w-full text-md md:text-xl  text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
+                    class="block p-2.5 w-full text-base md:text-xl  text-gray-900 placeholder:text-lg bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                     placeholder="Let the pros know about your project scope (ex. number of rooms), budget, materials you'd like, etc. The more details the better."
                   ></textarea>
                 </div>
                 <button
                   onClick={() => setNextBox({ ...nextBox, showFifthBox: true })}
-                  className="md:w-[800px] text-xl  md:text-2xl md:px-5 md:py-5 px-3 py-3 w-[screen] text-white bg-emerald-600 hover:bg-emerald-800 focus:outline-none font-bold rounded-lg text-center md:my-5"
+                  className="md:w-[700px] text-lg  md:text-xl md:px-5 md:py-4 px-3 py-3 w-[screen] text-white bg-emerald-600 hover:bg-emerald-800 focus:outline-none font-bold rounded-lg text-center md:my-5"
                 >
                   Next
                 </button>
@@ -559,20 +551,20 @@ function GetQuotes({ params }) {
           {nextBox.showFifthBox && (
             <div
               ref={fifthBoxRef}
-              className="flex flex-col md:w-[800px] w-[screen] items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+              className="flex flex-col md:w-[700px] w-[screen] items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
             >
               <div className="grid grid-cols-1 align-items-start grid-rows-auto">
-                <h5 className="md:text-3xl text-xl font-bold leading-tight tracking-tight text-gray-900 ">
+                <h5 className="md:text-2xl text-xl font-bold leading-tight tracking-tight text-gray-900 pb-4">
                   Lastly, enter your contact details. We’ll send your request to
                   up to 5 pros.
                 </h5>
-                <div className="md:w-[800px] w-[screen] bg-white rounded-lg shadow dark:border md:mt-0 xl:p-0">
-                  <div className="p-4 md:w-[800px] w-[screen] space-y-4 md:space-y-6 md:p-8 text-black">
+                <div className="md:w-[700px] w-[screen] bg-white rounded-lg shadow dark:border md:mt-0 xl:p-0">
+                  <div className="p-4 md:w-[700px] w-[screen] space-y-4 md:space-y-6 md:p-8 text-black">
                     <form class="w-full mx-auto">
                       <div className="mb-5">
                         <label
                           htmlFor="name"
-                          className="block mb-2 md:text-2xl text-md font-normal text-gray-500"
+                          className="block mb-2 md:text-xl text-base font-normal text-gray-500"
                         >
                           Full Name
                         </label>
@@ -584,7 +576,7 @@ function GetQuotes({ params }) {
                             validInput.isNameEntered
                               ? "border-gray-400"
                               : "border-red-700"
-                          } text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-lg `}
+                          } text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-base `}
                           placeholder="Your Name"
                           value={userData.name}
                           onChange={handleUserDataChange}
@@ -599,7 +591,7 @@ function GetQuotes({ params }) {
                       <div className="mb-5">
                         <label
                           htmlFor="email"
-                          className="block mb-2 md:text-2xl text-md font-normal text-gray-500"
+                          className="block mb-2 md:text-xl text-md font-normal text-gray-500"
                         >
                           Email Address
                         </label>
@@ -611,7 +603,7 @@ function GetQuotes({ params }) {
                             validInput.isValidEmail
                               ? "border-gray-400"
                               : "border-red-700"
-                          } text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-lg `}
+                          } text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-base `}
                           placeholder="Your Email Address"
                           value={userData.email}
                           onChange={handleUserDataChange}
@@ -638,7 +630,7 @@ function GetQuotes({ params }) {
                             validInput.isStreetEntered
                               ? "border-gray-400"
                               : "border-red-700"
-                          } text-gray-600 placeholder-gray-400 text-sm md:text-md rounded-md block w-full p-3  placeholder:text-lg `}
+                          } text-gray-600 placeholder-gray-400 text-sm md:text-md rounded-md block w-full p-3  placeholder:text-base `}
                           placeholder="Your Street Address"
                           value={userData.street}
                           onChange={handleUserDataChange}
@@ -653,7 +645,7 @@ function GetQuotes({ params }) {
                       <div className="mb-5">
                         <label
                           htmlFor="phone"
-                          className="block mb-2 md:text-2xl text-md font-normal text-gray-500"
+                          className="block mb-2 md:text-xl text-md font-normal text-gray-500"
                         >
                           Phone
                         </label>
@@ -665,7 +657,7 @@ function GetQuotes({ params }) {
                             validInput.isPhoneEntered
                               ? "border-gray-400"
                               : "border-red-700"
-                          } text-gray-600 placeholder-gray-400 text-sm md:text-md rounded-md block w-full p-3 placeholder:text-lg`}
+                          } text-gray-600 placeholder-gray-400 text-sm md:text-md rounded-md block w-full p-3 placeholder:text-base`}
                           placeholder="Your Phone"
                           value={userData.phone}
                           onChange={handleUserDataChange}
@@ -684,7 +676,7 @@ function GetQuotes({ params }) {
                   type="submit"
                   class="text-white bg-emerald-600 hover:bg-emerald-800
       focus:outline-none
-       font-medium rounded-lg md:mt-5 md:mb:2 text-xl  md:text-2xl md:px-5 md:py-5 px-3 py-3 md:w-[800px] w-[screen] text-center"
+       font-medium rounded-lg md:mt-5 md:mb:2 text-lg  md:text-xl md:px-5 md:py-4 px-3 py-3 md:w-[700px] w-[screen] text-center"
                 >
                   Submit
                 </button>

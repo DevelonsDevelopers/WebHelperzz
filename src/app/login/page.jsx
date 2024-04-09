@@ -162,7 +162,6 @@ const Page = () => {
                   <div className="flex items-center pb-3 mx-auto justify-center">
                     <p className="mb-0 me-2">Don&apos;t have an account?</p>
                     <p
-                      // href={"/signup"}
                       onClick={() => navigate.push("/signup")}
                       className="inline-block rounded
                       text-[#27a9e1] text-base cursor-pointer"
@@ -173,8 +172,7 @@ const Page = () => {
 
                   <div className="flex items-center pb-6 mx-auto justify-center">
                     <p
-                      // href={"/signup"}
-                      onClick={() => navigate.push("/signup")}
+                      onClick={() => navigate.push("/")}
                       className="inline-block rounded
                       text-[#27a9e1] text-base cursor-pointer"
                     >

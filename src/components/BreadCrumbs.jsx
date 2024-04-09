@@ -25,7 +25,7 @@ const BreadCrumbs = ({ details }) => {
           style={{ color: "#000", fontSize: 20 }}
           underline="hover"
           color="inherit"
-          href="/"
+          href={`/category/on/toronto/${details?.details?.tag}`}
         >
           {details?.details?.category_name}
         </Link>

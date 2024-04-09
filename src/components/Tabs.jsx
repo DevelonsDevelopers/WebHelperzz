@@ -92,20 +92,22 @@ function SubReview(props) {
           <p className="md:text-[16px] text-sm md:font-[550] flex sm:pt-4 sm:pl-8 pl-4 mt-4 mr-10 lg:mr-0 text-gray-700">
             {reviewText}
           </p>
-          <div className="sm:pl-12 pl-6 pt-4 flex-wrap">
-            <p className="flex md:text-xl text-lg font-bold ">
-              Company response{" "}
-              <span className="ml-2" style={{ color: "black" }}>
-                <FaChevronDown />
-              </span>
-            </p>{" "}
-            <p className="md:text-[17px] text-sm mt-2 sm:pl-5 pl-3  md:font-[550] font-[500] text-gray-700">
-              Hello {name}
-            </p>
-            <p className="md:text-[17px] text-sm md:font-[550] sm:pl-5 pl-3 sm:mr-0 mr-10 font-[500] text-gray-700">
-              {companyResponse}{" "}
-            </p>
-          </div>
+          {companyResponse !== null && (
+            <div className="sm:pl-12 pl-6 pt-4 flex-wrap">
+              <p className="flex md:text-xl text-lg font-bold ">
+                Company response{" "}
+                <span className="ml-2" style={{ color: "black" }}>
+                  <FaChevronDown />
+                </span>
+              </p>{" "}
+              <p className="md:text-[17px] text-sm mt-2 sm:pl-5 pl-3  md:font-[550] font-[500] text-gray-700">
+                Hello {name}
+              </p>
+              <p className="md:text-[17px] text-sm md:font-[550] sm:pl-5 pl-3 sm:mr-0 mr-10 font-[500] text-gray-700">
+                {companyResponse}{" "}
+              </p>
+            </div>
+          )}
         </div>
         <div className="flex-col justify-between w-[35%]">
           <Slider {...settings} ref={sliderRef}>

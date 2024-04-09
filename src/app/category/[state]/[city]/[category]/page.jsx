@@ -638,35 +638,44 @@ const Page = ({ params }) => {
                       className="bg-[#F7F9FB] sm:p-4 p-1 flex max-md:flex-col items-center gap-5 mb-5"
                     >
                       <div className="">
-                        {value.cover ?
-                        <img
-                          src={`${IMAGE_PATH}${value.cover}`}
-                          className={`h-[250px] w-[250px] object-cover`}
-                          alt=""
-                          height={250}
-                          width={550}
-                        />
-                            :
+                        <Link href={`/profile/` + value.id}>
+                          {value.cover ? (
+                            <img
+                              src={`${IMAGE_PATH}${value.cover}`}
+                              className={`h-[250px] w-[250px] object-cover cursor-pointer`}
+                              alt=""
+                              height={250}
+                              width={550}
+                            />
+                          ) : (
                             <Image
-                                src={imgThumb}
-                                className={`h-[250px] w-[250px]`}
-                                alt=""
-                                height={250}
-                                width={550}
-                            />}
+                              src={imgThumb}
+                              className={`h-[250px] w-[250px]`}
+                              alt=""
+                              height={250}
+                              width={550}
+                            />
+                          )}
+                        </Link>
                       </div>
                       <div className="w-[80%]">
                         <div className="flex gap-2">
                           <div className="bg-white p-3 rounded-full">
-                            <img
-                              src={`${IMAGE_PATH}${value.image}`}
-                              alt=""
-                              className="sm:h-16 sm:w-16 h-auto w-36"
-                            />
+                            <Link href={`/profile/` + value.id}>
+                              <img
+                                src={`${IMAGE_PATH}${value.image}`}
+                                alt=""
+                                className="sm:h-16 sm:w-16 h-auto w-36 cursor-pointer"
+                                href={`/profile/` + value.id}
+                              />
+                            </Link>
                           </div>
                           <div className="">
-                            <h4 className="text-[1.2rem] md:text-lg font-[500] ">
-                              {value.company_name}
+                            <h4 className="text-[1.2rem] md:text-lg font-[500] cursor-pointer">
+                              <Link href={`/profile/` + value.id}>
+                                {" "}
+                                {value.company_name}
+                              </Link>
                             </h4>
                             <div className="flex flex-wrap">
                               {value.trust_seal ? (
@@ -726,9 +735,14 @@ const Page = ({ params }) => {
                             Read More
                           </Link>
                         </div>
-                        <h4 className="text-md font-[600] mt-1">
-                          {value.projects} projects
-                        </h4>
+                        <div>
+                          <Link
+                            className="text-md font-[600] mt-1 cursor-pointer"
+                            href={`/profile/` + value.id}
+                          >
+                            {value.projects} projects
+                          </Link>
+                        </div>
                         <button className="py-2 px-5 mt-4 bg-[#12937C] text-white text-md rounded-[10px] text-opacity-70 cursor-pointer hover:bg-opacity-80 font-[600]">
                           Send Message
                         </button>

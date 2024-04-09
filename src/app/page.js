@@ -184,6 +184,8 @@ function Home() {
   const getCategories = async () => {
     try {
       const response = await categoryService.fetchAll();
+      console.log(response);
+
       setCategories(response.categories);
       setCategoryLoading(false);
       setTopCategoryLoading(false);
@@ -310,6 +312,7 @@ function Home() {
     ],
   };
 
+  console.log(options);
   const categoryPrevSlide = () => {
     categoriesSliderRef.current.slickPrev();
   };

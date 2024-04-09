@@ -28,7 +28,7 @@ function Page({ params }) {
       console.log(ID);
       console.log(response);
       setDetails(response.data);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -43,20 +43,20 @@ function Page({ params }) {
   return (
     <>
       <Header />
-      {loading ?
-        <Loading/>
-          :
-      <Suspense fallback={<p>Loading feed...</p>}>
-        <div className="pt-14">
-          <div className="profile_container max-w-[1200px] mx-auto  px-6  pt-10 md:pt-32">
-            <BreadCrumbs details={details} />
+      {loading ? (
+        <Loading />
+      ) : (
+        <Suspense fallback={<p>Loading feed...</p>}>
+          <div className="pt-14">
+            <div className="profile_container max-w-[1200px] mx-auto  px-6  pt-10 md:pt-32">
+              <BreadCrumbs details={details} />
+            </div>
+            <div className="mt-14">
+              <Tabs id={ID} details={details} />
+            </div>
           </div>
-          <div className="mt-14">
-            <Tabs id={ID} details={details} />
-          </div>
-        </div>
-      </Suspense>
-      }
+        </Suspense>
+      )}
       <Footer />
     </>
   );
