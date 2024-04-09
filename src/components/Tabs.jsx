@@ -78,7 +78,7 @@ function SubReview(props) {
               {title}
             </p>
             <div className="flex my-2">
-              <Rating value={rating} style={{ color: "#12937C" }} readOnly />
+              <Rating value={parseInt(rating)} style={{ color: "#12937C" }} readOnly />
             </div>
           </div>
         </div>
@@ -169,9 +169,9 @@ export default function Tabs({ id, details }) {
     if (details) {
       let rating = 0;
       for (const review of details.reviews) {
-        rating = rating + parseInt(review.rating);
+        rating = rating + parseFloat(review.rating);
       }
-      setGivenRating(rating / details?.reviews?.length);
+      setGivenRating(rating / parseFloat(details?.reviews?.length));
     }
   }, [details]);
 
@@ -199,15 +199,15 @@ export default function Tabs({ id, details }) {
   //   fetchData();
   // }, []);
 
-  useEffect(() => {
-    if (details) {
-      let rating = 0;
-      for (const review of details.reviews) {
-        rating = rating + parseInt(review.rating);
-      }
-      setGivenRating(rating / details?.reviews?.length);
-    }
-  }, [details]);
+  // useEffect(() => {
+  //   if (details) {
+  //     let rating = 0;
+  //     for (const review of details.reviews) {
+  //       rating = rating + parseFloat(review.rating);
+  //     }
+  //     setGivenRating(rating / parseFloat(details?.reviews?.length));
+  //   }
+  // }, [details]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
