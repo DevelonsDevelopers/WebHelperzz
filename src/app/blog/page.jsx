@@ -2,21 +2,19 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Header from "../../components/Header";
-
 import Image from "next/image";
-
 import worker from "/public/assets/worker.png";
 import women from "/public/assets/women.png";
 import Loading from "../../components/loading";
 import costGuideService from "../../api/services/costGuideService";
 import contractorService from "../../api/services/contractorService";
 import { IMAGE_PATH } from "../../api/BaseUrl";
-
 import "../../style/Home.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Footer } from "@/components/Footer";
 
 function Costgguides(props) {
   const { buttonText, title } = props;
@@ -143,12 +141,19 @@ const updates = [
 
 const Blog = () => {
   const [selected, setSelected] = useState(0);
+  const featuredRef = useRef(null);
+  const improvementsRef = useRef(null);
+  const designRef = useRef(null);
+  const updatesRef = useRef(null);
   const [guideLoading, setGuideLoading] = useState(true);
   const [costGuides, setCostGuides] = useState([]);
   const [contractorLoading, setContractorLoading] = useState(true);
   const topHelperzzSliderRef = useRef(null);
   const [contractors, setContractors] = useState([]);
 
+  const scrollToSection = (ref) => {
+    ref.current.scrollIntoView({ behavior: "smooth" });
+  };
   const getCostGuides = async () => {
     try {
       const response = await costGuideService.fetchAll();
@@ -228,21 +233,54 @@ const Blog = () => {
         </div>
         <div className="bg-[#12937C1A]  mx-auto justify-center items-center">
           <div className="grid grid-cols-4 max-md:grid-cols-2 lg:w-[1100px] w-screen m-auto mt-6 p-4 gap-10">
-            {points?.map((value, index) => (
-              <h1
-                key={index}
-                className={` font-[500] text-[1.1rem] text-center p-[4px] rounded-xl cursor-pointer ${
-                  index === selected ? "bg-white text-[#12937C]" : ""
-                }  `}
-                onClick={() => setSelected(index)}
-              >
-                {value?.name}
-              </h1>
-            ))}
+            <h1
+              className={` font-[500] text-[1.1rem] text-center p-[4px] rounded-xl cursor-pointer ${
+                selected === 0 ? "bg-white text-[#12937C]" : ""
+              }  `}
+              onClick={() => {
+                setSelected(0);
+                scrollToSection(featuredRef);
+              }}
+            >
+              Featured
+            </h1>
+            <h1
+              className={` font-[500] text-[1.1rem] text-center p-[4px] rounded-xl cursor-pointer ${
+                selected === 1 ? "bg-white text-[#12937C]" : ""
+              }  `}
+              onClick={() => {
+                setSelected(1);
+                scrollToSection(improvementsRef);
+              }}
+            >
+              Improvements
+            </h1>
+            <h1
+              className={` font-[500] text-[1.1rem] text-center p-[4px] rounded-xl cursor-pointer ${
+                selected === 2 ? "bg-white text-[#12937C]" : ""
+              }  `}
+              onClick={() => {
+                setSelected(2);
+                scrollToSection(designRef);
+              }}
+            >
+              Design
+            </h1>
+            <h1
+              className={` font-[500] text-[1.1rem] text-center p-[4px] rounded-xl cursor-pointer ${
+                selected === 3 ? "bg-white text-[#12937C]" : ""
+              }  `}
+              onClick={() => {
+                setSelected(3);
+                scrollToSection(updatesRef);
+              }}
+            >
+              Updates
+            </h1>
           </div>
         </div>
 
-        <div className="lg:w-[1100px] w-screen m-auto py-10">
+        <div ref={featuredRef} className="lg:w-[1100px] w-screen m-auto py-10">
           <h1 className="text-[28px] font-bold pb-7">Featured</h1>
 
           <div className="flex max-md:flex-col flex-wrap w-full md:w-[100%] gap-10">
@@ -340,7 +378,7 @@ const Blog = () => {
 
         {/* 3rd section ======== */}
 
-        <div className="py-10  lg:w-[1100px] w-screen mx-auto">
+        <div ref={designRef} className="py-10  lg:w-[1100px] w-screen mx-auto">
           <h1 className="text-[28px] font-[600] pb-7">Design</h1>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-md:w-[90%] max-md:m-auto">
@@ -370,7 +408,10 @@ const Blog = () => {
 
         {/* 4rd section ======== */}
 
-        <div className="py-10 lg:w-[1100px] w-screen mx-auto">
+        <div
+          ref={improvementsRef}
+          className="py-10 lg:w-[1100px] w-screen mx-auto"
+        >
           <h1 className="text-[28px] font-[600] pb-7">Improvement</h1>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-md:w-[90%] max-md:m-auto">
@@ -542,7 +583,7 @@ const Blog = () => {
         </div>
 
         {/* 8th section =========== */}
-        <div className="bg-[#F7F9FB] py-10 my-10 ">
+        <div ref={updatesRef} className="bg-[#F7F9FB] py-10 my-10 ">
           <div className="grid grid-cols-4 max-md:grid-cols-1 sm:w-[900px] w-screen m-auto gap-6">
             <div className="bg-[#12937C] rounded-3xl p-5 flex flex-col justify-between  ">
               <h1 className="text-[22px] font-semibold pt-3 text-white uppercase text-center max-md:text-[20px]">
@@ -625,7 +666,7 @@ const Blog = () => {
           </div>
         </div>
       </div>
-      {/* <Footer /> */}]
+      <Footer />
     </>
   );
 };
