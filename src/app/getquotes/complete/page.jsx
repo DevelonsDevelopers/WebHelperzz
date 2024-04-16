@@ -7,7 +7,7 @@ import Image from "next/image";
 export default function SentRequest() {
   return (
     <div>
-      <header>
+      <header className="w-[1300px] mx-auto justify-center">
         <Link href="/">
           <div className="w-32 md:mr-10 select-text logo p-4  h-[5vh] ">
             <Image src={imgLogo} alt="" width={150} height={100} />
@@ -53,14 +53,16 @@ export default function SentRequest() {
                 2. Hire your pro
               </div>
             </div>
-            <div className="flex flex-row md:flex-col justify-center max-auto items-center  mt-4  md:mt-0">
-              <div>
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAACXBIWXMAAAsTAAALEwEAmpwYAAACaklEQVR4nN2Xu2tUQRTGf/EJJhI0/g2JhdjoqviKz6hFSqtAMI1/hKXaJY1gIQgSEDFKWqNEwee6nYKFjU1EC4uQh0YR1Kwc+UYOl3uz95W96AfD3Z2Z7zvfztwzZxb+M2wDRvSsHC+App6V4rSMhHaqSjPPI2ZeVmXkeMRIaMeqMPPEGbjkPj9ut5H9LnhdfU9d3+F2mnnoAtt2GU64vul2GdkXsyoBz9zYwXaYue8C2mp4nHRjU2UH7tFKDAOXgckVViWg7uZMijcsnZ60Qc8CF4BxoAHMJqRuaAMJWgMteLPSH1c8i7s1kDcCH1sINF37BIy2+HFjmpdW0+JvMOImYDEyuAS8AiaAi8AQUAO6yYZu8YakMyHdpUi8Bfn4A6sp39zgNWANq4MO4IqL9R0YjE7qB764SddXwZAZuepifFUGxuIQ8NlNvgWsK8mI/bAbESPhwEyEHVbe0O0SDK1V9vh38miW2rPoyHeB9QWM3HRa9iocySqyF5h3Ine051nQIV7QmJduLuwG5pxYX0b+dsedk14hTDnBvydlSmxx3HuUgPcS+5CTH073maJGuoBliVm1zoMH4pvO5iJm9rhltnoTB8uynStk25jTML3cGHFC52IOMau47zRu23leqZxWIxNGnZDPBLtUvU6owG9lMhwDNTfWqtqnyqRfQKdOzUYk+A/gkZ6+v6H5neIXvv3NuBI/HQm2rAOtV3N79T288P5yvlA0o7pihEOzfwe7Eng7VD7ieLkzqhYjVtdVIw36I/fh0Ew3M/qAnxJ4E3cBSolB8ZvSC9uaGQeAMyVcsoxvOnYb+DfwGzYNFWdO0Od6AAAAAElFTkSuQmCC" />
+            <Link href="/">
+              <div className="flex flex-row md:flex-col justify-center max-auto items-center  mt-4  md:mt-0 cursor-pointer">
+                <div>
+                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAACXBIWXMAAAsTAAALEwEAmpwYAAACaklEQVR4nN2Xu2tUQRTGf/EJJhI0/g2JhdjoqviKz6hFSqtAMI1/hKXaJY1gIQgSEDFKWqNEwee6nYKFjU1EC4uQh0YR1Kwc+UYOl3uz95W96AfD3Z2Z7zvfztwzZxb+M2wDRvSsHC+App6V4rSMhHaqSjPPI2ZeVmXkeMRIaMeqMPPEGbjkPj9ut5H9LnhdfU9d3+F2mnnoAtt2GU64vul2GdkXsyoBz9zYwXaYue8C2mp4nHRjU2UH7tFKDAOXgckVViWg7uZMijcsnZ60Qc8CF4BxoAHMJqRuaAMJWgMteLPSH1c8i7s1kDcCH1sINF37BIy2+HFjmpdW0+JvMOImYDEyuAS8AiaAi8AQUAO6yYZu8YakMyHdpUi8Bfn4A6sp39zgNWANq4MO4IqL9R0YjE7qB764SddXwZAZuepifFUGxuIQ8NlNvgWsK8mI/bAbESPhwEyEHVbe0O0SDK1V9vh38miW2rPoyHeB9QWM3HRa9iocySqyF5h3Ine051nQIV7QmJduLuwG5pxYX0b+dsedk14hTDnBvydlSmxx3HuUgPcS+5CTH073maJGuoBliVm1zoMH4pvO5iJm9rhltnoTB8uynStk25jTML3cGHFC52IOMau47zRu23leqZxWIxNGnZDPBLtUvU6owG9lMhwDNTfWqtqnyqRfQKdOzUYk+A/gkZ6+v6H5neIXvv3NuBI/HQm2rAOtV3N79T288P5yvlA0o7pihEOzfwe7Eng7VD7ieLkzqhYjVtdVIw36I/fh0Ew3M/qAnxJ4E3cBSolB8ZvSC9uaGQeAMyVcsoxvOnYb+DfwGzYNFWdO0Od6AAAAAElFTkSuQmCC" />
+                </div>
+                <div className="text-lg md:font-normal font-bold mt-2 ml-3">
+                  3. Write a review
+                </div>
               </div>
-              <div className="text-lg md:font-normal font-bold mt-2 ml-3">
-                3. Write a review
-              </div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>

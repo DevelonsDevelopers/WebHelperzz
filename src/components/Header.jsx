@@ -10,7 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import { Fade } from "@mui/material";
+import { Fade, Select } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { FaChevronDown } from "react-icons/fa";
 const pages = ["Browse Categories", "Blog", "Write A review"];
@@ -18,6 +18,8 @@ import Image from "next/image";
 import imgLogo from "/public/assets/logo.png";
 import Signup from "../app/signup/page";
 import Login from "../app/login/page";
+
+import Autosuggest from "react-autosuggest";
 
 import categoryService from "../api/services/categoryService";
 import contractorService from "../api/services/contractorService";
@@ -28,29 +30,43 @@ function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [categories, setCategories] = useState();
-  const [contractors, setContractors] = useState();
-
+  const [categories, setCategories] = useState([]);
+  const [isValidPostalCode, setIsValidPostalCode] = useState(true);
+  const [postalCode, setPostalCode] = useState("");
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedError, setSelectedError] = useState(false);
   const open = Boolean(anchorEl);
   const openUser = Boolean(anchorElUser);
-
   const buttonRef = useRef(null);
   const [user, setUser] = useState(null);
+  const [value, setValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
   const navigate = useRouter();
-  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
-  const [isSignupDialogOpen, setIsSignupDialogOpen] = useState(false);
-  const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
 
-  const handleLoginOpenDialog = () => {
-    setIsLoginDialogOpen(true);
-  };
-  const handleSignupOpenDialog = () => {
-    setIsSignupDialogOpen(true);
+  const getSuggestions = (inputValue) => {
+    const inputValueLowerCase = inputValue.trim().toLowerCase();
+    return categories.filter(
+      (category) =>
+        category.name.toLowerCase().includes(inputValueLowerCase) ||
+        category.tag.toLowerCase().includes(inputValueLowerCase)
+    );
   };
 
-  const handleReviewOpenDialog = () => {
-    setIsReviewDialogOpen(true);
+  const onSuggestionsFetchRequested = ({ value }) => {
+    setSuggestions(getSuggestions(value));
+    setSelectedOption(value);
+    setSelectedError(false);
+  };
+
+  const handleSelectChange = (selectedOption) => {
+    setSelectedOption(selectedOption);
+    setSelectedError(false);
+  };
+
+  const handlePostalChange = (e) => {
+    const inputPostal = e.target.value;
+    setPostalCode(inputPostal);
   };
 
   const handleClick = (event) => {
@@ -65,6 +81,7 @@ function Header() {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -95,6 +112,32 @@ function Header() {
     }
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!selectedOption) {
+      setSelectedError(true);
+      return;
+    }
+
+    const postalCoderegex = /^[A-Z]\d[A-Z] \d[A-Z]\d$/;
+    setIsValidPostalCode(postalCoderegex.test(postalCode));
+
+    if (!postalCoderegex.test(postalCode)) {
+      return;
+    }
+    if (selectedOption && isValidPostalCode) {
+      console.log(selectedOption);
+      let postal = postalCode.replaceAll(" ", "-").toLowerCase();
+      navigate.push("/getquotes/create/" + value + "/" + postal);
+    }
+  };
+
+  const handleLogout = () => {
+    setAnchorElUser(null);
+    setUser(null);
+    localStorage.removeItem("HELPERZZ-USER");
+  };
+
   useEffect(() => {
     getCategories();
     getContractor();
@@ -108,12 +151,6 @@ function Header() {
       setUser(null);
     }
   }, []);
-
-  const handleLogout = () => {
-    setAnchorElUser(null);
-    setUser(null);
-    localStorage.removeItem("HELPERZZ-USER");
-  };
 
   return (
     <AppBar
@@ -372,19 +409,53 @@ function Header() {
               Write A review
             </Button> */}
 
-            <div className="flex bg-transparent border border-[#888888] w-auto min-h-9 items-center  rounded-xl ml-auto mr-4 px-2 h-fit lg:w-auto">
-              <input
-                type="text"
-                placeholder="Search for category or company"
-                className="placeholder:text-[#696969] text-[#696969] font-normal bg-transparent sm:text-xs ml-2 h-full outline-none w-8 sm:w-40 xl:w-auto "
-              />
-              <div className="text-transform : capitalize  text-xs border-l-2 border-r-2 b px-2  border-[#696969] font-normal text-[#696969] ml-2 flex items-center gap-2 sm:text-xs">
-                Oshawa{" "}
+            <div
+              className={`relative flex bg-transparent border  ${
+                selectedError || !isValidPostalCode
+                  ? "border-red-500"
+                  : "border-[#888888]"
+              } w-auto min-h-9 items-center  rounded-xl ml-auto mr-4 px-2 h-fit lg:w-auto`}
+            >
+              <div className="sm:w-48">
+                <div className="absolute z-50 top-1 ">
+                  <Autosuggest
+                    suggestions={suggestions}
+                    onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                    onSuggestionsClearRequested={() => setSuggestions([])}
+                    getSuggestionValue={(suggestion) => suggestion.name}
+                    renderSuggestion={(suggestion) => (
+                      <div className=" p-2 border-[1px] border-gray-400 sm:text-xs text-gray-800 bg-white cursor-pointer">
+                        {suggestion.name}
+                      </div>
+                    )}
+                    inputProps={{
+                      placeholder: "Search for category or company",
+                      value,
+                      onChange: (_, { newValue }) => setValue(newValue),
+                      className:
+                        "placeholder:text-[#696969] text-[#696969] font-normal bg-transparent sm:text-xs ml-2 h-full outline-none w-8 sm:w-48",
+                    }}
+                  />
+                </div>
               </div>
-              <div className="pl-2">
+              <div className="text-transform : capitalize  text-xs border-l-2 border-r-2 b px-2  border-[#696969] font-normal text-[#696969] ml-2 flex items-center gap-2 sm:text-xs">
+                <input
+                  type="text"
+                  placeholder="Postal Code"
+                  value={postalCode}
+                  onChange={(e) => handlePostalChange(e)}
+                  className={`placeholder:text-[#696969] text-[#696969] font-normal bg-transparent sm:text-xs ml-2 h-full outline-none  w-20 `}
+                />
+              </div>
+
+              <div
+                className="pl-2 cursor-pointer"
+                onClick={(e) => handleSubmit(e)}
+              >
                 <SearchIcon style={{ color: "#696969" }} />
               </div>
             </div>
+
             {user ? (
               <div>
                 <div

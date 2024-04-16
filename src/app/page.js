@@ -101,10 +101,14 @@ function CategoryCart(props) {
 }
 
 function Costgguides(props) {
-  const { buttonText, title } = props;
+  const { id, buttonText, title } = props;
+  const navigate = useRouter();
 
   return (
-    <div className="costguides_container">
+    <div
+      className="costguides_container"
+      onClick={() => navigate.push(`/costGuide/${id}`)}
+    >
       <div className="btn_guides">
         <p className="btn_text">{buttonText}</p>
       </div>
@@ -114,8 +118,6 @@ function Costgguides(props) {
 }
 
 function Home() {
-  const [zipcode, setZipcode] = useState("");
-  const [zipcodeData, setZipcodeData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -132,10 +134,7 @@ function Home() {
   const categoriesSliderRef = useRef(null);
   const blogsSliderRef = useRef(null);
   const reviewSliderRef = useRef(null);
-  const /* The above code appears to be a comment block in JavaScript. It mentions a variable or
-  function named "topHelperzzSliderRef" but does not provide any specific details about its
-  purpose or functionality. */
-    topHelperzzSliderRef = useRef(null);
+  const topHelperzzSliderRef = useRef(null);
   const [categoryLoading, setCategoryLoading] = useState(true);
   const [topCategoryLoading, setTopCategoryLoading] = useState(true);
   const [blogLoading, setBlogLoading] = useState(true);
@@ -249,25 +248,25 @@ function Home() {
   };
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 5,
     rows: 2,
-    slidesToScroll: 5,
+    slidesToScroll: 1,
     responsive: [
       {
         breakpoint: 2048,
         settings: {
           slidesToShow: 5,
-          slidesToScroll: 4,
+          slidesToScroll: 1,
         },
       },
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 3,
+          slidesToScroll: 1,
         },
       },
     ],
@@ -368,7 +367,7 @@ function Home() {
     ? contractors.slice(0, 2)
     : contractors;
   const TopHelperzzsettings = {
-    dots: true,
+    dots: false,
     infinite: displayedGuides.length > 1,
     speed: 500,
     slidesToShow: Math.min(3, displayedGuides.length),
@@ -412,13 +411,13 @@ function Home() {
     infinite: true,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToScroll: 1,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 3,
+          slidesToScroll: 1,
         },
       },
       {
@@ -643,6 +642,7 @@ function Home() {
                 {displayedGuides.map((value) => (
                   <Costgguides
                     key={value.id}
+                    id={value.id}
                     buttonText={value.subtitle}
                     title={value.title}
                   />

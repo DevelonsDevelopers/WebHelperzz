@@ -44,16 +44,16 @@ function GetQuotes({ params }) {
   const handlePostalChange = (e) => {
     const inputPostal = e.target.value;
     const postalCoderegex = /^[A-Z]\d[A-Z] \d[A-Z]\d$/;
-    setPostalCode(inputPostal)
+    setPostalCode(inputPostal);
     if (postalCoderegex.test(inputPostal)) {
-      setRequestData((data) => ({...data, postal_code: inputPostal}));
+      setRequestData((data) => ({ ...data, postal_code: inputPostal }));
       setValidInput((prevState) => ({
         ...prevState,
         isPostalCode: true,
       }));
-      setPostalError(false)
+      setPostalError(false);
     } else {
-      setPostalError(true)
+      setPostalError(true);
       setValidInput((prevState) => ({
         ...prevState,
         isPostalCode: false,
@@ -70,8 +70,8 @@ function GetQuotes({ params }) {
   const [category, setCategory] = useState();
   const [CATID, setCATID] = useState();
   const [subcategories, setSubcategories] = useState([]);
-  const [postalCode, setPostalCode] = useState()
-  const [postalError, setPostalError] = useState(false)
+  const [postalCode, setPostalCode] = useState();
+  const [postalError, setPostalError] = useState(false);
 
   const nextBoxRef = useRef(null);
   const thirdBoxRef = useRef(null);
@@ -83,13 +83,18 @@ function GetQuotes({ params }) {
   // const params = new URLSearchParams(searchParams.search);
 
   useEffect(() => {
-    getCategoryByTag()
+    getCategoryByTag();
   }, []);
 
   useEffect(() => {
     const u = JSON.parse(localStorage.getItem("HELPERZZ-USER"));
     if (u) {
-      setUserData({ name: u.name, email: u.email, phone: u.phone, street: u.address })
+      setUserData({
+        name: u.name,
+        email: u.email,
+        phone: u.phone,
+        street: u.address,
+      });
     }
   }, []);
 
@@ -148,14 +153,20 @@ function GetQuotes({ params }) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const canadianPhoneRegex = /^(\+1)?\d{10}$/;
     const postalCoderegex = /^[A-Z]\d[A-Z] \d[A-Z]\d$/;
-    let validation = { isNameEntered: userData.name.trim() !== "", isValidEmail: emailRegex.test(userData.email), isPhoneEntered: canadianPhoneRegex.test(userData.phone), isStreetEntered: userData.street.trim() !== "", isPostalCode: postalCoderegex.test(postalCode) }
-    setValidInput(validation)
+    let validation = {
+      isNameEntered: userData.name.trim() !== "",
+      isValidEmail: emailRegex.test(userData.email),
+      isPhoneEntered: canadianPhoneRegex.test(userData.phone),
+      isStreetEntered: userData.street.trim() !== "",
+      isPostalCode: postalCoderegex.test(postalCode),
+    };
+    setValidInput(validation);
     if (
-        validation.isValidEmail &&
-        validation.isNameEntered &&
-        validation.isStreetEntered &&
-        validation.isPhoneEntered &&
-        validation.isPostalCode
+      validation.isValidEmail &&
+      validation.isNameEntered &&
+      validation.isStreetEntered &&
+      validation.isPhoneEntered &&
+      validation.isPostalCode
     ) {
       setSubmitting(true);
       customerService.passwordLessCreate(userData).then((response) => {
@@ -209,15 +220,15 @@ function GetQuotes({ params }) {
 
   useEffect(() => {
     if (params.postal !== "any") {
-      let postal = params.postal?.replace("-", " ").toUpperCase()
-      setRequestData((data) => ({...data, postal_code: postal}));
-      setPostalCode(postal)
+      let postal = params.postal?.replace("-", " ").toUpperCase();
+      setRequestData((data) => ({ ...data, postal_code: postal }));
+      setPostalCode(postal);
     }
   }, []);
 
   useEffect(() => {
-    if (category){
-      setCATID(category.id)
+    if (category) {
+      setCATID(category.id);
     }
   }, [category]);
 
@@ -285,8 +296,8 @@ function GetQuotes({ params }) {
         <div className="header h-[15vh] shadow-lg background-color-gray color-gray flex items-center justify-center relative shadow-gray-200">
           <div className="header-content text-center text-gray-500">
             <h2 className="md:text-3xl text-xl ">
-              Tell us about your <span className="font-bold">{category?.name}</span>{" "}
-              project
+              Tell us about your{" "}
+              <span className="font-bold">{category?.name}</span> project
             </h2>
             <p className="md:text-xl text-md mt-2">
               {` Let us know some details and we'll match you with Pros for you to
@@ -427,7 +438,12 @@ function GetQuotes({ params }) {
                 <div className="w-[screen]  md:w-[700px] bg-white rounded-lg shadow dark:border  md:mt-0 xl:p-0">
                   <div className="p-4 w-[screen] space-y-4 md:space-y-6 md:p-8 text-black">
                     <div className=" items-center justify-center flex flex-wrap ">
-                      <div className="mx-5 my-3 items-center grid justify-center ">
+                      <div
+                        className="mx-5 my-3 items-center grid justify-center "
+                        onClick={() =>
+                          handleTypeSelection("Detached / Semi-Detached Home")
+                        }
+                      >
                         <div
                           className={`border-2 mx-auto items-center flex justify-center w-[100px] rounded-full p-4 ${
                             selectedType === "Detached / Semi-Detached Home"
@@ -440,9 +456,6 @@ function GetQuotes({ params }) {
                                 ? "#30ade2"
                                 : "#808080",
                           }}
-                          onClick={() =>
-                            handleTypeSelection("Detached / Semi-Detached Home")
-                          }
                         >
                           <img
                             src={
@@ -458,7 +471,10 @@ function GetQuotes({ params }) {
                         </label>
                       </div>
 
-                      <div className="mx-5 my-3 items-center grid justify-center">
+                      <div
+                        className="mx-5 my-3 items-center grid justify-center"
+                        onClick={() => handleTypeSelection("Condo / Townhouse")}
+                      >
                         {" "}
                         <div
                           className={`border-2 mx-auto items-center flex justify-center rounded-full w-[100px] p-4 ${
@@ -472,9 +488,6 @@ function GetQuotes({ params }) {
                                 ? "#30ade2"
                                 : "#808080",
                           }}
-                          onClick={() =>
-                            handleTypeSelection("Condo / Townhouse")
-                          }
                         >
                           <img
                             src={
