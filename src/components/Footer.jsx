@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import "../style/Footer.css";
-export const Footer = () => {
+export const Footer = ({ showNewsLetter = true }) => {
   return (
     <>
       <section className="sm:bg-secondary">
@@ -37,37 +37,41 @@ export const Footer = () => {
         </div>
       </section>
 
-      <section className="bg-[#F7F9FB] py-0">
-        <div className="outer_header2_part min-h-60 container px-2 mx-auto flex flex-col items-center justify-center py-6">
-          <div className="header2_content_container flex flex-col md:flex-row items-center justify-center w-full max-w-[1100px] px-4">
-            <div className="header2_part1 w-full md:w-[60%] mb-6 md:mb-0">
-              <h2
-                className="text-2xl mx-auto pt-5 sm:text-2xl text-left font-bold text-text"
-                style={{ lineHeight: 1.5 }}
-              >
-                Get
-                <span className="mx-2 text-[#43D9BE]">
-                  free project cost <br /> information
-                </span>
-                delivered to <br /> your inbox
-              </h2>
-            </div>
-            <div className="header2_part2 text-center sm:pr-16 flex flex-col items-center justify-center w-auto">
-              <input
-                type="text"
-                className="border-2 border-[#43D9BE] w-full md:w-96 p-3 mx-auto rounded-xl mb-6 md:mb-0"
-                placeholder="Email Address"
-              />
-              <a
-                href="#"
-                className="hover:bg-[#43D9BE] w-fit mt-3 sm:w-48 mx-auto hover:text-white transition-all cursor-pointer text-text text-base lg:text-xl justify-center border-2 border-[#43D9BE] px-4 py-2 rounded-2xl font-bold bg-[#fff] text-transform: uppercase"
-              >
-                SUBSCRIBE
-              </a>
+      {showNewsLetter ? (
+        <section className="bg-[#F7F9FB] py-0">
+          <div className="outer_header2_part min-h-60 container px-2 mx-auto flex flex-col items-center justify-center py-6">
+            <div className="header2_content_container flex flex-col md:flex-row items-center justify-center w-full max-w-[1100px] px-4">
+              <div className="header2_part1 w-full md:w-[60%] mb-6 md:mb-0">
+                <h2
+                  className="text-2xl mx-auto pt-5 sm:text-2xl text-left font-bold text-text"
+                  style={{ lineHeight: 1.5 }}
+                >
+                  Get
+                  <span className="mx-2 text-[#43D9BE]">
+                    free project cost <br /> information
+                  </span>
+                  delivered to <br /> your inbox
+                </h2>
+              </div>
+              <div className="header2_part2 text-center sm:pr-16 flex flex-col items-center justify-center w-auto">
+                <input
+                  type="text"
+                  className="border-2 border-[#43D9BE] w-full md:w-96 p-3 mx-auto rounded-xl mb-6 md:mb-0"
+                  placeholder="Email Address"
+                />
+                <a
+                  href="#"
+                  className="hover:bg-[#43D9BE] w-fit mt-3 sm:w-48 mx-auto hover:text-white transition-all cursor-pointer text-text text-base lg:text-xl justify-center border-2 border-[#43D9BE] px-4 py-2 rounded-2xl font-bold bg-[#fff] text-transform: uppercase"
+                >
+                  SUBSCRIBE
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        ""
+      )}
 
       <footer class="text-gray-800 bg-[#E8E8E8] body-font">
         <div class="container px-14 sm:px-0 sm:py-24 mx-auto flex  md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
