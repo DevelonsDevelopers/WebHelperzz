@@ -38,20 +38,10 @@ function CategoryList({ params }) {
 
       <Search />
 
-      <div className="px-[3rem] sm:px-[5rem] md:px-[6rem] lg:px-[10rem] md-[8rem]  mt-14 mb-[6rem]">
-        <ProjectList />
-        {/* <div className="mt-15 sm:mt-20">
-          <ServicesList />
+      <div className="flex justify-center">
+        <div className="max-w-[1100px] w-full px-[3rem] md-[8rem]  mt-14 mb-[6rem]">
+          <ProjectList />
         </div>
-        <div className="mt-15 sm:mt-20">
-          <HomeDesigningList />
-        </div>
-        <div className="mt-15 sm:mt-20">
-          <OutDoorList />
-        </div>
-        <div className="mt-15 sm:mt-20">
-          <HomeServicesList />
-        </div> */}
       </div>
 
       <div className="professions-container px-12 sm:px-[5rem] mt-[50px]">

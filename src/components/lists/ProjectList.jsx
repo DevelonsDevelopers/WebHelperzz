@@ -14,7 +14,7 @@ const ProjectList = () => {
     <div>
       <div>
         <TitleComponent title="Get Recommended Pros for Your Project" />
-        <div className="grid grid-cols-1 gap-[2rem] md:gap-[1.5rem] sm:grid-cols-2 md:grid-cols-5">
+        <div className="grid grid-cols-1 gap-[1rem] md:gap-[1.5rem] sm:grid-cols-2 md:grid-cols-5">
           {ProjectsListData.map((item, index) => (
             <ServiceCard key={index} imageSrc={item.image} text={item.text} />
           ))}
