@@ -131,21 +131,6 @@ function SubReview(props) {
   );
 }
 
-const ZoomedImageModal = ({ imageUrl, onClose }) => {
-  return (
-    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center z-10">
-      <div className="max-w-full max-h-full overflow-auto">
-        <img src={imageUrl} alt="Zoomed" className="w-[1000px] " />
-        <button
-          onClick={onClose}
-          className="absolute top-0 right-0 m-4 p-5 text-white text-lg"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  );
-};
 export default function Tabs({ id, details }) {
   const [value, setValue] = React.useState("1");
   const [givenRating, setGivenRating] = useState(0);
@@ -222,18 +207,70 @@ export default function Tabs({ id, details }) {
 
   const projectCards = [
     {
-      img: require("/public/assets/images/project-01.png"),
+      id: 0,
+      img: "/assets/images/project-01.png",
       title: "Bathroom Renovation",
     },
     {
-      img: require("/public/assets/images/project-02.png"),
+      id: 1,
+      img: "/assets/images/project-02.png",
       title: "Bathroom Renovation",
     },
     {
-      img: require("/public/assets/images/project-03.png"),
+      id: 2,
+      img: "/assets/images/project-03.png",
       title: "Interior Renovation",
     },
   ];
+
+  const ZoomedImageModal = ({ imageUrl, onClose }) => {
+    return (
+      <div className="fixed top-0 left-0 w-full h-full  bg-black bg-opacity-75 flex justify-center z-10">
+        <div className="mt-[4rem] sm:mt-[3rem]">
+          <div>
+            <img
+              src={imageUrl === zoomedImageUrl ? imageUrl : zoomedImageUrl}
+              alt="Zoomed"
+              className="w-[100%] h-[350px] sm:h-[400px] object-cover"
+            />
+          </div>
+
+          <div className="images-cards">
+            <div className="mt-4 grid grid-cols-3 h-[2rem] gap-2 w-[75%]">
+              {projectCards.map((item, index) => (
+                <div
+                  key={item.id}
+                  onClick={() => setZoomedImageUrl(item.img)}
+                  className={
+                    "cursor-pointer" +
+                    `${
+                      zoomedImageUrl === item.img
+                        ? "border-solid border-2 border-sky-500"
+                        : " "
+                    } `
+                  }
+                >
+                  <Image
+                    src={`${item.img}`}
+                    alt={item.img}
+                    width={110}
+                    height={100}
+                    className="w-full h-[80px] sm:w-[150px]"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="absolute top-0 right-0 m-4 p-5 text-white text-lg"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
@@ -437,6 +474,7 @@ export default function Tabs({ id, details }) {
                   </form>
                 </div>
               </div>
+
               <div className="rounded-2xl bg-[#F7F9FB] p-7 mt-10">
                 <div className="flex items-center gap-4 flex-wrap md:flex-nowrap">
                   <div>
@@ -458,28 +496,56 @@ export default function Tabs({ id, details }) {
                           <h5 className="md:w-[250px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
                             Average Rating{" "}
                           </h5>
-                          <span className="bg-secondary rounded-full h-4 w-full block"></span>
+                          <progress
+                            id="file"
+                            value="82"
+                            max="100"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
                           <ExclamationMarkIcon />
                         </div>
                         <div className="flex items-center gap-2">
                           <h5 className="md:w-[250px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
                             Recency
                           </h5>
-                          <span className="bg-secondary  rounded-full h-4 w-full block"></span>
+                          <progress
+                            id="file"
+                            value="81"
+                            max="100"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
                           <ExclamationMarkIcon />
                         </div>
                         <div className="flex items-center gap-2">
                           <h5 className="md:w-[250px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
                             Reputation{" "}
                           </h5>
-                          <span className="bg-secondary rounded-full h-4 w-full block"></span>
+                          <progress
+                            id="file"
+                            value="89"
+                            max="100"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
                           <ExclamationMarkIcon />
                         </div>
                         <div className="flex items-center gap-2">
                           <h5 className="md:w-[250px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base text-text">
                             Responsiveness{" "}
                           </h5>
-                          <span className="bg-secondary rounded-full h-4 w-full block"></span>
+                          <progress
+                            id="file"
+                            value="52"
+                            max="100"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
                           <ExclamationMarkIcon />
                         </div>
                       </div>
@@ -496,19 +562,40 @@ export default function Tabs({ id, details }) {
                           <h5 className="md:w-[90px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
                             Great{" "}
                           </h5>
-                          <span className="bg-secondary  rounded-full h-4 w-full block"></span>
+                          <progress
+                            id="file"
+                            value="72"
+                            max="100"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
                         </div>
                         <div className="flex items-center gap-2">
                           <h5 className="md:w-[90px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
                             Average{" "}
                           </h5>
-                          <span className="bg-[#E0E0E0] rounded-full h-4 w-full block"></span>
+                          <progress
+                            id="file"
+                            value="42"
+                            max="100"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
                         </div>
                         <div className="flex items-center gap-2">
                           <h5 className="md:w-[90px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base text-text">
                             Poor{" "}
                           </h5>
-                          <span className="bg-[#E0E0E0] rounded-full h-4 w-full block"></span>
+                          <progress
+                            id="file"
+                            value="32"
+                            max="100"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
                         </div>
                       </div>
                     </div>

@@ -165,3 +165,16 @@ div#root {
     padding-top: 10px;
   }
 }
+
+progress {
+  border-radius: 50px;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #ddd;
+  border-radius: 10px;
+}
+progress::-webkit-progress-value {
+  background-color: #12937c;
+  border-radius: 10px;
+}
