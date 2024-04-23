@@ -205,9 +205,7 @@ export default function Tabs({ id, details }) {
     setValue(newValue);
   };
 
-
   const ZoomedImageModal = ({ imageUrl, onClose }) => {
-
     const projectCards = [
       {
         id: 1,
@@ -239,47 +237,41 @@ export default function Tabs({ id, details }) {
     //   },
     //   ...projectCardsOld
     // ]
-  
+
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [zoomedImageUrl, setZoomedImageUrl] = useState(imageUrl); // Initial value
-
-    
 
     const handlePrevClick = () => {
       setSelectedIndex((prevIndex) =>
         prevIndex === 0 ? projectCards.length - 1 : prevIndex - 1
       );
-      // setZoomedImageUrl(projectCards[selectedIndex].img);
     };
 
     const handleNextClick = () => {
       setSelectedIndex((prevIndex) =>
         prevIndex === projectCards.length - 1 ? 0 : prevIndex + 1
       );
-      // setZoomedImageUrl(projectCards[selectedIndex].img);
     };
 
     // Update zoomed image URL after selectedIndex changes
-  useEffect(() => {
-    setZoomedImageUrl(projectCards[selectedIndex].img);
-  }, [selectedIndex, projectCards]);
-    console.log(selectedIndex);
+    useEffect(() => {
+      setZoomedImageUrl(projectCards[selectedIndex].img);
+    }, [selectedIndex, projectCards]);
 
     return (
       <div className="fixed top-0 left-0 w-full h-full  bg-black bg-opacity-75 flex justify-center z-10">
         <div className="mt-[4rem] sm:mt-[3rem] xl:flex xl:flex-col xl:justify-center">
           <div>
-              <img
-                src={zoomedImageUrl}
-                alt="Zoomed"
-                className="w-[100%] h-[350px] xl:h-[75vh] sm:h-[400px] object-cover"
-              />
-          
+            <img
+              src={zoomedImageUrl}
+              alt="Zoomed"
+              className="w-[100%] h-[350px] xl:h-[75vh] sm:h-[400px] object-fill sm:object-cover"
+            />
           </div>
 
           <div className="images-cards">
             <div className="mt-4 relative">
-              <div className="grid grid-cols-4 gap-2 w-[75%] mx-auto">
+              <div className="grid grid-cols-4 gap-1 sm:gap-2 w-[55%] sm:w-[75%] mx-auto">
                 {projectCards.map((item, index) => (
                   <div
                     key={item.id}
@@ -295,12 +287,12 @@ export default function Tabs({ id, details }) {
                       alt={item.img}
                       width={110}
                       height={100}
-                        className="w-full h-[80px] sm:w-[150px] xl:w-[100%]"
+                      className="w-[50px] h-[60px] sm:h-[80px] sm:w-[150px] xl:w-[100%]"
                     />
                   </div>
                 ))}
               </div>
-              <div className="absolute top-1/2 transform -translate-y-1/2 left-0 right-0 flex justify-between">
+              <div className="absolute top-1/2 transform -translate-y-1/2 left-[20px]  sm:left-0 right-[20px] sm:right-0 flex justify-between">
                 <button
                   className="btn-prev flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full"
                   onClick={handlePrevClick}
