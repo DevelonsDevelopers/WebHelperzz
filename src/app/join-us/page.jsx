@@ -52,7 +52,7 @@ const Page = (props) => {
         </div>
         <div className='flex-1'>
           <div className="flex flex-col gap-3 lg:items-center w-fit p-1">
-            <form className='flex flex-col gap-5 md:mx-6 md:p-12 w-[1000px] bg-white shadow-lg' onSubmit={handleSubmit(onSubmit)}>
+            <form className='flex flex-col gap-5 md:mx-6 p-5 md:p-12 w-[100vw] lg:w-[1000px] bg-white shadow-lg' onSubmit={handleSubmit(onSubmit)}>
               <h4 className='font-bold text-xl self-center'>Join Us as a Contractor</h4>
               <div className='flex flex-col'>
                 <label className='font-bold text-sm'>Professional/Company Name</label>
