@@ -205,60 +205,115 @@ export default function Tabs({ id, details }) {
     setValue(newValue);
   };
 
-  const projectCards = [
-    {
-      id: 0,
-      img: "/assets/images/project-01.png",
-      title: "Bathroom Renovation",
-    },
-    {
-      id: 1,
-      img: "/assets/images/project-02.png",
-      title: "Bathroom Renovation",
-    },
-    {
-      id: 2,
-      img: "/assets/images/project-03.png",
-      title: "Interior Renovation",
-    },
-  ];
 
   const ZoomedImageModal = ({ imageUrl, onClose }) => {
+
+    const projectCards = [
+      {
+        id: 1,
+        img: "/assets/images/project-01.png",
+        title: "Bathroom Renovation",
+      },
+      {
+        id: 2,
+        img: "/assets/images/project-02.png",
+        title: "Bathroom Renovation",
+      },
+      {
+        id: 3,
+        img: "/assets/images/project-03.png",
+        title: "Interior Renovation",
+      },
+      {
+        id: 4,
+        img: "/assets/images/project-02.png",
+        title: "Bathroom Renovation",
+      },
+    ];
+
+    // const projectCards = [
+    //   {
+    //     id: 0,
+    //     img: imageUrl,
+    //     title: "New product"
+    //   },
+    //   ...projectCardsOld
+    // ]
+  
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [zoomedImageUrl, setZoomedImageUrl] = useState(imageUrl); // Initial value
+
+    
+
+    const handlePrevClick = () => {
+      setSelectedIndex((prevIndex) =>
+        prevIndex === 0 ? projectCards.length - 1 : prevIndex - 1
+      );
+      // setZoomedImageUrl(projectCards[selectedIndex].img);
+    };
+
+    const handleNextClick = () => {
+      setSelectedIndex((prevIndex) =>
+        prevIndex === projectCards.length - 1 ? 0 : prevIndex + 1
+      );
+      // setZoomedImageUrl(projectCards[selectedIndex].img);
+    };
+
+    // Update zoomed image URL after selectedIndex changes
+  useEffect(() => {
+    setZoomedImageUrl(projectCards[selectedIndex].img);
+  }, [selectedIndex, projectCards]);
+    console.log(selectedIndex);
+
     return (
       <div className="fixed top-0 left-0 w-full h-full  bg-black bg-opacity-75 flex justify-center z-10">
-        <div className="mt-[4rem] sm:mt-[3rem]">
+        <div className="mt-[4rem] sm:mt-[3rem] xl:flex xl:flex-col xl:justify-center">
           <div>
-            <img
-              src={imageUrl === zoomedImageUrl ? imageUrl : zoomedImageUrl}
-              alt="Zoomed"
-              className="w-[100%] h-[350px] sm:h-[400px] object-cover"
-            />
+              <img
+                src={zoomedImageUrl}
+                alt="Zoomed"
+                className="w-[100%] h-[350px] xl:h-[75vh] sm:h-[400px] object-cover"
+              />
+          
           </div>
 
           <div className="images-cards">
-            <div className="mt-4 grid grid-cols-3 h-[2rem] gap-2 w-[75%]">
-              {projectCards.map((item, index) => (
-                <div
-                  key={item.id}
-                  onClick={() => setZoomedImageUrl(item.img)}
-                  className={
-                    "cursor-pointer" +
-                    `${
-                      zoomedImageUrl === item.img
+            <div className="mt-4 relative">
+              <div className="grid grid-cols-4 gap-2 w-[75%] mx-auto">
+                {projectCards.map((item, index) => (
+                  <div
+                    key={item.id}
+                    // onClick={() => setZoomedImageUrl(item.img)}
+                    className={`cursor-pointer ${
+                      selectedIndex === index
                         ? "border-solid border-2 border-sky-500"
-                        : " "
-                    } `
-                  }
+                        : ""
+                    }`}
+                  >
+                    <Image
+                      src={`${item.img}`}
+                      alt={item.img}
+                      width={110}
+                      height={100}
+                        className="w-full h-[80px] sm:w-[150px] xl:w-[100%]"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="absolute top-1/2 transform -translate-y-1/2 left-0 right-0 flex justify-between">
+                <button
+                  className="btn-prev flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full"
+                  onClick={handlePrevClick}
                 >
-                  <Image
-                    src={`${item.img}`}
-                    alt={item.img}
-                    width={110}
-                    height={100}
-                    className="w-full h-[80px] sm:w-[150px]"
-                  />
-                </div>
-              ))}
+                  <FaChevronLeft />
+                </button>
+                <button
+                  className="btn-next flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full"
+                  onClick={handleNextClick}
+                >
+                  <FaChevronRight />
+                </button>
+              </div>
             </div>
           </div>
           <button
