@@ -536,10 +536,15 @@
   dependencies:
     glob "7.1.7"
 
-"@next/swc-win32-x64-msvc@14.1.4":
+"@next/swc-linux-x64-gnu@14.1.4":
   version "14.1.4"
-  resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-14.1.4.tgz"
-  integrity sha512-4Rto21sPfw555sZ/XNLqfxDUNeLhNYGO2dlPqsnuCg8N8a2a9u1ltqBOPQ4vj1Gf7eJC0W2hHG2eYUHuiXgY2w==
+  resolved "https://registry.npmjs.org/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-14.1.4.tgz"
+  integrity sha512-BapIFZ3ZRnvQ1uWbmqEGJuPT9cgLwvKtxhK/L2t4QYO7l+/DxXuIGjvp1x8rvfa/x1FFSsipERZK70pewbtJtw==
+
+"@next/swc-linux-x64-musl@14.1.4":
+  version "14.1.4"
+  resolved "https://registry.npmjs.org/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-14.1.4.tgz"
+  integrity sha512-mqVxTwk4XuBl49qn2A5UmzFImoL1iLm0KQQwtdRJRKl21ylQwwGCxJtIYo2rbfkZHoSKlh/YgztY0qH3wG1xIg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -2832,10 +2837,10 @@ react-hot-toast@^2.4.1:
   dependencies:
     goober "^2.1.10"
 
-react-icons@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npmjs.org/react-icons/-/react-icons-5.0.1.tgz"
-  integrity sha512-WqLZJ4bLzlhmsvme6iFdgO8gfZP17rfjYEJ2m9RsZjZ+cc4k1hTzknEz63YS1MeT50kVzoa1Nz36f4BEx+Wigw==
+react-icons@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.npmjs.org/react-icons/-/react-icons-5.1.0.tgz"
+  integrity sha512-D3zug1270S4hbSlIRJ0CUS97QE1yNNKDjzQe3HqY0aefp2CBn9VgzgES27sRR2gOvFK+0CNx/BW0ggOESp6fqQ==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"

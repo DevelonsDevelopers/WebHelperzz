@@ -510,7 +510,9 @@ function Header() {
               style={{ userSelect: "text" }}
               variant="contained"
               className="btn_header text-sm"
-              disableElevation
+              disableElevation                  
+              onClick={() => navigate.push("/join-us")}
+
             >
               Are you a Home pro ?
             </Button>
