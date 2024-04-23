@@ -137,7 +137,7 @@ const ChatComponent = (props) => {
   );
 };
 
-const ProfileCard = (props) => {
+export const ProfileCard = (props) => {
   return (
     <div className="flex flex-col items-center gap-3 bg-[#F7F9FB] border rounded-3xl p-2">
       <div className="relative w-full h-64 rounded-2xl">
@@ -195,7 +195,7 @@ const ProfileCard = (props) => {
   );
 };
 
-const RecentReviews = (props) => {
+export const RecentReviews = (props) => {
   return (
     <div className="flex flex-col gap-5 items-center w-full border bg-[#F7F9FB] rounded-3xl p-5">
       <h6 className="text-xl font-bold">Recent Reviews</h6>
@@ -211,13 +211,13 @@ const Review = (props) => {
   return (
     <div className="flex flex-col gap-2 bg-white rounded-2xl p-4">
       <div className="flex gap-2">
-        {/* <Image
+        <Image
           width={80}
           height={50}
           className="rounded-xl"
           src="/profile.png"
           alt="profile"
-        /> */}
+        />
         <div className="flex flex-col justify-between">
           <p className="font-bold line-clamp-1 text-ellipsis">
             BELINA{" "}
