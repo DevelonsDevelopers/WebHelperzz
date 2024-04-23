@@ -6,7 +6,7 @@ const ProfessionCard = ({ items }) => {
       <ul className="list-none">
         {items.map((item, index) => (
           <li key={index} className="text-base mb-1 font-[500] cursor-pointer">
-            {item.text}
+            {item.name}
           </li>
         ))}
       </ul>

@@ -14,9 +14,14 @@ const ProjectList = ({categories}) => {
 
     const [popular, setPopular] = useState([])
     const [shuffled, setShuffled] = useState(false)
+    const [random, setRandom] = useState([])
 
     useEffect(() => {
         setPopular(categories.filter(value => value.popular === 1))
+        if (categories.length > 0){
+            let array = [...categories]
+            setRandom(ShuffleArray(array))
+        }
     }, [categories]);
 
     useEffect(() => {
@@ -42,7 +47,7 @@ const ProjectList = ({categories}) => {
             <div>
                 <TitleComponent title="Get Recommended Pros for Your Project"/>
                 <div className="grid grid-cols-1 gap-[1rem] md:gap-[1.5rem] sm:grid-cols-2 md:grid-cols-5">
-                    {popular.slice(0, 5).map((item, index) => (
+                    {random.slice(0, 5).map((item, index) => (
                         <ServiceCard key={index} imageSrc={`${IMAGE_PATH}${item.image}`} text={item.name}/>
                     ))}
                 </div>
@@ -56,26 +61,10 @@ const ProjectList = ({categories}) => {
                 </div>
             </div>
             <div className="mt-[4rem]">
-                <TitleComponent title="Home Design & Remodeling"/>
+                <TitleComponent title="More Services"/>
                 <div className="grid grid-cols-1 gap-[2rem] md:gap-[1.5rem] sm:grid-cols-2 md:grid-cols-5">
-                    {HomeDesigningData.map((item, index) => (
-                        <ServiceCard key={index} imageSrc={item.image} text={item.text}/>
-                    ))}
-                </div>
-            </div>
-            <div className="mt-[4rem]">
-                <TitleComponent title="Outdoor & Garden"/>
-                <div className="grid grid-cols-1 gap-[2rem] md:gap-[1.5rem] sm:grid-cols-2 md:grid-cols-5">
-                    {OutDoorData.map((item, index) => (
-                        <ServiceCard key={index} imageSrc={item.image} text={item.text}/>
-                    ))}
-                </div>
-            </div>
-            <div className="mt-[4rem]">
-                <TitleComponent title="Home Services"/>
-                <div className="grid grid-cols-1 gap-[2rem] md:gap-[1.5rem] sm:grid-cols-2 md:grid-cols-5">
-                    {HomeServicesData.map((item, index) => (
-                        <ServiceCard key={index} imageSrc={item.image} text={item.text}/>
+                    {categories.map((item, index) => (
+                        <ServiceCard key={index} imageSrc={`${IMAGE_PATH}${item.image}`} text={item.name}/>
                     ))}
                 </div>
             </div>

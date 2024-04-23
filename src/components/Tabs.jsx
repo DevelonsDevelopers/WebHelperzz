@@ -135,6 +135,7 @@ export default function Tabs({ id, details }) {
   const [value, setValue] = React.useState("1");
   const [givenRating, setGivenRating] = useState(0);
   const [zoomedImageUrl, setZoomedImageUrl] = useState(null);
+  const [projectImages, setProjectImages] = useState([])
   const sliderRef = useRef(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(true);
@@ -175,8 +176,9 @@ export default function Tabs({ id, details }) {
     setValue("3");
   };
 
-  const openZoomedImage = (imageUrl) => {
+  const openZoomedImage = (imageUrl, images) => {
     setZoomedImageUrl(imageUrl);
+    setProjectImages(images)
   };
 
   const closeZoomedImage = () => {
@@ -206,30 +208,7 @@ export default function Tabs({ id, details }) {
   };
 
 
-  const ZoomedImageModal = ({ imageUrl, onClose }) => {
-
-    const projectCards = [
-      {
-        id: 1,
-        img: "/assets/images/project-01.png",
-        title: "Bathroom Renovation",
-      },
-      {
-        id: 2,
-        img: "/assets/images/project-02.png",
-        title: "Bathroom Renovation",
-      },
-      {
-        id: 3,
-        img: "/assets/images/project-03.png",
-        title: "Interior Renovation",
-      },
-      {
-        id: 4,
-        img: "/assets/images/project-02.png",
-        title: "Bathroom Renovation",
-      },
-    ];
+  const ZoomedImageModal = ({ imageUrl, onClose, images }) => {
 
     // const projectCards = [
     //   {
@@ -239,48 +218,48 @@ export default function Tabs({ id, details }) {
     //   },
     //   ...projectCardsOld
     // ]
-  
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const [zoomedImageUrl, setZoomedImageUrl] = useState(imageUrl); // Initial value
 
-    
+
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [zoomedImageUrl, setZoomedImageUrl] = useState(images[0].image); // Initial value
+
+
 
     const handlePrevClick = () => {
       setSelectedIndex((prevIndex) =>
-        prevIndex === 0 ? projectCards.length - 1 : prevIndex - 1
+        prevIndex === 0 ? images.length - 1 : prevIndex - 1
       );
       // setZoomedImageUrl(projectCards[selectedIndex].img);
     };
 
     const handleNextClick = () => {
       setSelectedIndex((prevIndex) =>
-        prevIndex === projectCards.length - 1 ? 0 : prevIndex + 1
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
       // setZoomedImageUrl(projectCards[selectedIndex].img);
     };
 
     // Update zoomed image URL after selectedIndex changes
   useEffect(() => {
-    setZoomedImageUrl(projectCards[selectedIndex].img);
-  }, [selectedIndex, projectCards]);
-    console.log(selectedIndex);
+    setZoomedImageUrl(images[selectedIndex].image);
+  }, [selectedIndex, images]);
 
     return (
       <div className="fixed top-0 left-0 w-full h-full  bg-black bg-opacity-75 flex justify-center z-10">
         <div className="mt-[4rem] sm:mt-[3rem] xl:flex xl:flex-col xl:justify-center">
           <div>
               <img
-                src={zoomedImageUrl}
+                src={`${IMAGE_PATH}${zoomedImageUrl}`}
                 alt="Zoomed"
                 className="w-[100%] h-[350px] xl:h-[75vh] sm:h-[400px] object-cover"
               />
-          
+
           </div>
 
           <div className="images-cards">
             <div className="mt-4 relative">
               <div className="grid grid-cols-4 gap-2 w-[75%] mx-auto">
-                {projectCards.map((item, index) => (
+                {images.map((item, index) => (
                   <div
                     key={item.id}
                     // onClick={() => setZoomedImageUrl(item.img)}
@@ -290,9 +269,9 @@ export default function Tabs({ id, details }) {
                         : ""
                     }`}
                   >
-                    <Image
-                      src={`${item.img}`}
-                      alt={item.img}
+                    <img
+                      src={`${IMAGE_PATH}${item.image}`}
+                      alt={item.image}
                       width={110}
                       height={100}
                         className="w-full h-[80px] sm:w-[150px] xl:w-[100%]"
@@ -693,7 +672,7 @@ export default function Tabs({ id, details }) {
                         key={index}
                         onClick={() =>
                           openZoomedImage(
-                            `${IMAGE_PATH}${project.images[0].image}`
+                            `${IMAGE_PATH}${project.images[0].image}`, project.images
                           )
                         }
                       >
@@ -712,6 +691,7 @@ export default function Tabs({ id, details }) {
                     <ZoomedImageModal
                       imageUrl={zoomedImageUrl}
                       onClose={closeZoomedImage}
+                      images={projectImages}
                     />
                   )}
                   <div className="mt-8 lg:mt-16 flex justify-center text-center">
@@ -1219,6 +1199,7 @@ export default function Tabs({ id, details }) {
           <ZoomedImageModal
             imageUrl={zoomedImageUrl}
             onClose={closeZoomedImage}
+            images={projectImages}
           />
         )}
       </TabContext>
