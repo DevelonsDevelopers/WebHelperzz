@@ -1,75 +1,35 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import ProfessionCard from "../cards/ProfessionCard";
 import {
-    OutdoorListData,
-    RemodelingData,
-    RenovationData,
-    applianceListData,
-    popularData,
-    servicesListData,
+  OutdoorListData,
+  RemodelingData,
+  RenovationData,
+  applianceListData,
+  popularData,
+  servicesListData,
 } from "../../../public/data/professionData";
 
-const PopularList = ({categories}) => {
+const PopularList = ({ categories }) => {
+  console.log(categories);
 
-    return (
-        <div>
-            <div>
-                {categories.map(value => (
-                    <>
-                        <h2 className="mt-6 mb-3 text-[18px] font-[600]">{value.name}</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-
-                                <ProfessionCard items={value?.subcategories}/>
-                        </div>
-                    </>
-                ))}
-            </div>
-            <div>
-                <h2 className="mt-6 mb-3 text-[18px] font-[600]">Remodeling</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    {RemodelingData.map((item, index) => (
-                        <ProfessionCard key={index} items={item.professions}/>
-                    ))}
-                </div>
-            </div>
-            <div>
-                <h2 className="mt-6 mb-3 text-[18px] font-[600]">Renovation</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    {RenovationData.map((item, index) => (
-                        <ProfessionCard key={index} items={item.professions}/>
-                    ))}
-                </div>
-            </div>
-            <div>
-                <h2 className="mt-6 mb-3 text-[18px] font-[600]">Outdoor</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    {OutdoorListData.map((item, index) => (
-                        <ProfessionCard key={index} items={item.professions}/>
-                    ))}
-                </div>
-            </div>
-
-            <div>
-                <h2 className="mt-6 mb-3 text-[18px] font-[600]">Popular</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    {servicesListData.map((item, index) => (
-                        <ProfessionCard key={index} items={item.professions}/>
-                    ))}
-                </div>
-            </div>
-
-            <div>
+  return (
+    <div>
+      <div>
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+            {categories.map((category, index) => (
+              <div key={index}>
                 <h2 className="mt-6 mb-3 text-[18px] font-[600]">
-                    Appliances & Systems
+                  {category.name}
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    {applianceListData.map((item, index) => (
-                        <ProfessionCard key={index} items={item.professions}/>
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
+                <ProfessionCard items={category?.subcategories} />
+              </div>
+            ))}
+          </div>
+        </>
+      </div>
+    </div>
+  );
 };
 
 export default PopularList;
