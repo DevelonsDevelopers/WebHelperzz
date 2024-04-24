@@ -12,10 +12,10 @@ const schema = object({
     firstname: string().required().label('First Name'),
     lastname: string().required().label('Last Name'),
     email: string().email().required().label('Email'),
-    phone_number: string().matches('/^\d{10}$/', 'Invalid Phone Number').label('Phone Number').required(),
+    phone_number: string().min(10, 'Invalid Phone Number').label('Phone Number').required(),
     address: string().label('Address').required(),
     licenses: mixed().label('Licenses').required(),
-    postal_code: string().matches('/^[A-Z]\d[A-Z] \d[A-Z]\d$/', 'Invalid Postal Code').label('Postal Code').required(),
+    postal_code: string().matches('/^[a-zA-Z]\d[a-zA-Z]\d[a-zA-Z]\d$/', 'Invalid Postal Code').label('Postal Code').required(),
     logo: mixed().label('Logo').required(),
     certificate: mixed().label('Cerificate').required(),
 });
@@ -135,98 +135,205 @@ const Page = ({ params }) => {
                     </span>
                                     )}
                                 </div>
+                                <div className='flex-1 flex flex-col'>
+                                        <label className='font-bold text-sm'>Postal Code</label>
+                                        <input type='text' className='border-2 w-full p-2' {...register("postal_code")}
+                                            placeholder='Postal Code'/>
+                                        {errors.postal_code && (
+                                            <span className="text-sm text-red-500">
+                            {errors.postal_code.message}
+                        </span>
+                                        )}
+                                    </div>
                             </div>
                             <div className='flex flex-col'>
                                 <label className='font-bold text-sm'>Address</label>
                                 <input type='text' className='border-2 w-full p-2' {...register("address")}
                                        placeholder='Address'/>
-                                {errors.email && (
+                                {errors.address && (
                                     <span className="text-sm text-red-500">
-                    {errors.email.message}
+                    {errors.address.message}
                   </span>
                                 )}
                             </div>
-                            <div className='flex flex-col'>
-                                <label className='font-bold text-sm'>Postal Code</label>
-                                <input type='text' className='border-2 w-full p-2' {...register("postal_code")}
-                                       placeholder='Postal Code'/>
-                                {errors.postal_code && (
-                                    <span className="text-sm text-red-500">
-                    {errors.postal_code.message}
-                  </span>
-                                )}
-                            </div>
+ 
                             <div className="min-w-[250px] w-[100%] mb-6 ">
-                                <label className='font-bold text-sm'>Licenses</label>
-                                <div className="flex justify-center items-center p-5">
-                                    {
-                                        licenses && licenses.length > 0 ?
-                                            <div className='flex flex-col items-center gap-3'>
-                                                <CiFileOn size={60}/>
-                                                <p>{licenses[0].name}</p>
-                                            </div> :
-                                            <button onClick={() => licensesRef.current.click()} type='button'
-                                                    className="px-5 py-2 bg-[#27A9E1] font-bold text-sm text-white">Upload
-                                                File</button>
-                                    }
-                                    <input ref={licensesRef} type='file' accept='application/pdf'
-                                           onChange={(e) => setValue('licenses', e.target.files)}
-                                           className='hidden border-2 w-full p-2' placeholder='Email Address'/>
-                                </div>
-                                {errors.licenses && (
-                                    <span className="text-sm text-red-500">
+                <label className='font-bold text-sm'>Licenses</label>
+                <div
+                    htmlFor="dropzone-file"
+                    onClick={() => {console.log('here', licensesRef.current);licensesRef.current?.click()}}
+                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300
+  `}
+                >
+                    {licenses && licenses.length > 0 ?
+                      <div className="flex flex-wrap py-3">
+                          <img
+                              src={URL.createObjectURL(licenses[0])}
+                              alt={`Uploaded Logo`}
+                              className="w-20 object-cover mr-2"
+                          />
+                      </div>: 
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg
+                            className="w-8 h-8 mb-4 text-gray-500 "
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 20 16"
+                        >
+                            <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                            />
+                        </svg>
+                        <p className="mb-2 text-sm text-gray-500 ">
+                            <span className="font-semibold">Click to upload</span>{" "}
+
+                        </p>
+                        <p className="text-xs text-gray-500 ">
+                            SVG, PNG, JPG or GIF
+                        </p>
+                    </div>
+
+                    }
+
+                    <input
+                        ref={licensesRef}
+                        type="file"
+                        id="dropzone-file"
+                        name="image" 
+                        accept='image/jpeg, image/png, image/svg+xml'
+                        className="hidden"
+                        onChange={(e) => setValue('licenses', e.target.files)}
+                      />
+                </div>
+                {errors.licenses && (
+                  <span className="text-sm text-red-500">
                     {errors.licenses.message}
                   </span>
-                                )}
-                            </div>
-                            <div className="min-w-[250px] w-[100%] mb-6 ">
-                                <label className='font-bold text-sm'>Company Logo</label>
-                                <div className="flex justify-center items-center p-5">
-                                    {
-                                        logo && logo.length > 0 ?
-                                            <div className='flex flex-col items-center gap-3'>
-                                                <CiFileOn size={60}/>
-                                                <p>{logo[0].name}</p>
-                                            </div> :
-                                            <button onClick={() => logoRef.current.click()} type='button'
-                                                    className="px-5 py-2 bg-[#27A9E1] font-bold text-sm text-white">Upload
-                                                File</button>
+                )}
+            </div>
+            <div className="min-w-[250px] w-[100%] mb-6 ">
+                <label className='font-bold text-sm'>Company Logo</label>
+                <div
+                    htmlFor="dropzone-file"
+                    onClick={() => {console.log('here', logoRef.current);logoRef.current?.click()}}
+                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300
+  `}
+                >
+                    {logo && logo.length > 0 ?
+                      <div className="flex flex-wrap py-3">
+                          <img
+                              src={URL.createObjectURL(logo[0])}
+                              alt={`Uploaded Logo`}
+                              className="w-20 object-cover mr-2"
+                          />
+                      </div>: 
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg
+                            className="w-8 h-8 mb-4 text-gray-500 "
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 20 16"
+                        >
+                            <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                            />
+                        </svg>
+                        <p className="mb-2 text-sm text-gray-500 ">
+                            <span className="font-semibold">Click to upload</span>{" "}
 
-                                    }
-                                    <input ref={logoRef} type='file' accept='application/pdf'
-                                           onChange={(e) => setValue('logo', e.target.files)}
-                                           className='hidden border-2 w-full p-2' placeholder='Email Address'/>
-                                </div>
-                                {errors.logo && (
-                                    <span className="text-sm text-red-500">
+                        </p>
+                        <p className="text-xs text-gray-500 ">
+                            SVG, PNG, JPG or GIF
+                        </p>
+                    </div>
+
+                    }
+
+                    <input
+                        ref={logoRef}
+                        type="file"
+                        id="dropzone-file"
+                        name="image" 
+                        accept='image/jpeg, image/png, image/svg+xml'
+                        className="hidden"
+                        onChange={(e) => setValue('logo', e.target.files)}
+                      />
+                </div>
+                {errors.logo && (
+                  <span className="text-sm text-red-500">
                     {errors.logo.message}
                   </span>
-                                )}
-                            </div>
-                            <div className='flex flex-col'>
-                                <label className='font-bold text-sm'>Incorporation Certificate</label>
-                                <div className="flex justify-center items-center p-5">
-                                    {
-                                        certificate && certificate.length > 0 ?
-                                            <div className='flex flex-col items-center gap-3'>
-                                                <CiFileOn size={60}/>
-                                                <p>{certificate[0].name}</p>
-                                            </div> :
-                                            <button onClick={() => certificateRef.current.click()} type='button'
-                                                    className="px-5 py-2 bg-[#27A9E1] font-bold text-sm text-white">Upload
-                                                File</button>
+                )}
+            </div>
+            <div className="min-w-[250px] w-[100%] mb-6 ">
+                <label className='font-bold text-sm'>Incorporation Certificate</label>
+                <div
+                    htmlFor="dropzone-file"
+                    onClick={() => {console.log('here', certificateRef.current);certificateRef.current?.click()}}
+                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300
+  `}
+                >
+                    {certificate && certificate.length > 0 ?
+                      <div className="flex flex-wrap py-3">
+                          <img
+                              src={URL.createObjectURL(certificate[0])}
+                              alt={`Uploaded Logo`}
+                              className="w-20 object-cover mr-2"
+                          />
+                      </div>: 
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg
+                            className="w-8 h-8 mb-4 text-gray-500 "
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 20 16"
+                        >
+                            <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                            />
+                        </svg>
+                        <p className="mb-2 text-sm text-gray-500 ">
+                            <span className="font-semibold">Click to upload</span>{" "}
 
-                                    }
-                                    <input ref={certificateRef} type='file' accept='application/pdf'
-                                           onChange={(e) => setValue('certificate', e.target.files)}
-                                           className='hidden border-2 w-full p-2' placeholder='Email Address'/>
-                                </div>
-                                {errors.certificate && (
-                                    <span className="text-sm text-red-500">
+                        </p>
+                        <p className="text-xs text-gray-500 ">
+                            SVG, PNG, JPG or GIF
+                        </p>
+                    </div>
+
+                    }
+
+                    <input
+                        ref={certificateRef}
+                        type="file"
+                        id="dropzone-file"
+                        name="image" 
+                        accept='image/jpeg, image/png, image/svg+xml'
+                        className="hidden"
+                        onChange={(e) => setValue('certificate', e.target.files)}
+                      />
+                </div>
+                {errors.certificate && (
+                  <span className="text-sm text-red-500">
                     {errors.certificate.message}
                   </span>
-                                )}
-                            </div>
+                )}
+            </div>
                             <button type='submit' className="py-5 bg-[#27A9E1] font-bold text-sm text-white">REGISTER
                                 NOW!
                             </button>

@@ -184,38 +184,56 @@ const GetQuotesForm = (props) => {
   const onSubmit = (data) => {
   }
   return (
-        <div className="bg-[#d8e8e5] p-6 ">
-          <h1 className="text-center font-bold pb-6 text-[20px] capitalize">
-            Get Quotes From Reviewed Pros
-          </h1>
-          <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col">
-              <select
-                name=""
-                id=""
-                className="p-3 px-2 text-gray-500 w-full text-[14px] outline-none"
-                {...register("category")}
+        <div className="p-6 ">
+          <div className="lg:col-span-5">
+            <form className="bg-secondary bg-opacity-10 rounded-2xl p-6 md:p-8">
+              <h1 className="text-center font-bold pb-6 text-[20px] capitalize">
+                Get Quotes From Reviewed Pros
+              </h1>
+              <div className="mb-5">
+
+              </div>
+              <div className="flex flex-col mb-5">
+                <select
+                  name=""
+                  id=""
+                  className="w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
+                  {...register("category")}
+                >
+                  <option value="" >Select Category</option>
+                </select>
+                {errors.category && (
+                  <span className="text-sm text-red-500">
+                    {errors.category.message}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col mb-5">
+                <input
+                  type="text"
+                  id="zip"
+                  placeholder="Zip Code"
+                  name="zip"
+                  className={
+                    "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
+                  }
+                  {...register('postal_code')}
+
+                />
+                {errors.postal_code && (
+                  <span className="text-sm text-red-500">
+                    {errors.postal_code.message}
+                  </span>
+                )}
+              </div>
+              <button
+                type="submit"
+                className="bg-secondary  w-full hover:bg-opacity-70 text-white font-semibold p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white"
               >
-                <option value="" >Select Category</option>
-              </select>
-              {errors.postal_code && (
-                <span className="text-sm text-red-500">
-                  {errors.postal_code.message}
-                </span>
-              )}
-            </div>
-            <div className="flex flex-col">
-              <input type='text' className='border-2 w-full p-2' {...register("postal_code")} placeholder='Postal Code'/>
-              {errors.postal_code && (
-                <span className="text-sm text-red-500">
-                  {errors.postal_code.message}
-                </span>
-              )}
-            </div>
-            <button className='bg-primary py-3 font-bold text-white' type='submit'>
-              Get Quotes
-            </button>
-          </form>
+                Get Quotes
+              </button>
+            </form>
+          </div>
         </div>
   )
 }
@@ -237,39 +255,73 @@ const SignUpArticle = (props) => {
   const onSubmit = (data) => {
   }
   return (
-        <div className="bg-[#d8e8e5] p-6 ">
-          <h1 className="text-center font-bold pb-6 text-[20px] capitalize">
-              Sign up for articles, hiring tips, cost guides and more
-          </h1>
-          <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
-            <div className='flex flex-col'>
-              <input type='text' className='border-2 w-full p-2' placeholder='First Name' {...register("firstname")}/>
-              {errors.firstname && (
-                <span className="text-sm text-red-500">
-                  {errors.firstname.message}
-                </span>
-              )}
-            </div>
-            <div className='flex flex-col'>
-              <input type='text' className='border-2 w-full p-2' placeholder='Last Name' {...register("lastname")}/>
-              {errors.lastname && (
-                <span className="text-sm text-red-500">
-                  {errors.lastname.message}
-                </span>
-              )}
-            </div>
-            <div className='flex flex-col'>
-              <input type='text' className='border-2 w-full p-2' placeholder='Email Address' {...register("email")}/>
-              {errors.email && (
-                <span className="text-sm text-red-500">
-                  {errors.email.message}
-                </span>
-              )}
-            </div>
-            <button className='bg-primary py-3 font-bold text-white' type='submit'>
-              Sign Up
-            </button>
-          </form>
+        <div className="p-6 ">
+
+          <form className="bg-secondary bg-opacity-10 rounded-2xl p-6 md:p-8">
+              <h1 className="text-center font-bold pb-6 text-[20px] capitalize">
+                  Sign up for articles, hiring tips, cost guides and more
+              </h1>
+              <div className="flex flex-col mb-5">
+                <input
+                  type="text"
+                  id="firstname"
+                  placeholder="First Name"
+                  name="firstname"
+                  className={
+                    "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
+                  }
+                  {...register('firstname')}
+
+                />
+                {errors.firstname && (
+                  <span className="text-sm text-red-500">
+                    {errors.firstname.message}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col mb-5">
+                <input
+                  type="text"
+                  id="lastname"
+                  placeholder="Last Name"
+                  name="lastname"
+                  className={
+                    "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
+                  }
+                  {...register('lastname')}
+
+                />
+                {errors.lastname && (
+                  <span className="text-sm text-red-500">
+                    {errors.lastname.message}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col mb-5">
+                <input
+                  type="text"
+                  id="zip"
+                  placeholder="Zip Code"
+                  name="zip"
+                  className={
+                    "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
+                  }
+                  {...register('postal_code')}
+
+                />
+                {errors.postal_code && (
+                  <span className="text-sm text-red-500">
+                    {errors.postal_code.message}
+                  </span>
+                )}
+              </div>
+              <button
+                type="submit"
+                className="bg-secondary  w-full hover:bg-opacity-70 text-white font-semibold p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white"
+              >
+                Sign Up
+              </button>
+            </form>
         </div>
   )
 }
