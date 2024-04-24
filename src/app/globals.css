@@ -179,3 +179,7 @@ progress::-webkit-progress-value {
   background-color: #12937c;
   border-radius: 10px;
 }
+
+.hide-scrollbar {
+  overflow: hidden;
+}

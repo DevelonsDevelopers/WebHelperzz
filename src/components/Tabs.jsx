@@ -209,6 +209,7 @@ export default function Tabs({ id, details }) {
 
 
   const ZoomedImageModal = ({ imageUrl, onClose, images }) => {
+    
     // const projectCards = [
     //   {
     //     id: 0,
@@ -229,6 +230,18 @@ export default function Tabs({ id, details }) {
       );
     };
 
+
+      useEffect(() => {
+        // Add the class to hide the scrollbar when the component mounts
+        document.body.classList.add('hide-scrollbar');
+        
+        // Remove the class when the component unmounts
+        return () => {
+          document.body.classList.remove('hide-scrollbar');
+        };
+      }, []);
+    
+
     const handleNextClick = () => {
       setSelectedIndex((prevIndex) =>
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
@@ -242,18 +255,18 @@ export default function Tabs({ id, details }) {
 
 
     return (
-      <div className="fixed top-0 left-0 w-full h-full  bg-black bg-opacity-75 flex justify-center z-10">
-        <div className="mt-[4rem] sm:mt-[3rem] xl:flex xl:flex-col xl:justify-center">
+      <div className="overflow-hidden fixed z-10 top-0 left-0 w-full h-full  bg-black bg-opacity-100 flex justify-center ">
+        <div className="flex flex-col justify-center  sm:mt-[3rem] xl:flex xl:flex-col xl:justify-center">
           <div>
               <img
                 src={`${IMAGE_PATH}${zoomedImageUrl}`}
                 alt="Zoomed"
-                className="w-[100%] h-[350px] xl:h-[75vh] sm:h-[400px] object-cover"
+                className="min-w-[370px] h-[350px] xl:h-[75vh] sm:h-[400px] object-cover"
               />
           </div>
           <div className="images-cards">
             <div className="mt-4 relative">
-              <div className="grid grid-cols-4 gap-2 w-[75%] mx-auto">
+              <div className="grid grid-cols-3 gap-2 w-[55%]  sm:w-[75%] mx-auto">
                 {images.map((item, index) => (
                   <div
                     key={item.id}
@@ -269,12 +282,12 @@ export default function Tabs({ id, details }) {
                       alt={item.image}
                       width={110}
                       height={100}
-                      className="w-[50px] h-[60px] sm:h-[80px] sm:w-[150px] xl:w-[100%]"
+                      className="w-full h-[60px] sm:h-[80px] sm:w-[150px] xl:w-[100%]"
                     />
                   </div>
                 ))}
               </div>
-              <div className="absolute top-1/2 transform -translate-y-1/2 left-[20px]  sm:left-0 right-[20px] sm:right-0 flex justify-between">
+              <div className="absolute top-1/2 transform -translate-y-1/2 left-[14px]  sm:left-0 right-[27px] sm:right-0 flex justify-between">
                 <button
                   className="btn-prev flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full"
                   onClick={handlePrevClick}
