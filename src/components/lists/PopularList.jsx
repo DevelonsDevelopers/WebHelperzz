@@ -10,26 +10,28 @@ import {
 } from "../../../public/data/professionData";
 
 const PopularList = ({ categories }) => {
-  console.log(categories);
 
-  return (
-    <div>
-      <div>
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-            {categories.map((category, index) => (
-              <div key={index}>
-                <h2 className="mt-6 mb-3 text-[18px] font-[600]">
-                  {category.name}
-                </h2>
-                <ProfessionCard items={category?.subcategories} />
-              </div>
-            ))}
-          </div>
-        </>
-      </div>
-    </div>
-  );
+
+    useEffect(() => {
+        console.log(categories)
+    }, [categories]);
+
+    return (
+        <div>
+            <div>
+                {categories?.map(value => (
+                    <>
+                        <h2 className="mt-6 mb-3 text-[18px] font-[600]">{value.name}</h2>
+                        <div className="grid grid-cols-4 gap-4">
+                            {value?.subcategories.map((item, index) => (
+                                <ProfessionCard key={index} item={item}/>
+                            ))}
+                        </div>
+                    </>
+                ))}
+            </div>
+        </div>
+    );
 };
 
 export default PopularList;

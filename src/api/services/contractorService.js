@@ -1,6 +1,22 @@
 import axiosInstance from "./axiosInstance";
 
 const contractorService = {
+    create: async (payload) => {
+        try {
+            const response = await axiosInstance.post('/contractors/create', payload)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
+    createDetails: async (payload) => {
+        try {
+            const response = await axiosInstance.post('/contractors/createDetails', payload)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
     featured: async () => {
         try {
             const response = await axiosInstance.get('/contractors/featured')
