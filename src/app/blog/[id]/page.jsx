@@ -1,8 +1,10 @@
 'use client'
-import { ProfileCard, RecentReviews } from "../../account/[id]/page"
 import Header from "@/components/Header";
 import Link from "next/link";
 import Image from "next/image";
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { object, string } from 'yup';
 const Page = (props) => {
   return (
     <>
@@ -40,8 +42,8 @@ const Page = (props) => {
                 <p>Whether you are moving into your dream home or moving into your own office, the one thing that causes the most hassle is the actual moving. Packing all your belongings, making sure they are moved with care and then again unpacking them – it can be a stressful experience. However, when you choose the right moving company, everything can be done swiftly and efficiently. To understand more about what makes a moving company great, we spoke to Best of Award winner Let’s Get Moving. With an average rating of 9.5/10, three times Best of Award wins and over 400 reviews, they are the experts in their industry. and here’s what they had to say about their company, their experience at HomeStars and even tips on how to choose the right moving company! Let’s take a look. </p>
             </div>
             <div className="flex flex-col gap-5 lg:w-[28%] w-full">
-                <ProfileCard />
-                <RecentReviews />
+              <GetQuotesForm/>
+              <SignUpArticle/>
             </div>
         </div> 
      </div>
@@ -163,6 +165,112 @@ const Page = (props) => {
     </footer>
   </>
  
+  )
+}
+
+const quotes_schema = object({
+  category: string().required().label('Business Name'),
+  postal_code: string().matches('/^[A-Z]\d[A-Z] \d[A-Z]\d$/', 'Invalid Postal Code').label('Postal Code').required(),
+});
+const GetQuotesForm = (props) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors,  },
+  } = useForm({
+    resolver: yupResolver(quotes_schema),
+  });
+  const onSubmit = (data) => {
+  }
+  return (
+        <div className="bg-[#d8e8e5] p-6 ">
+          <h1 className="text-center font-bold pb-6 text-[20px] capitalize">
+            Get Quotes From Reviewed Pros
+          </h1>
+          <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col">
+              <select
+                name=""
+                id=""
+                className="p-3 px-2 text-gray-500 w-full text-[14px] outline-none"
+                {...register("category")}
+              >
+                <option value="" >Select Category</option>
+              </select>
+              {errors.postal_code && (
+                <span className="text-sm text-red-500">
+                  {errors.postal_code.message}
+                </span>
+              )}
+            </div>
+            <div className="flex flex-col">
+              <input type='text' className='border-2 w-full p-2' {...register("postal_code")} placeholder='Postal Code'/>
+              {errors.postal_code && (
+                <span className="text-sm text-red-500">
+                  {errors.postal_code.message}
+                </span>
+              )}
+            </div>
+            <button className='bg-primary py-3 font-bold text-white' type='submit'>
+              Get Quotes
+            </button>
+          </form>
+        </div>
+  )
+}
+
+const signup_schema = object({
+  firstname:string().required().label('First Name'),
+  lastname:string().required().label('Last Name'),
+  email: string().email().required().label('Email'),
+});
+const SignUpArticle = (props) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors,  },
+  } = useForm({
+    resolver: yupResolver(signup_schema),
+  });
+  const onSubmit = (data) => {
+  }
+  return (
+        <div className="bg-[#d8e8e5] p-6 ">
+          <h1 className="text-center font-bold pb-6 text-[20px] capitalize">
+              Sign up for articles, hiring tips, cost guides and more
+          </h1>
+          <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
+            <div className='flex flex-col'>
+              <input type='text' className='border-2 w-full p-2' placeholder='First Name' {...register("firstname")}/>
+              {errors.firstname && (
+                <span className="text-sm text-red-500">
+                  {errors.firstname.message}
+                </span>
+              )}
+            </div>
+            <div className='flex flex-col'>
+              <input type='text' className='border-2 w-full p-2' placeholder='Last Name' {...register("lastname")}/>
+              {errors.lastname && (
+                <span className="text-sm text-red-500">
+                  {errors.lastname.message}
+                </span>
+              )}
+            </div>
+            <div className='flex flex-col'>
+              <input type='text' className='border-2 w-full p-2' placeholder='Email Address' {...register("email")}/>
+              {errors.email && (
+                <span className="text-sm text-red-500">
+                  {errors.email.message}
+                </span>
+              )}
+            </div>
+            <button className='bg-primary py-3 font-bold text-white' type='submit'>
+              Sign Up
+            </button>
+          </form>
+        </div>
   )
 }
 
