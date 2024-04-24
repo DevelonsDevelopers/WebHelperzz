@@ -135,7 +135,7 @@ export default function Tabs({ id, details }) {
   const [value, setValue] = React.useState("1");
   const [givenRating, setGivenRating] = useState(0);
   const [zoomedImageUrl, setZoomedImageUrl] = useState(null);
-  const [projectImages, setProjectImages] = useState([])
+  const [projectImages, setProjectImages] = useState([]);
   const sliderRef = useRef(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(true);
@@ -178,7 +178,7 @@ export default function Tabs({ id, details }) {
 
   const openZoomedImage = (imageUrl, images) => {
     setZoomedImageUrl(imageUrl);
-    setProjectImages(images)
+    setProjectImages(images);
   };
 
   const closeZoomedImage = () => {
@@ -207,9 +207,7 @@ export default function Tabs({ id, details }) {
     setValue(newValue);
   };
 
-
   const ZoomedImageModal = ({ imageUrl, onClose, images }) => {
-    
     // const projectCards = [
     //   {
     //     id: 0,
@@ -219,10 +217,8 @@ export default function Tabs({ id, details }) {
     //   ...projectCardsOld
     // ]
 
-
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [zoomedImageUrl, setZoomedImageUrl] = useState(images[0].image); // Initial value
-
 
     const handlePrevClick = () => {
       setSelectedIndex((prevIndex) =>
@@ -230,17 +226,15 @@ export default function Tabs({ id, details }) {
       );
     };
 
+    useEffect(() => {
+      // Add the class to hide the scrollbar when the component mounts
+      document.body.classList.add("hide-scrollbar");
 
-      useEffect(() => {
-        // Add the class to hide the scrollbar when the component mounts
-        document.body.classList.add('hide-scrollbar');
-        
-        // Remove the class when the component unmounts
-        return () => {
-          document.body.classList.remove('hide-scrollbar');
-        };
-      }, []);
-    
+      // Remove the class when the component unmounts
+      return () => {
+        document.body.classList.remove("hide-scrollbar");
+      };
+    }, []);
 
     const handleNextClick = () => {
       setSelectedIndex((prevIndex) =>
@@ -249,20 +243,19 @@ export default function Tabs({ id, details }) {
     };
 
     // Update zoomed image URL after selectedIndex changes
-  useEffect(() => {
-    setZoomedImageUrl(images[selectedIndex].image);
-  }, [selectedIndex, images]);
-
+    useEffect(() => {
+      setZoomedImageUrl(images[selectedIndex].image);
+    }, [selectedIndex, images]);
 
     return (
       <div className="overflow-hidden fixed z-10 top-0 left-0 w-full h-full  bg-black bg-opacity-100 flex justify-center ">
         <div className="flex flex-col justify-center  sm:mt-[3rem] xl:flex xl:flex-col xl:justify-center">
           <div>
-              <img
-                src={`${IMAGE_PATH}${zoomedImageUrl}`}
-                alt="Zoomed"
-                className="min-w-[370px] h-[350px] xl:h-[75vh] sm:h-[400px] object-cover"
-              />
+            <img
+              src={`${IMAGE_PATH}${zoomedImageUrl}`}
+              alt="Zoomed"
+              className="min-w-[370px] w-[600px] h-[350px] xl:h-[75vh] sm:h-[400px] object-cover"
+            />
           </div>
           <div className="images-cards">
             <div className="mt-4 relative">
@@ -282,7 +275,7 @@ export default function Tabs({ id, details }) {
                       alt={item.image}
                       width={110}
                       height={100}
-                      className="w-full h-[60px] sm:h-[80px] sm:w-[150px] xl:w-[100%]"
+                      className="w-full object-cover h-[60px] sm:h-[80px] sm:w-[150px] xl:w-[100%]"
                     />
                   </div>
                 ))}
@@ -680,7 +673,8 @@ export default function Tabs({ id, details }) {
                         key={index}
                         onClick={() =>
                           openZoomedImage(
-                            `${IMAGE_PATH}${project.images[0].image}`, project.images
+                            `${IMAGE_PATH}${project.images[0].image}`,
+                            project.images
                           )
                         }
                       >
