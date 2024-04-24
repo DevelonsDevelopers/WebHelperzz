@@ -135,28 +135,29 @@ const Page = ({ params }) => {
                     </span>
                                     )}
                                 </div>
+                            </div>
+                            <div className='flex gap-4'>
                                 <div className='flex-1 flex flex-col'>
-                                        <label className='font-bold text-sm'>Postal Code</label>
-                                        <input type='text' className='border-2 w-full p-2' {...register("postal_code")}
-                                            placeholder='Postal Code'/>
-                                        {errors.postal_code && (
-                                            <span className="text-sm text-red-500">
-                            {errors.postal_code.message}
-                        </span>
-                                        )}
-                                    </div>
+                                    <label className='font-bold text-sm'>Address</label>
+                                    <input type='text' className='border-2 w-full p-2' {...register("address")}
+                                        placeholder='Address'/>
+                                    {errors.address && (
+                                        <span className="text-sm text-red-500">
+                                        {errors.address.message}
+                                    </span>
+                                    )}
+                                </div>
+                                <div className='flex-initial flex flex-col'>
+                                    <label className='font-bold text-sm'>Postal Code</label>
+                                    <input type='text' className='border-2 w-full p-2' {...register("postal_code")}
+                                        placeholder='Postal Code'/>
+                                    {errors.postal_code && (
+                                        <span className="text-sm text-red-500">
+                                            {errors.postal_code.message}
+                                        </span>
+                                    )}
+                                </div>
                             </div>
-                            <div className='flex flex-col'>
-                                <label className='font-bold text-sm'>Address</label>
-                                <input type='text' className='border-2 w-full p-2' {...register("address")}
-                                       placeholder='Address'/>
-                                {errors.address && (
-                                    <span className="text-sm text-red-500">
-                    {errors.address.message}
-                  </span>
-                                )}
-                            </div>
- 
                             <div className="min-w-[250px] w-[100%] mb-6 ">
                 <label className='font-bold text-sm'>Licenses</label>
                 <div

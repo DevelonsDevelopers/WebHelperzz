@@ -41,9 +41,10 @@ const Page = (props) => {
                 </div>
                 <p>Whether you are moving into your dream home or moving into your own office, the one thing that causes the most hassle is the actual moving. Packing all your belongings, making sure they are moved with care and then again unpacking them – it can be a stressful experience. However, when you choose the right moving company, everything can be done swiftly and efficiently. To understand more about what makes a moving company great, we spoke to Best of Award winner Let’s Get Moving. With an average rating of 9.5/10, three times Best of Award wins and over 400 reviews, they are the experts in their industry. and here’s what they had to say about their company, their experience at HomeStars and even tips on how to choose the right moving company! Let’s take a look. </p>
             </div>
-            <div className="flex flex-col gap-5 lg:w-[28%] w-full">
+            <div className="flex flex-col gap-5 lg:w-[28%] w-full mt-20">
               <GetQuotesForm/>
-              <SignUpArticle/>
+              <GuideCard/>
+              <GuideCard/>
             </div>
         </div> 
      </div>
@@ -238,91 +239,32 @@ const GetQuotesForm = (props) => {
   )
 }
 
-const signup_schema = object({
-  firstname:string().required().label('First Name'),
-  lastname:string().required().label('Last Name'),
-  email: string().email().required().label('Email'),
-});
-const SignUpArticle = (props) => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors,  },
-  } = useForm({
-    resolver: yupResolver(signup_schema),
-  });
-  const onSubmit = (data) => {
-  }
+
+const GuideCard = (props) => {
   return (
-        <div className="p-6 ">
+    <div className="p-6">
+    <div className="h-full rounded-lg overflow-hidden select-text">
+      <img
+        className="object-cover h-[300px] object-center rounded-3xl"
+        src={`/cali-constructions.png`}
+        alt="blog"
+      />
+      <div className="py-4">
+        <h2 className="title-font text-base font-semibold text-gray-900 mb-3 select-text">
+          Successful Contractor Life
+        </h2>
+        <p className="text-sm mb-3 overflow-hidden whitespace-nowrap overflow-ellipsis select-text">
+          How to be a Successful Contractor
+        </p>
 
-          <form className="bg-secondary bg-opacity-10 rounded-2xl p-6 md:p-8">
-              <h1 className="text-center font-bold pb-6 text-[20px] capitalize">
-                  Sign up for articles, hiring tips, cost guides and more
-              </h1>
-              <div className="flex flex-col mb-5">
-                <input
-                  type="text"
-                  id="firstname"
-                  placeholder="First Name"
-                  name="firstname"
-                  className={
-                    "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
-                  }
-                  {...register('firstname')}
-
-                />
-                {errors.firstname && (
-                  <span className="text-sm text-red-500">
-                    {errors.firstname.message}
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-col mb-5">
-                <input
-                  type="text"
-                  id="lastname"
-                  placeholder="Last Name"
-                  name="lastname"
-                  className={
-                    "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
-                  }
-                  {...register('lastname')}
-
-                />
-                {errors.lastname && (
-                  <span className="text-sm text-red-500">
-                    {errors.lastname.message}
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-col mb-5">
-                <input
-                  type="text"
-                  id="zip"
-                  placeholder="Zip Code"
-                  name="zip"
-                  className={
-                    "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
-                  }
-                  {...register('postal_code')}
-
-                />
-                {errors.postal_code && (
-                  <span className="text-sm text-red-500">
-                    {errors.postal_code.message}
-                  </span>
-                )}
-              </div>
-              <button
-                type="submit"
-                className="bg-secondary  w-full hover:bg-opacity-70 text-white font-semibold p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white"
-              >
-                Sign Up
-              </button>
-            </form>
+        <div className="flex items-center flex-wrap">
+          <a className="text-primary w-[35%] sm:w-[70%] border text-sm px-4 py-2 rounded-2xl font-bold border-primary hover:bg-primary transition-all hover:text-white inline-flex items-center md:mb-2 lg:mb-0 sm:w-auto w-full sm:justify-start justify-center">
+            Read more
+          </a>
         </div>
+      </div>
+    </div>
+  </div>
   )
 }
 
