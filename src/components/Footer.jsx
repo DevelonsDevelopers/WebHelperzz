@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import "../style/Footer.css";
 export const Footer = ({ showNewsLetter = true }) => {
   return (
@@ -26,12 +27,12 @@ export const Footer = ({ showNewsLetter = true }) => {
               <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:text-white text-text mt-2 text-transform: uppercase sm:text-left text-center">
                 Suddenly IT’s all so doable.{" "}
               </h2>
-              <a
+              <Link
                 href="#"
-                className="text-text sm:mt-3 mt-0 text-lg min-w-60 justify-center border-secondary border font-bold sm:border px-5 py-3 rounded-2xl bg-[#fff] inline-flex items-center"
+                className="text-text sm:mt-3 mt-0 text-lg min-w-60 justify-center border-secondary cursor-pointer hover:bg-primary hover:text-white border font-bold sm:border px-5 py-3 rounded-2xl bg-[#fff] inline-flex items-center"
               >
                 Post your Project
-              </a>
+              </Link>
             </div>
           </div>
         </div>
