@@ -8,6 +8,10 @@ import {useEffect, useRef, useState} from 'react'
 import {CiFileOn} from "react-icons/ci";
 import {log} from "next/dist/server/typescript/utils";
 import categoryService from "@/api/services/categoryService";
+import contractorService from "@/api/services/contractorService";
+import uploadService from "@/api/services/uploadService";
+import {useRouter} from "next/navigation";
+
 const schema = object({
     businessname: string().required().label('Business Name'),
     firstname: string().required().label('First Name'),
@@ -17,14 +21,19 @@ const schema = object({
     address: string().label('Address').required(),
     licenses: mixed().test('fileCount', 'Only six files are allowed', (value) => {
         return value.length <= 6;
-      }).label('Licenses').required(),
+    }).label('Licenses').required(),
     postal_code: string().matches(/^[A-Z]\d[A-Z] \d[A-Z]\d$/, 'Invalid Postal Code').label('Postal Code').required(),
     logo: mixed().label('Logo').required(),
     certificate: mixed().label('Cerificate').required(),
+    category: string().label('Category').required()
 });
-const Page = ({ params }) => {
+const Page = ({params}) => {
 
+    const navigate = useRouter();
 
+    const [categories, setCategories] = useState([]);
+    const [certificateDone, setCertificateDone] = useState(false)
+    const [licenseDone, setLicenseDone] = useState(false)
     const [contractorData, setContractorData] = useState({
         name: "",
         email: "",
@@ -32,8 +41,9 @@ const Page = ({ params }) => {
         password: "123456",
         address: "",
         image: "-",
+        status: 0,
+        checked: 0
     });
-    const [categories, setCategories] = useState([]);
 
     const [detailsData, setDetailsData] = useState({
         contractor: '',
@@ -49,6 +59,12 @@ const Page = ({ params }) => {
         description: '',
         trust_seal: 0,
     })
+
+    useEffect(() => {
+        if (certificateDone && licenseDone){
+            navigate.push('/')
+        }
+    }, [certificateDone, licenseDone]);
 
     const logoRef = useRef(null);
     const certificateRef = useRef(null);
@@ -67,42 +83,69 @@ const Page = ({ params }) => {
     const logo = watch('logo');
     const certificate = watch('certificate')
     const licenses = watch('licenses')
-    const options = categories.map((category) => ({
-        value: category.tag,
-        label: category.name,
-      }));
+
     const onSubmit = (data) => {
         let contractorD = {...contractorData}
         contractorD.name = data.firstname + " " + data.lastname
         contractorD.email = data.email
         contractorD.phone = data.phone_number
         contractorD.address = data.address
-        contractorService.create(contractorD).then(response => {
-            let contractorDetails = {...detailsData}
-            contractorDetails.contractor = response.contractor.id
-            contractorDetails.address = data.address
-            contractorDetails.postal_code = data.postal_code
-            contractorDetails.company_name = data.businessname
-            contractorService.createDetails(contractorDetails).then(response => {
-                console.log(response)
-            })
-        }).catch(err => {
+        uploadService.single(data.logo[0]).then((file) => {
+            contractorD.image = file.fileName
+            contractorService.create(contractorD).then(response => {
+                let contractorDetails = {...detailsData}
+                contractorDetails.contractor = response.contractor.id
+                contractorDetails.address = data.address
+                contractorDetails.postal_code = data.postal_code
+                contractorDetails.company_name = data.businessname
+                contractorDetails.category = data.category
+                contractorService.createDetails(contractorDetails).then(response => {
+                    console.log(response)
+                })
+                for (let i = 0; i < data.licenses.length; i++) {
+                    uploadService.single(data.licenses[i]).then((file) => {
+                        const docData = {contractor: response.contractor.id, title: "License", file: file.fileName};
+                        contractorService.createDocument(docData).then((docResponse) => {
+                            if (i === data.licenses.length - 1) {
+                                setLicenseDone(true)
+                            }
+                        });
+                    });
+                }
+                uploadService.single(data.certificate[0]).then((file) => {
+                    const data = {
+                        contractor: response.contractor.id,
+                        title: "Incorporate Certificate",
+                        file: file.fileName
+                    };
+                    contractorService.createDocument(data).then((docResponse) => {
+                        setCertificateDone(true)
+                    });
+                });
+            }).catch(err => {
 
-        })
-        // setDetailsData(value => ({...value, contractor: data.contractor, company_name: data.company_name, address: data.address, postal_code: data.postal_code, skills: data.skills, service_areas: data.service_areas, availability_days: data.availability_days, availability_hours: data.availability_hours, website: data.website, description: data.description }))
-        // console.log(data)
+            })
+        });
+        console.log(data)
     }
     const getCategories = async () => {
         try {
-        const response = await categoryService.fetchAll();
-        setCategories(response.categories);
+            const response = await categoryService.fetchAll();
+            setCategories(response.categories);
         } catch (error) {
-        console.error(error);
+            console.error(error);
         }
     };
+
+    const options = categories.map((category) => ({
+        value: category.id,
+        label: category.name,
+    }));
+
     useEffect(() => {
         getCategories();
-      });
+    });
+
     return (
         <>
             <Header/>
@@ -124,7 +167,7 @@ const Page = ({ params }) => {
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Professional/Company Name</label>
                                     <input type='text' className='border-2 w-full p-2' {...register("businessname")}
-                                        placeholder='Your Business Name'/>
+                                           placeholder='Your Business Name'/>
                                     {errors.businessname && (
                                         <span className="text-sm text-red-500">
                                             {errors.businessname.message}
@@ -133,7 +176,8 @@ const Page = ({ params }) => {
                                 </div>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Category</label>
-                                    <select className='bg-white text-gray-400 border-2 w-full p-2' {...register("category")}>
+                                    <select
+                                        className='bg-white text-gray-400 border-2 w-full p-2' {...register("category")}>
                                         <option value="">Select Category</option>
                                         {
                                             options.map((option, i) => (
@@ -191,7 +235,7 @@ const Page = ({ params }) => {
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Address</label>
                                     <input type='text' className='border-2 w-full p-2' {...register("address")}
-                                        placeholder='Address'/>
+                                           placeholder='Address'/>
                                     {errors.address && (
                                         <span className="text-sm text-red-500">
                                         {errors.address.message}
@@ -201,7 +245,7 @@ const Page = ({ params }) => {
                                 <div className='flex-initial flex flex-col'>
                                     <label className='font-bold text-sm'>Postal Code</label>
                                     <input type='text' className='border-2 w-full p-2' {...register("postal_code")}
-                                        placeholder='Postal Code'/>
+                                           placeholder='Postal Code'/>
                                     {errors.postal_code && (
                                         <span className="text-sm text-red-500">
                                             {errors.postal_code.message}
@@ -210,189 +254,195 @@ const Page = ({ params }) => {
                                 </div>
                             </div>
                             <div className="min-w-[250px] w-[100%] mb-6 ">
-                <label className='font-bold text-sm'>Licenses</label>
-                <div
-                    htmlFor="dropzone-file"
-                    onClick={() => licensesRef.current?.click()}
-                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300
+                                <label className='font-bold text-sm'>Licenses</label>
+                                <div
+                                    htmlFor="dropzone-file"
+                                    onClick={() => licensesRef.current?.click()}
+                                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300
   `}
-                >
-                    {licenses && licenses.length > 0 ?
-                      <div className="flex flex-wrap gap-1 py-3">
-                        {
-                            Array.from(licenses).map((license, i) => (
+                                >
+                                    {licenses && licenses.length > 0 ?
+                                        <div className="flex flex-wrap gap-1 py-3">
+                                            {
+                                                Array.from(licenses).map((license, i) => (
 
-                                <img
-                                    key={i}
-                                    src={URL.createObjectURL(license)}
-                                    alt={`Uploaded Logo`}
-                                    className="w-20 object-cover mr-2"
-                                />
-                            ))
-                        }
-                      </div>:
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg
-                            className="w-8 h-8 mb-4 text-gray-500 "
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 20 16"
-                        >
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                            />
-                        </svg>
-                        <p className="mb-2 text-sm text-gray-500 ">
-                            <span className="font-semibold">Click to upload</span>{" "}
+                                                    <img
+                                                        key={i}
+                                                        src={URL.createObjectURL(license)}
+                                                        alt={`Uploaded Logo`}
+                                                        className="w-20 object-cover mr-2"
+                                                    />
+                                                ))
+                                            }
+                                        </div> :
+                                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                            <svg
+                                                className="w-8 h-8 mb-4 text-gray-500 "
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 20 16"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                />
+                                            </svg>
+                                            <p className="mb-2 text-sm text-gray-500 ">
+                                                <span className="font-semibold">Click to upload</span>{" "}
 
-                        </p>
-                        <p className="text-xs text-gray-500 ">
-                            SVG, PNG, JPG or GIF
-                        </p>
-                    </div>
+                                            </p>
+                                            <p className="text-xs text-gray-500 ">
+                                                SVG, PNG, JPG or GIF
+                                            </p>
+                                        </div>
 
-                    }
+                                    }
 
-                    <input
-                        ref={licensesRef}
-                        type="file"
-                        multiple
-                        id="dropzone-file"
-                        name="image"
-                        accept='image/jpeg, image/png, image/svg+xml'
-                        className="hidden"
-                        onChange={(e) => setValue('licenses', e.target.files)}
-                      />
-                </div>
-                {errors.licenses && (
-                  <span className="text-sm text-red-500">
+                                    <input
+                                        ref={licensesRef}
+                                        type="file"
+                                        multiple
+                                        id="dropzone-file"
+                                        name="image"
+                                        accept='image/jpeg, image/png, image/svg+xml'
+                                        className="hidden"
+                                        onChange={(e) => setValue('licenses', e.target.files)}
+                                    />
+                                </div>
+                                {errors.licenses && (
+                                    <span className="text-sm text-red-500">
                     {errors.licenses.message}
                   </span>
-                )}
-            </div>
-            <div className="min-w-[250px] w-[100%] mb-6 ">
-                <label className='font-bold text-sm'>Company Logo</label>
-                <div
-                    htmlFor="dropzone-file"
-                    onClick={() => {console.log('here', logoRef.current);logoRef.current?.click()}}
-                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300
+                                )}
+                            </div>
+                            <div className="min-w-[250px] w-[100%] mb-6 ">
+                                <label className='font-bold text-sm'>Company Logo</label>
+                                <div
+                                    htmlFor="dropzone-file"
+                                    onClick={() => {
+                                        console.log('here', logoRef.current);
+                                        logoRef.current?.click()
+                                    }}
+                                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300
   `}
-                >
-                    {logo && logo.length > 0 ?
-                      <div className="flex flex-wrap py-3">
-                          <img
-                              src={URL.createObjectURL(logo[0])}
-                              alt={`Uploaded Logo`}
-                              className="w-20 object-cover mr-2"
-                          />
-                      </div>:
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg
-                            className="w-8 h-8 mb-4 text-gray-500 "
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 20 16"
-                        >
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                            />
-                        </svg>
-                        <p className="mb-2 text-sm text-gray-500 ">
-                            <span className="font-semibold">Click to upload</span>{" "}
+                                >
+                                    {logo && logo.length > 0 ?
+                                        <div className="flex flex-wrap py-3">
+                                            <img
+                                                src={URL.createObjectURL(logo[0])}
+                                                alt={`Uploaded Logo`}
+                                                className="w-20 object-cover mr-2"
+                                            />
+                                        </div> :
+                                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                            <svg
+                                                className="w-8 h-8 mb-4 text-gray-500 "
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 20 16"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                />
+                                            </svg>
+                                            <p className="mb-2 text-sm text-gray-500 ">
+                                                <span className="font-semibold">Click to upload</span>{" "}
 
-                        </p>
-                        <p className="text-xs text-gray-500 ">
-                            SVG, PNG, JPG or GIF
-                        </p>
-                    </div>
+                                            </p>
+                                            <p className="text-xs text-gray-500 ">
+                                                SVG, PNG, JPG or GIF
+                                            </p>
+                                        </div>
 
-                    }
+                                    }
 
-                    <input
-                        ref={logoRef}
-                        type="file"
-                        id="dropzone-file"
-                        name="image"
-                        accept='image/jpeg, image/png, image/svg+xml'
-                        className="hidden"
-                        onChange={(e) => setValue('logo', e.target.files)}
-                      />
-                </div>
-                {errors.logo && (
-                  <span className="text-sm text-red-500">
+                                    <input
+                                        ref={logoRef}
+                                        type="file"
+                                        id="dropzone-file"
+                                        name="image"
+                                        accept='image/jpeg, image/png, image/svg+xml'
+                                        className="hidden"
+                                        onChange={(e) => setValue('logo', e.target.files)}
+                                    />
+                                </div>
+                                {errors.logo && (
+                                    <span className="text-sm text-red-500">
                     {errors.logo.message}
                   </span>
-                )}
-            </div>
-            <div className="min-w-[250px] w-[100%] mb-6 ">
-                <label className='font-bold text-sm'>Incorporation Certificate</label>
-                <div
-                    htmlFor="dropzone-file"
-                    onClick={() => {console.log('here', certificateRef.current);certificateRef.current?.click()}}
-                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300
+                                )}
+                            </div>
+                            <div className="min-w-[250px] w-[100%] mb-6 ">
+                                <label className='font-bold text-sm'>Incorporation Certificate</label>
+                                <div
+                                    htmlFor="dropzone-file"
+                                    onClick={() => {
+                                        console.log('here', certificateRef.current);
+                                        certificateRef.current?.click()
+                                    }}
+                                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300
   `}
-                >
-                    {certificate && certificate.length > 0 ?
-                      <div className="flex flex-wrap py-3">
-                          <img
-                              src={URL.createObjectURL(certificate[0])}
-                              alt={`Uploaded Logo`}
-                              className="w-20 object-cover mr-2"
-                          />
-                      </div>:
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg
-                            className="w-8 h-8 mb-4 text-gray-500 "
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 20 16"
-                        >
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                            />
-                        </svg>
-                        <p className="mb-2 text-sm text-gray-500 ">
-                            <span className="font-semibold">Click to upload</span>{" "}
+                                >
+                                    {certificate && certificate.length > 0 ?
+                                        <div className="flex flex-wrap py-3">
+                                            <img
+                                                src={URL.createObjectURL(certificate[0])}
+                                                alt={`Uploaded Logo`}
+                                                className="w-20 object-cover mr-2"
+                                            />
+                                        </div> :
+                                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                            <svg
+                                                className="w-8 h-8 mb-4 text-gray-500 "
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 20 16"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                />
+                                            </svg>
+                                            <p className="mb-2 text-sm text-gray-500 ">
+                                                <span className="font-semibold">Click to upload</span>{" "}
 
-                        </p>
-                        <p className="text-xs text-gray-500 ">
-                            SVG, PNG, JPG or GIF
-                        </p>
-                    </div>
+                                            </p>
+                                            <p className="text-xs text-gray-500 ">
+                                                SVG, PNG, JPG or GIF
+                                            </p>
+                                        </div>
 
-                    }
+                                    }
 
-                    <input
-                        ref={certificateRef}
-                        type="file"
-                        id="dropzone-file"
-                        name="image"
-                        accept='image/jpeg, image/png, image/svg+xml'
-                        className="hidden"
-                        onChange={(e) => setValue('certificate', e.target.files)}
-                      />
-                </div>
-                {errors.certificate && (
-                  <span className="text-sm text-red-500">
+                                    <input
+                                        ref={certificateRef}
+                                        type="file"
+                                        id="dropzone-file"
+                                        name="image"
+                                        accept='image/jpeg, image/png, image/svg+xml'
+                                        className="hidden"
+                                        onChange={(e) => setValue('certificate', e.target.files)}
+                                    />
+                                </div>
+                                {errors.certificate && (
+                                    <span className="text-sm text-red-500">
                     {errors.certificate.message}
                   </span>
-                )}
-            </div>
+                                )}
+                            </div>
                             <button type='submit' className="py-5 bg-[#27A9E1] font-bold text-sm text-white">REGISTER
                                 NOW!
                             </button>

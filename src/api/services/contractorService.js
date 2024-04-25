@@ -57,6 +57,14 @@ const contractorService = {
             throw error.response.data
         }
     },
+    createDocument: async (payload) => {
+        try {
+            const response = await axiosInstance.post('/contractors/createDocument', payload)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
     addImage: async (payload) => {
         try {
             const response = await axiosInstance.post('/contractors/addReviewImage', payload)
