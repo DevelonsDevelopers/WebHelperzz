@@ -678,7 +678,7 @@ console.log(blogs)
             <div className="w-screen pr-6 sm:w-[50%] md:w-[100%] md:mx-auto ">
               <Slider {...guidesBlogSettings} ref={blogsSliderRef}>
                 {blogs.map((value) => (
-                  <div key={value.id} className="p-2 cursor-pointer" onClick={() => router.push(`/blogs/${value.id}`)}>
+                  <div key={value.id} className="p-2 cursor-pointer" onClick={() => navigate.push(`/blog/${value.title.replaceAll(" ", "-").toLowerCase()}`)}>
                     <div className="h-full rounded-lg overflow-hidden select-text">
                       <img
                         className="object-cover h-[300px] object-center rounded-3xl"

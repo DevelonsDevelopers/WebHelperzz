@@ -4,8 +4,10 @@ import Link from "next/link";
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {object, string, mixed} from 'yup';
-import {useRef, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {CiFileOn} from "react-icons/ci";
+import {log} from "next/dist/server/typescript/utils";
+import contractorService from "@/api/services/contractorService";
 
 const schema = object({
     businessname: string().required().label('Business Name'),
@@ -21,21 +23,22 @@ const schema = object({
 });
 const Page = ({ params }) => {
 
+
     const [contractorData, setContractorData] = useState({
         name: "",
         email: "",
         phone: "",
-        password: "",
+        password: "123456",
         address: "",
-        image: "",
+        image: "-",
     });
 
     const [detailsData, setDetailsData] = useState({
         contractor: '',
         company_name: '',
         address: '',
-        postal_code: '',
-        category: '',
+        postal_code: '56000',
+        category: '0',
         skills: '',
         service_areas: '',
         availability_days: '',
@@ -63,8 +66,27 @@ const Page = ({ params }) => {
     const certificate = watch('certificate')
     const licenses = watch('licenses')
     const onSubmit = (data) => {
-        console.log(data)
+        let contractorD = {...contractorData}
+        contractorD.name = data.firstname + " " + data.lastname
+        contractorD.email = data.email
+        contractorD.phone = data.phone_number
+        contractorD.address = data.address
+        contractorService.create(contractorD).then(response => {
+            let contractorDetails = {...detailsData}
+            contractorDetails.contractor = response.contractor.id
+            contractorDetails.address = data.address
+            contractorDetails.postal_code = data.postal_code
+            contractorDetails.company_name = data.businessname
+            contractorService.createDetails(contractorDetails).then(response => {
+                console.log(response)
+            })
+        }).catch(err => {
+
+        })
+        // setDetailsData(value => ({...value, contractor: data.contractor, company_name: data.company_name, address: data.address, postal_code: data.postal_code, skills: data.skills, service_areas: data.service_areas, availability_days: data.availability_days, availability_hours: data.availability_hours, website: data.website, description: data.description }))
+        // console.log(data)
     }
+
     return (
         <>
             <Header/>
