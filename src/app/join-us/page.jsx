@@ -15,7 +15,7 @@ const schema = object({
     phone_number: string().min(10, 'Invalid Phone Number').label('Phone Number').required(),
     address: string().label('Address').required(),
     licenses: mixed().label('Licenses').required(),
-    postal_code: string().matches('/^[a-zA-Z]\d[a-zA-Z]\d[a-zA-Z]\d$/', 'Invalid Postal Code').label('Postal Code').required(),
+    postal_code: string().matches(/^[A-Z]\d[A-Z] \d[A-Z]\d$/, 'Invalid Postal Code').label('Postal Code').required(),
     logo: mixed().label('Logo').required(),
     certificate: mixed().label('Cerificate').required(),
 });
@@ -173,7 +173,7 @@ const Page = ({ params }) => {
                               alt={`Uploaded Logo`}
                               className="w-20 object-cover mr-2"
                           />
-                      </div>: 
+                      </div>:
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                         <svg
                             className="w-8 h-8 mb-4 text-gray-500 "
@@ -205,7 +205,7 @@ const Page = ({ params }) => {
                         ref={licensesRef}
                         type="file"
                         id="dropzone-file"
-                        name="image" 
+                        name="image"
                         accept='image/jpeg, image/png, image/svg+xml'
                         className="hidden"
                         onChange={(e) => setValue('licenses', e.target.files)}
@@ -232,7 +232,7 @@ const Page = ({ params }) => {
                               alt={`Uploaded Logo`}
                               className="w-20 object-cover mr-2"
                           />
-                      </div>: 
+                      </div>:
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                         <svg
                             className="w-8 h-8 mb-4 text-gray-500 "
@@ -264,7 +264,7 @@ const Page = ({ params }) => {
                         ref={logoRef}
                         type="file"
                         id="dropzone-file"
-                        name="image" 
+                        name="image"
                         accept='image/jpeg, image/png, image/svg+xml'
                         className="hidden"
                         onChange={(e) => setValue('logo', e.target.files)}
@@ -291,7 +291,7 @@ const Page = ({ params }) => {
                               alt={`Uploaded Logo`}
                               className="w-20 object-cover mr-2"
                           />
-                      </div>: 
+                      </div>:
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                         <svg
                             className="w-8 h-8 mb-4 text-gray-500 "
@@ -323,7 +323,7 @@ const Page = ({ params }) => {
                         ref={certificateRef}
                         type="file"
                         id="dropzone-file"
-                        name="image" 
+                        name="image"
                         accept='image/jpeg, image/png, image/svg+xml'
                         className="hidden"
                         onChange={(e) => setValue('certificate', e.target.files)}

@@ -533,8 +533,8 @@ export default function Tabs({ id, details }) {
                           </h5>
                           <progress
                             id="file"
-                            value="82"
-                            max="100"
+                            value={details?.ratings?.avg}
+                            max="5"
                             class="w-full h-4 block"
                           >
                             <span class="rounded-full">32%</span>
@@ -547,8 +547,8 @@ export default function Tabs({ id, details }) {
                           </h5>
                           <progress
                             id="file"
-                            value="81"
-                            max="100"
+                            value={details?.ratings?.recency}
+                            max="1"
                             class="w-full h-4 block"
                           >
                             <span class="rounded-full">32%</span>
@@ -561,8 +561,8 @@ export default function Tabs({ id, details }) {
                           </h5>
                           <progress
                             id="file"
-                            value="89"
-                            max="100"
+                            value={details?.ratings?.reputation}
+                            max="1"
                             class="w-full h-4 block"
                           >
                             <span class="rounded-full">32%</span>
@@ -575,7 +575,7 @@ export default function Tabs({ id, details }) {
                           </h5>
                           <progress
                             id="file"
-                            value="52"
+                            value="0"
                             max="100"
                             class="w-full h-4 block"
                           >
@@ -599,8 +599,8 @@ export default function Tabs({ id, details }) {
                           </h5>
                           <progress
                             id="file"
-                            value="72"
-                            max="100"
+                            value={details?.ratings?.great}
+                            max="1"
                             class="w-full h-4 block"
                           >
                             <span class="rounded-full">32%</span>
@@ -612,8 +612,8 @@ export default function Tabs({ id, details }) {
                           </h5>
                           <progress
                             id="file"
-                            value="42"
-                            max="100"
+                            value={details?.ratings?.average}
+                            max="1"
                             class="w-full h-4 block"
                           >
                             <span class="rounded-full">32%</span>
@@ -625,8 +625,8 @@ export default function Tabs({ id, details }) {
                           </h5>
                           <progress
                             id="file"
-                            value="32"
-                            max="100"
+                            value={details?.ratings?.poor}
+                            max="1"
                             class="w-full h-4 block"
                           >
                             <span class="rounded-full">32%</span>
