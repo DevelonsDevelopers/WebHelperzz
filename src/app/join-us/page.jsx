@@ -34,6 +34,7 @@ const Page = ({params}) => {
     const [categories, setCategories] = useState([]);
     const [certificateDone, setCertificateDone] = useState(false)
     const [licenseDone, setLicenseDone] = useState(false)
+    const [submitting, setSubmitting] = useState(false)
     const [contractorData, setContractorData] = useState({
         name: "",
         email: "",
@@ -62,6 +63,7 @@ const Page = ({params}) => {
 
     useEffect(() => {
         if (certificateDone && licenseDone){
+            setSubmitting(false)
             navigate.push('/join-us/success')
         }
     }, [certificateDone, licenseDone]);
@@ -90,6 +92,7 @@ const Page = ({params}) => {
         contractorD.email = data.email
         contractorD.phone = data.phone_number
         contractorD.address = data.address
+        setSubmitting(true)
         uploadService.single(data.logo[0]).then((file) => {
             contractorD.image = file.fileName
             contractorService.create(contractorD).then(response => {
@@ -443,9 +446,16 @@ const Page = ({params}) => {
                   </span>
                                 )}
                             </div>
+                            {submitting ?
+                                <button type="submit" onClick={(e) => e.preventDefault()}
+                                        className="py-5 bg-[#27A9E1] font-bold text-sm text-white">
+                                    <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-white mx-auto"></div>
+                                </button>
+                                :
                             <button type='submit' className="py-5 bg-[#27A9E1] font-bold text-sm text-white">REGISTER
                                 NOW!
                             </button>
+                            }
                         </form>
                         <p className="text-sm">Already have an account? <Link href='/login'
                                                                               className="font-bold underline">Log
