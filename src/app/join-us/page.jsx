@@ -7,8 +7,7 @@ import {object, string, mixed} from 'yup';
 import {useEffect, useRef, useState} from 'react'
 import {CiFileOn} from "react-icons/ci";
 import {log} from "next/dist/server/typescript/utils";
-import contractorService from "@/api/services/contractorService";
-
+import categoryService from "@/api/services/categoryService";
 const schema = object({
     businessname: string().required().label('Business Name'),
     firstname: string().required().label('First Name'),
@@ -16,7 +15,9 @@ const schema = object({
     email: string().email().required().label('Email'),
     phone_number: string().min(10, 'Invalid Phone Number').label('Phone Number').required(),
     address: string().label('Address').required(),
-    licenses: mixed().label('Licenses').required(),
+    licenses: mixed().test('fileCount', 'Only six files are allowed', (value) => {
+        return value.length <= 6;
+      }).label('Licenses').required(),
     postal_code: string().matches(/^[A-Z]\d[A-Z] \d[A-Z]\d$/, 'Invalid Postal Code').label('Postal Code').required(),
     logo: mixed().label('Logo').required(),
     certificate: mixed().label('Cerificate').required(),
@@ -32,6 +33,7 @@ const Page = ({ params }) => {
         address: "",
         image: "-",
     });
+    const [categories, setCategories] = useState([]);
 
     const [detailsData, setDetailsData] = useState({
         contractor: '',
@@ -65,6 +67,10 @@ const Page = ({ params }) => {
     const logo = watch('logo');
     const certificate = watch('certificate')
     const licenses = watch('licenses')
+    const options = categories.map((category) => ({
+        value: category.tag,
+        label: category.name,
+      }));
     const onSubmit = (data) => {
         let contractorD = {...contractorData}
         contractorD.name = data.firstname + " " + data.lastname
@@ -86,7 +92,17 @@ const Page = ({ params }) => {
         // setDetailsData(value => ({...value, contractor: data.contractor, company_name: data.company_name, address: data.address, postal_code: data.postal_code, skills: data.skills, service_areas: data.service_areas, availability_days: data.availability_days, availability_hours: data.availability_hours, website: data.website, description: data.description }))
         // console.log(data)
     }
-
+    const getCategories = async () => {
+        try {
+        const response = await categoryService.fetchAll();
+        setCategories(response.categories);
+        } catch (error) {
+        console.error(error);
+        }
+    };
+    useEffect(() => {
+        getCategories();
+      });
     return (
         <>
             <Header/>
@@ -104,15 +120,28 @@ const Page = ({ params }) => {
                             className='flex flex-col gap-5 md:mx-6 p-5 md:p-12 w-[100vw] lg:w-[1000px] bg-white shadow-lg'
                             onSubmit={handleSubmit(onSubmit)}>
                             <h4 className='font-bold text-xl self-center'>Join Us as a Contractor</h4>
-                            <div className='flex flex-col'>
-                                <label className='font-bold text-sm'>Professional/Company Name</label>
-                                <input type='text' className='border-2 w-full p-2' {...register("businessname")}
-                                       placeholder='Your Business Name'/>
-                                {errors.businessname && (
-                                    <span className="text-sm text-red-500">
-                    {errors.businessname.message}
-                  </span>
-                                )}
+                            <div className='flex flex-col lg:flex-row gap-4 w-full'>
+                                <div className='flex-1 flex flex-col'>
+                                    <label className='font-bold text-sm'>Professional/Company Name</label>
+                                    <input type='text' className='border-2 w-full p-2' {...register("businessname")}
+                                        placeholder='Your Business Name'/>
+                                    {errors.businessname && (
+                                        <span className="text-sm text-red-500">
+                                            {errors.businessname.message}
+                                        </span>
+                                    )}
+                                </div>
+                                <div className='flex-1 flex flex-col'>
+                                    <label className='font-bold text-sm'>Category</label>
+                                    <select className='bg-white text-gray-400 border-2 w-full p-2' {...register("category")}>
+                                        <option value="">Select Category</option>
+                                        {
+                                            options.map((option, i) => (
+                                                <option key={i} value={option.value}>{option.label}</option>
+                                            ))
+                                        }
+                                    </select>
+                                </div>
                             </div>
                             <div className='flex flex-col lg:flex-row gap-4 w-full'>
                                 <div className='flex-1 flex flex-col'>
@@ -121,8 +150,8 @@ const Page = ({ params }) => {
                                            placeholder='First Name' {...register("firstname")}/>
                                     {errors.firstname && (
                                         <span className="text-sm text-red-500">
-                      {errors.firstname.message}
-                    </span>
+                                            {errors.firstname.message}
+                                        </span>
                                     )}
                                 </div>
                                 <div className='flex-1 flex flex-col'>
@@ -184,17 +213,23 @@ const Page = ({ params }) => {
                 <label className='font-bold text-sm'>Licenses</label>
                 <div
                     htmlFor="dropzone-file"
-                    onClick={() => {console.log('here', licensesRef.current);licensesRef.current?.click()}}
+                    onClick={() => licensesRef.current?.click()}
                     className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300
   `}
                 >
                     {licenses && licenses.length > 0 ?
-                      <div className="flex flex-wrap py-3">
-                          <img
-                              src={URL.createObjectURL(licenses[0])}
-                              alt={`Uploaded Logo`}
-                              className="w-20 object-cover mr-2"
-                          />
+                      <div className="flex flex-wrap gap-1 py-3">
+                        {
+                            Array.from(licenses).map((license, i) => (
+
+                                <img
+                                    key={i}
+                                    src={URL.createObjectURL(license)}
+                                    alt={`Uploaded Logo`}
+                                    className="w-20 object-cover mr-2"
+                                />
+                            ))
+                        }
                       </div>:
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                         <svg
@@ -226,6 +261,7 @@ const Page = ({ params }) => {
                     <input
                         ref={licensesRef}
                         type="file"
+                        multiple
                         id="dropzone-file"
                         name="image"
                         accept='image/jpeg, image/png, image/svg+xml'
