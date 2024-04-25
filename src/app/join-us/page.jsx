@@ -62,7 +62,7 @@ const Page = ({params}) => {
 
     useEffect(() => {
         if (certificateDone && licenseDone){
-            navigate.push('/')
+            navigate.push('/join-us/success')
         }
     }, [certificateDone, licenseDone]);
 
