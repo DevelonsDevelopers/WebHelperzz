@@ -79,7 +79,7 @@ function CategoryCart(props) {
 
   return (
     <div
-      className="Cart_category"
+      className="Cart_category cursor-pointer"
       onClick={() => navigate.push(`/category/on/toronto/${tag}`)}
     >
       <img
@@ -106,7 +106,7 @@ function Costgguides(props) {
 
   return (
     <div
-      className="costguides_container"
+      className="costguides_container hover:border-[#119DED99] hover:shadow-md hover:shadow-[#119DED99]  cursor-pointer"
       onClick={() => navigate.push(`/costGuide/${id}`)}
     >
       <div className="btn_guides">
@@ -438,7 +438,7 @@ function Home() {
   const reviewSlidePrev = () => {
     reviewSliderRef.current.slickPrev();
   };
-
+console.log(blogs)
   return (
     <>
       <Header />
@@ -668,9 +668,9 @@ function Home() {
             <h2 className="text-xl sm:text-3xl font-bold text-text sm:text-left text-center">
               Guides to help you grow{" "}
             </h2>
-            <p className="text-[#276487] text-2xl hidden sm:block pr-16">
+            <Link href='/blog' className="text-[#276487] hover:text-primary text-2xl hidden sm:block pr-16">
               See More
-            </p>
+            </Link>
           </div>
           {blogLoading ? (
             <Loading />
@@ -678,7 +678,7 @@ function Home() {
             <div className="w-screen pr-6 sm:w-[50%] md:w-[100%] md:mx-auto ">
               <Slider {...guidesBlogSettings} ref={blogsSliderRef}>
                 {blogs.map((value) => (
-                  <div key={value.id} className="p-2">
+                  <div key={value.id} className="p-2 cursor-pointer" onClick={() => router.push(`/blogs/${value.id}`)}>
                     <div className="h-full rounded-lg overflow-hidden select-text">
                       <img
                         className="object-cover h-[300px] object-center rounded-3xl"
@@ -694,9 +694,9 @@ function Home() {
                         </p>
 
                         <div className="flex items-center flex-wrap">
-                          <a className="text-primary w-[35%] sm:w-[70%] border text-sm px-4 py-2 rounded-2xl font-bold border-primary hover:bg-primary transition-all hover:text-white inline-flex items-center md:mb-2 lg:mb-0 sm:w-auto w-full sm:justify-start justify-center">
+                          <Link href={`/blogs/${value.id}`} className="text-primary w-[35%] sm:w-[70%] border text-sm px-4 py-2 rounded-2xl font-bold border-primary hover:bg-primary transition-all hover:text-white inline-flex items-center md:mb-2 lg:mb-0 sm:w-auto w-full sm:justify-start justify-center">
                             Read more
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -866,9 +866,9 @@ function Home() {
               Got A Dream Project?
             </h2>
             <p className="text-white mt-3">WE CAN PROVIDE A QUICK ESTIMATE !</p>
-            <a className="text-text mt-6  min-w-60 justify-center border px-5 py-3 font-bold rounded-2xl bg-[#fff] inline-flex items-center md:mb-2 mx-auto">
+            <Link href='' className="text-text mt-6  min-w-60 justify-center border px-5 py-3 font-bold rounded-2xl bg-[#fff] hover:bg-primary hover:border-primary hover:text-white inline-flex items-center md:mb-2 mx-auto">
               GET A FREE QUOTE
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -912,9 +912,9 @@ function Home() {
               </p>
             </div>
             <div className="flex justify-center mt-16">
-              <a class="text-text] border-2 text-lg px-6 py-3 rounded-2xl font-semibold border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
+              <Link href='' class="text-text] border-2 text-lg px-6 py-3 rounded-2xl font-semibold cursor-pointer hover:bg-primary hover:text-white border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
                 Get started
-              </a>
+              </Link>
             </div>
           </div>
           <div className="bg-[#F7F9FB] rounded-3xl pb-6 w-full">
@@ -954,9 +954,9 @@ function Home() {
               Ruth, major roofing project{" "}
             </h4>
             <div className="flex justify-center mt-10">
-              <a class="text-text border-2  text-lg  px-6 py-3 rounded-2xl font-semibold border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
+              <Link href='' class="text-text border-2  text-lg  px-6 py-3 rounded-2xl font-semibold cursor-pointer hover:bg-primary hover:text-white border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
                 View Success Stories{" "}
-              </a>
+              </Link>
             </div>
           </div>
         </div>
