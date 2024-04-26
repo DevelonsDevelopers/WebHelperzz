@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        heebo: ['Heebo', 'sans-serif'],
+      },
       colors: {
         primary: "#119DED",
         secondary: "#12937C",

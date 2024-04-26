@@ -8,7 +8,15 @@ const costGuideService = {
         } catch (error) {
             throw error.response.data
         }
-    }
+    },
+    fetchByID: async (id) => {
+        try {
+            const response = await axiosInstance.get('/costGuides/single/' + id);
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
 }
 
 export default costGuideService
