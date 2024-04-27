@@ -15,7 +15,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Footer } from "@/components/Footer";
-
+import Link from "next/link";
 function Costgguides(props) {
   const { buttonText, title } = props;
 
@@ -543,9 +543,9 @@ const Blog = () => {
                                   <span key={index}>{skill}</span>
                                 ))}
                               </div>
-                              <a class="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[70%] text-xs mt-3 cursor-pointer hover:bg-primary hover:text-white transition-none text-text mb-2 min-w-55 justify-center px-3 py-3 rounded-2xl font-bold bg-transparent border-primary border inline-flex items-center mx-auto">
+                              <Link href='/create-project' class="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[70%] text-xs mt-3 cursor-pointer hover:bg-primary hover:text-white transition-none text-text mb-2 min-w-55 justify-center px-3 py-3 rounded-2xl font-bold bg-transparent border-primary border inline-flex items-center mx-auto">
                                 Get A Free Quote
-                              </a>
+                              </Link>
                             </div>
                           </div>
                         </div>

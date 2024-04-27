@@ -1,7 +1,6 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 import {Toaster} from "react-hot-toast";
-import Head from 'next/head'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,9 +12,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <Head>
-        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet" />
-      </Head>
       <body className={inter.className}>
       <Toaster/>
       {children}

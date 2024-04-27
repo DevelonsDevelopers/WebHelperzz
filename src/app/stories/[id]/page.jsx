@@ -1,67 +1,63 @@
-"use client";
+'use client'
 import Header from "@/components/Header";
-import React, { useState, useEffect } from "react";
-import costGuideService from "@/api/services/costGuideService";
-import { GetQuotes } from "@/app/blog/[id]/page"
 import Link from "next/link";
+import blogService from "@/api/services/blogService";
+import {useEffect, useState} from "react";
 import moment from "moment";
 import {IMAGE_PATH} from "@/api/BaseUrl";
 
-function CostGuide({ params }) {
-  const [costGuide, setCostGuide] = useState();
-  const [ID, setID] = useState();
+const Page = ({params}) => {
 
-  const getCostGuide = async () => {
-    try {
-      const response = await costGuideService.fetchByID(ID);
-      console.log('response',response);
-      setCostGuide(response.costGuide);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    const [ID, setID] = useState()
+    const [story, setStory] = useState()
 
-  useEffect(() => { 
-    setID(params.id);
-    console.log(params.id);
-    console.log(ID);
-  }, [ID]);
+    useEffect(() => {
+        setID(params.id);
+    }, []);
 
-  useEffect(() => {
-    if (ID) {
-        getCostGuide();
-    }
-}, [ID]);
-  return (
+    const getStory = async () => {
+        try {
+            const response = await blogService.fetchByTag(ID);
+            setStory(response.blog);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        if (ID) {
+            getStory();
+        }
+    }, [ID]);
+
+    return (
         <>
             <Header/>
             <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center min-h-[100vh] ">
-                <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full max-w-[1500px] mx-auto">
-                    <div className='flex flex-col gap-7 w-full'>
-                        <h6 className="text-lg max-w-[1300px] w-full mx-auto">Helperzz / Blog</h6>
-                        <div className="flex justify-between bg-[#F7F9FB] w-full max-w-[1500px] mx-auto">
-                            <div className='flex justify-between max-w-[1300px] mx-auto w-full  py-10 px-4'>
-                                <div className="flex flex-col gap-3">
-                                    <h3 className="font-bold text-3xl max-w-2xl leading-relaxed">{costGuide?.title}</h3>
-                                    <p>By <Link className="inline text-black" href='#'>{costGuide?.author}</Link></p>
-                                    <p>Updated {moment(costGuide?.created_date).format("ll")}</p>
-                                </div>
-                                <GetQuotes/>
+                <div className='flex flex-col gap-7 w-full'>
+                    <h6 className="text-lg max-w-[1300px] w-full mx-auto">Helperzz / Blog</h6>
+                    <div className="flex justify-between bg-[#F7F9FB] w-full max-w-[1500px] mx-auto">
+                        <div className='flex justify-between max-w-[1300px] mx-auto w-full  py-10 px-4'>
+                            <div className="flex flex-col gap-3">
+                                <h3 className="font-bold text-3xl max-w-2xl leading-relaxed">{story?.title}</h3>
+                                <p>By <Link className="inline text-black" href='#'>{story?.author}</Link></p>
+                                <p>Updated {moment(story?.created_date).format("ll")}</p>
                             </div>
+                            <GetQuotes/>
+                        </div>
 
-                        </div>
-                        <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full max-w-[1300px] mx-auto">
-                            <div className="flex text-lg flex-col gap-3 lg:w-[60%] w-screen p-4">
-                                <h4 className="font-bold text-2xl">{costGuide?.subtitle}</h4>
-                                <div className='relative w-full h-[600px]'>
-                                    <img src={`${IMAGE_PATH}${costGuide?.image}`} className="object-cover" fill alt='Blog Image'/>
-                                </div>
-                                <p className={``} dangerouslySetInnerHTML={{
-                                    __html: costGuide?.content,
-                                }}/>
+                    </div>
+                    <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full max-w-[1300px] mx-auto">
+                        <div className="flex text-lg flex-col gap-3 lg:w-[60%] w-screen p-4">
+                            <h4 className="font-bold text-2xl">{story?.subtitle}</h4>
+                            <div className='relative w-full h-[600px]'>
+                                <img src={`${IMAGE_PATH}${story?.image}`} className="object-cover" fill alt='Blog Image'/>
                             </div>
-                            <MoreGuides/>
+                            <p className={``} dangerouslySetInnerHTML={{
+                                __html: story?.content,
+                            }}/>
                         </div>
+                        <MoreStories/>
                     </div>
                 </div>
             </div>
@@ -183,10 +179,56 @@ function CostGuide({ params }) {
                 <p className="text-center text-sm  pb-4">2024</p>
             </footer>
         </>
-  );
+
+    )
 }
 
-const GuideCard = (props) => {
+export const GetQuotes = (props) => {
+    return (
+    <div className="flex flex-col gap-5 lg:col-span-5 bg-secondary text-white rounded-3xl p-8">
+        <h1 className="text-center font-bold text-[20px] capitalize">
+            Ready to start your deck design?
+        </h1>
+        <p className="font-medium">Find top local pros.</p>
+        <button
+            type="submit"
+            className="bg-white text-black  w-full hover:bg-opacity-70 font-semibold p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white"
+        >
+            Get Quotes
+        </button>
+    </div>
+    )
+}
+
+export const GuideCard = (props) => {
+    return (
+        <div className="p-6">
+            <div className="h-full rounded-lg overflow-hidden select-text">
+                <img
+                    className="object-cover h-[300px] object-center rounded-3xl"
+                    src={`/cali-constructions.png`}
+                    alt="blog"
+                />
+                <div className="py-4">
+                    <h2 className="title-font text-base font-semibold text-gray-900 mb-3 select-text">
+                        Successful Contractor Life
+                    </h2>
+                    <p className="text-sm mb-3 overflow-hidden whitespace-nowrap overflow-ellipsis select-text">
+                        How to be a Successful Contractor
+                    </p>
+
+                    <div className="flex items-center flex-wrap">
+                        <a className="text-primary w-[35%] sm:w-[70%] border text-sm px-4 py-2 rounded-2xl font-bold border-primary hover:bg-primary transition-all hover:text-white inline-flex items-center md:mb-2 lg:mb-0 sm:w-auto w-full sm:justify-start justify-center">
+                            Read more
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export const StoryCard = (props) => {
     return (
     <div className="flex bg-secondary rounded-3xl bg-opacity-10 overflow-hidden select-text">
         <img
@@ -213,32 +255,31 @@ const GuideCard = (props) => {
     )
 }
 
-const MoreGuides = (props) => {
-    const [guides, setGuides] = useState()
+export const MoreStories = (props) => {
+    const [stories, setStories] = useState()
 
 
-    const getGuides = async () => {
+    const getStories = async () => {
         try {
-            const response = await costGuideService.fetchAll();
-            setGuides(response.guides);
+            const response = await blogService.fetchAll();
+            setStories(response.blogs);
         } catch (error) {
             console.error(error);
         }
     };
 
     useEffect(() => {
-        getGuides();
+        getStories();
     }, []);
     return (
         <div className="flex flex-col gap-5 lg:w-[40%] w-full p-4">
             <h4 className="font-bold text-2xl">You may also like</h4>
             {
-                Array.from({ length:5}).slice(0,5).map((_, i) => (
-                    <GuideCard key={i}/>
+                stories?.slice(0,5).map((_, i) => (
+                    <StoryCard key={i}/>
                 ))
             }
         </div>
     )
 }
-
-export default CostGuide;
+export default Page

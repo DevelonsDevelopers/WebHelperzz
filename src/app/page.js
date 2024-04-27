@@ -445,7 +445,7 @@ console.log(blogs)
       {/* Section 1 */}
       <main className="hero_image px-4 mt-[-100px] w-[100%]">
         <div className="main_home max-w-[650px] mx-auto">
-          <h1 className="font-semibold sm:mt-3 mt-32 text-2xl text-transform: capitalize">
+          <h1 className="font-semibold pt-32 text-2xl text-transform: capitalize">
             The best place <br />
             to Find Professionals
           </h1>
@@ -665,9 +665,9 @@ console.log(blogs)
       <section className="text-gray-600 body-font mx-auto justify-center align-content-center items-center">
         <div className="container px-5 sm:py-6 mx-auto justify-center align-content-center items-center">
           <div className="mb-8 flex justify-between items-center flex-wrap">
-            <h2 className="text-xl sm:text-3xl font-bold text-text sm:text-left text-center">
+            {/* <h2 className="text-xl sm:text-3xl font-bold text-text sm:text-left text-center">
               Guides to help you grow{" "}
-            </h2>
+            </h2> */}
             <Link href='/blog' className="text-[#276487] hover:text-primary text-2xl hidden sm:block pr-16">
               See More
             </Link>
@@ -694,7 +694,7 @@ console.log(blogs)
                         </p>
 
                         <div className="flex items-center flex-wrap">
-                          <Link href={`/blogs/${value.id}`} className="text-primary w-[35%] sm:w-[70%] border text-sm px-4 py-2 rounded-2xl font-bold border-primary hover:bg-primary transition-all hover:text-white inline-flex items-center md:mb-2 lg:mb-0 sm:w-auto w-full sm:justify-start justify-center">
+                          <Link href={`/blogs/${value.id}`} className="text-primary w-full lg:w-fit border text-sm px-5 py-3 rounded-2xl font-bold border-primary hover:bg-primary transition-all hover:text-white inline-flex items-center md:mb-2 lg:mb-0 sm:w-auto sm:justify-start justify-center">
                             Read more
                           </Link>
                         </div>
@@ -719,15 +719,15 @@ console.log(blogs)
       </section>
 
       {/* Section 6 */}
-      <section className="min-h-70 bg-[#ffff] lg:bg-[#B7E2FA]  py-10">
+      <section className="min-h-70 bg-[#ffff] lg:bg-[#B7E2FA] px-5  py-10">
         <div>
-          <h2 className=" sm:text-3xl text-3xl font-bold text-center ">
+          <h2 className=" sm:text-3xl text-xl font-bold text-center ">
             How Helperzz Works
           </h2>
         </div>
 
-        <div className="container mx-auto flex flex-col justify-center w-[75%]">
-          <div className="flex sm:gap-0 gap-5 pl-20 sm:p-0 justify-start sm:justify-between mt-6 flex-wrap ">
+        <div className="mx-auto flex flex-col justify-center lg:w-[75%] items-center ">
+          <div className="flex w-[90%] mx-auto gap-5 lg:gap-10 lg:pl-20 sm:p-0 justify-start sm:justify-between mt-6 flex-col lg:flex-row ">
             <div className="flex items-center ">
               <h2 className="text-5xl sm:text-[70px] font-medium">1</h2>
               <div className="flex gap-1 flex-col ml-3">
@@ -750,7 +750,7 @@ console.log(blogs)
               </div>
             </div>
           </div>
-          <a class="text-text mt-6 cursor-pointer hover:bg-primary hover:text-white hover:border-0 transition-none  min-w-60 justify-center border px-5 py-2 rounded-2xl font-semibold bg-[#fff] inline-flex items-center mx-auto">
+          <a href='/create-project' class="text-text mt-6 cursor-pointer hover:bg-primary hover:text-white hover:border-0 transition-none  w-full md:w-fit min-w-60 justify-center border px-5 py-2 rounded-2xl font-semibold bg-[#fff] inline-flex items-center mx-auto">
             Create A Job For Free
           </a>
         </div>
@@ -779,9 +779,9 @@ console.log(blogs)
                       </span>
                       for your project
                     </h2>
-                    <a class="absolute bottom-[1px] left-1/2 transform -translate-x-1/2 w-[90%] shadow-lg mt-12 text-xs hover:bg-transparent hover:text-text hover:border-primary cursor-pointer transition-none text-text mt-4 justify-center border py-3 rounded-2xl font-bold bg-[#fff] inline-flex items-center mx-auto">
+                    <Link href='/category_list/toronto' class="absolute bottom-[1px] left-1/2 transform -translate-x-1/2 w-[90%] shadow-lg mt-12 text-xs hover:bg-transparent hover:text-text hover:border-primary cursor-pointer transition-none text-text mt-4 justify-center border py-3 rounded-2xl font-bold bg-[#fff] inline-flex items-center mx-auto">
                       View All top Helperzz
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -824,9 +824,9 @@ console.log(blogs)
                                   <span key={index}>{skill}</span>
                                 ))}
                               </div>
-                              <a class="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[70%] text-xs mt-3 cursor-pointer hover:bg-primary hover:text-white transition-none text-text mb-2 min-w-55 justify-center px-3 py-3 rounded-2xl font-bold bg-transparent border-primary border inline-flex items-center mx-auto">
+                              <Link href='/create-project' class="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[70%] text-xs mt-3 cursor-pointer hover:bg-primary hover:text-white transition-none text-text mb-2 min-w-55 justify-center px-3 py-3 rounded-2xl font-bold bg-transparent border-primary border inline-flex items-center mx-auto">
                                 Get A Free Quote
-                              </a>
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -866,7 +866,7 @@ console.log(blogs)
               Got A Dream Project?
             </h2>
             <p className="text-white mt-3">WE CAN PROVIDE A QUICK ESTIMATE !</p>
-            <Link href='' className="text-text mt-6  min-w-60 justify-center border px-5 py-3 font-bold rounded-2xl bg-[#fff] hover:bg-primary hover:border-primary hover:text-white inline-flex items-center md:mb-2 mx-auto">
+            <Link href='/create-project' className="text-text mt-6  min-w-60 justify-center border px-5 py-3 font-bold rounded-2xl bg-[#fff] hover:bg-primary hover:border-primary hover:text-white inline-flex items-center md:mb-2 mx-auto">
               GET A FREE QUOTE
             </Link>
           </div>
@@ -912,7 +912,7 @@ console.log(blogs)
               </p>
             </div>
             <div className="flex justify-center mt-16">
-              <Link href='' class="text-text] border-2 text-lg px-6 py-3 rounded-2xl font-semibold cursor-pointer hover:bg-primary hover:text-white border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
+              <Link href='/stories/1' class="text-text] border-2 text-lg px-6 py-3 rounded-2xl font-semibold cursor-pointer hover:bg-primary hover:text-white border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
                 Get started
               </Link>
             </div>
@@ -954,7 +954,7 @@ console.log(blogs)
               Ruth, major roofing project{" "}
             </h4>
             <div className="flex justify-center mt-10">
-              <Link href='' class="text-text border-2  text-lg  px-6 py-3 rounded-2xl font-semibold cursor-pointer hover:bg-primary hover:text-white border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
+              <Link href='/stories/1' class="text-text border-2  text-lg  px-6 py-3 rounded-2xl font-semibold cursor-pointer hover:bg-primary hover:text-white border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
                 View Success Stories{" "}
               </Link>
             </div>

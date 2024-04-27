@@ -38,28 +38,31 @@ const Page = ({params}) => {
     return (
         <>
             <Header/>
-            <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-100 min-h-[100vh] ">
-                <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full max-w-[1500px] mx-auto">
-                    <div className="flex text-lg flex-col gap-10 lg:w-[72%] w-screen p-4">
-                        <div className=''>
-                            <h4 className="font-bold text-2xl">{blog?.title}</h4>
-                            <div className="flex items-center gap-5 text-sm text-gray-600">
-                                <p>Written by <Link className="inline text-black" href='#'>{blog?.author}</Link></p>
-                                <div className='w-0.5 h-4 bg-gray-800'/>
-                                <p>{moment(blog?.created_date).format("ll")}</p>
+            <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center min-h-[100vh] ">
+                <div className='flex flex-col gap-7 w-full'>
+                    <h6 className="text-lg max-w-[1300px] w-full mx-auto">Helperzz / Blog</h6>
+                    <div className="flex justify-between bg-[#F7F9FB] w-full max-w-[1500px] mx-auto">
+                        <div className='flex justify-between max-w-[1300px] mx-auto w-full  py-10 px-4'>
+                            <div className="flex flex-col gap-3">
+                                <h3 className="font-bold text-3xl max-w-2xl leading-relaxed">{blog?.title}</h3>
+                                <p>By <Link className="inline text-black" href='#'>{blog?.author}</Link></p>
+                                <p>Updated {moment(blog?.created_date).format("ll")}</p>
                             </div>
+                            <GetQuotes/>
                         </div>
-                        <div className='relative w-full h-[600px]'>
-                            <img src={`${IMAGE_PATH}${blog?.image}`} className="object-cover" fill alt='Blog Image'/>
-                        </div>
-                        <p className={``} dangerouslySetInnerHTML={{
-                            __html: blog?.content,
-                        }}/>
+
                     </div>
-                    <div className="flex flex-col gap-5 lg:w-[28%] w-full mt-20">
-                        <GetQuotesForm/>
-                        <GuideCard/>
-                        <GuideCard/>
+                    <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full max-w-[1300px] mx-auto">
+                        <div className="flex text-lg flex-col gap-3 lg:w-[60%] w-screen p-4">
+                            <h4 className="font-bold text-2xl">{blog?.subtitle}</h4>
+                            <div className='relative w-full h-[600px]'>
+                                <img src={`${IMAGE_PATH}${blog?.image}`} className="object-cover" fill alt='Blog Image'/>
+                            </div>
+                            <p className={``} dangerouslySetInnerHTML={{
+                                __html: blog?.content,
+                            }}/>
+                        </div>
+                        <MoreBlogs/>
                     </div>
                 </div>
             </div>
@@ -201,60 +204,75 @@ export const GetQuotesForm = (props) => {
     const onSubmit = (data) => {
     }
     return (
-        <div className="p-6 ">
-            <div className="lg:col-span-5">
-                <form className="bg-secondary bg-opacity-10 rounded-2xl p-6 md:p-8">
-                    <h1 className="text-center font-bold pb-6 text-[20px] capitalize">
-                        Get Quotes From Reviewed Pros
-                    </h1>
-                    <div className="mb-5">
+    <div className="lg:col-span-5">
+        <form className="bg-secondary bg-opacity-10 rounded-2xl p-6 md:p-8">
+            <h1 className="text-center font-bold pb-6 text-[20px] capitalize">
+                Get Quotes From Reviewed Pros
+            </h1>
+            <div className="mb-5">
 
-                    </div>
-                    <div className="flex flex-col mb-5">
-                        <select
-                            name=""
-                            id=""
-                            className="w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
-                            {...register("category")}
-                        >
-                            <option value="">Select Category</option>
-                        </select>
-                        {errors.category && (
-                            <span className="text-sm text-red-500">
-                    {errors.category.message}
-                  </span>
-                        )}
-                    </div>
-                    <div className="flex flex-col mb-5">
-                        <input
-                            type="text"
-                            id="zip"
-                            placeholder="Zip Code"
-                            name="zip"
-                            className={
-                                "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
-                            }
-                            {...register('postal_code')}
-
-                        />
-                        {errors.postal_code && (
-                            <span className="text-sm text-red-500">
-                    {errors.postal_code.message}
-                  </span>
-                        )}
-                    </div>
-                    <button
-                        type="submit"
-                        className="bg-secondary  w-full hover:bg-opacity-70 text-white font-semibold p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white"
-                    >
-                        Get Quotes
-                    </button>
-                </form>
             </div>
-        </div>
+            <div className="flex flex-col mb-5">
+                <select
+                    name=""
+                    id=""
+                    className="w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
+                    {...register("category")}
+                >
+                    <option value="">Select Category</option>
+                </select>
+                {errors.category && (
+                    <span className="text-sm text-red-500">
+            {errors.category.message}
+            </span>
+                )}
+            </div>
+            <div className="flex flex-col mb-5">
+                <input
+                    type="text"
+                    id="zip"
+                    placeholder="Zip Code"
+                    name="zip"
+                    className={
+                        "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
+                    }
+                    {...register('postal_code')}
+
+                />
+                {errors.postal_code && (
+                    <span className="text-sm text-red-500">
+            {errors.postal_code.message}
+            </span>
+                )}
+            </div>
+            <button
+                type="submit"
+                className="bg-secondary  w-full hover:bg-opacity-70 text-white font-semibold p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white"
+            >
+                Get Quotes
+            </button>
+        </form>
+    </div>
     )
 }
 
+
+export const GetQuotes = (props) => {
+    return (
+    <div className="flex flex-col gap-5 lg:col-span-5 bg-secondary text-white rounded-3xl p-8">
+        <h1 className="text-center font-bold text-[20px] capitalize">
+            Ready to start your deck design?
+        </h1>
+        <p className="font-medium">Find top local pros.</p>
+        <button
+            type="submit"
+            className="bg-white text-black  w-full hover:bg-opacity-70 font-semibold p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white"
+        >
+            Get Quotes
+        </button>
+    </div>
+    )
+}
 
 export const GuideCard = (props) => {
     return (
@@ -284,4 +302,58 @@ export const GuideCard = (props) => {
     )
 }
 
+export const BlogCard = (props) => {
+    return (
+    <div className="flex bg-secondary rounded-3xl bg-opacity-10 overflow-hidden select-text">
+        <img
+            className="object-cover w-[40%] h-[250px] object-center rounded-3xl"
+            src={`/cali-constructions.png`}
+            alt="blog"
+        />
+        <div className="flex-1 flex flex-col gap-5 p-3">
+            <h2 className="title-font text-lg font-bold text-gray-900 mb-3 select-text">
+                Successful Contractor Life
+            </h2>
+            <div className="flex justify-between">
+                <p className="text-sm text-[#26262699]">By: Helperzz</p>
+                <p className="text-sm text-[#26262699]">July 6, 2024</p>
+            </div>
+            <p className="text-sm mb-3 overflow-ellipsis select-text">
+                A modern, renovated deck combines beauty and function to create the perfect entertaining space...
+            </p>
+            <a href='' className="text-secondary text-sm font-bold transition-all inline-flex items-center md:mb-2 lg:mb-0 sm:w-auto w-full sm:justify-start justify-center">
+                Read more
+            </a>
+        </div>
+    </div>
+    )
+}
+
+export const MoreBlogs = (props) => {
+    const [blogs, setBlogs] = useState()
+
+
+    const getBlogs = async () => {
+        try {
+            const response = await blogService.fetchAll();
+            setBlogs(response.blogs);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        getBlogs();
+    }, []);
+    return (
+        <div className="flex flex-col gap-5 lg:w-[40%] w-full p-4">
+            <h4 className="font-bold text-2xl">You may also like</h4>
+            {
+                blogs?.slice(0,5).map((_, i) => (
+                    <BlogCard key={i}/>
+                ))
+            }
+        </div>
+    )
+}
 export default Page

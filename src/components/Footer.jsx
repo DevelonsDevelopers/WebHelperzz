@@ -28,7 +28,7 @@ export const Footer = ({ showNewsLetter = true }) => {
                 Suddenly IT’s all so doable.{" "}
               </h2>
               <Link
-                href="#"
+                href="/create-project"
                 className="text-text sm:mt-3 mt-0 text-lg min-w-60 justify-center border-secondary cursor-pointer hover:bg-primary hover:text-white border font-bold sm:border px-5 py-3 rounded-2xl bg-[#fff] inline-flex items-center"
               >
                 Post your Project
@@ -60,12 +60,11 @@ export const Footer = ({ showNewsLetter = true }) => {
                   className="border-2 border-[#43D9BE] w-full md:w-96 p-3 mx-auto rounded-xl mb-6 md:mb-0"
                   placeholder="Email Address"
                 />
-                <a
-                  href="#"
+                <button
                   className="hover:bg-[#43D9BE] w-fit mt-3 sm:w-48 mx-auto hover:text-white transition-all cursor-pointer text-text text-base lg:text-xl justify-center border-2 border-[#43D9BE] px-4 py-2 rounded-2xl font-bold bg-[#fff] text-transform: uppercase"
                 >
                   SUBSCRIBE
-                </a>
+                </button>
               </div>
             </div>
           </div>

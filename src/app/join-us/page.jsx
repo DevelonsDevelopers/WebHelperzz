@@ -152,10 +152,10 @@ const Page = ({params}) => {
     return (
         <>
             <Header/>
-            <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center font-heebo items-center bg-gray-100 min-h-[100vh]">
+            <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-100 min-h-[100vh]">
                 <div className='flex-1'>
-                    <div className=" flex flex-col items-start ml-auto gap-10 max-w-lg p-1">
-                        <h3 className='font-bold text-3xl lg:text-5xl'>We’re in the business of growing yours.</h3>
+                    <div className=" flex flex-col items-start ml-auto gap-10 max-w-xl p-1">
+                        <h3 className='font-bold text-3xl lg:text-5xl'>With us, your business grows to new heights.</h3>
                         <div className='bg-[#27A9E1] h-1.5 rounded-full w-[200px]'/>
                     </div>
 

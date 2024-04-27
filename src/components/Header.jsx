@@ -395,7 +395,7 @@ function Header() {
             >
               Blog
             </Button>
-            {/* <Button
+            <Button
               style={{ userSelect: "text" }}
               className="whitespace-nowrap"
               href="/write_review"
@@ -407,7 +407,7 @@ function Header() {
               }}
             >
               Write A review
-            </Button> */}
+            </Button>
 
             <div
               className={`relative flex bg-transparent border  ${
