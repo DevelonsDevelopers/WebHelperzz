@@ -2,7 +2,6 @@
 import Header from "@/components/Header";
 import React, { useState, useEffect } from "react";
 import costGuideService from "@/api/services/costGuideService";
-import { GetQuotes } from "@/app/blog/[id]/page"
 import Link from "next/link";
 import moment from "moment";
 import {IMAGE_PATH} from "@/api/BaseUrl";
@@ -46,7 +45,6 @@ function CostGuide({ params }) {
                                     <p>By <Link className="inline text-black" href='#'>{costGuide?.author}</Link></p>
                                     <p>Updated {moment(costGuide?.created_date).format("ll")}</p>
                                 </div>
-                                <GetQuotes/>
                             </div>
 
                         </div>
@@ -60,7 +58,11 @@ function CostGuide({ params }) {
                                     __html: costGuide?.content,
                                 }}/>
                             </div>
-                            <MoreGuides/>
+                            <div className='relative flex flex-col lg:w-[40%] w-full gap-10 -mt-24'>
+                                <GetQuotes/>
+                                <MoreGuides/>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -212,7 +214,22 @@ const GuideCard = (props) => {
     </div>
     )
 }
-
+export const GetQuotes = (props) => {
+    return (
+    <div className="sticky top-10 flex flex-col gap-5 lg:w-[80%] w-full bg-secondary text-white rounded-3xl p-8">
+        <h1 className="text-center font-bold text-[20px] capitalize">
+            Ready to start your deck design?
+        </h1>
+        <p className="font-medium">Find top local pros.</p>
+        <button
+            type="submit"
+            className="bg-white text-black  w-full hover:bg-opacity-70 font-semibold p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white"
+        >
+            Get Quotes
+        </button>
+    </div>
+    )
+}
 const MoreGuides = (props) => {
     const [guides, setGuides] = useState()
 
@@ -230,7 +247,7 @@ const MoreGuides = (props) => {
         getGuides();
     }, []);
     return (
-        <div className="flex flex-col gap-5 lg:w-[40%] w-full p-4">
+        <div className="flex flex-col gap-5 w-full p-4">
             <h4 className="font-bold text-2xl">You may also like</h4>
             {
                 Array.from({ length:5}).slice(0,5).map((_, i) => (

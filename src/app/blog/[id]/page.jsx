@@ -48,7 +48,6 @@ const Page = ({params}) => {
                                 <p>By <Link className="inline text-black" href='#'>{blog?.author}</Link></p>
                                 <p>Updated {moment(blog?.created_date).format("ll")}</p>
                             </div>
-                            <GetQuotes/>
                         </div>
 
                     </div>
@@ -62,7 +61,10 @@ const Page = ({params}) => {
                                 __html: blog?.content,
                             }}/>
                         </div>
-                        <MoreBlogs/>
+                        <div className='relative flex flex-col lg:w-[40%] w-full gap-10 -mt-24'>
+                            <GetQuotes/>
+                            <MoreBlogs/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -259,7 +261,7 @@ export const GetQuotesForm = (props) => {
 
 export const GetQuotes = (props) => {
     return (
-    <div className="flex flex-col gap-5 lg:col-span-5 bg-secondary text-white rounded-3xl p-8">
+    <div className="sticky top-10 flex flex-col gap-5 lg:w-[80%] w-full bg-secondary text-white rounded-3xl p-8">
         <h1 className="text-center font-bold text-[20px] capitalize">
             Ready to start your deck design?
         </h1>
@@ -346,7 +348,7 @@ export const MoreBlogs = (props) => {
         getBlogs();
     }, []);
     return (
-        <div className="flex flex-col gap-5 lg:w-[40%] w-full p-4">
+        <div className="flex flex-col gap-5 w-full p-4">
             <h4 className="font-bold text-2xl">You may also like</h4>
             {
                 blogs?.slice(0,5).map((_, i) => (
