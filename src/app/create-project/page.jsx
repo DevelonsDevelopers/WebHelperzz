@@ -37,8 +37,8 @@ export default function Page() {
                     </div>
                 </div>
             </div>
-            <div className='flex gap-10 mt-24 max-w-[1200px] mx-auto min-h-[100vh]'>
-                <div className='flex-initial flex flex-col w-[500px]  gap-5'>
+            <div className='flex flex-col lg:flex-row gap-10 mt-24 max-w-[1200px] mx-auto min-h-[100vh]'>
+                <div className='flex-initial flex flex-col max-w-[500px] w-full gap-5 p-5'>
                     <h2 className='text-3xl font-bold'>Planning a new project?</h2>
                     <p className='font-semibold'>Tell us about your home improvement project</p>
                     <small className='text-sm text-[#262626]'>Let us know some details and we&apos;ll match you with Pros for you to compare</small>
@@ -171,33 +171,45 @@ export default function Page() {
 const Steps = (props) => {
     const [ step, setStep ] = useState(1)
   return (
-    <div className='flex-1 flex flex-col gap-5'>
-        <div className="flex items-center">
-            <div className="flex items-center gap-3">
-                <div className="flex p-3 bg-secondary rounded-lg ">
+    <div className='flex-1 flex flex-col gap-3 lg:gap-5 p-5'>
+        <div className="flex flex-wrap gap-3 lg:gap-0 items-center">
+            <div className="flex items-center gap-2 lg:gap-3">
+                {step === 1 ? 
+                <div className="flex p-2 lg:p-3 bg-secondary rounded-lg ">
                     <img src="/assets/check.svg" className="w-5" alt="" />
-                </div>
-                <h4 className='text-base font-bold text-secondary'>Select Work</h4>
-            </div>
-            <div className='flex items-center ml-1'>
-                <div className='h-12 border border-secondary'/>
-                <div className='w-16 border border-secondary'/>
-                <div className='bg-[#2626264D] bg-opacity-30 rounded-lg p-3'>
+                </div>:
+                <div className={`${step > 1 ? 'bg-secondary':'bg-[#2626264D]'} bg-opacity-30 rounded-lg p-3`}>
                     <img src="/assets/describe.svg" className="w-7" alt="" />
-                </div>
+                </div>}
+                <h4 className={`text-sm lg:text-base font-bold ${step >= 1 ? 'text-secondary':'text-gray-400'}`}>Select Work</h4>
             </div>
-            <h4 className='text-base font-bold ml-1 text-gray-400'>Describe Work</h4>
             <div className='flex items-center ml-1'>
-                <div className='h-12 border'/>
-                <div className='w-16 border'/>
-                <div className='bg-[#2626264D] bg-opacity-30 rounded-lg p-3'>
-                    <img src="/assets/message.svg" className="w-7" alt="" />
-                </div>
+                <div className={`h-12 border ${step >= 1 && 'border-secondary'}`}/>
+                <div className={`w-16 border ${step >= 1 && 'border-secondary'}`}/>
+                {step === 2 ? 
+                <div className="flex p-2 lg:p-3 bg-secondary rounded-lg ">
+                    <img src="/assets/check.svg" className="w-5" alt="" />
+                </div>:
+                <div className={`${step > 2 ? 'bg-secondary':'bg-[#2626264D]'} bg-opacity-30 rounded-lg p-3`}>
+                    <img src="/assets/describe.svg" className="w-7" alt="" />
+                </div>}
             </div>
-            <h4 className='text-base font-bold ml-1 text-gray-400'>Project Detail</h4>
+            <h4 className={`text-sm lg:text-base font-bold ${step >= 2 ? 'text-secondary':'text-gray-400'} `}>Describe Work</h4>
+            <div className='flex items-center ml-1'>
+                <div className={`h-12 border ${step >= 2 && 'border-secondary'} `}/>
+                <div className={`w-16 border ${step >= 2 && 'border-secondary'} `}/>
+                {step === 3 ? 
+                <div className="flex p-2 lg:p-3 bg-secondary rounded-lg ">
+                    <img src="/assets/check.svg" className="w-5" alt="" />
+                </div>:
+                <div className={`${step > 3 ? 'bg-secondary':'bg-[#2626264D]'} bg-opacity-30 rounded-lg p-3`}>
+                    <img src="/assets/message.svg" className="w-7" alt="" />
+                </div>}
+            </div>
+            <h4 className={`text-sm lg:text-base font-bold ${step >= 3 ? 'text-secondary':'text-gray-400'} `}>Project Detail</h4>
 
         </div>
-        <div className='flex flex-col gap-5 rounded-2xl bg-secondary bg-opacity-10 p-5'>
+        <div className='flex flex-col gap-5 rounded-2xl bg-secondary bg-opacity-10 p-3 lg:p-5'>
             {step === 1 &&
             <>
                 <p className='font-medium'>Choose a task that best describes the work you need done on your home</p>
@@ -230,7 +242,7 @@ const SearchInput = ({message, icon}) => {
 
   return (
     <div className='relative w-full'>
-        <div className="absolute -top-5 left-5 px-10 text-white py-2 bg-secondary rounded-xl">
+        <div className="absolute -top-5 left-5 px-10 text-white py-1 lg:py-2 bg-secondary rounded-xl">
             What do you need done?
         </div>
         <div className="flex w-full bg-white rounded-2xl px-3 border border-secondary">
@@ -241,7 +253,7 @@ const SearchInput = ({message, icon}) => {
         {showResult && 
         <div className="flex flex-col w-full py-5 px-6 bg-white rounded-2xl  mt-2 border border-secondary">
             <h4>Alarm Systems</h4>
-            <div className='flex flex-col gap-2 pl-4 mt-1'>
+            <div className='flex flex-col gap-2 lg:pl-4 mt-1'>
                 {
                     Array.from({ length:4}).map((_, i) => (
                         <Option selected={selected} value={i} setSelected={setSelected} key={i} label='Lightning Protection - Install or Repair'/>
@@ -273,7 +285,7 @@ const SelectInput = ({message, value}) => {
 
   return (
     <div className='relative w-full'>
-        <div className="absolute -top-5 left-5 px-10 text-white py-2 bg-secondary rounded-xl">
+        <div className="absolute lg:-top-5 -top-2 left-5 text-xs lg:text-base px-5 lg:px-10 text-white py-1 lg:py-2 bg-secondary rounded-xl">
             {message}
         </div>
         <div className="flex w-full bg-white rounded-2xl py-5 px-3 border border-secondary">
@@ -282,7 +294,7 @@ const SelectInput = ({message, value}) => {
         </div>
         {showResult && 
         <div className="flex flex-col w-full py-5 px-6 bg-white rounded-2xl  mt-2 border border-secondary">
-            <div className='flex flex-col gap-2 pl-4 mt-1'>
+            <div className='flex flex-col gap-2 lg:pl-4 mt-1'>
                 {
                     Array.from({ length:4}).map((_, i) => (
                         <Option selected={selected} value={i} setSelected={setSelected} key={i} label='Lightning Protection - Install or Repair'/>
@@ -300,7 +312,7 @@ const Textarea = ({message, value}) => {
 
   return (
     <div className='relative w-full'>
-        <div className="absolute -top-5 left-5 px-10 text-white py-2 bg-secondary rounded-xl">
+        <div className="absolute -top-5 left-5 text-sm lg:text-base px-5 lg:px-10 text-white py-2 bg-secondary rounded-xl">
             {message}
         </div>
         <div className="flex w-full bg-white rounded-2xl py-5 px-3 border border-secondary">
