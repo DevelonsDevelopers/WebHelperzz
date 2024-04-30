@@ -488,15 +488,15 @@ function Header() {
                 </Menu>
               </div>
             ) : (
-              <div className="gap-2 2xl:mr-5 mr-2 hidden md:flex">
+              <div className="gap-4 2xl:mr-5 mr-2 hidden md:flex">
                 <p
-                  className="text-text text-sm font-medium hover:text-base whitespace-nowrap cursor-pointer"
+                  className="text-text text-sm font-medium hover:text-base whitespace-nowrap w-10 cursor-pointer"
                   onClick={() => navigate.push("/login")}
                 >
                   Log In{" "}
                 </p>
                 <p
-                  className="text-text text-sm text- font-medium hover:text-base whitespace-nowrap cursor-pointer"
+                  className="text-text text-sm text- font-medium hover:text-base whitespace-nowrap w-10  cursor-pointer"
                   onClick={() => navigate.push("/signup")}
                 >
                   Sign up

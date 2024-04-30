@@ -61,6 +61,8 @@ const Page = () => {
     }
   };
 
+  // console.log('phone validation' , /^\d{10}$/.test(registerData?.phone))
+
   const handleRegister = (e) => {
     e.preventDefault();
     let tempErrors = [...errors];
@@ -69,25 +71,53 @@ const Page = () => {
       tempErrors[i] = registerData[name].length === 0;
     }
     setErrors(tempErrors);
-    if (!tempErrors.includes(true)) {
-      authenticationService
-        .register(registerData)
-        .then((response) => {
-          navigate.push("/login");
-          toast.success(response.message);
-        })
-        .catch((error) => {
-          setUserAlreadyPresent(true);
-          // setSubmitting(false)
-        });
+
+    if (registerData?.name?.length > 4) 
+    {
+      if ( /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(registerData?.email)) {
+        if (registerData?.address?.length > 3) {
+        if (/^\d{10}$/.test(registerData?.phone)) {
+            if(registerData?.password?.length > 5) {
+
+            
+            
+            if (!tempErrors.includes(true)) {
+              authenticationService
+                .register(registerData)
+                .then((response) => {
+                  navigate.push("/login");
+                  toast.success(response.message);
+                })
+                .catch((error) => {
+                  setUserAlreadyPresent(true);
+                  // setSubmitting(false)
+                });
+            }
+            }
+else {
+  toast.error('Enter Strong Password')
+}
+
+          } else {
+            toast.error('Enter a valid Phone')
+          }
+        } else {
+          toast.error('Enter your Address')
+        }
+      } else {
+        toast.error('Enter a valid email')
+      }
+    } else {
+      toast.error('Enter your Display name')
     }
+
   };
 
   return (
     <>
       <Header />
       <section
-        className="flex items-center justify-center min-h-screen bg-gray-200"
+        className="flex items-center justify-center min-h-screen bg-gray-200 pt-6"
         style={{ alignItems: "center" }}
       >
         <div className="block rounded-lg bg-gray-100 shadow-lg ">
@@ -98,7 +128,7 @@ const Page = () => {
                   <p className="mb-8 text-left sm:mt-4 mt-20 font-semibold text-2xl ">
                     Sign up for an account
                   </p>
-                  {(errors[0] || errors[1] || errors[2] || errors[3]) && (
+                  {/* {(errors[0] || errors[1] || errors[2] || errors[3]) && (
                     <div
                       className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
                       role="alert"
@@ -154,7 +184,7 @@ const Page = () => {
                         Please enter a valid email!
                       </span>
                     </div>
-                  )}
+                  )} */}
                   <div className="grid sm:grid-cols-2 gap-4 grid-cols-1">
                     <div className="mb-4">
                       <label className="text-left text-gray-700 font-bold mb-2">

@@ -9,12 +9,14 @@ import {
     ProjectsListData,
 } from "./../../../public/data/data";
 import {IMAGE_PATH} from "@/api/BaseUrl";
+import { useRouter } from "next/navigation";
 
-const ProjectList = ({categories}) => {
+const ProjectList = ({categories , tag}) => {
 
     const [popular, setPopular] = useState([])
     const [shuffled, setShuffled] = useState(false)
     const [random, setRandom] = useState([])
+    const navigate = useRouter();
 
     useEffect(() => {
         setPopular(categories.filter(value => value.popular === 1))
@@ -48,7 +50,7 @@ const ProjectList = ({categories}) => {
                 <TitleComponent title="Get Recommended Pros for Your Project"/>
                 <div className="grid grid-cols-1 gap-[1rem] md:gap-[1.5rem] sm:grid-cols-2 md:grid-cols-5">
                     {random.slice(0, 5).map((item, index) => (
-                        <ServiceCard key={index} imageSrc={`${IMAGE_PATH}${item.image}`} text={item.name}/>
+                        <ServiceCard key={index} tag={item?.tag}  imageSrc={`${IMAGE_PATH}${item.image}`} text={item.name}/>
                     ))}
                 </div>
             </div>
@@ -56,7 +58,7 @@ const ProjectList = ({categories}) => {
                 <TitleComponent title="Popular Services"/>
                 <div className="grid grid-cols-1 gap-[2rem] md:gap-[1.5rem] sm:grid-cols-2 md:grid-cols-5">
                     {popular.slice(0, 5).map((item, index) => (
-                        <ServiceCard key={index} imageSrc={`${IMAGE_PATH}${item.image}`} text={item.name}/>
+                        <ServiceCard key={index} tag={item?.tag}  imageSrc={`${IMAGE_PATH}${item.image}`} text={item.name}/>
                     ))}
                 </div>
             </div>
@@ -64,7 +66,7 @@ const ProjectList = ({categories}) => {
                 <TitleComponent title="More Services"/>
                 <div className="grid grid-cols-1 gap-[2rem] md:gap-[1.5rem] sm:grid-cols-2 md:grid-cols-5">
                     {categories.map((item, index) => (
-                        <ServiceCard key={index} imageSrc={`${IMAGE_PATH}${item.image}`} text={item.name}/>
+                        <ServiceCard key={index} tag={item?.tag}  imageSrc={`${IMAGE_PATH}${item.image}`} text={item.name}/>
                     ))}
                 </div>
             </div>

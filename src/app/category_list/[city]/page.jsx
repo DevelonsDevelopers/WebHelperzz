@@ -55,9 +55,12 @@ function CategoryList({params}) {
                 </div>
             </div>
 
-            <div className="professions-container px-12 sm:px-[5rem] mt-[50px]">
+            <div className="professions-container  mt-[50px]">
+                <div className="px-[3rem] sm:px-[4rem] md:px-[6rem] lg:px-[10rem]">
                 <TitleComponent title="Browse All Professionals"/>
+
                 <PopularList categories={categories}/>
+                </div>
             </div>
 
             <div className="px-[3rem] sm:px-[5rem] md:px-[6rem] lg:px-[10rem] mt-[4rem]">
