@@ -260,7 +260,7 @@ const handleSubmit = (e) => {
   });
 
 
- 
+
 }
 
 
@@ -558,7 +558,7 @@ const handleSubmit = (e) => {
                         id="postal"
                         placeholder="Postal Code"
                         value={formData?.postal}
-                        onChange={(e) => setFormData({...formData, postal:e.target.value})}
+                        onChange={(e) => setFormData({...formData, postal_code:e.target.value})}
                         name="postal"
                         required
                         className={
