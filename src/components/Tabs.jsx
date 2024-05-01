@@ -15,6 +15,7 @@ import moment from "moment";
 import { Rating } from "@material-tailwind/react";
 import "../style/Profile.css";
 import Loading from "@/components/loading";
+import DoneIcon from '@mui/icons-material/Done';
 
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
@@ -156,6 +157,7 @@ export default function Tabs({ id, details }) {
     postal_code:'',
     message:'',
   })
+  const [showForm, setShowForm] = useState(true)
 
 
 
@@ -247,11 +249,14 @@ const handleSubmit = (e) => {
     data.user = customer;
     contractorService.addContractorRequest(data).then((res) => {
       console.log('res of add contractor request' , res)
+      if(res?.contractorRequest) {
+        setShowForm(false)
+      } else {
+        setShowForm(true)
+      }
     })
-    // requestService.create(data).then((response) => {
-    //   setSubmitting(false);
-    //   navigate.replace("/getquotes/complete");
-    // });
+
+
   });
 
 
@@ -494,6 +499,8 @@ const handleSubmit = (e) => {
                 </div>
                 <div className="lg:col-span-5">
                   <form onSubmit={handleSubmit} className="bg-secondary bg-opacity-10 rounded-2xl p-6 md:p-10">
+{showForm ?
+<>
                     <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-text">
                       Free In home consultation
                     </h2>
@@ -577,6 +584,20 @@ const handleSubmit = (e) => {
                     >
                       Send Message
                     </button>
+                    </>
+:
+<div className="min-h-[300px] flex justify-center items-center">
+  <div>
+  <div className="flex justify-center">
+<DoneIcon className="m-auto my-4 border-2 rounded-full p-2 "  style={{ fontSize: 60 }}/>
+</div>
+<h1>Application Submit Successfully</h1>
+</div>
+</div>
+
+                      }
+
+
                   </form>
                 </div>
               </div>
