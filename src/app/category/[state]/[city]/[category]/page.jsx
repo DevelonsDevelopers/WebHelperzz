@@ -15,12 +15,21 @@ import trustsealimg from "../../../../../../public/assets/trustsealbadge.png";
 import contractorService from "../../../../../api/services/contractorService";
 import { IMAGE_PATH } from "@/api/BaseUrl";
 import reviewService from "../../../../../api/services/reviewService";
+
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import categoryService from "@/api/services/categoryService";
 import cityService from "@/api/services/cityService";
+
+import {
+  Pagination,
+  Stack,
+  ThemeProvider,
+  createTheme,
+  PaginationItem
+} from "@mui/material";
 
 const data = {
   suggestedFilters: ["Verified Licence", "Hired On Helperzz"],
@@ -49,19 +58,7 @@ const data = {
   rating: ["Any Rating"],
 };
 
-const postData = [
-  { name: "one" },
-  { name: "one" },
-  { name: "one" },
-  { name: "one" },
-];
 
-const reviewsData = [
-  { name: "one" },
-  { name: "one" },
-  { name: "one" },
-  { name: "one" },
-];
 
 const Page = ({ params }) => {
   const [suggestedFilterOpen, setSuggestedFilterOpen] = useState(true);
@@ -80,6 +77,8 @@ const Page = ({ params }) => {
   const [category, setCategory] = useState();
   const [city, setCity] = useState();
   const [loading, setLoading] = useState(true);
+
+  const [filterData , setFilterData] = useState()
 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
@@ -142,9 +141,7 @@ const Page = ({ params }) => {
   //     console.error("Error fetching data:", error);
   //   }
   // };
-  useEffect(() => {
-    // fetchCityName();
-  }, []);
+  
 
   useEffect(() => {
     console.log(params);
@@ -192,6 +189,15 @@ const Page = ({ params }) => {
   };
 
   useEffect(() => {
+    const fetchFilter = async () => {
+      const response = await contractorService.filters().then((res) =>{
+        setFilterData(res?.data)
+      })
+    }
+    fetchFilter()
+  },[])
+
+  useEffect(() => {
     if (category) {
       getContractors(category.id);
       getReviews(category.id);
@@ -209,6 +215,25 @@ const Page = ({ params }) => {
       setCityName(inputCity);
     }
   };
+
+
+  const itemsPerPage = 1;
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const [paginatedData, setPaginatedData] = useState([]);
+
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setPaginatedData(contractors.slice(startIndex, endIndex));
+  }, [currentPage, contractors]);
+
+  const theme = createTheme({ palette: { primary: { main: '#E0EFEE', contrastText: '#EEE' } } })
+
+
   return (
     <>
       <Header />
@@ -320,64 +345,7 @@ const Page = ({ params }) => {
                     </button>
                   </div>
                   <div className="bg-[#E8F5F2] p-2 rounded-lg mt-5">
-                    <div class="w-full pb-5 border-gray-300 rounded-t border-b">
-                      <div
-                        onClick={handleSuggestedFilterClick}
-                        class="mb-3 p-1 bg-transparent flex items-center  rounded transition-all ease-in-out duration-500 "
-                      >
-                        <div class="p-1 text-lg md:text-md font-[500] w-full text-gray-800">
-                          Suggested Filters
-                        </div>
-                        <div class="text-black w-8 py-1 pl-2 pr-1  flex items-center">
-                          {suggestedFilterOpen ? (
-                            <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                              <FaAngleUp />
-                            </button>
-                          ) : (
-                            <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                              <FaAngleDown />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      {suggestedFilterOpen && (
-                        <div class="w-full items-center flex mx-3 -mt-1">
-                          <form action="" className="flex flex-col gap-2">
-                            {data?.suggestedFilters?.map((value, index) => (
-                              <div
-                                key={index}
-                                className="flex items-center cursor-pointer"
-                              >
-                                <input
-                                  type="checkbox"
-                                  id="categories"
-                                  // onChange={(e) => {
-                                  //     if (e.target.checked) {
-                                  //         setSelectedCategories((state) => [
-                                  //             ...state,
-                                  //             value.id,
-                                  //         ]);
-                                  //     } else {
-                                  //         removeSelectedCategory(value.id);
-                                  //     }
-                                  // }}
-                                  name="categories"
-                                  value={value}
-                                  onChange={handleCheckboxChange}
-                                  className="cursor-pointer form-checkbox w-[17px] h-[17px]  text-[#12937C] border-gray-500 rounded-lg bg-transparent checked:bg-[#12937C] checked:border-green-600"
-                                />
-                                <label
-                                  for="category"
-                                  className="ml-2 text-[.9rem] text-[#262626B2] font-[400] "
-                                >
-                                  {value}
-                                </label>
-                              </div>
-                            ))}
-                          </form>
-                        </div>
-                      )}
-                    </div>
+                     
                     <div class="w-full border-gray-300  py-5 rounded-t border-b">
                       <div
                         onClick={handleCategoryClick}
@@ -412,7 +380,7 @@ const Page = ({ params }) => {
                       {categoryOpen && (
                         <div class="w-full items-center flex mx-3 mt-6">
                           <form action="" className="flex flex-col gap-2">
-                            {data?.professionalCategory?.map((value, index) => (
+                            {filterData?.categories?.map((value, index) => (
                               <div
                                 key={index}
                                 className="flex items-center cursor-pointer"
@@ -421,7 +389,7 @@ const Page = ({ params }) => {
                                   type="radio"
                                   id="categories"
                                   name="categories"
-                                  value={value}
+                                  value={value.name}
                                   onChange={handleRadioChange}
                                   className="cursor-pointer form-checkbox w-[13px] h-[13px] border-[1px] border-gray-500 rounded-lg bg-transparent checked:bg-[#12937C] checked:border-green-600"
                                 />
@@ -429,7 +397,7 @@ const Page = ({ params }) => {
                                   for="category"
                                   className="ml-2 text-sm font-[400] text-gray-500"
                                 >
-                                  {value}
+                                  {value.name}
                                 </label>
                               </div>
                             ))}
@@ -460,7 +428,7 @@ const Page = ({ params }) => {
                       {credentialsOpen && (
                         <div class="w-full items-center flex mx-3 -mt-1">
                           <form action="" className="flex flex-col gap-2">
-                            {data?.credentials?.map((value, index) => (
+                            {filterData?.highlights?.map((value, index) => (
                               <div
                                 key={index}
                                 className="flex items-center cursor-pointer"
@@ -469,7 +437,7 @@ const Page = ({ params }) => {
                                   type="checkbox"
                                   id="categories"
                                   name="categories"
-                                  value={value}
+                                  value={value.highlight}
                                   onChange={handleCheckboxChange}
                                   className=" cursor-pointer form-checkbox w-[17px] h-[17px]  text-[#12937C] border-gray-500 rounded-lg bg-transparent checked:bg-[#12937C] checked:border-green-600"
                                 />
@@ -477,7 +445,7 @@ const Page = ({ params }) => {
                                   for="category"
                                   className="ml-2 text-[.9rem] font-[400] text-gray-500"
                                 >
-                                  {value}
+                                  {value.highlight}
                                 </label>
                               </div>
                             ))}
@@ -556,7 +524,7 @@ const Page = ({ params }) => {
                       {languagesOpen && (
                         <div class="w-full items-center flex mx-3 -mt-1">
                           <form action="" className="flex flex-col gap-2">
-                            {data?.languages?.map((value, index) => (
+                            {filterData?.languages?.map((value, index) => (
                               <div
                                 key={index}
                                 className="flex items-center cursor-pointer"
@@ -565,7 +533,7 @@ const Page = ({ params }) => {
                                   type="radio"
                                   id="categories"
                                   name="categories"
-                                  value={value}
+                                  value={value.language}
                                   className="cursor-pointer"
                                   onChange={handleRadioChange}
                                 />
@@ -573,7 +541,7 @@ const Page = ({ params }) => {
                                   for="category"
                                   className="ml-2 text-[.9rem] font-[400] text-gray-500"
                                 >
-                                  {value}
+                                  {value.language}
                                 </label>
                               </div>
                             ))}
@@ -632,7 +600,7 @@ const Page = ({ params }) => {
                   </div>
                 </div>
                 <div className="lg:w-[75%] w-full max-md:mt-5 gap-2 ">
-                  {contractors?.map((value, index) => (
+                  {paginatedData?.map((value, index) => (
                     <div
                       key={index}
                       className="bg-[#F7F9FB] sm:p-4 p-1 flex max-md:flex-col items-center gap-5 mb-5"
@@ -786,83 +754,33 @@ const Page = ({ params }) => {
                     </div>
                   ))}
 
-                  <ul class="list-style-none flex mt-2 mx-auto justify-center">
-                    <li>
-                      <a
-                        class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                        href="#!"
-                      >
-                        1
-                      </a>
-                    </li>
-                    <li aria-current="page">
-                      <a
-                        class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                        href="#!"
-                      >
-                        2
-                        <span class="absolute -m-px h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 [clip:rect(0,0,0,0)]">
-                          (current)
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                        href="#!"
-                      >
-                        3
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                        href="#!"
-                      >
-                        4
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                        href="#!"
-                      >
-                        5
-                      </a>
-                    </li>{" "}
-                    <li>
-                      <a
-                        class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                        href="#!"
-                      >
-                        6
-                      </a>
-                    </li>{" "}
-                    <li>
-                      <a
-                        class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                        href="#!"
-                      >
-                        7
-                      </a>
-                    </li>{" "}
-                    <li>
-                      <a
-                        class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                        href="#!"
-                      >
-                        8
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="relative block sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 bg-[#12937C] text-white "
-                        href="#!"
-                      >
-                        Next Page
-                      </a>
-                    </li>
-                  </ul>
+<ThemeProvider theme={theme}>
+        <Stack direction="row" justifyContent="center" marginTop={2}>
+          <Pagination
+            count={Math.ceil(contractors.length / itemsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+            renderItem={(item) => (
+              <PaginationItem
+              components={{
+                previous: (props) => <button {...props} className="display-none"> </button>,
+                next: (props) => <button {...props} className=" p-[4px] !bg-[#12937C] px-4 rounded-md" >Next</button>,
+              }}
+              style={{    
+              paddingTop: '1.5rem',
+              paddingBottom: '1.5rem',
+              fontSize: '0.875rem', 
+              color: '#333', 
+            padding:'15px'
+           }} 
+              {...item}
+            />
+            )}
+  
+          />
+        </Stack>
+      </ThemeProvider>
                 </div>
               </div>
             </div>
@@ -914,7 +832,7 @@ const Page = ({ params }) => {
                   ))}
                 </div>
               </div>
-              <ul class="list-style-none flex mt-7 mx-auto justify-center">
+              {/* <ul class="list-style-none flex mt-7 mx-auto justify-center">
                 <li>
                   <a
                     class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
@@ -990,7 +908,7 @@ const Page = ({ params }) => {
                     Next Page
                   </a>
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </div>
         </>

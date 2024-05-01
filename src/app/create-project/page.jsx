@@ -20,7 +20,7 @@ export default function Page() {
     <>
       <Header />
       <div className="pt-14">
-        <div className="profile_container max-w-[1200px] mx-auto  px-6  pt-10 md:pt-32">
+        <div className="profile_container max-w-[1200px] mx-auto  px-6 pt-10">
           <Breadcrumbs aria-label="breadcrumb">
             <Link
               underline="hover"
@@ -38,9 +38,9 @@ export default function Page() {
             </Typography>
           </Breadcrumbs>
         </div>
-        <div className="mt-14 bg-[#12937C1A] bg-opacity-10 max-w-[1500px] mx-auto py-5">
+        <div className="mt-8 bg-[#12937C1A] bg-opacity-10 max-w-[1500px] mx-auto py-5">
           <div className="max-w-[1200px] mx-auto">
-            <div className="rounded-2xl py-4 px-24 w-fit text-secondary bg-white font-semibold">
+            <div className="rounded-2xl py-4 px-24 w-fit text-secondary font-semibold text-center">
               Overview
             </div>
           </div>
@@ -198,7 +198,7 @@ const Steps = (props) => {
         <div className="flex items-center gap-2 lg:gap-3">
           {step === 1 ? (
             <div className="flex p-2 lg:p-3 bg-secondary rounded-lg ">
-              <img src="/assets/check.svg" className="w-5" alt="" />
+              <img src="/assets/check.svg" className="w-6" alt="" />
             </div>
           ) : (
             <div
@@ -206,7 +206,7 @@ const Steps = (props) => {
                 step > 1 ? "bg-secondary" : "bg-[#2626264D]"
               } bg-opacity-30 rounded-lg p-3`}
             >
-              <img src="/assets/describe.svg" className="w-7" alt="" />
+              <img src="/assets/describe.svg" className="w-6" alt="" />
             </div>
           )}
           <h4
@@ -222,7 +222,7 @@ const Steps = (props) => {
           <div className={`w-16 border ${step >= 1 && "border-secondary"}`} />
           {step === 2 ? (
             <div className="flex p-2 lg:p-3 bg-secondary rounded-lg ">
-              <img src="/assets/check.svg" className="w-5" alt="" />
+              <img src="/assets/check.svg" className="w-6" alt="" />
             </div>
           ) : (
             <div
@@ -230,12 +230,12 @@ const Steps = (props) => {
                 step > 2 ? "bg-secondary" : "bg-[#2626264D]"
               } bg-opacity-30 rounded-lg p-3`}
             >
-              <img src="/assets/describe.svg" className="w-7" alt="" />
+              <img src="/assets/describe.svg" className="w-6" alt="" />
             </div>
           )}
         </div>
         <h4
-          className={`text-sm lg:text-base font-bold ${
+          className={`text-sm lg:text-base font-bold ml-[4px] ${
             step >= 2 ? "text-secondary" : "text-gray-400"
           } `}
         >
@@ -254,12 +254,12 @@ const Steps = (props) => {
                 step > 3 ? "bg-secondary" : "bg-[#2626264D]"
               } bg-opacity-30 rounded-lg p-3`}
             >
-              <img src="/assets/message.svg" className="w-7" alt="" />
+              <img src="/assets/message.svg" className="w-6" alt="" />
             </div>
           )}
         </div>
         <h4
-          className={`text-sm lg:text-base font-bold ${
+          className={`text-sm lg:text-base font-bold ml-[4px] ${
             step >= 3 ? "text-secondary" : "text-gray-400"
           } `}
         >
@@ -300,12 +300,17 @@ const Steps = (props) => {
               selectedOption={handleOptionSelect2}
               message={"When do you want to start this project?"}
             />
+           <div className="grid grid-cols-2 gap-10 mt-5 ">
             <button
-              className="bg-white rounded-2xl text-lg font-semibold mt-5 py-3"
-              onClick={() => setStep(step + 1)}
+              className="bg-white rounded-2xl text-lg font-semibold py-3"
+              onClick={() => setStep(step - 1)}
             >
+              Go Back
+            </button>
+            <button    onClick={() => setStep(step + 1)} className="bg-white hover:bg-secondary hover:text-white rounded-2xl text-lg font-semibold py-3">
               Next
             </button>
+            </div>
           </div>
         )}
         {step === 3 && (
@@ -314,9 +319,17 @@ const Steps = (props) => {
               Provide some details about your project
             </p>
             <Textarea message={"This Step is Optional"} />
-            <button className="bg-white rounded-2xl text-lg font-semibold mt-5 py-3">
+            <div className="grid grid-cols-2 gap-10 mt-5 ">
+            <button
+              className="bg-white rounded-2xl text-lg font-semibold py-3"
+              onClick={() => setStep(step - 1)}
+            >
+              Go Back
+            </button>
+            <button className="bg-white hover:bg-secondary hover:text-white rounded-2xl text-lg font-semibold py-3">
               Next
             </button>
+            </div>
           </>
         )}
       </div>
@@ -347,8 +360,6 @@ const SearchInput = ({ message, icon }) => {
 //     };
 //     fetchSubCategory();
 //   }, []);
-
-
 
 useEffect(() => {
     const fetchSubCategory = async () => {
@@ -413,14 +424,22 @@ useEffect(() => {
           <div className="flex flex-col gap-2 lg:pl-4 mt-1">
 {subCategory?.length > 0 ?
 <>
-            {subCategory?.map((_, i) => (
-              <Option
-                selected={selected}
-                value={i}
-                setSelected={setSelected}
-                key={i}
-                label={_?.name}
-              />
+            {subCategory?.map((value, i) => (
+           <div key={i}>
+           <label className="cursor-pointer">
+             <input
+               type="radio"
+               value={value?.name}
+               checked={selected === value?.name}
+                
+               onChange={(e) => {
+                 setSelected(e.target.checked ? e.target.value : null);
+                }}
+               style={{ accentColor: '#2B937C' , marginRight:8}} 
+             />
+             {value?.name}
+           </label>
+         </div>
             ))}
             </>
 :
@@ -456,16 +475,15 @@ const SelectInput = ({ message, value,data ,selectedOption}) => {
   const handleClick = (e) => {
     console.log('Clicked:', e.target.value);
     selectedOption(e.target.value)
-    setShowResult(!showResult)
-  };
+   };
 
   return (
     <div className="relative w-full">
       <div className="absolute lg:-top-5 -top-2 left-5 text-xs lg:text-base px-5 lg:px-10 text-white py-1 lg:py-2 bg-secondary rounded-xl">
         {message}
       </div>
-      <div className="flex w-full bg-white rounded-2xl py-5 px-3 border border-secondary"  onClick={() => setShowResult(!showResult)}>
-        <div className="flex-1 font-semibold">{value ? value : "Select"}</div>
+      <div className="flex w-full bg-white rounded-2xl py-5 px-3 border border-secondary cursor-pointer"  onClick={() => setShowResult(!showResult)}>
+        <div className="flex-1 font-semibold ">{value ? value : "Select"}</div>
         <img
           src="/assets/thick-arrow-down.svg"
           className="w-2 cursor-pointer"
@@ -478,7 +496,7 @@ const SelectInput = ({ message, value,data ,selectedOption}) => {
           <div className="flex flex-col gap-2 lg:pl-4 mt-1">
           {data.map((value, i) => (
   <div key={i}>
-    <label>
+    <label className="cursor-pointer">
       <input
         type="radio"
         value={value?.name}

@@ -24,7 +24,8 @@ const categoryService = {
         } catch (error) {
             throw error.response.data
         }
-    }
+    },
+    
 }
 
 export default categoryService
