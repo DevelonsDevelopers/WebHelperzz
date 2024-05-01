@@ -289,6 +289,13 @@ const Steps = (props) => {
               home
             </p>
             <SelectInput
+              // value={option}
+              // data={work}
+              // selectedOption={handleOptionSelect}
+              message={"Postal Code"}
+              postalcode={false}
+            />
+            <SelectInput
               value={option}
               data={work}
               selectedOption={handleOptionSelect}
@@ -467,7 +474,7 @@ const Option = ({ label, value, setSelected, selected }) => {
   );
 };
 
-const SelectInput = ({ message, value,data ,selectedOption}) => {
+const SelectInput = ({ message, value,data ,selectedOption , postalcode = true }) => {
 
   const [showResult, setShowResult] = useState(false);
   const [selected, setSelected] = useState(-1);
@@ -483,7 +490,7 @@ const SelectInput = ({ message, value,data ,selectedOption}) => {
         {message}
       </div>
       <div className="flex w-full bg-white rounded-2xl py-5 px-3 border border-secondary cursor-pointer"  onClick={() => setShowResult(!showResult)}>
-        <div className="flex-1 font-semibold ">{value ? value : "Select"}</div>
+        <div className="flex-1 font-semibold ">{value ? value :  postalcode ? "Select" : 'Enter postal code '}</div>
         <img
           src="/assets/thick-arrow-down.svg"
           className="w-2 cursor-pointer"
@@ -491,9 +498,12 @@ const SelectInput = ({ message, value,data ,selectedOption}) => {
          
         />
       </div>
+
       {showResult && (
         <div className="flex flex-col w-full py-5 px-6 bg-white rounded-2xl  mt-2 border border-secondary">
           <div className="flex flex-col gap-2 lg:pl-4 mt-1">
+            {postalcode ?
+            <>
           {data.map((value, i) => (
   <div key={i}>
     <label className="cursor-pointer">
@@ -512,6 +522,14 @@ const SelectInput = ({ message, value,data ,selectedOption}) => {
     </label>
   </div>
 ))}
+</>
+:
+  <input
+          type="text"
+          className="flex-1 py-5 focus:outline-none ring-0"
+          placeholder="Enter Postal code "
+        /> 
+}
 
           </div>
         </div>
