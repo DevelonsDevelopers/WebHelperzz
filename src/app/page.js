@@ -953,7 +953,7 @@ console.log(blogs)
               Ruth, major roofing project{" "}
             </h4>
             <div className="flex justify-center mt-10">
-              <Link href='/stories/1' class="text-text border-2  text-lg  px-6 py-3 rounded-2xl font-semibold cursor-pointer hover:bg-primary hover:text-white border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
+              <Link href='/success-stories' class="text-text border-2  text-lg  px-6 py-3 rounded-2xl font-semibold cursor-pointer hover:bg-primary hover:text-white border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
                 View Success Stories{" "}
               </Link>
             </div>

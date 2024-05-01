@@ -181,6 +181,17 @@ export default function Page() {
 
 const Steps = (props) => {
   const [step, setStep] = useState(1);
+  const [option , setOption] = useState('')
+  const [option2 , setOption2] = useState('')
+
+  const handleOptionSelect = (selectedOption) => {
+    setOption(selectedOption);
+};
+  const handleOptionSelect2 = (selectedOption) => {
+    setOption2(selectedOption);
+};
+
+
   return (
     <div className="flex-1 flex flex-col gap-3 lg:gap-5 p-5">
       <div className="flex flex-wrap gap-3 lg:gap-0 items-center">
@@ -278,13 +289,15 @@ const Steps = (props) => {
               home
             </p>
             <SelectInput
-              value={"Detached / Semi-Detached Home"}
+              value={option}
               data={work}
+              selectedOption={handleOptionSelect}
               message={"What type of home do you live in?"}
             />
             <SelectInput
-              value={"Time is flexible"}
+              value={option2}
               data={time}
+              selectedOption={handleOptionSelect2}
               message={"When do you want to start this project?"}
             />
             <button
@@ -345,8 +358,6 @@ useEffect(() => {
     fetchSubCategory();
   }, [selectedCategory]);
 
-  console.log(' category' , category)
-  console.log('selected category' , selectedCategory)
   
 
   const handleSelectChange = (e) => {
@@ -437,13 +448,15 @@ const Option = ({ label, value, setSelected, selected }) => {
   );
 };
 
-const SelectInput = ({ message, value,data }) => {
+const SelectInput = ({ message, value,data ,selectedOption}) => {
 
   const [showResult, setShowResult] = useState(false);
   const [selected, setSelected] = useState(-1);
 
   const handleClick = (e) => {
     console.log('Clicked:', e.target.value);
+    selectedOption(e.target.value)
+    setShowResult(!showResult)
   };
 
   return (
@@ -451,13 +464,13 @@ const SelectInput = ({ message, value,data }) => {
       <div className="absolute lg:-top-5 -top-2 left-5 text-xs lg:text-base px-5 lg:px-10 text-white py-1 lg:py-2 bg-secondary rounded-xl">
         {message}
       </div>
-      <div className="flex w-full bg-white rounded-2xl py-5 px-3 border border-secondary">
+      <div className="flex w-full bg-white rounded-2xl py-5 px-3 border border-secondary"  onClick={() => setShowResult(!showResult)}>
         <div className="flex-1 font-semibold">{value ? value : "Select"}</div>
         <img
           src="/assets/thick-arrow-down.svg"
           className="w-2 cursor-pointer"
           alt=""
-          onClick={() => setShowResult(!showResult)}
+         
         />
       </div>
       {showResult && (
@@ -467,13 +480,15 @@ const SelectInput = ({ message, value,data }) => {
   <div key={i}>
     <label>
       <input
-        type="checkbox"
+        type="radio"
         value={value?.name}
         checked={selected === value?.name}
+         
         onChange={(e) => {
           setSelected(e.target.checked ? e.target.value : null);
-          handleClick(e); // Call handleClick when checkbox state changes
+          handleClick(e);
         }}
+        style={{ accentColor: '#2B937C' , marginRight:8}} 
       />
       {value?.name}
     </label>

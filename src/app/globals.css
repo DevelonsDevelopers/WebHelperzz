@@ -183,3 +183,7 @@ progress::-webkit-progress-value {
 .hide-scrollbar {
   overflow: hidden;
 }
+input[type="checkbox"]::before {
+ 
+  background-color: red;
+}
