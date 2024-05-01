@@ -333,11 +333,113 @@ const Steps = (props) => {
             >
               Go Back
             </button>
-            <button className="bg-white hover:bg-secondary hover:text-white rounded-2xl text-lg font-semibold py-3">
+            <button onClick={() => setStep(step + 1)} className="bg-white hover:bg-secondary hover:text-white rounded-2xl text-lg font-semibold py-3">
               Next
             </button>
             </div>
           </>
+        )}
+        {step === 4 && (
+          <>
+
+                  <form  className="bg-secondary bg-opacity-10 rounded-2xl p-6 md:p-10">
+                    <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-text">
+                      Free In home consultation
+                    </h2>
+                    <p className="mb-6 md:mb-10  text-base md:text-xl mt-4 text-[#5c6261]">
+                      For Helperzz users only
+                    </p>
+                    <div className="mb-5">
+                      <input
+                        type="email"
+                        placeholder="Email Address"
+                        id="email"
+                        // disabled={authData ? true : false}
+                        // value={userData?.email}
+                        // onChange={(e) => setUserData({...userData, email:e.target.value})}
+                        required
+                        name="email"
+                        className={
+                          "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
+                        }
+                      />
+                    </div>
+                    <div className="mb-5">
+                      <input
+                        type="text"
+                        placeholder="Your Name"
+                        id="name"
+                        // disabled={authData ? true : false}
+                        // value={userData?.name}
+                        // onChange={(e) => setUserData({...userData, name:e.target.value})}
+                        required
+                        name="name"
+                        className={
+                          "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
+                        }
+                      />
+                    </div>
+                    <div className="mb-5">
+                      <input
+                        placeholder="Phone Number"
+                        type="tel"
+                        id="phone"
+                        // disabled={authData?.phone ? true : false}
+                        // value={userData?.phone}
+                        // onChange={(e) => setUserData({...userData, phone:e.target.value})}
+                        required
+                        name="phone"
+                        className={
+                          "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
+                        }
+                      />
+                    </div>
+                    <div className="mb-5">
+                      <input
+                        type="text"
+                        id="address"
+                        placeholder="Enter your address"
+                        // value={formData?.postal}
+                        // onChange={(e) => setFormData({...formData, postal:e.target.value})}
+                        name="address"
+                        required
+                        className={
+                          "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
+                        }
+                      />
+                    </div>
+                    {/* <div className="mb-7">
+                      <textarea
+                        rows={4}
+                        placeholder="Message"
+                        id="message"
+                        // value={formData?.message}
+                        // onChange={(e) => setFormData({...formData, message:e.target.value})}
+                        name="message"
+                        required
+                        className="w-full resize-none  focus:ring-2 focus:ring-[#43D9BE] bg-white border border-[#43D9BE] rounded-2xl py-2 px-4 focus:outline-none "
+                      ></textarea>
+                    </div> */}
+                    {/* <button
+                      type="submit"
+                      className="bg-secondary  w-full hover:bg-opacity-70 text-white font-semibold p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white"
+                    >
+                      Send Message
+                    </button> */}
+                         <div className="grid grid-cols-2 gap-10 mt-5 ">
+            <button
+              className="bg-white rounded-2xl text-lg font-semibold py-3"
+              onClick={() => setStep(step - 1)}
+            >
+              Go Back
+            </button>
+            <button  className="bg-white hover:bg-secondary hover:text-white rounded-2xl text-lg font-semibold py-3">
+              Next
+            </button>
+            </div>                 
+                    </form>
+               
+</>
         )}
       </div>
     </div>
@@ -394,11 +496,7 @@ useEffect(() => {
           className="w-4 cursor-pointer mr-3"
           alt=""
         />
-        {/* <input
-          type="text"
-          className="flex-1 py-5 focus:outline-none ring-0"
-          placeholder="Search"
-        /> */}
+
          <Select
                   styles={{
                     border: "none",

@@ -312,13 +312,13 @@ function Header() {
                   ) : (
                     <div className="gap-2 2xl:mr-5 mr-2 hidden md:flex">
                       <p
-                        className="text-text text-sm font-medium hover:scale-150 whitespace-nowrap cursor-pointer"
+                        className="text-text text-sm font-medium hover:font-[500] whitespace-nowrap cursor-pointer"
                         onClick={() => navigate.push("/login")}
                       >
                         Log In
                       </p>
                       <p
-                        className="text-text text-sm font-medium hover:scale-50 whitespace-nowrap cursor-pointer"
+                        className="text-text text-sm font-medium hover:font-[500] whitespace-nowrap cursor-pointer"
                         onClick={() => navigate.push("/signup")}
                       >
                         Sign up
@@ -490,13 +490,13 @@ function Header() {
             ) : (
               <div className="gap-4 2xl:mr-5 mr-2 hidden md:flex">
                 <p
-                  className="text-text text-sm font-medium hover:text-base whitespace-nowrap w-10 cursor-pointer"
+                  className="text-text text-sm font-medium hover:font-[800] whitespace-nowrap w-10 cursor-pointer"
                   onClick={() => navigate.push("/login")}
                 >
                   Log In{" "}
                 </p>
                 <p
-                  className="text-text text-sm text- font-medium hover:text-base whitespace-nowrap w-10  cursor-pointer"
+                  className="text-text text-sm text- font-medium hover:font-[800] whitespace-nowrap  w-10 cursor-pointer"
                   onClick={() => navigate.push("/signup")}
                 >
                   Sign up

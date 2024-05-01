@@ -911,7 +911,7 @@ console.log(blogs)
               </p>
             </div>
             <div className="flex justify-center mt-16">
-              <Link href='/stories/1' class="text-text] border-2 text-lg px-6 py-3 rounded-2xl font-semibold cursor-pointer hover:bg-primary hover:text-white border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
+              <Link href='/create-project' class="text-text] border-2 text-lg px-6 py-3 rounded-2xl font-semibold cursor-pointer hover:bg-primary hover:text-white border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
                 Get started
               </Link>
             </div>
@@ -942,9 +942,9 @@ console.log(blogs)
                 type="video/mp4"
               />
             </video> */}
-              <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+              {/* <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
                 <PlayIcon />
-              </div>
+              </div> */}
             </div>
             <p className="text-base mt-4 px-10 font-normal mb-4">
               “As an employee, I also use Helperzz because I trust the service.”
