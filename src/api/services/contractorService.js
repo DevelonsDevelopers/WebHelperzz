@@ -17,6 +17,14 @@ const contractorService = {
             throw error.response.data
         }
     },
+    filters: async () => {
+        try {
+            const response = await axiosInstance.get('/contractors/filters')
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
     featured: async () => {
         try {
             const response = await axiosInstance.get('/contractors/featured')
