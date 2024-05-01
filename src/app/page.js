@@ -749,7 +749,7 @@ console.log(blogs)
               </div>
             </div>
           </div>
-          <a href='/create-project' class="text-text mt-6 cursor-pointer hover:bg-primary hover:text-white hover:border-0 transition-none  w-full md:w-fit min-w-60 justify-center border px-5 py-2 rounded-2xl font-semibold bg-[#fff] inline-flex items-center mx-auto">
+          <a href='/create-project' class="text-text mt-6 cursor-pointer hover:bg-primary hover:text-white transition-none  w-full md:w-fit min-w-60 justify-center border px-5 py-2 rounded-2xl font-semibold bg-[#fff] inline-flex items-center mx-auto">
             Create A Job For Free
           </a>
         </div>

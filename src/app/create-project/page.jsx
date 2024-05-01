@@ -9,6 +9,9 @@ import categoryService from "@/api/services/categoryService";
 import Select from "react-select";
 import subcategoryService from "@/api/services/subcategoryService";
 
+const work = [{ name:'Detached / Semi-Detached Home' } , {name :'Condo / Townhouse'}]
+const time = [{ name:`It's an emergency`  } , {name :'Within a week'} ,{name :'Within 2 weeks'} ,{name :'Within a month'} , {name :'Time is flexible'} , ]
+
 
 export default function Page() {
 
@@ -276,10 +279,12 @@ const Steps = (props) => {
             </p>
             <SelectInput
               value={"Detached / Semi-Detached Home"}
+              data={work}
               message={"What type of home do you live in?"}
             />
             <SelectInput
               value={"Time is flexible"}
+              data={time}
               message={"When do you want to start this project?"}
             />
             <button
@@ -432,9 +437,14 @@ const Option = ({ label, value, setSelected, selected }) => {
   );
 };
 
-const SelectInput = ({ message, value }) => {
+const SelectInput = ({ message, value,data }) => {
+
   const [showResult, setShowResult] = useState(false);
   const [selected, setSelected] = useState(-1);
+
+  const handleClick = (e) => {
+    console.log('Clicked:', e.target.value);
+  };
 
   return (
     <div className="relative w-full">
@@ -453,15 +463,23 @@ const SelectInput = ({ message, value }) => {
       {showResult && (
         <div className="flex flex-col w-full py-5 px-6 bg-white rounded-2xl  mt-2 border border-secondary">
           <div className="flex flex-col gap-2 lg:pl-4 mt-1">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <Option
-                selected={selected}
-                value={i}
-                setSelected={setSelected}
-                key={i}
-                label="Lightning Protection - Install or Repair"
-              />
-            ))}
+          {data.map((value, i) => (
+  <div key={i}>
+    <label>
+      <input
+        type="checkbox"
+        value={value?.name}
+        checked={selected === value?.name}
+        onChange={(e) => {
+          setSelected(e.target.checked ? e.target.value : null);
+          handleClick(e); // Call handleClick when checkbox state changes
+        }}
+      />
+      {value?.name}
+    </label>
+  </div>
+))}
+
           </div>
         </div>
       )}
