@@ -80,7 +80,16 @@ const contractorService = {
         } catch (error) {
             throw error.response.data
         }
-    }
+    } ,
+    addContractorRequest: async (payload) => {
+        try {
+            const response = await axiosInstance.post('/contractorRequests/create', payload)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    } ,
+
 }
 
 export default contractorService

@@ -19,6 +19,12 @@ import Loading from "@/components/loading";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import customerService from "@/api/services/customerService";
+import requestService from "@/api/services/requestService";
+import contractorService from "@/api/services/contractorService";
+
+// import customerService from "../../../../../api/services/customerService";
+
 
 function SubReview(props) {
   const sliderRef = useRef(null);
@@ -140,6 +146,30 @@ export default function Tabs({ id, details }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(true);
 
+  const [userData , setUserData] = useState({ name :'' , email:'' , phone:'' , address:'' })
+  const [authData , setAuthData] = useState()
+
+
+  const [formData, setFormData] = useState({
+    contractor:details?.contractor?.id,
+    user:'',
+    postal_code:'',
+    message:'',
+  })
+
+
+
+  useEffect(() => {
+    const u = JSON.parse(localStorage.getItem("HELPERZZ-USER"));
+    if (u) {
+      setUserData({ ... userData , name:u.name , email:u.email , phone: u.phone });
+      setAuthData(u)
+    }
+  }, []);
+
+  console.log('auth data' , authData)
+
+
   const buttons = [
     "Bathroom",
     "kitchen",
@@ -207,6 +237,28 @@ export default function Tabs({ id, details }) {
     setValue(newValue);
   };
 
+const handleSubmit = (e) => {
+
+  e.preventDefault();
+
+  customerService.passwordLessCreate(userData).then((response) => {
+    const customer = response.customer.id;
+    const data = { ...formData };
+    data.user = customer;
+    contractorService.addContractorRequest(data).then((res) => {
+      console.log('res of add contractor request' , res)
+    })
+    // requestService.create(data).then((response) => {
+    //   setSubmitting(false);
+    //   navigate.replace("/getquotes/complete");
+    // });
+  });
+
+
+ 
+}
+
+
   const ZoomedImageModal = ({ imageUrl, onClose, images }) => {
     // const projectCards = [
     //   {
@@ -216,6 +268,7 @@ export default function Tabs({ id, details }) {
     //   },
     //   ...projectCardsOld
     // ]
+
 
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [zoomedImageUrl, setZoomedImageUrl] = useState(images[0].image); // Initial value
@@ -440,7 +493,7 @@ export default function Tabs({ id, details }) {
                   </div>
                 </div>
                 <div className="lg:col-span-5">
-                  <form className="bg-secondary bg-opacity-10 rounded-2xl p-6 md:p-10">
+                  <form onSubmit={handleSubmit} className="bg-secondary bg-opacity-10 rounded-2xl p-6 md:p-10">
                     <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-text">
                       Free In home consultation
                     </h2>
@@ -452,6 +505,10 @@ export default function Tabs({ id, details }) {
                         type="email"
                         placeholder="Email Address"
                         id="email"
+                        disabled={authData ? true : false}
+                        value={userData?.email}
+                        onChange={(e) => setUserData({...userData, email:e.target.value})}
+                        required
                         name="email"
                         className={
                           "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
@@ -463,6 +520,10 @@ export default function Tabs({ id, details }) {
                         type="text"
                         placeholder="Your Name"
                         id="name"
+                        disabled={authData ? true : false}
+                        value={userData?.name}
+                        onChange={(e) => setUserData({...userData, name:e.target.value})}
+                        required
                         name="name"
                         className={
                           "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
@@ -474,6 +535,10 @@ export default function Tabs({ id, details }) {
                         placeholder="Phone Number"
                         type="tel"
                         id="phone"
+                        disabled={authData?.phone ? true : false}
+                        value={userData?.phone}
+                        onChange={(e) => setUserData({...userData, phone:e.target.value})}
+                        required
                         name="phone"
                         className={
                           "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
@@ -483,9 +548,12 @@ export default function Tabs({ id, details }) {
                     <div className="mb-5">
                       <input
                         type="text"
-                        id="zip"
-                        placeholder="Zip Code"
-                        name="zip"
+                        id="postal"
+                        placeholder="Postal Code"
+                        value={formData?.postal}
+                        onChange={(e) => setFormData({...formData, postal:e.target.value})}
+                        name="postal"
+                        required
                         className={
                           "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
                         }
@@ -496,7 +564,10 @@ export default function Tabs({ id, details }) {
                         rows={4}
                         placeholder="Message"
                         id="message"
+                        value={formData?.message}
+                        onChange={(e) => setFormData({...formData, message:e.target.value})}
                         name="message"
+                        required
                         className="w-full resize-none  focus:ring-2 focus:ring-[#43D9BE] bg-white border border-[#43D9BE] rounded-2xl py-2 px-4 focus:outline-none "
                       ></textarea>
                     </div>
