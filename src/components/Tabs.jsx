@@ -591,7 +591,7 @@ const handleSubmit = (e) => {
   <div className="flex justify-center">
 <DoneIcon className="m-auto my-4 border-2 rounded-full p-2 "  style={{ fontSize: 60 }}/>
 </div>
-<h1>Application Submit Successfully</h1>
+<h1>Request Submit Successfully</h1>
 </div>
 </div>
 
