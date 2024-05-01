@@ -11,7 +11,7 @@ import moment from "moment"
 const Page = () => {
 
   const [successStories, setSuccessStories] = useState([]);
-  const [loading , setLoading] = useState(false)
+  const [loading , setLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,7 +69,7 @@ const Page = () => {
                 </p>
               </div>
               <p className='font-[300] text-sm text-gray-500'>
-                {value?.description}
+                {value?.description.split(0,150)}...
                 </p>
               
             </div>

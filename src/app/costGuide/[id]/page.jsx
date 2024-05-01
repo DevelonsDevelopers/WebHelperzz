@@ -52,7 +52,7 @@ function CostGuide({ params }) {
                             <div className="flex text-lg flex-col gap-3 lg:w-[60%] w-screen p-4">
                                 <h4 className="font-bold text-2xl">{costGuide?.subtitle}</h4>
                                 <div className='relative w-full h-[600px]'>
-                                    <img src={`${IMAGE_PATH}${costGuide?.image}`} className="object-cover" fill alt='Blog Image'/>
+                                    <img src={`${IMAGE_PATH}${costGuide?.image}`} className="object-cover min-w-[500px] min-h-[500px] m-auto" fill alt='Blog Image'/>
                                 </div>
                                 <p className={``} dangerouslySetInnerHTML={{
                                     __html: costGuide?.content,
