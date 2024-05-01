@@ -35,6 +35,9 @@ import { Rating } from "@material-tailwind/react";
 import moment from "moment";
 import Loading from "@/components/loading";
 
+
+const hire = [{ id : 1 , name :'Basement Renovation' , tag : 'Basement-Renovation'},{ id : 3 , name :'Heating & Cooling' , tag :'Heating-&-Cooling'} ,{ id : 2 , name :'Electrical' , tag :'Electrical'}  ,{ id : 4 , name :'Painting' , tag:'Painting'} ,{ id : 5 , name :'Flooring' , tag:'Flooring'} ,]
+
 function Review({ review }) {
   return (
     <div className="Review_cart w-screen sm:w-[320px] text-center px-8 select-text">
@@ -444,7 +447,7 @@ console.log(blogs)
       <Header />
       {/* Section 1 */}
       <main className="hero_image px-4 mt-[-100px] w-[100%]">
-        <div className="main_home max-w-[650px] mx-auto">
+        <div className="main_home max-w-[850px] mx-auto">
           <h1 className="font-semibold pt-32 text-2xl text-transform: capitalize">
             The best place <br />
             to Find Professionals
@@ -542,19 +545,15 @@ console.log(blogs)
             )}
           </div>
 
-          <div className="mt-8 flex gap-3 items-center flex-col sm:flex-row sm:pb-0 pb-80">
+          <div className="mt-8 flex gap-3 items-center flex-col sm:flex-row sm:pb-0 pb-80 !w-[100%]">
             <h5 className="font-bold text-xl">Hire a pro:</h5>
-            <div className="flex flex-wrap gap-2 sm:gap-8">
-              <button className="text-[12px] sm:text-base py-2 sm:py-4 px-4 sm:px-6 bg-transparent border border-text rounded-full text-text font-bold">
-                Contractors
-              </button>
-              <button className="text-[12px] sm:text-base py-2 sm:py-4 px-4 sm:px-6 bg-transparent border border-text rounded-full text-text font-bold">
-                Architects
-              </button>
-              <button className="text-[12px] sm:text-base py-2 sm:py-4 px-4 sm:px-6 bg-transparent border border-text rounded-full text-text font-bold">
-                See more
+            {hire?.map((value, index) => (
+            <div  key={index} className="flex flex-wrap gap-2 sm:gap-8">
+              <button onClick={() => navigate.push(`/category/on/toronto/${value?.tag}`)} className="text-[8px] sm:text-base py-2 sm:py-2 px-4 sm:px-2 bg-transparent border border-text rounded-2xl text-text font-bold">
+                {value?.name}
               </button>
             </div>
+            ))}
           </div>
         </div>
       </main>

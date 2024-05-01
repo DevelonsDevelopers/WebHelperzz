@@ -89,7 +89,7 @@ function SubReview(props) {
         </div>
         <div className="md:h-20 w-full md:w-[30%]  pl-0 mt-1 lg:mt-0 flex flex-wrap">
           <p className="md:text-lg font-bold">Job price:</p>
-          <p className="md:text-lg ml-1 font-bold">{jobPrice}</p>
+          <p className="md:text-lg ml-1 font-bold">{jobPrice} $</p>
         </div>
       </div>
       <div className="flex md:flex-row flex-col">

@@ -56,14 +56,14 @@ function CategoryList({params}) {
             </div>
 
             <div className="professions-container  mt-[50px]">
-                <div className="px-[3rem] sm:px-[4rem] md:px-[6rem] lg:px-[10rem]">
+                <div className="max-w-[1400px] px-10 m-auto">
                 <TitleComponent title="Browse All Professionals"/>
 
                 <PopularList categories={categories}/>
                 </div>
             </div>
 
-            <div className="px-[3rem] sm:px-[5rem] md:px-[6rem] lg:px-[10rem] mt-[4rem]">
+            <div className="max-w-[1400px] px-10 m-auto mt-[4rem]">
                 <TitleComponent title="Toronto Home Improvement Pros"/>
             </div>
             <div className="w-full flex justify-center mt-[2rem] mb-[6rem]">
