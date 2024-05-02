@@ -70,6 +70,7 @@ function SubReview(props) {
     reviewText,
     rating,
     companyResponse,
+    showPic
   } = props;
 
   return (
@@ -121,6 +122,9 @@ function SubReview(props) {
             </div>
           )}
         </div>
+{showPic && (
+
+
         <div className="flex-col justify-between w-[35%]">
           <Slider {...settings} ref={sliderRef}>
             {productImage.map((image, index) => (
@@ -133,6 +137,7 @@ function SubReview(props) {
             ))}
           </Slider>
         </div>
+)}
       </div>
     </div>
   );
@@ -173,9 +178,6 @@ export default function Tabs({ id, details }) {
       setAuthData(u)
     }
   }, []);
-
-  console.log('auth data' , formData)
-
 
   const buttons = [
     "Bathroom",
@@ -222,23 +224,6 @@ export default function Tabs({ id, details }) {
     setZoomedImageUrl(null);
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await new Promise((resolve) => setTimeout(resolve, 2000));
-  //     setLoading(false);
-  //   };
-  //   fetchData();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (details) {
-  //     let rating = 0;
-  //     for (const review of details.reviews) {
-  //       rating = rating + parseFloat(review.rating);
-  //     }
-  //     setGivenRating(rating / parseFloat(details?.reviews?.length));
-  //   }
-  // }, [details]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -260,12 +245,7 @@ const handleSubmit = (e) => {
         setShowForm(true)
       }
     })
-
-
   });
-
-
-
 }
 
 
@@ -387,6 +367,8 @@ const handleSubmit = (e) => {
   const sortedReviews = showLatest === 'Oldest'
     ? details?.reviews?.slice().sort((a, b) => new Date(b?.created_date) - new Date(a?.created_date))
     : details?.reviews?.slice().sort((a, b) => new Date(a?.created_date) - new Date(b?.created_date));
+
+const [showPic , setShowPic] = useState(true)
 
 
 
@@ -864,11 +846,14 @@ const handleSubmit = (e) => {
                       <p className="sm:text-2xl font-semibold text-md">
                         Reviews with Photos
                       </p>
-                      <Image
+                      {/* <Image
                         src={require("../../public/assets/checkbox.png")}
                         className="filter_imag ml-3  md:h-9 md:w-9 h-4 w-4"
-                      />
-                    </div>
+                      /> */}
+<input
+  type="checkbox"
+  className="w-6 h-6 ml-2 mt-[6px] " checked={showPic} onChange={() => setShowPic(!showPic)}
+/>                    </div>
                   </div>
                   <div className="flex justify-between md:mt-6 mt-2 flex-wrap lg:flex-nowrap gap-3 md:gap-4">
                     <div className="flex-col justify-between flex-wrap lg:flex-nowrap gap-3 md:gap-4 w-[75%]">
@@ -879,6 +864,7 @@ const handleSubmit = (e) => {
                           profileImage={require("../../public/assets/profileImage.png")}
                           jobPrice={` ${value.price}`}
                           title={value.title}
+                          showPic={showPic}
                           date={moment(value.created_date).format("ll")}
                           reviewText={value.review}
                           rating={value.rating}
