@@ -96,7 +96,7 @@ function SubReview(props) {
         </div>
         <div className="md:h-20 w-full md:w-[30%]  pl-0 mt-1 lg:mt-0 flex flex-wrap">
           <p className="md:text-lg font-bold">Job price:</p>
-          <p className="md:text-lg ml-1 font-bold">{jobPrice} $</p>
+          <p className="md:text-lg ml-1 font-bold">${Number(jobPrice)?.toLocaleString()}</p>
         </div>
       </div>
       <div className="flex md:flex-row flex-col">
@@ -159,6 +159,11 @@ export default function Tabs({ id, details }) {
   })
   const [showForm, setShowForm] = useState(true)
 
+  useEffect(() => {
+    if(details) {
+      setFormData({...formData , contractor : details?.contractor?.id})
+    }
+  },[details])
 
 
   useEffect(() => {
@@ -169,7 +174,7 @@ export default function Tabs({ id, details }) {
     }
   }, []);
 
-  console.log('auth data' , authData)
+  console.log('auth data' , details)
 
 
   const buttons = [
@@ -589,9 +594,9 @@ const handleSubmit = (e) => {
 <div className="min-h-[300px] flex justify-center items-center">
   <div>
   <div className="flex justify-center">
-<DoneIcon className="m-auto my-4 border-2 rounded-full p-2 "  style={{ fontSize: 60 }}/>
+<DoneIcon className="m-auto my-4 border-2 rounded-full p-2 text-[#2B937C] border-[#2B937C]"  style={{ fontSize: 60 }}/>
 </div>
-<h1>Request Submit Successfully</h1>
+<h1 className="text-center font-[500] text-gray-600">Thank you, your request has been sent. We're getting to work now to match you with most suitable contractors for your job</h1>
 </div>
 </div>
 

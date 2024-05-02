@@ -447,7 +447,7 @@ console.log(blogs)
       <Header />
       {/* Section 1 */}
       <main className="hero_image px-4 mt-[-100px] w-[100%]">
-        <div className="main_home max-w-[850px] mx-auto">
+        <div className="main_home max-w-[650px] mx-auto">
           <h1 className="font-semibold pt-32 text-2xl text-transform: capitalize">
             The best place <br />
             to Find Professionals
@@ -545,7 +545,7 @@ console.log(blogs)
             )}
           </div>
 
-          <div className="mt-8 flex gap-3 items-center flex-col sm:flex-row sm:pb-0 pb-80 !w-[100%]">
+          <div className="mt-8 flex gap-3 flex-wrap items-center flex-col sm:flex-row sm:pb-0 pb-80 !w-[100%]">
             <h5 className="font-bold text-xl">Hire a pro:</h5>
             {hire?.map((value, index) => (
             <div  key={index} className="flex flex-wrap gap-2 sm:gap-8">
