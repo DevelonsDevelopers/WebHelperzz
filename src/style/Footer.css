@@ -1,3 +1,8 @@
+.container {
+  max-width: 900px;
+  width: 100%;
+}
+
 @media screen and (max-width: 768px) {
   .footer_col_1 {
     padding: 0;
@@ -7,6 +12,10 @@
 @media screen and (max-width: 500px) {
   .header_part2 {
     height: 50%;
+  }
+  .container {
+    margin: auto;
+    padding: 10px;
   }
 }
 

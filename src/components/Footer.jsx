@@ -2,15 +2,18 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import "../style/Footer.css";
-export const Footer = ({ showNewsLetter = true }) => {
+export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
+
   return (
     <>
+        {postProject && (
       <section className="sm:bg-secondary">
+
+        
         <div
           className="main_part pt-5 pb-0 sm:py-14 relative mt-10 mx-auto sm:flex sm:justify-center"
           style={{ maxWidth: "1400px" }}
         >
-          {/* Image section */}
           <div className="header_part2 sm:absolute  sm:top-0  pt-8 sm:right-0 mt-4 bg-secondary sm:bg-transparent w-full sm:w-auto">
             <div className="pt-6 pb-0 sm:py-14 relative mt-10 mx-auto">
               <Image
@@ -21,7 +24,6 @@ export const Footer = ({ showNewsLetter = true }) => {
             </div>
           </div>
 
-          {/* Other section */}
           <div className="outer_header_part min-h-35 container px-4 flex flex-col items-center justify-center sm:justify-between flex-wrap sm:flex-row">
             <div className="header_part1 flex flex-col items-center justify-center sm:block bg-[#F7F9FB] sm:bg-transparent pb-10 md:pb-0 mb-10 md:mb-0 w-full sm:w-[60%]">
               <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:text-white text-text mt-2 text-transform: uppercase sm:text-left text-center">
@@ -37,6 +39,7 @@ export const Footer = ({ showNewsLetter = true }) => {
           </div>
         </div>
       </section>
+      )}
 
       {showNewsLetter ? (
         <section className="bg-[#F7F9FB] py-0">
@@ -83,9 +86,9 @@ export const Footer = ({ showNewsLetter = true }) => {
                             </h2>
                             <nav className="list-none mb-10">
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <Link href="/category_list/toronto" className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
                                         Browse Categories
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
                                     <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
@@ -93,14 +96,14 @@ export const Footer = ({ showNewsLetter = true }) => {
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <Link href="/write_review" className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
                                         Write A Review
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <Link href="/blog" className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
                                         Blog
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
                                     <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">

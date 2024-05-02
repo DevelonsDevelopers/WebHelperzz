@@ -405,54 +405,7 @@ const Page = ({ params }) => {
                         </div>
                       )}
                     </div>
-                    <div class="w-full border-gray-300  py-5 rounded-t border-b">
-                      <div
-                        onClick={handleCredentialsClick}
-                        class="mb-3 p-1 bg-transparent flex items-center  rounded transition-all ease-in-out duration-500 "
-                      >
-                        <div class="p-1 px-2 text-[1.2rem] font-[500] w-full text-gray-800">
-                          Credentials $ Awards
-                        </div>
-                        <div class="text-black w-8 py-1 pl-2 pr-1  flex items-center">
-                          {credentialsOpen ? (
-                            <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                              <FaAngleUp />
-                            </button>
-                          ) : (
-                            <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                              <FaAngleDown />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      {credentialsOpen && (
-                        <div class="w-full items-center flex mx-3 -mt-1">
-                          <form action="" className="flex flex-col gap-2">
-                            {filterData?.highlights?.map((value, index) => (
-                              <div
-                                key={index}
-                                className="flex items-center cursor-pointer"
-                              >
-                                <input
-                                  type="checkbox"
-                                  id="categories"
-                                  name="categories"
-                                  value={value.highlight}
-                                  onChange={handleCheckboxChange}
-                                  className=" cursor-pointer form-checkbox w-[17px] h-[17px]  text-[#12937C] border-gray-500 rounded-lg bg-transparent checked:bg-[#12937C] checked:border-green-600"
-                                />
-                                <label
-                                  for="category"
-                                  className="ml-2 text-[.9rem] font-[400] text-gray-500"
-                                >
-                                  {value.highlight}
-                                </label>
-                              </div>
-                            ))}
-                          </form>
-                        </div>
-                      )}
-                    </div>
+                  
                     <div class="w-full border-gray-300  py-5 rounded-t border-b">
                       <div
                         onClick={handleBussinessHighlightsClick}
@@ -476,7 +429,7 @@ const Page = ({ params }) => {
                       {bussinessHighlightsOpen && (
                         <div class="w-full items-center flex mx-3 -mt-1">
                           <form action="" className="flex flex-col gap-2">
-                            {data?.businessHighlights?.map((value, index) => (
+                            {filterData?.highlights?.map((value, index) => (
                               <div
                                 key={index}
                                 className="flex items-center cursor-pointer"
@@ -485,7 +438,7 @@ const Page = ({ params }) => {
                                   type="checkbox"
                                   id="categories"
                                   name="categories"
-                                  value={value}
+                                  value={value.highlight}
                                   onChange={handleCheckboxChange}
                                   className=" cursor-pointer form-checkbox w-[17px] h-[17px]  text-[#12937C] border-gray-500 rounded-lg bg-transparent checked:bg-[#12937C] checked:border-green-600"
                                 />
@@ -493,7 +446,7 @@ const Page = ({ params }) => {
                                   for="category"
                                   className="ml-2 text-[.9rem] font-[400] text-gray-500"
                                 >
-                                  {value}
+                                  {value.highlight}
                                 </label>
                               </div>
                             ))}

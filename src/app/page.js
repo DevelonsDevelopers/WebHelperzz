@@ -993,7 +993,7 @@ console.log(blogs)
         blogs={blogs}
         contractors={contractors}
       /> */}
-      <Footer />
+      <Footer  />
     </>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState , useRef} from "react";
 import Header from "../../components/Header";
 import authenticationService from "../../api/services/authenticationService";
 import toast from "react-hot-toast";
@@ -61,16 +61,17 @@ const Page = () => {
         setError((prevError) => ({ ...prevError, auth: true }));
       });
   };
+
   // setSubmitting(true)
 
   return (
-    <>
+    <div className="bg-gray-200">
       <Header />
-      <section
-        className="flex items-center justify-center min-h-screen bg-gray-200"
-        style={{ alignItems: "center" }}
-      >
-        <div className="block rounded-lg bg-gray-100 shadow-lg ">
+
+
+      <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-200 min-h-[100vh] ">
+
+        <div className=" rounded-lg bg-gray-100 shadow-lg w-[50%] max-md:w-[90%]">
           <div className="flex flex-wrap  ">
             <div className="px-8 md:px-0 m-auto">
               <div className="md:mx-6 md:p-12">
@@ -78,6 +79,8 @@ const Page = () => {
                   <p className="mb-8 text-left mt-10 font-semibold text-2xl">
                     Login to your account
                   </p>
+
+                 
                   {error.auth && (
                     <div
                       className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
@@ -172,7 +175,7 @@ const Page = () => {
 
                   <div className="flex items-center pb-6 mx-auto justify-center">
                     <p
-                      onClick={() => navigate.push("/")}
+                      onClick={() => navigate.push("/forgot-password")}
                       className="inline-block rounded
                       text-[#27a9e1] text-base cursor-pointer"
                     >
@@ -184,8 +187,8 @@ const Page = () => {
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </div>
   );
 };
 
