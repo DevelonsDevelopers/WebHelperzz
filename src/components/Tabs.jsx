@@ -310,6 +310,9 @@ const handleSubmit = (e) => {
       setZoomedImageUrl(images[selectedIndex].image);
     }, [selectedIndex, images]);
 
+
+
+ 
     return (
       <div className="overflow-hidden fixed z-10 top-0 left-0 w-full h-full  bg-black bg-opacity-100 flex justify-center ">
         <div className="flex flex-col justify-center  sm:mt-[3rem] xl:flex xl:flex-col xl:justify-center">
@@ -369,6 +372,19 @@ const handleSubmit = (e) => {
       </div>
     );
   };
+
+
+  const [showLatest, setShowLatest] = useState(true);
+
+  const toggleReviews = () => {
+    setShowLatest(!showLatest);
+  };
+
+  const sortedReviews = showLatest
+    ? details?.reviews?.slice().sort((a, b) => new Date(b?.created_date) - new Date(a?.created_date))
+    : details?.reviews?.slice().sort((a, b) => new Date(a?.created_date) - new Date(b?.created_date));
+
+
 
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
@@ -852,7 +868,7 @@ const handleSubmit = (e) => {
                   </div>
                   <div className="flex justify-between md:mt-6 mt-2 flex-wrap lg:flex-nowrap gap-3 md:gap-4">
                     <div className="flex-col justify-between flex-wrap lg:flex-nowrap gap-3 md:gap-4 w-[75%]">
-                      {details?.reviews?.slice(0, 3).map((value) => (
+                      {sortedReviews?.slice(0, 3).map((value) => (
                         <SubReview
                           key={value.id}
                           name={value.name}
