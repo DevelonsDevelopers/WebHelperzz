@@ -10,12 +10,13 @@ import emailService from "@/api/services/emailService";
 const Page = () => {
 
     const navigation = useRouter();
+    const [email, setEmail] = useState()
 
     const submitRequest = (email) => {
-
         emailService.forgotPassword({ email: email }).then(response => {
+            console.log(response)
             if (response?.resonseCode === 200){
-
+                navigation.push('/success-page')
             }
         }).catch(err => {
 
@@ -47,7 +48,7 @@ const Page = () => {
                                         <input
                                             type="email"
                                             name="email"
-                                            // onChange={(e) => handleChange(e)}
+                                            onChange={(e) => setEmail(e.target.value)}
                                             className="w-full border-[1px] border-gray-300 bg-transparent px-4 py-2  outline-none "
                                             style={{
                                                 boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
@@ -58,7 +59,7 @@ const Page = () => {
 
                                     <div className="mb-4 pb-1 pt-1 text-center">
                                         <button
-                                            onClick={() => navigation.push('/success-page')}
+                                            onClick={() => submitRequest(email)}
                                             className="mb-3 py-3 inline-block w-full rounded px-6 font-bold text-base uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out hover:shadow-dark-2 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:shadow-dark-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
                                             type="button"
                                             style={{

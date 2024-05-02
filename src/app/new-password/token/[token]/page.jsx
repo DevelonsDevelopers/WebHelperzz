@@ -1,20 +1,37 @@
 'use client'
 
 import React, {useState, useRef} from "react";
-import Header from "../../components/Header";
+import Header from "../../../../components/Header";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import {useRouter} from "next/navigation";
+import emailService from "@/api/services/emailService";
+import customerService from "@/api/services/customerService";
 
-const Page = () => {
+const Page = ({ params }) => {
 
     const navigation = useRouter();
 
     const [visible, setVisible] = useState(true)
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(true)
+    const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
 
+    const newPassword = () => {
+        if (password === confirmPassword){
+            customerService.updatePassword({ token: params.token, password: password }).then(response => {
+                console.log(response)
+                if (response.success){
+                    navigation.push('/success-page')
+                }
+            }).catch(err => {
 
+            })
+        } else {
+
+        }
+    }
 
     return (
         <div>
@@ -41,7 +58,7 @@ const Page = () => {
                                         <input
                                             type={visible ? 'text' : 'password'}
                                             name="passowrd"
-                                            // onChange={(e) => handleChange(e)}
+                                            onChange={(e) => setPassword(e.target.value)}
                                             className="w-full border-[1px] border-gray-300 bg-transparent px-4 py-2  outline-none "
                                             style={{
                                                 boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
@@ -63,7 +80,7 @@ const Page = () => {
                                         <input
                                             type={confirmPasswordVisible ? 'text' : 'password'}
                                             name="passowrd"
-                                            // onChange={(e) => handleChange(e)}
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
                                             className="w-full border-[1px] border-gray-300 bg-transparent px-4 py-2  outline-none "
                                             style={{
                                                 boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
@@ -81,7 +98,7 @@ const Page = () => {
 
                                     <div className="mb-4 pb-1 pt-1 text-center">
                                         <button
-                                            onClick={() => navigation.push('/success-page')}
+                                            onClick={() => newPassword()}
                                             className="mb-3 py-3 inline-block w-full rounded px-6 font-bold text-base uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out hover:shadow-dark-2 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:shadow-dark-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
                                             type="button"
                                             style={{
