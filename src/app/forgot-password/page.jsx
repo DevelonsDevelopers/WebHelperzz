@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useState, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import Header from "../../components/Header";
 import {useRouter} from "next/navigation";
 import contractorService from "@/api/services/contractorService";
@@ -11,11 +11,14 @@ const Page = () => {
 
     const navigation = useRouter();
     const [email, setEmail] = useState()
+    const [response , setResponse] = useState()
 
-    const submitRequest = (email) => {
-
+    const submitRequest = (e, email) => {
+        e.preventDefault();
+      
         emailService.forgotPassword({ email: email }).then(response => {
             console.log(response)
+            setResponse(response)
             if (response?.resonseCode === 200){
                 
                 navigation.push('/success-page/email-sent')
@@ -24,6 +27,12 @@ const Page = () => {
 
         })
     }
+    
+    useEffect(() => {
+        if(response?.responseCode === 200) {
+            navigation.push('/success-page/email-sent')
+        }
+    },[response])
 
     return (
         <div>
@@ -34,7 +43,7 @@ const Page = () => {
                     <div className="flex flex-wrap  ">
                         <div className="px-8 md:px-0 m-auto">
                             <div className="md:mx-6 md:p-12">
-                                <form onSubmit={() => submitRequest(email)} className="justify-center items-center mx-auto">
+                                <form onSubmit={(e) => submitRequest(e,email)} className="justify-center items-center mx-auto">
                                     <p className=" text-left mt-10 font-semibold text-2xl ">
                                         Email Required
                                     </p>

@@ -545,7 +545,7 @@ console.log(blogs)
             )}
           </div>
 
-          <div className=" flex gap-3  items-center flex-col sm:flex-row sm:pb-0 pb-80 !w-[100%] ">
+          <div className=" flex gap-3  items-center flex-col sm:flex-row sm:pb-0 pb-80 !w-[100%] -mt-2 ">
             <h5 className="font-bold text-xl w-[120px]">Hire a pro:</h5>
             <div className="flex flex-wrap gap-3 max-md:m-auto max-md:w-[90%] mt-14">
             {hire?.map((value, index) => (
