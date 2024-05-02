@@ -58,7 +58,7 @@ const Page = () => {
 
                                     <div className="mb-4 pb-1 pt-1 text-center">
                                         <button
-                                            // onClick={() => navigation.push('/new-password')}
+                                            onClick={() => navigation.push('/success-page')}
                                             className="mb-3 py-3 inline-block w-full rounded px-6 font-bold text-base uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out hover:shadow-dark-2 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:shadow-dark-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
                                             type="button"
                                             style={{
