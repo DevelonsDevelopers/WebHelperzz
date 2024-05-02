@@ -13,6 +13,7 @@ const Page = () => {
     const [email, setEmail] = useState()
 
     const submitRequest = (email) => {
+
         emailService.forgotPassword({ email: email }).then(response => {
             console.log(response)
             if (response?.resonseCode === 200){
