@@ -36,7 +36,7 @@ import moment from "moment";
 import Loading from "@/components/loading";
 
 
-const hire = [{ id : 1 , name :'Basement Renovation' , tag : 'Basement-Renovation'},{ id : 3 , name :'Heating & Cooling' , tag :'Heating-&-Cooling'} ,{ id : 2 , name :'Electrical' , tag :'Electrical'}  ,{ id : 4 , name :'Painting' , tag:'Painting'} ,{ id : 5 , name :'Flooring' , tag:'Flooring'} ,]
+const hire = [{ id : 1 , name :'Interior Design' , tag : 'interior-design'},{ id : 3 , name :'Home Staging' , tag :'home-staging'} ,{ id : 2 , name :'Electrical' , tag :'Electrical'}  ,{ id : 4 , name :'Painting' , tag:'Painting'} ,{ id : 5 , name :'Flooring' , tag:'Flooring'} ,]
 
 function Review({ review }) {
   return (
