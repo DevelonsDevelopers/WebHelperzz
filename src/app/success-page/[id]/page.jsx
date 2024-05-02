@@ -25,11 +25,11 @@ console.log('params', params)
             <div className="flex justify-center">
             <CheckCircleOutlineIcon  style={{ fontSize : 90 , color:'#44CA77' }} />
 </div>
-            <p className=" text-left mt-10 font-semibold text-2xl  text-center">
-             Check your e-mail 
+            <p className="  mt-10 font-semibold text-2xl  text-center">
+            {params?.id === 'email-sent' ? 'Check your e-mail' : params?.id === 'passowrd-change' ? 'Password Change Successfully' : '' }
             </p>
-            <p className="mb-6 text-left mt-4 font-semibold text-sm text-gray-500 max-w-[390px] text-center">
-                Your new passoword must be different from any of your previous passwords.
+            <p className="mb-6  mt-4 font-semibold text-sm text-gray-500 max-w-[390px] text-center">
+              {params?.id === 'email-sent' ?  'Your new passoword must be different from any of your previous passwords.' :''}
              </p>
             
             

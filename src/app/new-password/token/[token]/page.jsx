@@ -15,8 +15,8 @@ const Page = ({ params }) => {
 
     const navigation = useRouter();
 
-    const [visible, setVisible] = useState(true)
-    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(true)
+    const [visible, setVisible] = useState(false)
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false)
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
 
@@ -25,13 +25,13 @@ const Page = ({ params }) => {
             customerService.updatePassword({ token: params.token, password: password }).then(response => {
                 console.log(response)
                 if (response.success){
-                    navigation.push('/success-page')
+                    navigation.push('/success-page/passowrd-change')
                 }
             }).catch(err => {
 
             })
         } else {
-            toast.success('password not match');
+            toast.error('password not match');
         }
     }
 
