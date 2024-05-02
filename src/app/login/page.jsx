@@ -64,10 +64,11 @@ const Page = () => {
 
   // setSubmitting(true)
 
+ 
+
   return (
     <div className="bg-gray-200">
       <Header />
-
 
       <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-200 min-h-[100vh] ">
 
@@ -175,7 +176,7 @@ const Page = () => {
 
                   <div className="flex items-center pb-6 mx-auto justify-center">
                     <p
-                      onClick={() => navigate.push("/forgot-password")}
+                      onClick={() => navigate.push('/forgot-password')}
                       className="inline-block rounded
                       text-[#27a9e1] text-base cursor-pointer"
                     >

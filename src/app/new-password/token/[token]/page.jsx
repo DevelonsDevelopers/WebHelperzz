@@ -8,6 +8,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {useRouter} from "next/navigation";
 import emailService from "@/api/services/emailService";
 import customerService from "@/api/services/customerService";
+import toast from "react-hot-toast";
+
 
 const Page = ({ params }) => {
 
@@ -29,7 +31,7 @@ const Page = ({ params }) => {
 
             })
         } else {
-
+            toast.success('password not match');
         }
     }
 

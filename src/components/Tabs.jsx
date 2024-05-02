@@ -174,7 +174,7 @@ export default function Tabs({ id, details }) {
     }
   }, []);
 
-  console.log('auth data' , details)
+  console.log('auth data' , formData)
 
 
   const buttons = [

@@ -16,7 +16,8 @@ const Page = () => {
         emailService.forgotPassword({ email: email }).then(response => {
             console.log(response)
             if (response?.resonseCode === 200){
-                navigation.push('/success-page')
+                
+                navigation.push('/success-page/email-sent')
             }
         }).catch(err => {
 
@@ -32,7 +33,7 @@ const Page = () => {
                     <div className="flex flex-wrap  ">
                         <div className="px-8 md:px-0 m-auto">
                             <div className="md:mx-6 md:p-12">
-                                <form className="justify-center items-center mx-auto">
+                                <form onSubmit={() => submitRequest(email)} className="justify-center items-center mx-auto">
                                     <p className=" text-left mt-10 font-semibold text-2xl ">
                                         Email Required
                                     </p>
@@ -48,6 +49,7 @@ const Page = () => {
                                         <input
                                             type="email"
                                             name="email"
+                                            required
                                             onChange={(e) => setEmail(e.target.value)}
                                             className="w-full border-[1px] border-gray-300 bg-transparent px-4 py-2  outline-none "
                                             style={{
@@ -59,9 +61,9 @@ const Page = () => {
 
                                     <div className="mb-4 pb-1 pt-1 text-center">
                                         <button
-                                            onClick={() => submitRequest(email)}
+                                            // onClick={() => navigation.push('/new-password')}
                                             className="mb-3 py-3 inline-block w-full rounded px-6 font-bold text-base uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out hover:shadow-dark-2 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:shadow-dark-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
-                                            type="button"
+                                            type="submit"
                                             style={{
                                                 background: "#27a9e1",
                                             }}
