@@ -351,7 +351,7 @@ const handleSubmit = (e) => {
                   className="btn-prev flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full"
                   onClick={handlePrevClick}
                 >
-                  <FaChevronLeft />
+                  <FaChevronLeft  />
                 </button>
                 <button
                   className="btn-next flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full"
@@ -374,13 +374,17 @@ const handleSubmit = (e) => {
   };
 
 
-  const [showLatest, setShowLatest] = useState(true);
+  const [showLatest, setShowLatest] = useState('Newest');
 
   const toggleReviews = () => {
-    setShowLatest(!showLatest);
+    if(showLatest === 'Newest')
+    setShowLatest('Oldest');
+  else {
+    setShowLatest('Newest')
+  }
   };
 
-  const sortedReviews = showLatest
+  const sortedReviews = showLatest === 'Oldest'
     ? details?.reviews?.slice().sort((a, b) => new Date(b?.created_date) - new Date(a?.created_date))
     : details?.reviews?.slice().sort((a, b) => new Date(a?.created_date) - new Date(b?.created_date));
 
@@ -846,9 +850,9 @@ const handleSubmit = (e) => {
                     </p>
                     <div style={{ display: "flex", marginTop: "8px" }}>
                       <p className="sm:text-2xl font-semibold text-md">
-                        Newest
+                        {showLatest}
                       </p>
-                      <Image
+                      <Image  onClick={() => toggleReviews()}
                         src={require("../../public/assets/up-down-arrow-svgrepo-com 1.png")}
                         className="filter_imag ml-3 md:h-9 md:w-9 h-4 w-4"
                       />
@@ -1189,7 +1193,7 @@ const handleSubmit = (e) => {
                       <p className="sm:text-2xl font-semibold text-md">
                         Newest
                       </p>
-                      <Image
+                      <Image onClick={() => handl}
                         src={require("../../public/assets/up-down-arrow-svgrepo-com 1.png")}
                         className="filter_imag ml-3 md:h-9 md:w-9 h-4 w-4"
                       />
