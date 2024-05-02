@@ -546,7 +546,8 @@ console.log(blogs)
           </div>
 
           <div className="mt-8 flex gap-3 flex-wrap items-center flex-col sm:flex-row sm:pb-0 pb-80 !w-[100%]">
-            <h5 className="font-bold text-xl">Hire a pro:</h5>
+            <h5 className="font-bold text-xl ">Hire a pro:</h5>
+            <div className="flex flex-wrap gap-3 max-md:m-auto max-md:w-[90%]">
             {hire?.map((value, index) => (
             <div  key={index} className="flex flex-wrap gap-2 sm:gap-8">
               <button onClick={() => navigate.push(`/category/on/toronto/${value?.tag}`)} className="text-[8px] sm:text-base py-2 sm:py-2 px-4 sm:px-2 bg-transparent border border-text rounded-2xl text-text font-bold">
@@ -554,6 +555,7 @@ console.log(blogs)
               </button>
             </div>
             ))}
+            </div>
           </div>
         </div>
       </main>
