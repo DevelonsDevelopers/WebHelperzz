@@ -331,11 +331,11 @@ const Page = ({ params }) => {
                       className="ml-3 mt-[-28px] text-gray-600"
                       size={20}
                     />
-                    <input
+                    {/* <input
                       type="search"
                       className="bg-[#F7F9FB] border-[1px] border-[#12937C] mt-4 py-1 px-4 rounded-lg focus:outline-none w-full pl-4 max-md:rounded-r-lg placeholder:text-[.8rem] align-items-center"
                       placeholder="Radius 50 mi"
-                    />
+                    /> */}
 
                     <button
                       onClick={handleCitySubmit}
