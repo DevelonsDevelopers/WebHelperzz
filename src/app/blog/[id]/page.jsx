@@ -261,9 +261,9 @@ export const GetQuotesForm = (props) => {
 
 export const GetQuotes = (props) => {
     return (
-    <div className="sticky top-10 flex flex-col gap-5 lg:w-[80%] w-full bg-secondary text-white rounded-3xl p-8">
-        <h1 className="text-center font-bold text-[20px] capitalize">
-            Ready to start your deck design?
+    <div className="sticky top-10 mr-4 ml-auto flex flex-col gap-5 lg:w-[80%] w-full bg-secondary text-white rounded-3xl p-8">
+        <h1 className="text-left font-bold text-[20px] capitalize ">
+        Ready to start this project?
         </h1>
         <p className="font-medium">Find top local pros.</p>
         <button
