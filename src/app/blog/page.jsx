@@ -257,7 +257,7 @@ console.log('response of blogs fetch' , blogs)
               <img
                 className="w-full h-[460px] max-lg:h-[250px]"
                 alt='featured blog'
-                src={blogs?.featured?.[0]?.image ? `https://api.helperzz.com/public/uploads/${blogs.featured[0].image}` : ''}
+                src={blogs?.featured?.[1]?.image ? `https://api.helperzz.com/public/uploads/${blogs.featured[1].image}` : ''}
                 />
               <h1 className="text-[20px] font-[600] shadow-xl  mt-[-38px] max-md:text-[13px] text-gray-500 text-center">
                {blogs?.featured?.[0]?.subtitle?.split(0,30)}...
@@ -357,7 +357,7 @@ console.log('response of blogs fetch' , blogs)
                   alt="image"
                   className="w-full h-[320px] object-cover rounded-xl"
                 />
-                <h1 className="mt-2 text-[16px] font-[500]">{value?.name}</h1>
+                <h1 className="mt-2 text-[16px] font-[500]">{value?.title.split(0,50)}...</h1>
                 <div className="flex justify-between mt-2 pr-2">
                   <p className=" text-sm font-[300] text-gray-600">
                     By:{value.author}
