@@ -261,7 +261,7 @@ const Page = ({ params }) => {
                 <div className="max-md:w-[60%]">
                   <input
                     type="search"
-                    className="bg-[#F7F9FB] py-2 text-[.9rem]  px-4 rounded-l-[15px] focus:outline-none pl-10 max-md:w-[100%]"
+                    className="bg-[#F7F9FB] py-2 text-[.9rem]  px-4 rounded-l-[15px] focus:outline-none pl-10 max-md:w-[100%] !text-gray-800"
                     placeholder="Postal Code"
                   />
                   <GrLocation
@@ -549,6 +549,8 @@ const Page = ({ params }) => {
                   </div>
                 </div>
                 <div className="lg:w-[75%] w-full max-md:mt-5 gap-2 ">
+                  {contractors?.length > 0 ?
+<>
                   {paginatedData?.map((value, index) => (
                     <div
                       key={index}
@@ -730,6 +732,20 @@ const Page = ({ params }) => {
           />
         </Stack>
       </ThemeProvider>
+      </>
+      :
+      <div className="lg:w-[75%] w-full max-md:mt-5 gap-2 m-auto border-2 p-4 py-8 rounded-sm">
+        <h1 className="text-center text-gray-600 font-[500]">No contractor available </h1>
+        <h1 className="text-center text-gray-600 font-[500] mt-4">Are you a {category?.name} pro, click the button below to register as a {category?.name} professional.</h1>
+        <button
+        onClick={() => location.push('/join-us')}
+                      className="py-1 px-5 mt-4 bg-[#12937C] text-white text-[15px] rounded-[10px] w-full cursor-pointer hover:bg-opacity-80 font-[550]"
+                    >
+                      Join us as a Home pro 
+                    </button>
+  
+        </div>
+}
                 </div>
               </div>
             </div>
