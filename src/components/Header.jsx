@@ -26,15 +26,22 @@ import contractorService from "../api/services/contractorService";
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import cityService from "@/api/services/cityService";
+
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [cities, setCities] = useState([])
   const [isValidPostalCode, setIsValidPostalCode] = useState(true);
   const [postalCode, setPostalCode] = useState("");
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedError, setSelectedError] = useState(false);
+  const [cityValue, setCityValue] = useState('');
+  const [citySuggestions, setCitySuggestions] = useState([]);
+  const [citySelectedOption, setCitySelectedOption] = useState('');
+  const [citySelectedError, setCitySelectedError] = useState(false);
   const open = Boolean(anchorEl);
   const openUser = Boolean(anchorElUser);
   const buttonRef = useRef(null);
@@ -57,6 +64,22 @@ function Header() {
     setSuggestions(getSuggestions(value));
     setSelectedOption(value);
     setSelectedError(false);
+  };
+
+  const getCitySuggestions = (inputValue) => {
+    const inputValueLowerCase = inputValue.trim().toLowerCase();
+    return cities.filter(
+      (city) =>
+        city.name.toLowerCase().includes(inputValueLowerCase) ||
+        city.tag.toLowerCase().includes(inputValueLowerCase)
+    );
+  };
+
+  const onCitySuggestionsFetchRequested = ({ value }) => {
+    const suggestions = getCitySuggestions(value);
+    setCitySuggestions(suggestions);
+    setCitySelectedOption(value);
+    setCitySelectedError(false);
   };
 
   const handleSelectChange = (selectedOption) => {
@@ -103,6 +126,15 @@ function Header() {
     }
   };
 
+  const getCities = async () => {
+    try {
+      const response = await cityService.fetchAll();
+      setCities(response.cities);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const getContractor = async () => {
     try {
       const response = await contractorService.fetchAll();
@@ -140,6 +172,7 @@ function Header() {
 
   useEffect(() => {
     getCategories();
+    getCities()
     getContractor();
   }, []);
 
@@ -255,7 +288,7 @@ function Header() {
                   {/* <Button
                     style={{ userSelect: "text" }}
                     className="whitespace-nowrap"
-                    href={`/write_review/${categories.value}/${contractors.value}`}
+                    href={/write_review/${categories.value}/${contractors.value}}
                     sx={{
                       my: 2,
                       color: "black",
@@ -389,11 +422,12 @@ function Header() {
               sx={{
                 my: 2,
                 color: "black",
-                fontWeight: "bold",
+                fontWeight: "semibold",
                 display: "block",
+                fontSize: 12
               }}
             >
-              Blog
+              Join Us
             </Button>
             <Button
               style={{ userSelect: "text" }}
@@ -402,19 +436,19 @@ function Header() {
               sx={{
                 my: 2,
                 color: "black",
-                fontWeight: "bold",
+                fontWeight: "semibold",
                 display: "block",
+                fontSize: 12
               }}
             >
-              Write A review
+              Why work with us
             </Button>
 
             <div
-              className={`relative flex bg-transparent border  ${
-                selectedError || !isValidPostalCode
-                  ? "border-red-500"
-                  : "border-[#888888]"
-              } w-auto min-h-9 items-center  rounded-xl ml-auto mr-4 px-2 h-fit lg:w-auto`}
+              className={`relative flex bg-transparent border  ${selectedError || !isValidPostalCode
+                ? "border-red-500"
+                : "border-[#888888]"
+                } w-auto min-h-9 items-center  rounded-xl ml-auto mr-4 px-2 h-fit lg:w-auto`}
             >
               <div className="sm:w-48">
                 <div className="absolute z-50 top-1 ">
@@ -438,15 +472,48 @@ function Header() {
                   />
                 </div>
               </div>
-              <div className="text-transform : capitalize  text-xs border-l-2 border-r-2 b px-2  border-[#696969] font-normal text-[#696969] ml-2 flex items-center gap-2 sm:text-xs">
-                <input
-                  type="text"
-                  placeholder="Postal Code"
-                  value={postalCode}
-                  onChange={(e) => handlePostalChange(e)}
-                  className={`placeholder:text-[#696969] text-[#696969] font-normal bg-transparent sm:text-xs ml-2 h-full outline-none  w-20 `}
-                />
+              <span className="ml-3 text-black" >|</span>
+              <div className="sm:w-28">
+                <div className="absolute z-50 top-1 b px-2 border-[#696969] font-normal text-[#696969] ">
+                  <Autosuggest
+                    suggestions={citySuggestions}
+                    onSuggestionsFetchRequested={onCitySuggestionsFetchRequested}
+                    onSuggestionsClearRequested={() => setCitySuggestions([])}
+                    getSuggestionValue={(suggestion) => suggestion.name}
+                    renderSuggestion={(suggestion) => (
+                      <div className="p-2 border-[1px] border-gray-400 sm:text-xs text-gray-800 bg-white cursor-pointer">
+                        {suggestion.name}
+                      </div>
+                    )}
+                    inputProps={{
+                      placeholder: 'Search for City',
+                      value: cityValue, // Changed to 'value'
+                      onChange: (_, { newValue }) => setCityValue(newValue),
+                      className: 'placeholder:text-[#696969] text-[#696969] font-normal bg-transparent sm:text-xs ml-2 h-full outline-none w-8 sm:w-48 ',
+                    }}
+                  />
+                </div>
               </div>
+              <span className="text-black" >|</span>
+              {/* <div className="text-transform : capitalize  text-xs border-l-2 border-r-2 b px-2  border-[#696969] font-normal text-[#696969] ml-2 flex items-center gap-2 sm:text-xs">
+                <Autosuggest
+                  suggestions={citySuggestions}
+                  onSuggestionsFetchRequested={onCitySuggestionsFetchRequested}
+                  onSuggestionsClearRequested={() => setCitySuggestions([])}
+                  getSuggestionValue={(suggestion) => suggestion.name} // Changed to 'suggestion'
+                  renderSuggestion={(suggestion) => (
+                    <div className="p-2 border-[1px] border-gray-400 sm:text-xs text-gray-800 bg-white cursor-pointer">
+                      {suggestion.name}
+                    </div>
+                  )}
+                  inputProps={{
+                    placeholder: 'Search for City',
+                    value: cityValue, // Changed to 'value'
+                    onChange: (_, { newValue }) => setCityValue(newValue),
+                    className: 'placeholder:text-[#696969] text-[#696969] font-normal bg-transparent sm:text-xs ml-2 h-full outline-none w-8 sm:w-48',
+                  }}
+                />
+              </div> */}
 
               <div
                 className="pl-2 cursor-pointer"
@@ -510,7 +577,7 @@ function Header() {
               style={{ userSelect: "text" }}
               variant="contained"
               className="btn_header text-sm"
-              disableElevation                  
+              disableElevation
               onClick={() => navigate.push("/join-us")}
 
             >

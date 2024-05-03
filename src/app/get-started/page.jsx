@@ -13,7 +13,7 @@ const Page = () => {
       </div>
     <div className="mt-[30vh]">
         </div>
-    <Footer />
+    <Footer  />
     </div>
     )
 };

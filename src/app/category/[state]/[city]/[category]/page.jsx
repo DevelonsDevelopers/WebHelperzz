@@ -55,7 +55,7 @@ const data = {
     "Offers Custom Work",
   ],
   languages: ["All Languages", "Speaks Spanish", "Speaks French"],
-  rating: ["Any Rating"],
+  rating: [{value:'1' , name:'1 Star'} ,{value:'2' , name:'2 Star'} ,{value:'3' , name:'3 Star'} ,{value:'4' , name:'4 Star'} ,{value:'5' , name:'5 Star'} , ],
 };
 
 
@@ -429,27 +429,25 @@ const Page = ({ params }) => {
                       {bussinessHighlightsOpen && (
                         <div class="w-full items-center flex mx-3 -mt-1">
                           <form action="" className="flex flex-col gap-2">
-                            {filterData?.highlights?.map((value, index) => (
-                              <div
-                                key={index}
-                                className="flex items-center cursor-pointer"
-                              >
-                                <input
-                                  type="checkbox"
-                                  id="categories"
-                                  name="categories"
-                                  value={value.highlight}
-                                  onChange={handleCheckboxChange}
-                                  className=" cursor-pointer form-checkbox w-[17px] h-[17px]  text-[#12937C] border-gray-500 rounded-lg bg-transparent checked:bg-[#12937C] checked:border-green-600"
-                                />
-                                <label
-                                  for="category"
-                                  className="ml-2 text-[.9rem] font-[400] text-gray-500"
-                                >
-                                  {value.highlight}
-                                </label>
-                              </div>
-                            ))}
+                          {filterData?.highlights?.map((value, index) => (
+  <div key={index} className="flex items-center cursor-pointer">
+    <input
+      type="checkbox"
+      id={`highlight-${index}`} 
+      name="highlights"
+      value={value.highlight}
+      onChange={handleCheckboxChange} 
+      className="cursor-pointer"
+    />
+    <label
+      htmlFor={`highlight-${index}`}
+      className="ml-2 text-[.9rem] font-[400] text-gray-500 cursor-pointer"
+    >
+      {value.highlight}
+    </label>
+  </div>
+))}
+
                           </form>
                         </div>
                       )}
@@ -477,27 +475,25 @@ const Page = ({ params }) => {
                       {languagesOpen && (
                         <div class="w-full items-center flex mx-3 -mt-1">
                           <form action="" className="flex flex-col gap-2">
-                            {filterData?.languages?.map((value, index) => (
-                              <div
-                                key={index}
-                                className="flex items-center cursor-pointer"
-                              >
-                                <input
-                                  type="radio"
-                                  id="categories"
-                                  name="categories"
-                                  value={value.language}
-                                  className="cursor-pointer"
-                                  onChange={handleRadioChange}
-                                />
-                                <label
-                                  for="category"
-                                  className="ml-2 text-[.9rem] font-[400] text-gray-500"
-                                >
-                                  {value.language}
-                                </label>
-                              </div>
-                            ))}
+                          {filterData?.languages?.map((value, index) => (
+  <div key={index} className="flex items-center cursor-pointer">
+    <input
+      type="checkbox"
+      id={`language-${index}`}
+      name="languages"
+      value={value.language}
+      className="cursor-pointer"
+      onChange={handleCheckboxChange} 
+    />
+    <label
+      htmlFor={`language-${index}`} 
+      className="ml-2 text-[.9rem] font-[400] text-gray-500 cursor-pointer" 
+    >
+      {value.language}
+    </label>
+  </div>
+))}
+
                           </form>
                         </div>
                       )}
@@ -532,17 +528,17 @@ const Page = ({ params }) => {
                               >
                                 <input
                                   type="radio"
-                                  id="categories"
-                                  name="categories"
-                                  value={value}
+                                  id="review"
+                                  name="review"
+                                  value={value.name}
                                   className="cursor-pointer"
                                   onChange={handleRadioChange}
                                 />
                                 <label
-                                  for="category"
+                                  for="review"
                                   className="ml-2 text-[.9rem] font-[400] text-gray-500"
                                 >
-                                  {value}
+                                  {value.name}
                                 </label>
                               </div>
                             ))}

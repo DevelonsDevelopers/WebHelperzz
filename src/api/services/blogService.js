@@ -24,7 +24,15 @@ const blogService = {
         } catch (error) {
             throw error.response.data
         }
-    }
+    },
+    fetchBlogs: async () => {
+        try {
+            const response = await axiosInstance.get('/blogs/page')
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
 }
 
 export default blogService

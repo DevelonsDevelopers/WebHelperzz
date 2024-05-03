@@ -8,6 +8,7 @@ import women from "/public/assets/women.png";
 import Loading from "../../components/loading";
 import costGuideService from "../../api/services/costGuideService";
 import contractorService from "../../api/services/contractorService";
+import blogService from "../../api/services/blogService";
 import { IMAGE_PATH } from "../../api/BaseUrl";
 import "../../style/Home.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -16,6 +17,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Footer } from "@/components/Footer";
 import Link from "next/link";
+import moment from "moment";
+
 function Costgguides(props) {
   const { buttonText, title } = props;
 
@@ -66,60 +69,6 @@ const improvements = [
   },
 ];
 
-const helperz = [
-  {
-    name: "Gitano",
-    experties: "Roofting",
-    image: "../../../public/assets/Rectangle 120.png",
-    point: [
-      { name: "Roofting Repair" },
-      { name: "Roof Inspection" },
-      { name: "Roof Maintenance" },
-    ],
-  },
-  {
-    name: "Remodel",
-    experties: "Bathroom Renovation",
-    image: "../../../public/assets/Rectangle 120.png",
-    point: [
-      { name: "Bathroom Renovation" },
-      { name: "Plumbing" },
-      { name: "Cabinetry and Storage" },
-    ],
-  },
-  {
-    name: "Erevan",
-    experties: "Painting",
-    image: "../../../public/assets/Rectangle 120.png",
-    point: [
-      { name: "Surface Preparation" },
-      { name: "Protection" },
-      { name: "Paint Selection" },
-      { name: "Cleanup" },
-    ],
-  },
-];
-
-const cost = [
-  { name: "Kitchen Remodel Cost", description: "Tiles, fixtures, plumbing" },
-  {
-    name: "Cost to buid a house",
-    description: "Roofing materials and installation.",
-  },
-  {
-    name: "Roof replacement cost ",
-    description: "Brush, canvas, palette, easel.",
-  },
-  {
-    name: "water heater replacement",
-    description: "Bathroom kitchen plumbing",
-  },
-  {
-    name: "bathrom remodel cost",
-    description: "Electrical installation or testing",
-  },
-  { name: "solar panel cost", description: "Gas boiler - installation" },
-];
 
 const updates = [
   {
@@ -150,6 +99,22 @@ const Blog = () => {
   const [contractorLoading, setContractorLoading] = useState(true);
   const topHelperzzSliderRef = useRef(null);
   const [contractors, setContractors] = useState([]);
+
+  const [blogs , setBlogs] = useState()
+  const [loading , setLoading] = useState(true)
+
+
+useEffect(() => {
+setLoading(true)
+const fetchBlogs = async () => {
+  const response  = await blogService.fetchBlogs()
+  setBlogs(response?.data)
+}
+fetchBlogs()
+setLoading(false)
+},[])
+
+console.log('response of blogs fetch' , blogs)
 
   const scrollToSection = (ref) => {
     ref.current.scrollIntoView({ behavior: "smooth" });
@@ -226,6 +191,10 @@ const Blog = () => {
   return (
     <>
       <Header />
+{loading ?  
+<Loading />
+:
+
       <div className="mx-auto justify-center items-center mt-28">
         <div className="flex text-left mt-8 lg:w-[1100px] w-screen mx-auto justify-center">
           <h1 className="cursor-pointer ">Helperzz /</h1>
@@ -285,38 +254,38 @@ const Blog = () => {
 
           <div className="flex max-md:flex-col flex-wrap w-full md:w-[100%] gap-10">
             <div className="w-[50%] max-lg:w-[95%] max-md:m-auto">
-              <Image
+              <img
                 className="w-full h-[460px] max-lg:h-[250px]"
-                src={worker}
-              />
-              <h1 className="text-[20px] font-[600] mt-[-38px] max-md:text-[13px] text-white text-center">
-                Moving Company Spotlight: Let&apos;s Get Moving,
+                alt='featured blog'
+                src={blogs?.featured?.[0]?.image ? `https://api.helperzz.com/public/uploads/${blogs.featured[0].image}` : ''}
+                />
+              <h1 className="text-[20px] font-[600] shadow-xl  mt-[-38px] max-md:text-[13px] text-gray-500 text-center">
+               {blogs?.featured?.[0]?.subtitle?.split(0,30)}...
               </h1>
             </div>
             <div className="flex flex-col flex-wrap gap-3 w-[45%] hidden lg:block">
               <div className="flex bg-[#E8F5F2] gap-4 rounded-2xl  h-[220px]">
-                <Image
-                  src={women}
-                  alt="women"
-                  className="w-[50%] h-[220px] object-cover rounded-l-2xl"
+                <img
+                src={blogs?.featured?.[1]?.image ? `https://api.helperzz.com/public/uploads/${blogs.featured[1].image}` : ''}
+                alt="women"
+                  className="w-[200px] h-[220px] object-cover rounded-l-2xl"
                 />
                 <div className="p-4 flex flex-col justify-between">
                   <div>
                     <h1 className="font-[600] text-[15.5px]">
-                      Celebrating women in construction day: the home
-                      improvements group
+                    {blogs?.featured?.[1].title.split(0,50)}
+
                     </h1>
                     <div className="flex justify-between mt-2">
                       <h1 className="font-[400] text-[12px] text-gray-500">
-                        By: Magan Sulivan
+                        By: {blogs?.featured?.[1].author}
                       </h1>
                       <h1 className="font-[400] text-[12px] text-gray-500">
-                        February 16, 2024
+                      {moment(blogs?.featured?.[1]?.created_date)?.format("MMM Do YY")}
                       </h1>
                     </div>
                     <h1 className="font-[400] text-[13px] text-gray-800 mt-4 line-clamp-2 text-ellipsis">
-                      The National Construction Day (November 30th) Aims to
-                      Celebrate the Dedicated, Hard-Working...
+                    {blogs?.featured?.[1].subtitle.split(0,50)}...
                     </h1>
                   </div>
                   <h1 className="font-[400] text-[14px] text-[#12937C] cursor-pointer ">
@@ -326,27 +295,26 @@ const Blog = () => {
               </div>
 
               <div className="flex bg-[#E8F5F2] gap-4 rounded-2xl  mt-4 h-[220px]">
-                <Image
-                  src={women}
-                  alt="women"
-                  className="w-[50%] h-[220px] object-cover rounded-l-2xl"
+                <img
+                src={blogs?.featured?.[2]?.image ? `https://api.helperzz.com/public/uploads/${blogs.featured[2].image}` : ''}
+                alt="women"
+                  className="w-[200px] h-[220px] object-cover rounded-l-2xl"
                 />
                 <div className="p-4 flex flex-col justify-between">
                   <div>
                     <h1 className="font-[600] text-[15.5px]">
-                      Did you claim your home renovation tax credit?
+                    {blogs?.featured?.[2].title.split(0,50)}
                     </h1>
                     <div className="flex justify-between mt-2">
                       <h1 className="font-[400] text-[12px] text-gray-500">
-                        By: Magan Sulivan
+                        By: {blogs?.featured?.[2].author}
                       </h1>
                       <h1 className="font-[400] text-[12px] text-gray-500">
-                        February 16, 2024
+                      {moment(blogs?.featured?.[2]?.created_date)?.format("MMM Do YY")}
                       </h1>
                     </div>
                     <h1 className="font-[400] text-[13px] text-gray-800 mt-4 line-clamp-2 text-ellipsis">
-                      The National Construction Day (November 30th) Aims to
-                      Celebrate the Dedicated, Hard-Working...
+                    {blogs?.featured?.[2].subtitle.split(0,50)}...
                     </h1>
                   </div>
 
@@ -382,20 +350,20 @@ const Blog = () => {
           <h1 className="text-[28px] font-[600] pb-7">Design</h1>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-md:w-[90%] max-md:m-auto">
-            {design?.map((value, index) => (
+            {blogs?.designs.map((value, index) => (
               <div key={index} className="max-md:mt-4 ">
                 <img
-                  src={value?.image}
+                src={`https://api.helperzz.com/public/uploads/${value.image}`}
                   alt="image"
                   className="w-full h-[320px] object-cover rounded-xl"
                 />
                 <h1 className="mt-2 text-[16px] font-[500]">{value?.name}</h1>
                 <div className="flex justify-between mt-2 pr-2">
                   <p className=" text-sm font-[300] text-gray-600">
-                    By:Megan Sulivan
+                    By:{value.author}
                   </p>
                   <p className=" text-sm font-[300] text-gray-600">
-                    February 16,2024
+                {moment(value.created_date).format("ll")}
                   </p>
                 </div>
                 <button className="border border-[#12937C] text-[#12937C] font-[500] text-sm p-2 rounded-xl mt-4">
@@ -415,20 +383,20 @@ const Blog = () => {
           <h1 className="text-[28px] font-[600] pb-7">Improvement</h1>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-md:w-[90%] max-md:m-auto">
-            {improvements?.map((value, index) => (
+            {blogs?.improvements?.map((value, index) => (
               <div key={index} className="max-md:mt-4 ">
                 <img
-                  src={value?.image}
+                src={`https://api.helperzz.com/public/uploads/${value.image}`}
                   alt="image"
                   className="w-full h-[320px] object-cover rounded-xl"
                 />
-                <h1 className="mt-2 text-[16px] font-[500]">{value?.name}</h1>
+                <h1 className="mt-2 text-[16px] font-[500]">{value?.title.split(0,50)}...</h1>
                 <div className="flex justify-between mt-2 pr-2">
                   <p className=" text-sm font-[300] text-gray-600">
-                    By:Megan Sulivan
+                    By:{value.author}
                   </p>
                   <p className=" text-sm font-[300] text-gray-600">
-                    February 16,2024
+                    {moment(value.created_date).format("ll")}
                   </p>
                 </div>
                 <button className="border border-[#12937C] text-[#12937C] font-[500] text-sm p-2 rounded-xl mt-4">
@@ -666,6 +634,7 @@ const Blog = () => {
           </div>
         </div>
       </div>
+}
       <Footer />
     </>
   );

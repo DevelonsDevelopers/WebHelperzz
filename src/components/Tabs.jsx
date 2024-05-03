@@ -364,7 +364,7 @@ const handleSubmit = (e) => {
   }
   };
 
-  const sortedReviews = showLatest === 'Oldest'
+  const sortedReviews = showLatest === 'Newest'
     ? details?.reviews?.slice().sort((a, b) => new Date(b?.created_date) - new Date(a?.created_date))
     : details?.reviews?.slice().sort((a, b) => new Date(a?.created_date) - new Date(b?.created_date));
 
@@ -460,7 +460,7 @@ const [showPic , setShowPic] = useState(true)
                         {details?.reviews?.length > 0 ? (
                           <>
                             <StarIcon color={"#12937C"} />{" "}
-                            <span>{`${givenRating.toFixed(2)} / 5`}</span>{" "}
+                            <span>{`${givenRating } / 5`}</span>{" "}
                             <span className="text-[#444444]">{`(${details.reviews.length} Reviews)`}</span>
                           </>
                         ) : null}
@@ -617,7 +617,7 @@ const [showPic , setShowPic] = useState(true)
                     </h2>
                     <div className="flex gap-2 items-center text-text">
                       <StarIcon color={"#12937C"} />{" "}
-                      <span>{`${givenRating.toFixed(2)} / 5`}</span>{" "}
+                      <span>{`${givenRating } / 5`}</span>{" "}
                     </div>
                     <span className="text-[#444444] mt-2 block">
                       {`(${details?.reviews?.length} Reviews)`}
@@ -816,7 +816,7 @@ const [showPic , setShowPic] = useState(true)
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB3UlEQVR4nNWWv0tjQRDHn8LJFZq8HaNiISI5kasFwULEQv+BA5uzjmDvr8wsK9h4xWneTBRSWalgc1xx13p/wB1obWMtiHYqEiMbYk4SH+a9l/fAgal2vvvZ/e7sso7z7sKYrmomHSD4RzGdJApNM44A0yMIVVIeZhMDK6FVC7WpGFeSAzP9q4MF/yYCTXmYfYY+Z6ZAo7GDQQgbwcCYjx/MdNYEFjyNFdq7Q2PN0Fru0ue2A4f3zcf03ppSQpt+YDtma2xt6zvx9AwIXQLTje+OoiZX5750PT1dB/cVzSdguogNKnX4RdODo0qraRA6jguqGH+mvhvwtV2JzoHgffug+GBfOqfidLx55hlPjyvG83ZYq0RPttxsNsAzKWA8Cm2t4A/b5U7YcFkvWbuCWGs1TtToL6wPgGA5ALic2c4PRgYrxsXgNutcZDAI/g7eVPgrErSvaLoV422I5rqzzRkarIo07383ccOmX+NZbWgwCB2+djdd1lP1Gs5PvHrnGQ/CUUu5DyB43TDhcXrHuI2lvd+We4Cx1LDAm1DfX/Bw7uUkrodf39RI/gsIXv1fgJ4NDmbcqp4V04naxaFWdbbWamp2bwUGZwo06jItOMZ0BhYb02m1iXwCnfcST9nEk6kY/HV3AAAAAElFTkSuQmCC" />
                       <p className="text-xl md:text-3xl ">
                         {" "}
-                        {`${givenRating.toFixed(2)} / 5`}
+                        {`${givenRating } / 5`}
                       </p>
                       <p
                         className="text-xl md:text-3xl ml-3 "
@@ -853,7 +853,8 @@ const [showPic , setShowPic] = useState(true)
 <input
   type="checkbox"
   className="w-6 h-6 ml-2 mt-[6px] " checked={showPic} onChange={() => setShowPic(!showPic)}
-/>                    </div>
+/>       
+             </div>
                   </div>
                   <div className="flex justify-between md:mt-6 mt-2 flex-wrap lg:flex-nowrap gap-3 md:gap-4">
                     <div className="flex-col justify-between flex-wrap lg:flex-nowrap gap-3 md:gap-4 w-[75%]">
@@ -884,7 +885,7 @@ const [showPic , setShowPic] = useState(true)
                         <div className="flex mt-5">
                           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB3UlEQVR4nNWWv0tjQRDHn8LJFZq8HaNiISI5kasFwULEQv+BA5uzjmDvr8wsK9h4xWneTBRSWalgc1xx13p/wB1obWMtiHYqEiMbYk4SH+a9l/fAgal2vvvZ/e7sso7z7sKYrmomHSD4RzGdJApNM44A0yMIVVIeZhMDK6FVC7WpGFeSAzP9q4MF/yYCTXmYfYY+Z6ZAo7GDQQgbwcCYjx/MdNYEFjyNFdq7Q2PN0Fru0ue2A4f3zcf03ppSQpt+YDtma2xt6zvx9AwIXQLTje+OoiZX5750PT1dB/cVzSdguogNKnX4RdODo0qraRA6jguqGH+mvhvwtV2JzoHgffug+GBfOqfidLx55hlPjyvG83ZYq0RPttxsNsAzKWA8Cm2t4A/b5U7YcFkvWbuCWGs1TtToL6wPgGA5ALic2c4PRgYrxsXgNutcZDAI/g7eVPgrErSvaLoV422I5rqzzRkarIo07383ccOmX+NZbWgwCB2+djdd1lP1Gs5PvHrnGQ/CUUu5DyB43TDhcXrHuI2lvd+We4Cx1LDAm1DfX/Bw7uUkrodf39RI/gsIXv1fgJ4NDmbcqp4V04naxaFWdbbWamp2bwUGZwo06jItOMZ0BhYb02m1iXwCnfcST9nEk6kY/HV3AAAAAElFTkSuQmCC" />
                           <p className="ml-2 text-md">
-                            <span>{`${givenRating.toFixed(2)} / 5`}</span>{" "}
+                            <span>{`${givenRating } / 5`}</span>{" "}
                             <span className="text-gray-400">{`(${details?.reviews?.length} Reviews)`}</span>
                           </p>
                         </div>
@@ -991,7 +992,7 @@ const [showPic , setShowPic] = useState(true)
                       </h5>
                       <div className="flex gap-2 items-center text-text md:text-md text-sm">
                         <StarIcon color={"#12937C"} />{" "}
-                        <span>{`${givenRating.toFixed(2)} / 5`}</span>{" "}
+                        <span>{`${givenRating } / 5`}</span>{" "}
                         <span className="text-[#444444]">{`(${details?.reviews?.length} Reviews)`}</span>
                       </div>
                     </div>
@@ -1040,7 +1041,7 @@ const [showPic , setShowPic] = useState(true)
                             {details?.reviews?.length > 0 ? (
                               <>
                                 <StarIcon color={"#12937C"} />{" "}
-                                <span>{`${givenRating.toFixed(2)} / 5`}</span>{" "}
+                                <span>{`${givenRating } / 5`}</span>{" "}
                                 <span className="text-[#444444]">{`(${details.reviews.length} Reviews)`}</span>
                               </>
                             ) : null}
@@ -1161,7 +1162,7 @@ const [showPic , setShowPic] = useState(true)
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB3UlEQVR4nNWWv0tjQRDHn8LJFZq8HaNiISI5kasFwULEQv+BA5uzjmDvr8wsK9h4xWneTBRSWalgc1xx13p/wB1obWMtiHYqEiMbYk4SH+a9l/fAgal2vvvZ/e7sso7z7sKYrmomHSD4RzGdJApNM44A0yMIVVIeZhMDK6FVC7WpGFeSAzP9q4MF/yYCTXmYfYY+Z6ZAo7GDQQgbwcCYjx/MdNYEFjyNFdq7Q2PN0Fru0ue2A4f3zcf03ppSQpt+YDtma2xt6zvx9AwIXQLTje+OoiZX5750PT1dB/cVzSdguogNKnX4RdODo0qraRA6jguqGH+mvhvwtV2JzoHgffug+GBfOqfidLx55hlPjyvG83ZYq0RPttxsNsAzKWA8Cm2t4A/b5U7YcFkvWbuCWGs1TtToL6wPgGA5ALic2c4PRgYrxsXgNutcZDAI/g7eVPgrErSvaLoV422I5rqzzRkarIo07383ccOmX+NZbWgwCB2+djdd1lP1Gs5PvHrnGQ/CUUu5DyB43TDhcXrHuI2lvd+We4Cx1LDAm1DfX/Bw7uUkrodf39RI/gsIXv1fgJ4NDmbcqp4V04naxaFWdbbWamp2bwUGZwo06jItOMZ0BhYb02m1iXwCnfcST9nEk6kY/HV3AAAAAElFTkSuQmCC" />
                       <p className="text-xl md:text-3xl ">
                         {" "}
-                        {`${givenRating.toFixed(2)} / 5`}
+                        {`${givenRating} / 5`}
                       </p>
                       <p
                         className="text-xl md:text-3xl ml-3 "
@@ -1176,10 +1177,10 @@ const [showPic , setShowPic] = useState(true)
                       Sort by:
                     </p>
                     <div style={{ display: "flex", marginTop: "8px" }}>
-                      <p className="sm:text-2xl font-semibold text-md">
-                        Newest
+                    <p className="sm:text-2xl font-semibold text-md">
+                        {showLatest}
                       </p>
-                      <Image onClick={() => handl}
+                      <Image  onClick={() => toggleReviews()}
                         src={require("../../public/assets/up-down-arrow-svgrepo-com 1.png")}
                         className="filter_imag ml-3 md:h-9 md:w-9 h-4 w-4"
                       />
@@ -1191,21 +1192,22 @@ const [showPic , setShowPic] = useState(true)
                       <p className="sm:text-2xl font-semibold text-md">
                         Reviews with Photos
                       </p>
-                      <Image
-                        src={require("../../public/assets/checkbox.png")}
-                        className="filter_imag ml-3  md:h-9 md:w-9 h-4 w-4"
-                      />
+                      <input
+  type="checkbox"
+  className="w-6 h-6 ml-2 mt-[6px] " checked={showPic} onChange={() => setShowPic(!showPic)}
+/>      
                     </div>
                   </div>
                   <div className="flex justify-between md:mt-6 mt-2 flex-wrap lg:flex-nowrap gap-3 md:gap-4">
                     <div className="flex-col justify-between flex-wrap lg:flex-nowrap gap-3 md:gap-4 w-[75%]">
-                      {details?.reviews?.map((value) => (
+                     {sortedReviews?.map((value) => (
                         <SubReview
                           key={value.id}
                           name={value.name}
                           profileImage={require("../../public/assets/profileImage.png")}
-                          jobPrice={`${value.price}`}
+                          jobPrice={` ${value.price}`}
                           title={value.title}
+                          showPic={showPic}
                           date={moment(value.created_date).format("ll")}
                           reviewText={value.review}
                           rating={value.rating}
@@ -1225,7 +1227,7 @@ const [showPic , setShowPic] = useState(true)
                         <div className="flex mt-5">
                           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB3UlEQVR4nNWWv0tjQRDHn8LJFZq8HaNiISI5kasFwULEQv+BA5uzjmDvr8wsK9h4xWneTBRSWalgc1xx13p/wB1obWMtiHYqEiMbYk4SH+a9l/fAgal2vvvZ/e7sso7z7sKYrmomHSD4RzGdJApNM44A0yMIVVIeZhMDK6FVC7WpGFeSAzP9q4MF/yYCTXmYfYY+Z6ZAo7GDQQgbwcCYjx/MdNYEFjyNFdq7Q2PN0Fru0ue2A4f3zcf03ppSQpt+YDtma2xt6zvx9AwIXQLTje+OoiZX5750PT1dB/cVzSdguogNKnX4RdODo0qraRA6jguqGH+mvhvwtV2JzoHgffug+GBfOqfidLx55hlPjyvG83ZYq0RPttxsNsAzKWA8Cm2t4A/b5U7YcFkvWbuCWGs1TtToL6wPgGA5ALic2c4PRgYrxsXgNutcZDAI/g7eVPgrErSvaLoV422I5rqzzRkarIo07383ccOmX+NZbWgwCB2+djdd1lP1Gs5PvHrnGQ/CUUu5DyB43TDhcXrHuI2lvd+We4Cx1LDAm1DfX/Bw7uUkrodf39RI/gsIXv1fgJ4NDmbcqp4V04naxaFWdbbWamp2bwUGZwo06jItOMZ0BhYb02m1iXwCnfcST9nEk6kY/HV3AAAAAElFTkSuQmCC" />
                           <p className="ml-2 text-md">
-                            <span>{`${givenRating.toFixed(2)} / 5`}</span>{" "}
+                            <span>{`${givenRating } / 5`}</span>{" "}
                             <span className="text-gray-400">{`(${details?.reviews?.length} Reviews)`}</span>
                           </p>
                         </div>
