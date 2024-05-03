@@ -37,12 +37,12 @@ function CostGuide({ params }) {
             <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center min-h-[100vh] ">
                 <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full max-w-[1500px] mx-auto">
                     <div className='flex flex-col gap-7 w-full'>
-                        <h6 className="text-lg max-w-[1300px] w-full mx-auto">Helperzz / Blog</h6>
+                        <h6 className="text-lg max-w-[1300px] w-full mx-auto">Helperzz / Cost Guides</h6>
                         <div className="flex justify-between bg-[#F7F9FB] w-full max-w-[1500px] mx-auto">
                             <div className='flex justify-between max-w-[1300px] mx-auto w-full  py-10 px-4'>
                                 <div className="flex flex-col gap-3">
                                     <h3 className="font-bold text-3xl max-w-2xl leading-relaxed">{costGuide?.title}</h3>
-                                    <p>By <Link className="inline text-black" href='#'>{costGuide?.author}</Link></p>
+                                    {/* <p>By <Link className="inline text-black" href='#'>{costGuide?.author}</Link></p> */}
                                     <p>Updated {moment(costGuide?.created_date).format("ll")}</p>
                                 </div>
                             </div>
@@ -218,7 +218,7 @@ export const GetQuotes = (props) => {
     return (
     <div className="sticky top-10 ml-auto mr-4 flex flex-col gap-5 lg:w-[80%] w-full bg-secondary text-white rounded-3xl p-8">
         <h1 className="text-left font-bold text-[20px] capitalize">
-            Ready to start your deck design?
+        Ready to Start Your Project ?
         </h1>
         <p className="font-medium">Find top local pros.</p>
         <button

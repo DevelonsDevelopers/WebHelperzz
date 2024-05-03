@@ -8,6 +8,8 @@ import categoryService from "@/api/services/categoryService";
 import { Footer } from "@/components/Footer";
 import Select from "react-select";
 import subcategoryService from "@/api/services/subcategoryService";
+import toast from "react-hot-toast";
+
 
 const work = [{ name:'Detached / Semi-Detached Home' } , {name :'Condo / Townhouse'}]
 const time = [{ name:`It's an emergency`  } , {name :'Within a week'} ,{name :'Within 2 weeks'} ,{name :'Within a month'} , {name :'Time is flexible'} , ]
@@ -65,6 +67,8 @@ export default function Page() {
 }
 
 const Steps = (props) => {
+
+
   const [step, setStep] = useState(1);
   const [option , setOption] = useState('')
   const [option2 , setOption2] = useState('')
@@ -75,6 +79,22 @@ const Steps = (props) => {
   const handleOptionSelect2 = (selectedOption) => {
     setOption2(selectedOption);
 };
+
+const [postalCode, setPostalCode] = useState('');
+
+const handleInput = (inputValue) => {
+  setPostalCode(inputValue); // Update postalCode state with the input value
+};
+
+const handleDescribe = () => {
+if(/^[A-Z]\d[A-Z] \d[A-Z]\d$/.test(postalCode)) {
+  setStep(step + 1)
+} else {
+  toast.error('please enter a valid postal code ');
+}
+}
+
+console.log('postal code ' , postalCode)
 
 
   return (
@@ -174,9 +194,8 @@ const Steps = (props) => {
               home
             </p>
             <SelectInput
-              // value={option}
-              // data={work}
-              // selectedOption={handleOptionSelect}
+                value={postalCode}
+                handleInput={handleInput}               
               message={"Postal Code"}
               postalcode={false}
             />
@@ -199,7 +218,7 @@ const Steps = (props) => {
             >
               Go Back
             </button>
-            <button    onClick={() => setStep(step + 1)} className="bg-white hover:bg-secondary hover:text-white rounded-2xl text-lg font-semibold py-3">
+            <button    onClick={() => handleDescribe()} className="bg-white hover:bg-secondary hover:text-white rounded-2xl text-lg font-semibold py-3">
               Next
             </button>
             </div>
@@ -293,24 +312,7 @@ const Steps = (props) => {
                         }
                       />
                     </div>
-                    {/* <div className="mb-7">
-                      <textarea
-                        rows={4}
-                        placeholder="Message"
-                        id="message"
-                        // value={formData?.message}
-                        // onChange={(e) => setFormData({...formData, message:e.target.value})}
-                        name="message"
-                        required
-                        className="w-full resize-none  focus:ring-2 focus:ring-[#43D9BE] bg-white border border-[#43D9BE] rounded-2xl py-2 px-4 focus:outline-none "
-                      ></textarea>
-                    </div> */}
-                    {/* <button
-                      type="submit"
-                      className="bg-secondary  w-full hover:bg-opacity-70 text-white font-semibold p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white"
-                    >
-                      Send Message
-                    </button> */}
+
                          <div className="grid grid-cols-2 gap-10 mt-5 ">
             <button
               className="bg-white rounded-2xl text-lg font-semibold py-3"
@@ -401,12 +403,7 @@ useEffect(() => {
                   className="flex-1 py-5 focus:outline-none ring-0"            
                         onChange={(e) => handleSelectChange(e)}
                 />
-        {/* <img
-          src="/assets/thick-arrow-down.svg"
-          className="w-2 cursor-pointer"
-          alt=""
-          onClick={() => setShowResult(!showResult)}
-        /> */}
+
       </div>
       {showResult && (
         <div className="flex flex-col w-full py-5 px-6 bg-white rounded-2xl  mt-2 border border-secondary">
@@ -457,7 +454,7 @@ const Option = ({ label, value, setSelected, selected }) => {
   );
 };
 
-const SelectInput = ({ message, value,data ,selectedOption , postalcode = true }) => {
+const SelectInput = ({ message, value,data ,selectedOption , postalcode = true , handleInput}) => {
 
   const [showResult, setShowResult] = useState(false);
   const [selected, setSelected] = useState(-1);
@@ -466,6 +463,8 @@ const SelectInput = ({ message, value,data ,selectedOption , postalcode = true }
     console.log('Clicked:', e.target.value);
     selectedOption(e.target.value)
    };
+
+
 
   return (
     <div className="relative w-full">
@@ -480,6 +479,7 @@ const SelectInput = ({ message, value,data ,selectedOption , postalcode = true }
           type="text"
           className="flex-1  focus:outline-none ring-0"
           placeholder="Enter Postal code "
+          onChange={(e) => handleInput(e.target.value)}
         /> 
        }
 {postalcode && 

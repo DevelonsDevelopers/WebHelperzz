@@ -496,7 +496,7 @@ function Header() {
                   Log In{" "}
                 </p>
                 <p
-                  className="text-text text-sm text- font-medium hover:font-[800] whitespace-nowrap  w-10 cursor-pointer"
+                  className="text-text text-sm text- font-medium hover:font-[800] whitespace-nowrap  w-10 mr-4 cursor-pointer"
                   onClick={() => navigate.push("/signup")}
                 >
                   Sign up
