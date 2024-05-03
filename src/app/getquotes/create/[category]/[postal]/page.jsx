@@ -8,6 +8,8 @@ import customerService from "../../../../../api/services/customerService";
 import imgLogo from "../../../../../../public/assets/logo.jpeg";
 import Image from "next/image";
 import categoryService from "@/api/services/categoryService";
+import toast from "react-hot-toast";
+
 
 function GetQuotes({ params }) {
   const [requestData, setRequestData] = useState({
@@ -63,7 +65,7 @@ function GetQuotes({ params }) {
 
   const [selectedType, setSelectedType] = useState("");
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [imagePressed, setImagePressed] = useState(false);
 
@@ -78,6 +80,10 @@ function GetQuotes({ params }) {
   const fourthBoxRef = useRef(null);
   const fifthBoxRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    setFilteredOptions(subcategories)
+  },[subcategories])
 
   // const searchParams = useSearchParams();
   // const params = new URLSearchParams(searchParams.search);
@@ -140,11 +146,13 @@ function GetQuotes({ params }) {
   };
 
   const filterOptions = (query) => {
-    const filtered = radioData.filter((option) =>
-      option.toLowerCase().includes(query.toLowerCase())
+    const filtered = subcategories?.filter((option) =>
+      option.name.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredOptions(filtered);
   };
+
+  console.log('subCategory' ,subcategories)
 
   const navigate = useRouter();
 
@@ -260,9 +268,7 @@ function GetQuotes({ params }) {
     }
   }, [nextBox.showFifthBox]);
 
-  useEffect(() => {
-    setFilteredOptions(radioData);
-  }, []);
+  
 
   console.log(requestData.home_type);
   useEffect(() => {
@@ -284,6 +290,20 @@ function GetQuotes({ params }) {
 
   const dullImageTownHouse =
     "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAADH0lEQVR4nO2dzWpTQRzFZ1UX6hsU1GdQn0AUv57HqptzplmVrLpSH0F3+ggWadWtWHAn3erCiotKaWRkLoRwmyakvXPm3vODIWRuMvOfc+5/PiAfIRhjjDHGGGNMjwGwR3K3dBwmQ3KSigURwYaIYUPEsCFi2JCKDPEOTMwQZ08BbIgYNkQMG1IIAGskPzQGzJbmdSR3lrlGjbKbxhdqAsCTeYOq3JAJyY1QCwDWSf5OgQO436cpK8Z4J8f5ZzQaXQs1AOBNDvr17LXaDTlrfNXdQT0xZP20GUBxId+fN8emdQHA+2WvqZHGl8e5L7vAN0EC+La9vX0p9BgAawC+yi7w1aTxUBb4qha6vo9b+k4ZyswQY3wE4BPJI4FD2kSoHCVdADzszAwAjwUGPlEvnZlC8nPudEN2y1d29/U06/Oxq04P8x1wpZMOK2Nra+tq1uewkw7z2pHugGfOkNYMed5phsQY7wI4KT1HU7zEGB+ErkgLVroDvMti2y5rr1MzZmmCCQOGShpIBVMIKQ2kgimElAbzgiH5c+aw9KNP12s0ZNLn5w02JGNDWnCGBGdIgzOkBWdIqCdD0q5k3i6l9uvVGTIUqKSBVDCFkNJAKphCSGngk3qoyhCpkzV9UtcSkDZES0DaEC0BaUO0BOTQDSl9koZP6sOEtWTIUKCSBlLBFEJKA5/UQ1WGSO2KOPRdVmnBaENsSHGcIcFTVoOnrBZ8Ug/1ZMhQoJIGUsEUQkoDqWAK0ZuT+jQArpN8RfIAwN/8+DLVz+lbov2aDFnopAvgXvPtXs6UVJ++16jcfq8MGY1GN6bEegvg1ng8vpweAbzL9b9O+/2t0u2fpUF1huRp5L9YoYUp0V4ott9HQw5S/ebm5s22NmKMt3Mf3xXb750hAI7zXL4255fq0vVjxfarMmSRT48vMhie8hqF9hftozNWDWYVwRTaP4/3nys2JNiQZRhshqxalukDwJdUnx6nn0/XrdL+RYyhMzxlBc0Mucj304u6DVkGZ8gS9HpRF/9Pj4lg2bEh1Cm1/LmAMcYYY4wxxhhjjDHGmHDO/AMuQd8zsq2d6AAAAABJRU5ErkJggg==";
+
+    const handlePostalSubmit = () => {
+      const postalCodePattern = /^[A-Z]\d[A-Z] \d[A-Z]\d$/; 
+      if (postalCodePattern.test(postalCode?.trim())) {
+        setNextBox({ ...nextBox, showNextBox: true }); 
+      } else {
+        toast.error('Enter a valid postal code ');
+
+      }
+    };
+    
+    console.log('filteredOptions', filteredOptions)
+
+
   return (
     <>
       <header>
@@ -382,9 +402,9 @@ function GetQuotes({ params }) {
                 </form>
 
                 <div className="p-4 space-y-4 md:space-y-6 md:py-4 md:px-8  text-black">
-                  {subcategories.map((value, index) => (
+                  {filteredOptions.map((value, index) => (
                     <div
-                      className="flex items-center border-b pb-3"
+                      className="flex items-center border-b pb-3 "
                       key={index}
                     >
                       <input
@@ -392,7 +412,7 @@ function GetQuotes({ params }) {
                         type="radio"
                         value={value.id}
                         name="default-radio"
-                        className="w-4 h-4 mr-3 text-blue-600 border-gray-500  bg-gray-100 focus:ring-blue-500"
+                        className="w-4 h-4 mr-3 cursor-pointer text-blue-600 border-gray-500  bg-gray-100 focus:ring-blue-500"
                         onChange={(e) => {
                           console.log(e);
                           console.log(e.target);
@@ -405,7 +425,7 @@ function GetQuotes({ params }) {
                       />
                       <label
                         htmlFor={`radio-${index}`}
-                        className="ms-2 md:w-[700px] w-[screen] md:text-xl text-base font-normal text-gray-500"
+                        className="ms-2 md:w-[700px] cursor-pointer  w-[screen] md:text-xl text-base font-normal text-gray-500"
                       >
                         {value.name}
                       </label>
@@ -414,7 +434,7 @@ function GetQuotes({ params }) {
                 </div>
               </div>
               <button
-                onClick={() => setNextBox({ ...nextBox, showNextBox: true })}
+                onClick={() => handlePostalSubmit()}
                 className={`md:w-[700px] w-[screen] text-white ${
                   requestData.subcategory
                     ? "bg-emerald-600 hover:bg-emerald-800 focus:outline-none "
@@ -466,7 +486,11 @@ function GetQuotes({ params }) {
                             alt="imageHome"
                           />
                         </div>{" "}
-                        <label className="mx-auto items-center flex justify-center text-lg md:text-xl  font-normal text-gray-500">
+                        <label className={`mx-auto items-center flex justify-center text-lg md:text-xl  font-normal ${
+                            selectedType === "Detached / Semi-Detached Home"
+                              ? "text-blue-400"
+                              : "text-gray-500 "
+                          }`}>
                           Detached / Semi-Detached Home
                         </label>
                       </div>
@@ -498,7 +522,11 @@ function GetQuotes({ params }) {
                             alt="imageHome"
                           />
                         </div>
-                        <label className="mx-auto items-center flex justify-center text-lg md:text-xl font-normal text-gray-500">
+                        <label className={`mx-auto items-center flex justify-center text-lg md:text-xl  font-normal ${
+                            selectedType === "Condo / Townhouse"
+                              ? "text-blue-400"
+                              : "text-gray-500 "
+                          }`}>
                           Condo / Townhouse
                         </label>
                       </div>
@@ -540,7 +568,7 @@ function GetQuotes({ params }) {
                           type="radio"
                           value={option}
                           name="third-default-radio"
-                          className="w-4 h-4 mr-3 text-blue-600 bg-gray-500 border-gray-300 focus:ring-blue-500"
+                          className="w-4 h-4 mr-3 cursor-pointer text-blue-600 bg-gray-500 border-gray-300 focus:ring-blue-500"
                           onChange={(e) =>
                             setRequestData((data) => ({
                               ...data,
@@ -550,7 +578,7 @@ function GetQuotes({ params }) {
                         />
                         <label
                           htmlFor={`third-radio-${index}`}
-                          className="ms-2 md:w-[700px] w-[screen] md:text-xl text-md font-normal text-gray-500"
+                          className="ms-2 md:w-[700px] cursor-pointer w-[screen] md:text-xl text-md font-normal text-gray-500"
                         >
                           {option}
                         </label>
