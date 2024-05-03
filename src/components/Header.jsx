@@ -453,7 +453,7 @@ function Header() {
               <div className="sm:w-48">
                 <div className="absolute z-50 top-1 ">
                   <Autosuggest
-                    suggestions={suggestions}
+                    suggestions={suggestions?.slice(0,10)}
                     onSuggestionsFetchRequested={onSuggestionsFetchRequested}
                     onSuggestionsClearRequested={() => setSuggestions([])}
                     getSuggestionValue={(suggestion) => suggestion.name}
@@ -476,7 +476,7 @@ function Header() {
               <div className="sm:w-28">
                 <div className="absolute z-50 top-1 b px-2 border-[#696969] font-normal text-[#696969] ">
                   <Autosuggest
-                    suggestions={citySuggestions}
+                    suggestions={citySuggestions?.slice(0,10)}
                     onSuggestionsFetchRequested={onCitySuggestionsFetchRequested}
                     onSuggestionsClearRequested={() => setCitySuggestions([])}
                     getSuggestionValue={(suggestion) => suggestion.name}
