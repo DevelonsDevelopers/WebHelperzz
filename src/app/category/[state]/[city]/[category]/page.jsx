@@ -1,803 +1,876 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
-import { GrLocation } from "react-icons/gr";
-import { IoSearch } from "react-icons/io5";
+import React, {useState, useEffect, Suspense} from "react";
+import {GrLocation} from "react-icons/gr";
+import {IoSearch} from "react-icons/io5";
 
 import Header from "../../../../../components/Header";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-import { FiBox } from "react-icons/fi";
-import { MdStar } from "react-icons/md";
+import {FaAngleDown, FaAngleUp} from "react-icons/fa";
+import {FiBox} from "react-icons/fi";
+import {MdStar} from "react-icons/md";
 import Image from "next/image";
 import imgpfp from "../../../../../../public/assets/profile2.png";
 import imgThumb from "../../../../../../public/assets/project_thumb.jpg";
 import trustsealimg from "../../../../../../public/assets/trustsealbadge.png";
 import contractorService from "../../../../../api/services/contractorService";
-import { IMAGE_PATH } from "@/api/BaseUrl";
+import {IMAGE_PATH} from "@/api/BaseUrl";
 import reviewService from "../../../../../api/services/reviewService";
 
 import moment from "moment";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Footer } from "@/components/Footer";
+import {useRouter} from "next/navigation";
+import {Footer} from "@/components/Footer";
 import categoryService from "@/api/services/categoryService";
 import cityService from "@/api/services/cityService";
 
 import {
-  Pagination,
-  Stack,
-  ThemeProvider,
-  createTheme,
-  PaginationItem
+    Pagination,
+    Stack,
+    ThemeProvider,
+    createTheme,
+    PaginationItem
 } from "@mui/material";
 
 const data = {
-  suggestedFilters: ["Verified Licence", "Hired On Helperzz"],
-  professionalCategory: [
-    "Architects & Buliding Designers",
-    "Design-Build Firms",
-    "General Contractors",
-    "Home Builders",
-    "Interior Designers & Decorators",
-    "Kitchen & Bathroom Designers",
-  ],
-  credentials: ["Verified Licence", "Hired On Helperzz"],
-  businessHighlights: [
-    "Provides 3D Visualization",
-    "Eco-friendly",
-    "Family owned",
-    "Locally owned",
-    "Free consultation",
-    "Online consultation",
-    "Free estimate",
-    "Evening consultations",
-    "Weekend consultations",
-    "Offers Custom Work",
-  ],
-  languages: ["All Languages", "Speaks Spanish", "Speaks French"],
-  rating: [{value:'1' , name:'1 Star'} ,{value:'2' , name:'2 Star'} ,{value:'3' , name:'3 Star'} ,{value:'4' , name:'4 Star'} ,{value:'5' , name:'5 Star'} , ],
+    suggestedFilters: ["Verified Licence", "Hired On Helperzz"],
+    professionalCategory: [
+        "Architects & Buliding Designers",
+        "Design-Build Firms",
+        "General Contractors",
+        "Home Builders",
+        "Interior Designers & Decorators",
+        "Kitchen & Bathroom Designers",
+    ],
+    credentials: ["Verified Licence", "Hired On Helperzz"],
+    businessHighlights: [
+        "Provides 3D Visualization",
+        "Eco-friendly",
+        "Family owned",
+        "Locally owned",
+        "Free consultation",
+        "Online consultation",
+        "Free estimate",
+        "Evening consultations",
+        "Weekend consultations",
+        "Offers Custom Work",
+    ],
+    languages: ["All Languages", "Speaks Spanish", "Speaks French"],
+    rating: [{value: 1, name: '1 Star'}, {value: 2, name: '2 Star'}, {value: 3, name: '3 Star'}, {
+        value: 4,
+        name: '4 Star'
+    }, {value: 5, name: '5 Star'},],
 };
 
 
 
-const Page = ({ params }) => {
-  const [suggestedFilterOpen, setSuggestedFilterOpen] = useState(true);
-  const [categoryOpen, setCategoryOpen] = useState(true);
-  const [credentialsOpen, setCredentialsOpen] = useState(true);
-  const [bussinessHighlightsOpen, setBussinessHighlightsOpen] = useState(true);
-  const [languagesOpen, setLanguagesOpen] = useState(true);
-  const [ratingOpen, setRatingOpen] = useState(true);
-  const [cityName, setCityName] = useState("Toronto");
-  const [inputCity, setInputCity] = useState("");
-  const [isVisible, setIsVisible] = useState(true);
-  const [ID, setID] = useState();
-  const [contractors, setContractors] = useState([]);
-  const [reviews, setReviews] = useState([]);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [category, setCategory] = useState();
-  const [city, setCity] = useState();
-  const [loading, setLoading] = useState(true);
+const Page = ({params}) => {
+    const [suggestedFilterOpen, setSuggestedFilterOpen] = useState(true);
+    const [categoryOpen, setCategoryOpen] = useState(true);
+    const [credentialsOpen, setCredentialsOpen] = useState(true);
+    const [bussinessHighlightsOpen, setBussinessHighlightsOpen] = useState(true);
+    const [languagesOpen, setLanguagesOpen] = useState(true);
+    const [ratingOpen, setRatingOpen] = useState(true);
+    const [cityName, setCityName] = useState("Toronto");
+    const [inputCity, setInputCity] = useState("");
+    const [isVisible, setIsVisible] = useState(true);
+    const [ID, setID] = useState();
+    const [contractors, setContractors] = useState([]);
+    const [reviews, setReviews] = useState([]);
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    const [category, setCategory] = useState();
+    const [city, setCity] = useState();
+    const [loading, setLoading] = useState(true);
 
-  const [filterData , setFilterData] = useState()
+    const [highlights, setHighlights] = useState([])
+    const [languages, setLanguages] = useState([])
+    const [ratings, setRatings] = useState([])
 
-  const handleCheckboxChange = (e) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setSelectedOptions((prevOptions) => [...prevOptions, value]);
-    } else {
-      setSelectedOptions((prevOptions) =>
-        prevOptions.filter((option) => option !== value)
-      );
+    const [filterData, setFilterData] = useState()
+
+    const highlightCheck = (value) => {
+        if (highlights.includes(value)) {
+            setHighlights(highlights.filter(v => v !== value))
+        } else {
+            setHighlights(v => [...v, value])
+        }
     }
-  };
 
-  const handleRadioChange = (e) => {
-    const { value } = e.target;
-    setSelectedOptions((prevOptions) => [value, ...prevOptions]);
-  };
-
-  const handleOptionClose = (option) => {
-    setSelectedOptions((prevOptions) =>
-      prevOptions.filter((prevOption) => prevOption !== option)
-    );
-  };
-
-  const location = useRouter();
-  // const params = new URLSearchParams(location.query);
-
-  const handleBoxClose = () => {
-    setIsVisible(false);
-  };
-
-  const handleSuggestedFilterClick = () => {
-    setSuggestedFilterOpen(!suggestedFilterOpen);
-  };
-  const handleCategoryClick = () => {
-    setCategoryOpen(!categoryOpen);
-  };
-  const handleCredentialsClick = () => {
-    setCredentialsOpen(!credentialsOpen);
-  };
-  const handleBussinessHighlightsClick = () => {
-    setBussinessHighlightsOpen(!bussinessHighlightsOpen);
-  };
-  const handleLanguagesClick = () => {
-    setLanguagesOpen(!languagesOpen);
-  };
-  const handleRatingClick = () => {
-    setRatingOpen(!ratingOpen);
-  };
-  // const fetchCityName = async () => {
-  //   try {
-  //     const response = await axios.get("https://api.ipify.org?format=json");
-  //     const ipAddress = response.data.ip;
-  //     const cityResponse = await axios.get(
-  //       `https://ipapi.co/${ipAddress}/json/`
-  //     );
-  //     const city = cityResponse.data.city || "Toronto";
-  //     setCityName(city);
-  //     console.log(city);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
-  
-
-  useEffect(() => {
-    console.log(params);
-    setID(26);
-    getCategoryByTag();
-    getCityByTag();
-  }, []);
-
-  const getCategoryByTag = async () => {
-    try {
-      const response = await categoryService.fetchByTag(params.category);
-      setCategory(response.category);
-    } catch (error) {
-      console.error(error);
+    const languageCheck = (value) => {
+        if (languages.includes(value)) {
+            setLanguages(languages.filter(v => v !== value))
+        } else {
+            setLanguages(v => [...v, value])
+        }
     }
-  };
 
-  const getCityByTag = async () => {
-    try {
-      const response = await cityService.fetchByTag(params.city);
-      setCity(response.city);
-    } catch (error) {
-      console.error(error);
+    const ratingCheck = (value) => {
+        if (ratings.includes(value)) {
+            setRatings(ratings.filter(v => v !== value))
+        } else {
+            setRatings(v => [...v, value])
+        }
     }
-  };
 
-  const getContractors = async (id) => {
-    try {
-      const response = await contractorService.category(id);
-      setContractors(response.contractors);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    const handleCheckboxChange = (e) => {
+        const {value, checked} = e.target;
+        if (checked) {
+            setSelectedOptions((prevOptions) => [...prevOptions, value]);
+        } else {
+            setSelectedOptions((prevOptions) =>
+                prevOptions.filter((option) => option !== value)
+            );
+        }
+    };
 
-  const getReviews = async (id) => {
-    try {
-      const response = await reviewService.category(id);
-      console.log(response);
-      setReviews(response.contractorReviews);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    const handleRadioChange = (e) => {
+        const {value} = e.target;
+        setSelectedOptions((prevOptions) => [value, ...prevOptions]);
+    };
 
-  useEffect(() => {
-    const fetchFilter = async () => {
-      const response = await contractorService.filters().then((res) =>{
-        setFilterData(res?.data)
-      })
-    }
-    fetchFilter()
-  },[])
+    const handleOptionClose = (option) => {
+        setSelectedOptions((prevOptions) =>
+            prevOptions.filter((prevOption) => prevOption !== option)
+        );
+    };
 
-  useEffect(() => {
-    if (category) {
-      getContractors(category.id);
-      getReviews(category.id);
-    }
-  }, [category]);
+    const location = useRouter();
+    // const params = new URLSearchParams(location.query);
 
-  const handleInputChange = (e) => {
-    setInputCity(e.target.value);
-  };
+    const handleBoxClose = () => {
+        setIsVisible(false);
+    };
 
-  const handleCitySubmit = () => {
-    if (inputCity.trim() === "") {
-      fetchCityName();
-    } else {
-      setCityName(inputCity);
-    }
-  };
-
-
-  const itemsPerPage = 1;
-  const [currentPage, setCurrentPage] = useState(1);
-  const handlePageChange = (event, newPage) => {
-    setCurrentPage(newPage);
-  };
-
-  const [paginatedData, setPaginatedData] = useState([]);
-
-  useEffect(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    setPaginatedData(contractors.slice(startIndex, endIndex));
-  }, [currentPage, contractors]);
-
-  const theme = createTheme({ palette: { primary: { main: '#E0EFEE', contrastText: '#EEE' } } })
+    const handleSuggestedFilterClick = () => {
+        setSuggestedFilterOpen(!suggestedFilterOpen);
+    };
+    const handleCategoryClick = () => {
+        setCategoryOpen(!categoryOpen);
+    };
+    const handleCredentialsClick = () => {
+        setCredentialsOpen(!credentialsOpen);
+    };
+    const handleBussinessHighlightsClick = () => {
+        setBussinessHighlightsOpen(!bussinessHighlightsOpen);
+    };
+    const handleLanguagesClick = () => {
+        setLanguagesOpen(!languagesOpen);
+    };
+    const handleRatingClick = () => {
+        setRatingOpen(!ratingOpen);
+    };
 
 
-  return (
-    <>
-      <Header />
-      {loading ? (
+    useEffect(() => {
+        console.log(params);
+        setID(26);
+        getCategoryByTag();
+        getCityByTag();
+    }, []);
+
+    const getCategoryByTag = async () => {
+        try {
+            const response = await categoryService.fetchByTag(params.category);
+            setCategory(response.category);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const getCityByTag = async () => {
+        try {
+            const response = await cityService.fetchByTag(params.city);
+            setCity(response.city);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const getContractors = async (id, data) => {
+        console.log("hello")
+        try {
+            const response = await contractorService.category(id, data);
+            setContractors(response.contractors);
+            setLoading(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const getReviews = async (id) => {
+        try {
+            const response = await reviewService.category(id);
+            console.log(response);
+            setReviews(response.contractorReviews);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        const fetchFilter = async () => {
+            const response = await contractorService.filters().then((res) => {
+                setFilterData(res?.data)
+            })
+        }
+        fetchFilter()
+    }, [])
+
+    useEffect(() => {
+        if (category) {
+            getReviews(category.id);
+        }
+    }, [category]);
+
+    useEffect(() => {
+        let isRatings = false;
+        let isLanguages = false;
+        let isHighlights = false;
+        if (ratings.length > 0) {
+            isRatings = true
+        }
+        if (languages.length > 0) {
+            isLanguages = true
+        }
+        if (highlights.length > 0) {
+            isHighlights = true
+        }
+        if (category) {
+            getContractors(category.id, {
+                highlights: highlights.toString(),
+                languages: languages.toString(),
+                ratings: ratings.toString(),
+                isRatings: isRatings,
+                isLanguage: isLanguages,
+                isHighlight: isHighlights
+            });
+        }
+    }, [category, highlights, languages, ratings]);
+
+    const handleInputChange = (e) => {
+        setInputCity(e.target.value);
+    };
+
+    const handleCitySubmit = () => {
+        if (inputCity.trim() === "") {
+            fetchCityName();
+        } else {
+            setCityName(inputCity);
+        }
+    };
+
+
+    const itemsPerPage = 1;
+    const [currentPage, setCurrentPage] = useState(1);
+    const handlePageChange = (event, newPage) => {
+        setCurrentPage(newPage);
+    };
+
+    const [paginatedData, setPaginatedData] = useState([]);
+
+    useEffect(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        setPaginatedData(contractors.slice(startIndex, endIndex));
+    }, [currentPage, contractors]);
+
+    const theme = createTheme({palette: {primary: {main: '#E0EFEE', contrastText: '#EEE'}}})
+
+
+    return (
         <>
-          <div className="flex space-x-2 justify-center items-center bg-white h-screen">
-            <span className="sr-only">Loading...</span>
-            <div className="h-6 w-6 bg-black rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-            <div className="h-6 w-6 bg-black rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-            <div className="h-6 w-6 bg-black rounded-full animate-bounce"></div>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="mt-[80px]">
-            <div className="bg-[#12937C] flex flex-col justify-center items-center mt-10 py-6 max-md:px-5 text-white ">
-              <h1 className="text-[1.8rem] max-sm:text-[1.5rem] font-[700] ">
-                Get Matched with Local Professionals
-              </h1>
-              <h3 className="text-[1.1rem] max-sm:text-[.9rem] font-[300] ">
-                Answer a few questions,and we&apos;ll put you in touch with pros
-                who can help.
-              </h3>
-              <div className="flex mt-5 mb-2 max-md:mt-3 max-md:justify-between max-md:w-[100%] ">
-                <div className="max-md:w-[60%]">
-                  <input
-                    type="search"
-                    className="bg-[#F7F9FB] py-2 text-[.9rem]  px-4 rounded-l-[15px] focus:outline-none pl-10 max-md:w-[100%] !text-gray-800"
-                    placeholder="Postal Code"
-                  />
-                  <GrLocation
-                    className="ml-4 mt-[-30px] text-gray-600"
-                    size={20}
-                  />
-                </div>
-                <div className="max-md:w-[40%]">
-                  <p className="bg-[#119DED] text-white text-[.9rem] py-2 text-center max-md:py-[10px] font-semibold max-md:px-2 px-4 ml-[-17px] max-md:ml-[-20px] rounded-[15px] cursor-pointer focus:outline-none max-md:text-[12px]">
-                    GET STARTED
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="py-10 md:px-[4rem] px-4  max-w-[1200px] justify-center mx-auto">
-              <h1 className="sm:text-[1.8rem] text-2xl font-[500] ">
-                {category?.name} in {city?.name}
-              </h1>
-              <h3 className="text-gray-600 sm:text-md text-sm mt-4">
-                {category?.name} in {city?.name}: {category?.details}
-              </h3>{" "}
-              <div className="flex max-sm:flex-col mt-10 w-full justify-between items-center ">
-                <div className="flex flex-wrap gap-3 lg:gap-5 max-md:gap-2">
-                  {selectedOptions.map((option, index) => (
-                    <div
-                      className="flex items-center gap-5 bg-[#12937C1A] border-[1px] border-[#12937C] py-1 px-3 rounded-lg"
-                      key={index}
-                    >
-                      <p className="text-[.9rem]">{option}</p>
-                      <span
-                        className="text-[.9rem] cursor-pointer"
-                        onClick={() => handleOptionClose(option)}
-                      >
+            <Header/>
+            {loading ? (
+                <>
+                    <div className="flex space-x-2 justify-center items-center bg-white h-screen">
+                        <span className="sr-only">Loading...</span>
+                        <div className="h-6 w-6 bg-black rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                        <div className="h-6 w-6 bg-black rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                        <div className="h-6 w-6 bg-black rounded-full animate-bounce"></div>
+                    </div>
+                </>
+            ) : (
+                <>
+                    <div className="mt-[80px]">
+                        <div
+                            className="bg-[#12937C] flex flex-col justify-center items-center mt-10 py-6 max-md:px-5 text-white ">
+                            <h1 className="text-[1.8rem] max-sm:text-[1.5rem] font-[700] ">
+                                Get Matched with Local Professionals
+                            </h1>
+                            <h3 className="text-[1.1rem] max-sm:text-[.9rem] font-[300] ">
+                                Answer a few questions,and we&apos;ll put you in touch with pros
+                                who can help.
+                            </h3>
+                            <div className="flex mt-5 mb-2 max-md:mt-3 max-md:justify-between max-md:w-[100%] ">
+                                <div className="max-md:w-[60%]">
+                                    <input
+                                        type="search"
+                                        className="bg-[#F7F9FB] py-2 text-[.9rem]  px-4 rounded-l-[15px] focus:outline-none pl-10 max-md:w-[100%] !text-gray-800"
+                                        placeholder="Postal Code"
+                                    />
+                                    <GrLocation
+                                        className="ml-4 mt-[-30px] text-gray-600"
+                                        size={20}
+                                    />
+                                </div>
+                                <div className="max-md:w-[40%]">
+                                    <p className="bg-[#119DED] text-white text-[.9rem] py-2 text-center max-md:py-[10px] font-semibold max-md:px-2 px-4 ml-[-17px] max-md:ml-[-20px] rounded-[15px] cursor-pointer focus:outline-none max-md:text-[12px]">
+                                        GET STARTED
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="py-10 md:px-[4rem] px-4  max-w-[1200px] justify-center mx-auto">
+                            <h1 className="sm:text-[1.8rem] text-2xl font-[500] ">
+                                {category?.name} in {city?.name}
+                            </h1>
+                            <h3 className="text-gray-600 sm:text-md text-sm mt-4">
+                                {category?.name} in {city?.name}: {category?.details}
+                            </h3>{" "}
+                            <div className="flex max-sm:flex-col mt-10 w-full justify-between items-center ">
+                                <div className="flex flex-wrap gap-3 lg:gap-5 max-md:gap-2">
+                                    {selectedOptions.map((option, index) => (
+                                        <div
+                                            className="flex items-center gap-5 bg-[#12937C1A] border-[1px] border-[#12937C] py-1 px-3 rounded-lg"
+                                            key={index}
+                                        >
+                                            <p className="text-[.9rem]">{option}</p>
+                                            <span
+                                                className="text-[.9rem] cursor-pointer"
+                                                onClick={() => handleOptionClose(option)}
+                                            >
                         X
                       </span>
-                    </div>
-                  ))}
-                </div>
+                                        </div>
+                                    ))}
+                                </div>
 
-                <div className="max-sm:mt-10">
-                  <div className="w-[100%] max-md:w-[100%]">
-                    <input
-                      type="search"
-                      className="bg-[#F7F9FB] py-2 px-4 rounded-xl border-[1px] border-[#12937C] text-sm focus:outline-none w-full pl-10 max-md:rounded-xl placeholder:text-[.8rem]"
-                      placeholder="Search by name or keyword"
-                    />
-                    <IoSearch
-                      className="ml-2 mt-[-28px] text-gray-600"
-                      size={20}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex max-md:flex-col gap-5 mt-10 ">
-                <div className="w-[25%] max-md:hidden ">
-                  <div className="bg-[#E8F5F2] p-4 rounded-lg ">
-                    <h5 className="text-[1.3rem] font-[600] ">Location</h5>
+                                <div className="max-sm:mt-10">
+                                    <div className="w-[100%] max-md:w-[100%]">
+                                        <input
+                                            type="search"
+                                            className="bg-[#F7F9FB] py-2 px-4 rounded-xl border-[1px] border-[#12937C] text-sm focus:outline-none w-full pl-10 max-md:rounded-xl placeholder:text-[.8rem]"
+                                            placeholder="Search by name or keyword"
+                                        />
+                                        <IoSearch
+                                            className="ml-2 mt-[-28px] text-gray-600"
+                                            size={20}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex max-md:flex-col gap-5 mt-10 ">
+                                <div className="w-[25%] max-md:hidden ">
+                                    <div className="bg-[#E8F5F2] p-4 rounded-lg ">
+                                        <h5 className="text-[1.3rem] font-[600] ">Location</h5>
 
-                    <input
-                      type="search"
-                      value={inputCity}
-                      onChange={handleInputChange}
-                      className="bg-[#F7F9FB] border-[1px] border-[#12937C]  mt-4 py-1 px-4 rounded-lg focus:outline-none w-full pl-10 max-md:rounded-r-lg placeholder:text-[.8rem] align-items-center "
-                      placeholder="Toronto ||"
-                    />
-                    <GrLocation
-                      className="ml-3 mt-[-28px] text-gray-600"
-                      size={20}
-                    />
-                    {/* <input
+                                        <input
+                                            type="search"
+                                            value={inputCity}
+                                            onChange={handleInputChange}
+                                            className="bg-[#F7F9FB] border-[1px] border-[#12937C]  mt-4 py-1 px-4 rounded-lg focus:outline-none w-full pl-10 max-md:rounded-r-lg placeholder:text-[.8rem] align-items-center "
+                                            placeholder="Toronto ||"
+                                        />
+                                        <GrLocation
+                                            className="ml-3 mt-[-28px] text-gray-600"
+                                            size={20}
+                                        />
+                                        {/* <input
                       type="search"
                       className="bg-[#F7F9FB] border-[1px] border-[#12937C] mt-4 py-1 px-4 rounded-lg focus:outline-none w-full pl-4 max-md:rounded-r-lg placeholder:text-[.8rem] align-items-center"
                       placeholder="Radius 50 mi"
                     /> */}
 
-                    <button
-                      onClick={handleCitySubmit}
-                      className="py-1 px-5 mt-4 bg-[#12937C] text-white text-[15px] rounded-[10px] w-full cursor-pointer hover:bg-opacity-80 font-[550]"
-                    >
-                      Filter City
-                    </button>
-                  </div>
-                  <div className="bg-[#E8F5F2] p-2 rounded-lg mt-5">
-                     
-                    <div class="w-full border-gray-300  py-5 rounded-t border-b">
-                      <div
-                        onClick={handleCategoryClick}
-                        class="mb-3 p-1 bg-transparent flex items-center  rounded transition-all ease-in-out duration-500 "
-                      >
-                        <div class="p-1 text-lg md:text-md font-[500] w-full text-gray-800">
-                          Professional Category
-                        </div>
-                        <div class="text-black w-8 py-1 pl-2 pr-1  flex items-center">
-                          {categoryOpen ? (
-                            <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                              <FaAngleUp />
-                            </button>
-                          ) : (
-                            <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                              <FaAngleDown />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      <div className="w-[100%] max-md:w-[100%]">
-                        <input
-                          type="search"
-                          className="bg-transparent border-[1px] border-gray-400 py-1 px-4 rounded-xl focus:outline-none w-full pl-10 placeholder:text-xs max-md:rounded-lg"
-                          placeholder="Search Professional Category"
-                        />
-                        <IoSearch
-                          className="ml-2 mt-[-28px] text-gray-500"
-                          size={20}
-                        />
-                      </div>
-                      {categoryOpen && (
-                        <div class="w-full items-center flex mx-3 mt-6">
-                          <form action="" className="flex flex-col gap-2">
-                            {filterData?.categories?.map((value, index) => (
-                              <div
-                                key={index}
-                                className="flex items-center cursor-pointer"
-                              >
-                                <input
-                                  type="radio"
-                                  id="categories"
-                                  name="categories"
-                                  value={value.name}
-                                  onChange={handleRadioChange}
-                                  className="cursor-pointer form-checkbox w-[13px] h-[13px] border-[1px] border-gray-500 rounded-lg bg-transparent checked:bg-[#12937C] checked:border-green-600"
-                                />
-                                <label
-                                  for="category"
-                                  className="ml-2 text-sm font-[400] text-gray-500"
-                                >
-                                  {value.name}
-                                </label>
-                              </div>
-                            ))}
-                          </form>
-                        </div>
-                      )}
-                    </div>
-                  
-                    <div class="w-full border-gray-300  py-5 rounded-t border-b">
-                      <div
-                        onClick={handleBussinessHighlightsClick}
-                        class="mb-3 p-1 bg-transparent flex items-center  rounded transition-all ease-in-out duration-500 "
-                      >
-                        <div class="p-1 px-2 text-[1.2rem] font-[500] w-full text-gray-800">
-                          Business Highlights
-                        </div>
-                        <div class="text-black w-8 py-1 pl-2 pr-1  flex items-center">
-                          {bussinessHighlightsOpen ? (
-                            <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                              <FaAngleUp />
-                            </button>
-                          ) : (
-                            <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                              <FaAngleDown />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      {bussinessHighlightsOpen && (
-                        <div class="w-full items-center flex mx-3 -mt-1">
-                          <form action="" className="flex flex-col gap-2">
-                          {filterData?.highlights?.map((value, index) => (
-  <div key={index} className="flex items-center cursor-pointer">
-    <input
-      type="checkbox"
-      id={`highlight-${index}`} 
-      name="highlights"
-      value={value.highlight}
-      onChange={handleCheckboxChange} 
-      className="cursor-pointer"
-    />
-    <label
-      htmlFor={`highlight-${index}`}
-      className="ml-2 text-[.9rem] font-[400] text-gray-500 cursor-pointer"
-    >
-      {value.highlight}
-    </label>
-  </div>
-))}
+                                        <button
+                                            onClick={handleCitySubmit}
+                                            className="py-1 px-5 mt-4 bg-[#12937C] text-white text-[15px] rounded-[10px] w-full cursor-pointer hover:bg-opacity-80 font-[550]"
+                                        >
+                                            Filter City
+                                        </button>
+                                    </div>
+                                    <div className="bg-[#E8F5F2] p-2 rounded-lg mt-5">
 
-                          </form>
-                        </div>
-                      )}
-                    </div>
-                    <div class="w-full border-gray-300  py-5 rounded-t border-b">
-                      <div
-                        onClick={languagesOpen}
-                        class="mb-3 p-1 bg-transparent flex items-center  rounded transition-all ease-in-out duration-500 "
-                      >
-                        <div class="p-1 px-2 text-[1.2rem] font-[500] w-full text-gray-800">
-                          Languages
-                        </div>
-                        <div class="text-black w-8 py-1 pl-2 pr-1  flex items-center">
-                          {languagesOpen ? (
-                            <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                              <FaAngleUp />
-                            </button>
-                          ) : (
-                            <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                              <FaAngleDown />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      {languagesOpen && (
-                        <div class="w-full items-center flex mx-3 -mt-1">
-                          <form action="" className="flex flex-col gap-2">
-                          {filterData?.languages?.map((value, index) => (
-  <div key={index} className="flex items-center cursor-pointer">
-    <input
-      type="checkbox"
-      id={`language-${index}`}
-      name="languages"
-      value={value.language}
-      className="cursor-pointer"
-      onChange={handleCheckboxChange} 
-    />
-    <label
-      htmlFor={`language-${index}`} 
-      className="ml-2 text-[.9rem] font-[400] text-gray-500 cursor-pointer" 
-    >
-      {value.language}
-    </label>
-  </div>
-))}
+                                        <div class="w-full border-gray-300  py-5 rounded-t border-b">
+                                            <div
+                                                onClick={handleCategoryClick}
+                                                class="mb-3 p-1 bg-transparent flex items-center  rounded transition-all ease-in-out duration-500 "
+                                            >
+                                                <div class="p-1 text-lg md:text-md font-[500] w-full text-gray-800">
+                                                    Professional Category
+                                                </div>
+                                                <div class="text-black w-8 py-1 pl-2 pr-1  flex items-center">
+                                                    {categoryOpen ? (
+                                                        <button
+                                                            class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
+                                                            <FaAngleUp/>
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
+                                                            <FaAngleDown/>
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="w-[100%] max-md:w-[100%]">
+                                                <input
+                                                    type="search"
+                                                    className="bg-transparent border-[1px] border-gray-400 py-1 px-4 rounded-xl focus:outline-none w-full pl-10 placeholder:text-xs max-md:rounded-lg"
+                                                    placeholder="Search Professional Category"
+                                                />
+                                                <IoSearch
+                                                    className="ml-2 mt-[-28px] text-gray-500"
+                                                    size={20}
+                                                />
+                                            </div>
+                                            {categoryOpen && (
+                                                <div class="w-full items-center flex mx-3 mt-6">
+                                                    <form action="" className="flex flex-col gap-2">
+                                                        {filterData?.categories?.map((value, index) => (
+                                                            <div
+                                                                key={index}
+                                                                className="flex items-center cursor-pointer"
+                                                            >
+                                                                <input
+                                                                    type="radio"
+                                                                    id="categories"
+                                                                    name="categories"
+                                                                    value={value.name}
+                                                                    onChange={handleRadioChange}
+                                                                    className="cursor-pointer form-checkbox w-[13px] h-[13px] border-[1px] border-gray-500 rounded-lg bg-transparent checked:bg-[#12937C] checked:border-green-600"
+                                                                />
+                                                                <label
+                                                                    for="category"
+                                                                    className="ml-2 text-sm font-[400] text-gray-500"
+                                                                >
+                                                                    {value.name}
+                                                                </label>
+                                                            </div>
+                                                        ))}
+                                                    </form>
+                                                </div>
+                                            )}
+                                        </div>
 
-                          </form>
-                        </div>
-                      )}
-                    </div>
-                    <div class="w-full border-gray-300  py-5 rounded-t border-b">
-                      <div
-                        onClick={handleRatingClick}
-                        class="mb-3 p-1 bg-transparent flex items-center  rounded transition-all ease-in-out duration-500 "
-                      >
-                        <div class="p-1 px-2 text-[1.2rem] font-[500] w-full text-gray-800">
-                          Rating
-                        </div>
-                        <div class="text-black w-8 py-1 pl-2 pr-1  flex items-center">
-                          {ratingOpen ? (
-                            <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                              <FaAngleUp />
-                            </button>
-                          ) : (
-                            <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                              <FaAngleDown />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      {ratingOpen && (
-                        <div class="w-full items-center flex mx-3 -mt-1">
-                          <form action="" className="flex flex-col gap-2">
-                            {data?.rating?.map((value, index) => (
-                              <div
-                                key={index}
-                                className="flex items-center cursor-pointer"
-                              >
-                                <input
-                                  type="radio"
-                                  id="review"
-                                  name="review"
-                                  value={value.name}
-                                  className="cursor-pointer"
-                                  onChange={handleRadioChange}
-                                />
-                                <label
-                                  for="review"
-                                  className="ml-2 text-[.9rem] font-[400] text-gray-500"
-                                >
-                                  {value.name}
-                                </label>
-                              </div>
-                            ))}
-                          </form>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="lg:w-[75%] w-full max-md:mt-5 gap-2 ">
-                  {contractors?.length > 0 ?
-<>
-                  {paginatedData?.map((value, index) => (
-                    <div
-                      key={index}
-                      className="bg-[#F7F9FB] sm:p-4 p-1 flex max-md:flex-col items-center gap-5 mb-5"
-                    >
-                      <div className="">
-                        <Link
-                          href={
-                            `/profile/` +
-                            value.company_name
-                              .replaceAll(" ", "-")
-                              .toLowerCase()
-                          }
-                        >
-                          {value.cover ? (
-                            <img
-                              src={`${IMAGE_PATH}${value.cover}`}
-                              className={`h-[250px] w-[250px] object-cover cursor-pointer`}
-                              alt=""
-                              height={250}
-                              width={550}
-                            />
-                          ) : (
-                            <Image
-                              src={imgThumb}
-                              className={`h-[250px] w-[250px]`}
-                              alt=""
-                              height={250}
-                              width={550}
-                            />
-                          )}
-                        </Link>
-                      </div>
-                      <div className="w-[80%]">
-                        <div className="flex gap-2">
-                          <div className="bg-white p-3 rounded-full">
-                            <Link
-                              href={
-                                `/profile/` +
-                                value.company_name
-                                  .replaceAll(" ", "-")
-                                  .toLowerCase()
-                              }
-                            >
-                              <img
-                                src={`${IMAGE_PATH}${value.image}`}
-                                alt=""
-                                className="sm:h-16 sm:w-16 h-auto w-36 cursor-pointer"
-                                href={
-                                  `/profile/` +
-                                  value.company_name
-                                    .replaceAll(" ", "-")
-                                    .toLowerCase()
-                                }
-                              />
-                            </Link>
-                          </div>
-                          <div className="">
-                            <h2 className="text-[1.2rem] md:text-lg font-[500] cursor-pointer">
-                              <Link
-                                href={
-                                  `/profile/` +
-                                  value.company_name
-                                    .replaceAll(" ", "-")
-                                    .toLowerCase()
-                                }
-                              >
-                                {" "}
-                                {value.company_name}
-                              </Link>
-                            </h2>
-                            <div className="flex flex-wrap">
-                              {value.trust_seal ? (
-                                <Image
-                                  src={trustsealimg}
-                                  width={120}
-                                  height={20}
-                                  alt="trustSeal badge"
-                                />
-                              ) : null}
-                              <div className="sm:ml-4 ml-0 flex items-center gap-1">
-                                {value.users > 0 ? (
-                                  <>
-                                    {" "}
-                                    <MdStar className="text-[#12937C] sm:text-[1.8rem] text-[1.2rem]" />
-                                    <span className="sm:text-md text-sm font-[600]">
+                                        <div class="w-full border-gray-300  py-5 rounded-t border-b">
+                                            <div
+                                                onClick={handleBussinessHighlightsClick}
+                                                class="mb-3 p-1 bg-transparent flex items-center  rounded transition-all ease-in-out duration-500 "
+                                            >
+                                                <div class="p-1 px-2 text-[1.2rem] font-[500] w-full text-gray-800">
+                                                    Business Highlights
+                                                </div>
+                                                <div class="text-black w-8 py-1 pl-2 pr-1  flex items-center">
+                                                    {bussinessHighlightsOpen ? (
+                                                        <button
+                                                            class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
+                                                            <FaAngleUp/>
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
+                                                            <FaAngleDown/>
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            {bussinessHighlightsOpen && (
+                                                <div class="w-full items-center flex mx-3 -mt-1">
+                                                    <form action="" className="flex flex-col gap-2">
+                                                        {filterData?.highlights?.map((value, index) => (
+                                                            <div key={index}
+                                                                 className="flex items-center cursor-pointer">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={`highlight-${index}`}
+                                                                    name="highlights"
+                                                                    value={value.highlight}
+                                                                    checked={highlights.includes(value.id)}
+                                                                    onChange={() => highlightCheck(value.id)}
+                                                                    className="cursor-pointer"
+                                                                />
+                                                                <label
+                                                                    htmlFor={`highlight-${index}`}
+                                                                    className="ml-2 text-[.9rem] font-[400] text-gray-500 cursor-pointer"
+                                                                >
+                                                                    {value.highlight}
+                                                                </label>
+                                                            </div>
+                                                        ))}
+
+                                                    </form>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div class="w-full border-gray-300  py-5 rounded-t border-b">
+                                            <div
+                                                onClick={languagesOpen}
+                                                class="mb-3 p-1 bg-transparent flex items-center  rounded transition-all ease-in-out duration-500 "
+                                            >
+                                                <div class="p-1 px-2 text-[1.2rem] font-[500] w-full text-gray-800">
+                                                    Languages
+                                                </div>
+                                                <div class="text-black w-8 py-1 pl-2 pr-1  flex items-center">
+                                                    {languagesOpen ? (
+                                                        <button
+                                                            class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
+                                                            <FaAngleUp/>
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
+                                                            <FaAngleDown/>
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            {languagesOpen && (
+                                                <div class="w-full items-center flex mx-3 -mt-1">
+                                                    <form action="" className="flex flex-col gap-2">
+                                                        {filterData?.languages?.map((value, index) => (
+                                                            <div key={index}
+                                                                 className="flex items-center cursor-pointer">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={`language-${index}`}
+                                                                    name="languages"
+                                                                    value={value.language}
+                                                                    className="cursor-pointer"
+                                                                    checked={languages.includes(value.id)}
+                                                                    onChange={() => languageCheck(value.id)}
+                                                                />
+                                                                <label
+                                                                    htmlFor={`language-${index}`}
+                                                                    className="ml-2 text-[.9rem] font-[400] text-gray-500 cursor-pointer"
+                                                                >
+                                                                    {value.language}
+                                                                </label>
+                                                            </div>
+                                                        ))}
+
+                                                    </form>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div class="w-full border-gray-300  py-5 rounded-t border-b">
+                                            <div
+                                                onClick={handleRatingClick}
+                                                class="mb-3 p-1 bg-transparent flex items-center  rounded transition-all ease-in-out duration-500 "
+                                            >
+                                                <div class="p-1 px-2 text-[1.2rem] font-[500] w-full text-gray-800">
+                                                    Rating
+                                                </div>
+                                                <div class="text-black w-8 py-1 pl-2 pr-1  flex items-center">
+                                                    {ratingOpen ? (
+                                                        <button
+                                                            class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
+                                                            <FaAngleUp/>
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
+                                                            <FaAngleDown/>
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            {ratingOpen && (
+                                                <div class="w-full items-center flex mx-3 -mt-1">
+                                                    <form action="" className="flex flex-col gap-2">
+                                                        {data?.rating?.map((value, index) => (
+                                                            <div
+                                                                key={index}
+                                                                className="flex items-center cursor-pointer"
+                                                            >
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={`review-${index}`}
+                                                                    name="review"
+                                                                    value={value.name}
+                                                                    className="cursor-pointer"
+                                                                    checked={ratings.includes(value.id)}
+                                                                    onChange={() => ratingCheck(value.id)}
+                                                                />
+                                                                <label
+                                                                    for={`review-${index}`}
+                                                                    className="ml-2 text-[.9rem] font-[400] text-gray-500"
+                                                                >
+                                                                    {value.name}
+                                                                </label>
+                                                            </div>
+                                                        ))}
+                                                    </form>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="lg:w-[75%] w-full max-md:mt-5 gap-2 ">
+                                    {contractors?.length > 0 ?
+                                        <>
+                                            {paginatedData?.map((value, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="bg-[#F7F9FB] sm:p-4 p-1 flex max-md:flex-col items-center gap-5 mb-5"
+                                                >
+                                                    <div className="">
+                                                        <Link
+                                                            href={
+                                                                `/profile/` +
+                                                                value.company_name
+                                                                    .replaceAll(" ", "-")
+                                                                    .toLowerCase()
+                                                            }
+                                                        >
+                                                            {value.cover ? (
+                                                                <img
+                                                                    src={`${IMAGE_PATH}${value.cover}`}
+                                                                    className={`h-[250px] w-[250px] object-cover cursor-pointer`}
+                                                                    alt=""
+                                                                    height={250}
+                                                                    width={550}
+                                                                />
+                                                            ) : (
+                                                                <Image
+                                                                    src={imgThumb}
+                                                                    className={`h-[250px] w-[250px]`}
+                                                                    alt=""
+                                                                    height={250}
+                                                                    width={550}
+                                                                />
+                                                            )}
+                                                        </Link>
+                                                    </div>
+                                                    <div className="w-[80%]">
+                                                        <div className="flex gap-2">
+                                                            <div className="bg-white p-3 rounded-full">
+                                                                <Link
+                                                                    href={
+                                                                        `/profile/` +
+                                                                        value.company_name
+                                                                            .replaceAll(" ", "-")
+                                                                            .toLowerCase()
+                                                                    }
+                                                                >
+                                                                    <img
+                                                                        src={`${IMAGE_PATH}${value.image}`}
+                                                                        alt=""
+                                                                        className="sm:h-16 sm:w-16 h-auto w-36 cursor-pointer"
+                                                                        href={
+                                                                            `/profile/` +
+                                                                            value.company_name
+                                                                                .replaceAll(" ", "-")
+                                                                                .toLowerCase()
+                                                                        }
+                                                                    />
+                                                                </Link>
+                                                            </div>
+                                                            <div className="">
+                                                                <h2 className="text-[1.2rem] md:text-lg font-[500] cursor-pointer">
+                                                                    <Link
+                                                                        href={
+                                                                            `/profile/` +
+                                                                            value.company_name
+                                                                                .replaceAll(" ", "-")
+                                                                                .toLowerCase()
+                                                                        }
+                                                                    >
+                                                                        {" "}
+                                                                        {value.company_name}
+                                                                    </Link>
+                                                                </h2>
+                                                                <div className="flex flex-wrap">
+                                                                    {value.trust_seal ? (
+                                                                        <Image
+                                                                            src={trustsealimg}
+                                                                            width={120}
+                                                                            height={20}
+                                                                            alt="trustSeal badge"
+                                                                        />
+                                                                    ) : null}
+                                                                    <div
+                                                                        className="sm:ml-4 ml-0 flex items-center gap-1">
+                                                                        {value.users > 0 ? (
+                                                                            <>
+                                                                                {" "}
+                                                                                <MdStar
+                                                                                    className="text-[#12937C] sm:text-[1.8rem] text-[1.2rem]"/>
+                                                                                <span
+                                                                                    className="sm:text-md text-sm font-[600]">
                                       {`${(value.ratings / value.users).toFixed(
-                                        2
+                                          2
                                       )} / 5`}
                                     </span>
-                                    <span className="sm:ml-3 ml-1 sm:text-md text-sm text-gray-500">
+                                                                                <span
+                                                                                    className="sm:ml-3 ml-1 sm:text-md text-sm text-gray-500">
                                       {`(${value.users} Reviews)`}
                                     </span>
-                                  </>
-                                ) : null}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex gap-2 mt-4">
-                          <div className="flex items-center gap-3 bg-[#12937C1A] border-[1px] border-[#12937C] py-1 px-2 rounded-lg">
+                                                                            </>
+                                                                        ) : null}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex gap-2 mt-4">
+                                                            <div
+                                                                className="flex items-center gap-3 bg-[#12937C1A] border-[1px] border-[#12937C] py-1 px-2 rounded-lg">
                             <span>
-                              <FiBox />
+                              <FiBox/>
                             </span>
-                            <p className="text-sm font-semibold text-gray-600">
-                              Provides 3D visualization
-                            </p>
-                          </div>
-                        </div>
-                        <div className="mt-2">
-                          <h4 className="text-[15px] font-[600] text-gray-600">
-                            {value.skills}
-                          </h4>
-                          <h3
-                            className="text-sm font-[500] mt-3 text-ellipsis line-clamp-2"
-                            dangerouslySetInnerHTML={{
-                              __html: value.description,
-                            }}
-                          ></h3>
-                        </div>
-                        <div className="flex justify-between w-full mt-2 ">
-                          <h5 className="text-sm font-[500]">{value.name}</h5>
-                          <Link
-                            className="text-sm font-[600] text-[#12937C] "
-                            href={
-                              `/profile/` +
-                              value.company_name
-                                .replaceAll(" ", "-")
-                                .toLowerCase()
-                            }
-                          >
-                            Read More
-                          </Link>
-                        </div>
-                        <div>
-                          <Link
-                            className="text-md font-[600] mt-1 cursor-pointer"
-                            href={
-                              `/profile/` +
-                              value.company_name
-                                .replaceAll(" ", "-")
-                                .toLowerCase()
-                            }
-                          >
-                            {value.projects} projects
-                          </Link>
-                        </div>
-                        <button className="py-2 px-5 mt-4 bg-[#12937C] text-white text-md rounded-[10px] text-opacity-70 cursor-pointer hover:bg-opacity-80 font-[600]">
-                          Send Message
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                                                                <p className="text-sm font-semibold text-gray-600">
+                                                                    Provides 3D visualization
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="mt-2">
+                                                            <h4 className="text-[15px] font-[600] text-gray-600">
+                                                                {value.skills}
+                                                            </h4>
+                                                            <h3
+                                                                className="text-sm font-[500] mt-3 text-ellipsis line-clamp-2"
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: value.description,
+                                                                }}
+                                                            ></h3>
+                                                        </div>
+                                                        <div className="flex justify-between w-full mt-2 ">
+                                                            <h5 className="text-sm font-[500]">{value.name}</h5>
+                                                            <Link
+                                                                className="text-sm font-[600] text-[#12937C] "
+                                                                href={
+                                                                    `/profile/` +
+                                                                    value.company_name
+                                                                        .replaceAll(" ", "-")
+                                                                        .toLowerCase()
+                                                                }
+                                                            >
+                                                                Read More
+                                                            </Link>
+                                                        </div>
+                                                        <div>
+                                                            <Link
+                                                                className="text-md font-[600] mt-1 cursor-pointer"
+                                                                href={
+                                                                    `/profile/` +
+                                                                    value.company_name
+                                                                        .replaceAll(" ", "-")
+                                                                        .toLowerCase()
+                                                                }
+                                                            >
+                                                                {value.projects} projects
+                                                            </Link>
+                                                        </div>
+                                                        <button
+                                                            className="py-2 px-5 mt-4 bg-[#12937C] text-white text-md rounded-[10px] text-opacity-70 cursor-pointer hover:bg-opacity-80 font-[600]">
+                                                            Send Message
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
 
-<ThemeProvider theme={theme}>
-        <Stack direction="row" justifyContent="center" marginTop={2}>
-          <Pagination
-            count={Math.ceil(contractors.length / itemsPerPage)}
-            page={currentPage}
-            onChange={handlePageChange}
-            color="primary"
-            renderItem={(item) => (
-              <PaginationItem
-              components={{
-                previous: (props) => <button {...props} className="display-none"> </button>,
-                next: (props) => <button {...props} className=" p-[4px] !bg-[#12937C] px-4 rounded-md" >Next</button>,
-              }}
-              style={{    
-              paddingTop: '1.5rem',
-              paddingBottom: '1.5rem',
-              fontSize: '0.875rem', 
-              color: '#333', 
-            padding:'15px'
-           }} 
-              {...item}
-            />
-            )}
-  
-          />
-        </Stack>
-      </ThemeProvider>
-      </>
-      :
-      <div className="lg:w-[75%] w-full max-md:mt-5 gap-2 m-auto border-2 p-4 py-8 rounded-sm">
-        <h1 className="text-center text-gray-600 font-[500]">No contractor available </h1>
-        <h1 className="text-center text-gray-600 font-[500] mt-4">Are you a {category?.name} pro, click the button below to register as a {category?.name} professional.</h1>
-        <button
-        onClick={() => location.push('/join-us')}
-                      className="py-1 px-5 mt-4 bg-[#12937C] text-white text-[15px] rounded-[10px] w-full cursor-pointer hover:bg-opacity-80 font-[550]"
-                    >
-                      Join us as a Home pro 
-                    </button>
-  
-        </div>
-}
-                </div>
-              </div>
-            </div>
-            <div className="bg-[#F7F9FB] md:px-[4rem] px-6 py-10  ">
-              <div className="max-w-[1100px] justify-center mx-auto">
-                <h5 className="sm:text-[1.8rem] text-2xl font-[600] ">
-                  Featured Reviews for {category?.name} in {city?.name}
-                </h5>
+                                            <ThemeProvider theme={theme}>
+                                                <Stack direction="row" justifyContent="center" marginTop={2}>
+                                                    <Pagination
+                                                        count={Math.ceil(contractors.length / itemsPerPage)}
+                                                        page={currentPage}
+                                                        onChange={handlePageChange}
+                                                        color="primary"
+                                                        renderItem={(item) => (
+                                                            <PaginationItem
+                                                                components={{
+                                                                    previous: (props) => <button {...props}
+                                                                                                 className="display-none"></button>,
+                                                                    next: (props) => <button {...props}
+                                                                                             className=" p-[4px] !bg-[#12937C] px-4 rounded-md">Next</button>,
+                                                                }}
+                                                                style={{
+                                                                    paddingTop: '1.5rem',
+                                                                    paddingBottom: '1.5rem',
+                                                                    fontSize: '0.875rem',
+                                                                    color: '#333',
+                                                                    padding: '15px'
+                                                                }}
+                                                                {...item}
+                                                            />
+                                                        )}
 
-                <div className="grid lg:grid-cols-2 gap-5 sm:mt-[3rem] mt-3">
-                  {reviews?.map((value, index) => (
-                    <div
-                      key={index}
-                      className="bg-white sm:px-5 sm:py-8 py-4 rounded-xl  "
-                    >
-                      <div className="flex gap-5">
-                        <div className="bg-white sm:p-3 rounded-full">
-                          <Image
-                            src={imgpfp}
-                            alt=""
-                            className="sm:h-16 sm:w-16 h-auto w-36"
-                          />
+                                                    />
+                                                </Stack>
+                                            </ThemeProvider>
+                                        </>
+                                        :
+                                        <div
+                                            className="lg:w-[75%] w-full max-md:mt-5 gap-2 m-auto border-2 p-4 py-8 rounded-sm">
+                                            <h1 className="text-center text-gray-600 font-[500]">No contractor
+                                                available </h1>
+                                            <h1 className="text-center text-gray-600 font-[500] mt-4">Are you
+                                                a {category?.name} pro, click the button below to register as
+                                                a {category?.name} professional.</h1>
+                                            <button
+                                                onClick={() => location.push('/join-us')}
+                                                className="py-1 px-5 mt-4 bg-[#12937C] text-white text-[15px] rounded-[10px] w-full cursor-pointer hover:bg-opacity-80 font-[550]"
+                                            >
+                                                Join us as a Home pro
+                                            </button>
+
+                                        </div>
+                                    }
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                          <h4 className="text-[1.1rem] font-[500] ">
-                            {value.name}
-                          </h4>
-                          <h4 className="text-[.9rem] font-[600] ">
-                            {value.title}
-                          </h4>
-                          <div className="flex items-center ">
-                            <MdStar className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] " />
-                            <MdStar className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] " />
-                            <MdStar className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] " />
-                            <MdStar className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] " />
-                            <MdStar className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] " />
+                        <div className="bg-[#F7F9FB] md:px-[4rem] px-6 py-10  ">
+                            <div className="max-w-[1100px] justify-center mx-auto">
+                                <h5 className="sm:text-[1.8rem] text-2xl font-[600] ">
+                                    Featured Reviews for {category?.name} in {city?.name}
+                                </h5>
 
-                            <p className="sm:ml-5 ml-1 sm:text-[.8rem] text-[10px]  text-gray-500 ">
-                              {moment(value.created_date).format("ll")}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+                                <div className="grid lg:grid-cols-2 gap-5 sm:mt-[3rem] mt-3">
+                                    {reviews?.map((value, index) => (
+                                        <div
+                                            key={index}
+                                            className="bg-white sm:px-5 sm:py-8 py-4 rounded-xl  "
+                                        >
+                                            <div className="flex gap-5">
+                                                <div className="bg-white sm:p-3 rounded-full">
+                                                    <Image
+                                                        src={imgpfp}
+                                                        alt=""
+                                                        className="sm:h-16 sm:w-16 h-auto w-36"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <h4 className="text-[1.1rem] font-[500] ">
+                                                        {value.name}
+                                                    </h4>
+                                                    <h4 className="text-[.9rem] font-[600] ">
+                                                        {value.title}
+                                                    </h4>
+                                                    <div className="flex items-center ">
+                                                        <MdStar
+                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+                                                        <MdStar
+                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+                                                        <MdStar
+                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+                                                        <MdStar
+                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+                                                        <MdStar
+                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
 
-                      <p className="mt-5 text-[.9rem] max-md:text-[.8rem] ">
-                        {value.review}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {/* <ul class="list-style-none flex mt-7 mx-auto justify-center">
+                                                        <p className="sm:ml-5 ml-1 sm:text-[.8rem] text-[10px]  text-gray-500 ">
+                                                            {moment(value.created_date).format("ll")}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <p className="mt-5 text-[.9rem] max-md:text-[.8rem] ">
+                                                {value.review}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            {/* <ul class="list-style-none flex mt-7 mx-auto justify-center">
                 <li>
                   <a
                     class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
@@ -874,13 +947,13 @@ const Page = ({ params }) => {
                   </a>
                 </li>
               </ul> */}
-            </div>
-          </div>
+                        </div>
+                    </div>
+                </>
+            )}
+            <Footer/>
         </>
-      )}
-      <Footer />
-    </>
-  );
+    );
 };
 
 export default Page;

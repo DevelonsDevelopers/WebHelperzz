@@ -33,9 +33,9 @@ const contractorService = {
             throw error.response.data
         }
     },
-    category: async (category) => {
+    category: async (category, data) => {
         try {
-            const response = await axiosInstance.get('/contractors/category/' + category)
+            const response = await axiosInstance.post('/contractors/category/' + category, data)
             return response.data
         } catch (error) {
             throw error.response.data
