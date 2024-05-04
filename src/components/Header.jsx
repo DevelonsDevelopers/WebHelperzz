@@ -451,15 +451,16 @@ function Header() {
                 } w-auto min-h-9 items-center  rounded-xl ml-auto mr-4 px-2 h-fit lg:w-auto`}
             >
               <div className="sm:w-48">
-                <div className="absolute z-50 top-1 ">
+                <div className="absolute z-50 top-1">
                   <Autosuggest
                     suggestions={suggestions?.slice(0,10)}
                     onSuggestionsFetchRequested={onSuggestionsFetchRequested}
                     onSuggestionsClearRequested={() => setSuggestions([])}
                     getSuggestionValue={(suggestion) => suggestion.name}
                     renderSuggestion={(suggestion) => (
-                      <div className=" p-2 border-[1px] border-gray-400 sm:text-xs text-gray-800 bg-white cursor-pointer">
+                      <div className=" p-2 border-[.5px] border-gray-200 sm:text-xs text-gray-800 bg-white cursor-pointer">
                         {suggestion.name}
+                        <p className="text-gray-500">Development</p>
                       </div>
                     )}
                     inputProps={{
@@ -481,8 +482,9 @@ function Header() {
                     onSuggestionsClearRequested={() => setCitySuggestions([])}
                     getSuggestionValue={(suggestion) => suggestion.name}
                     renderSuggestion={(suggestion) => (
-                      <div className="p-2 border-[1px] border-gray-400 sm:text-xs text-gray-800 bg-white cursor-pointer">
+                      <div className=" p-2 border-[.5px] border-gray-200 sm:text-xs text-gray-800 bg-white cursor-pointer">
                         {suggestion.name}
+                        <p className="text-gray-500">Development</p>
                       </div>
                     )}
                     inputProps={{
