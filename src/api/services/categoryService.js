@@ -9,6 +9,38 @@ const categoryService = {
             throw error.response.data
         }
     },
+    featured: async () => {
+        try {
+            const response = await axiosInstance.get('/categories/featured')
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
+    popular: async () => {
+        try {
+            const response = await axiosInstance.get('/categories/popular')
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
+    categoriesContractors: async () => {
+        try {
+            const response = await axiosInstance.get('/categories/categoriesContractors')
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
+    banner: async () => {
+        try {
+            const response = await axiosInstance.get('/categories/banner')
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
     fetchCategoriesSubcategories: async () => {
         try {
             const response = await axiosInstance.get('/categories/categorySubcategories')
@@ -25,7 +57,7 @@ const categoryService = {
             throw error.response.data
         }
     },
-    
+
 }
 
 export default categoryService

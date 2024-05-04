@@ -124,6 +124,7 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [bannerCategories, setBannerCategories] = useState([])
   const [blogs, setBlogs] = useState([]);
   const [costGuides, setCostGuides] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
@@ -191,6 +192,24 @@ function Home() {
     }
   };
 
+  const getBannerCategories = async () => {
+    try {
+      const response = await categoryService.banner();
+      setBannerCategories(response.categories);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getCategoryContractors = async () => {
+    try {
+      const response = await categoryService.categoriesContractors();
+      setBannerCategories(response.categories);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const getCostGuides = async () => {
     try {
       const response = await costGuideService.fetchAll();
@@ -233,6 +252,7 @@ function Home() {
   };
 
   useEffect(() => {
+    getBannerCategories();
     getCategories();
     getBlogs();
     getCostGuides();
@@ -548,7 +568,7 @@ console.log(blogs)
           <div className=" flex gap-3  items-center flex-col sm:flex-row sm:pb-0 pb-80 !w-[100%] -mt-2 max-md:mt-4">
             <h5 className="font-bold text-xl w-[120px]">Hire a pro:</h5>
             <div className="flex flex-wrap gap-3 max-md:m-auto max-md:w-[90%] mt-14">
-            {hire?.map((value, index) => (
+            {bannerCategories?.map((value, index) => (
             <div  key={index} className="flex flex-wrap gap-2 sm:gap-8">
               <button onClick={() => navigate.push(`/category/on/toronto/${value?.tag}`)} className="text-[8px] sm:text-base py-2 sm:py-2 px-4 sm:px-2 bg-transparent border border-text rounded-2xl text-text font-bold">
                 {value?.name}

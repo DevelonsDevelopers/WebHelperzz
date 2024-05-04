@@ -32,7 +32,7 @@ function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [categories, setCategories] = useState([]);
+  const [searchCategoriesContractors, setSearchCategoriesContractors] = useState([]);
   const [cities, setCities] = useState([])
   const [isValidPostalCode, setIsValidPostalCode] = useState(true);
   const [postalCode, setPostalCode] = useState("");
@@ -53,10 +53,9 @@ function Header() {
 
   const getSuggestions = (inputValue) => {
     const inputValueLowerCase = inputValue.trim().toLowerCase();
-    return categories.filter(
+    return searchCategoriesContractors.filter(
       (category) =>
-        category.name.toLowerCase().includes(inputValueLowerCase) ||
-        category.tag.toLowerCase().includes(inputValueLowerCase)
+        category.name.toLowerCase().includes(inputValueLowerCase)
     );
   };
 
@@ -117,10 +116,10 @@ function Header() {
     setAnchorElUser(null);
   };
 
-  const getCategories = async () => {
+  const getCategoryContractors = async () => {
     try {
-      const response = await categoryService.fetchAll();
-      setCategories(response.categories);
+      const response = await categoryService.categoriesContractors();
+      setSearchCategoriesContractors(response.categoriesContractors);
     } catch (error) {
       console.error(error);
     }
@@ -130,15 +129,6 @@ function Header() {
     try {
       const response = await cityService.fetchAll();
       setCities(response.cities);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getContractor = async () => {
-    try {
-      const response = await contractorService.fetchAll();
-      setContractor(response.contractors);
     } catch (error) {
       console.error(error);
     }
@@ -171,9 +161,8 @@ function Header() {
   };
 
   useEffect(() => {
-    getCategories();
+    getCategoryContractors();
     getCities()
-    getContractor();
   }, []);
 
   useEffect(() => {
@@ -380,39 +369,39 @@ function Header() {
                   <FaChevronDown />
                 </span>
               </Button>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
-                PaperProps={{
-                  style: {
-                    minWidth: buttonRef.current
-                      ? buttonRef.current.offsetWidth
-                      : undefined,
-                  },
-                }}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-              >
-                {categories?.map((value) => (
-                  <MenuItem
-                    onClick={() => navigate.push("/category?id=" + value.id)}
-                    key={value.id}
-                  >
-                    {value.name}
-                  </MenuItem>
-                ))}
-              </Menu>
+              {/*<Menu*/}
+              {/*  id="basic-menu"*/}
+              {/*  anchorEl={anchorEl}*/}
+              {/*  open={open}*/}
+              {/*  onClose={handleClose}*/}
+              {/*  MenuListProps={{*/}
+              {/*    "aria-labelledby": "basic-button",*/}
+              {/*  }}*/}
+              {/*  PaperProps={{*/}
+              {/*    style: {*/}
+              {/*      minWidth: buttonRef.current*/}
+              {/*        ? buttonRef.current.offsetWidth*/}
+              {/*        : undefined,*/}
+              {/*    },*/}
+              {/*  }}*/}
+              {/*  anchorOrigin={{*/}
+              {/*    vertical: "bottom",*/}
+              {/*    horizontal: "left",*/}
+              {/*  }}*/}
+              {/*  transformOrigin={{*/}
+              {/*    vertical: "top",*/}
+              {/*    horizontal: "left",*/}
+              {/*  }}*/}
+              {/*>*/}
+              {/*  {categories?.map((value) => (*/}
+              {/*    <MenuItem*/}
+              {/*      onClick={() => navigate.push("/category?id=" + value.id)}*/}
+              {/*      key={value.id}*/}
+              {/*    >*/}
+              {/*      {value.name}*/}
+              {/*    </MenuItem>*/}
+              {/*  ))}*/}
+              {/*</Menu>*/}
             </div>
             <Button
               style={{ userSelect: "text" }}
@@ -460,7 +449,7 @@ function Header() {
                     renderSuggestion={(suggestion) => (
                       <div className=" p-2 border-[.5px] border-gray-200 sm:text-xs text-gray-800 bg-white cursor-pointer">
                         {suggestion.name}
-                        <p className="text-gray-500">Development</p>
+                        <p className="text-gray-500">{suggestion.type}</p>
                       </div>
                     )}
                     inputProps={{
@@ -484,7 +473,7 @@ function Header() {
                     renderSuggestion={(suggestion) => (
                       <div className=" p-2 border-[.5px] border-gray-200 sm:text-xs text-gray-800 bg-white cursor-pointer">
                         {suggestion.name}
-                        <p className="text-gray-500">Development</p>
+                        {/*<p className="text-gray-500">Development</p>*/}
                       </div>
                     )}
                     inputProps={{
