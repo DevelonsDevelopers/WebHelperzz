@@ -407,7 +407,7 @@ function Header() {
               style={{ userSelect: "text" }}
               className="whitespace-nowrap"
               onClick={handleCloseNavMenu}
-              href="/blog"
+              href="/join-us"
               sx={{
                 my: 2,
                 color: "black",
@@ -421,7 +421,7 @@ function Header() {
             <Button
               style={{ userSelect: "text" }}
               className="whitespace-nowrap"
-              href="/write_review"
+              href="/join-us"
               sx={{
                 my: 2,
                 color: "black",

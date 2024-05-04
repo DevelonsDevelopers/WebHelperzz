@@ -565,8 +565,8 @@ console.log(blogs)
             )}
           </div>
 
-          <div className=" flex gap-3  items-center flex-col sm:flex-row sm:pb-0 pb-80 !w-[100%] -mt-2 max-md:mt-4">
-            <h5 className="font-bold text-xl w-[120px]">Hire a pro:</h5>
+          <div className=" flex gap-2 items-center flex-col sm:flex-row sm:pb-0 pb-80 !w-[100%] -mt-2 max-md:mt-4">
+            <h5 className="font-bold text-xl min-w-[110px]">Hire a pro:</h5>
             <div className="flex flex-wrap gap-3 max-md:m-auto max-md:w-[90%] mt-14">
             {bannerCategories?.map((value, index) => (
             <div  key={index} className="flex flex-wrap gap-2 sm:gap-8">
