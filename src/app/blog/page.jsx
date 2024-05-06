@@ -196,7 +196,7 @@ console.log('response of blogs fetch' , blogs)
 :
 
       <div className="mx-auto justify-center items-center mt-28">
-        <div className="flex text-left mt-8 lg:w-[1100px] w-screen mx-auto justify-center">
+        <div className="flex text-left mt-8 lg:w-[1100px] w-screen mx-auto ">
           <h1 className="cursor-pointer ">Helperzz /</h1>
           <h1 className="cursor-pointer pl-2"> Blog </h1>
         </div>

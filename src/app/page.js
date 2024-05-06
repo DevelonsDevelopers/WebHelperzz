@@ -466,7 +466,7 @@ console.log(blogs)
     <>
       <Header />
       {/* Section 1 */}
-      <main className="hero_image px-4 mt-[-100px] w-[100%]">
+      <main className="hero_image px-4 mt-[-100px] w-[100%] !flex-col">
         <div className="main_home max-w-[650px] mx-auto">
           <h1 className="font-semibold pt-32 text-2xl text-transform: capitalize">
             The best place <br />
@@ -565,9 +565,10 @@ console.log(blogs)
             )}
           </div>
 
-          <div className=" flex gap-2 items-center flex-col sm:flex-row sm:pb-0 pb-80 !w-[100%] -mt-2 max-md:mt-4">
+        </div>
+          <div className=" flex gap-2 items-center flex-col sm:flex-row sm:pb-0 !w-[100%] mt-6 justify-center max-md:pb-80 max-w-[1300px] ml-auto"> 
             <h5 className="font-bold text-xl min-w-[110px]">Hire a pro:</h5>
-            <div className="flex flex-wrap gap-3 max-md:m-auto max-md:w-[90%] mt-14">
+            <div className="flex flex-wrap gap-3 max-md:m-auto max-md:w-[90%] ">
             {bannerCategories?.map((value, index) => (
             <div  key={index} className="flex flex-wrap gap-2 sm:gap-8">
               <button onClick={() => navigate.push(`/category/on/toronto/${value?.tag}`)} className="text-[8px] sm:text-base py-2 sm:py-2 px-4 sm:px-2 bg-transparent border border-text rounded-2xl text-text font-bold">
@@ -577,7 +578,6 @@ console.log(blogs)
             ))}
             </div>
           </div>
-        </div>
       </main>
 
       {/* Section 2 */}

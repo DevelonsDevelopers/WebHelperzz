@@ -842,6 +842,10 @@ const [showPic , setShowPic] = useState(true)
                     <p className="sm:text-2xl mt-2 font-semibold text-md">
                       By Star
                     </p>
+                    <Image  onClick={() => toggleReviews()}
+                        src={require("../../public/assets/up-down-arrow-svgrepo-com 1.png")}
+                        className="filter_imag ml-3 md:h-9 md:w-9 h-4 w-4"
+                      />
                     <div style={{ display: "flex", marginTop: "8px" }}>
                       <p className="sm:text-2xl font-semibold text-md">
                         Reviews with Photos

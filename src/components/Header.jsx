@@ -464,14 +464,14 @@ function Header() {
               </div>
               <span className="ml-3 text-black" >|</span>
               <div className="sm:w-28">
-                <div className="absolute z-50 top-1 b px-2 border-[#696969] font-normal text-[#696969] ">
+                <div className="absolute z-50 top-1  px-2 border-[#696969] font-normal text-[#696969] ">
                   <Autosuggest
                     suggestions={citySuggestions?.slice(0,10)}
                     onSuggestionsFetchRequested={onCitySuggestionsFetchRequested}
                     onSuggestionsClearRequested={() => setCitySuggestions([])}
                     getSuggestionValue={(suggestion) => suggestion.name}
                     renderSuggestion={(suggestion) => (
-                      <div className=" p-2 border-[.5px] border-gray-200 sm:text-xs text-gray-800 bg-white cursor-pointer">
+                      <div className=" p-2 border-[.5px]  border-gray-200 sm:text-xs text-gray-800 bg-white cursor-pointer">
                         {suggestion.name}
                         {/*<p className="text-gray-500">Development</p>*/}
                       </div>
@@ -486,28 +486,9 @@ function Header() {
                 </div>
               </div>
               <span className="text-black" >|</span>
-              {/* <div className="text-transform : capitalize  text-xs border-l-2 border-r-2 b px-2  border-[#696969] font-normal text-[#696969] ml-2 flex items-center gap-2 sm:text-xs">
-                <Autosuggest
-                  suggestions={citySuggestions}
-                  onSuggestionsFetchRequested={onCitySuggestionsFetchRequested}
-                  onSuggestionsClearRequested={() => setCitySuggestions([])}
-                  getSuggestionValue={(suggestion) => suggestion.name} // Changed to 'suggestion'
-                  renderSuggestion={(suggestion) => (
-                    <div className="p-2 border-[1px] border-gray-400 sm:text-xs text-gray-800 bg-white cursor-pointer">
-                      {suggestion.name}
-                    </div>
-                  )}
-                  inputProps={{
-                    placeholder: 'Search for City',
-                    value: cityValue, // Changed to 'value'
-                    onChange: (_, { newValue }) => setCityValue(newValue),
-                    className: 'placeholder:text-[#696969] text-[#696969] font-normal bg-transparent sm:text-xs ml-2 h-full outline-none w-8 sm:w-48',
-                  }}
-                />
-              </div> */}
 
               <div
-                className="pl-2 cursor-pointer"
+                className="pl-2 cursor-pointer "
                 onClick={(e) => handleSubmit(e)}
               >
                 <SearchIcon style={{ color: "#696969" }} />
@@ -546,9 +527,9 @@ function Header() {
                 </Menu>
               </div>
             ) : (
-              <div className="gap-4 2xl:mr-5 mr-2 hidden md:flex">
+              <div className="gap-4 2xl:mr-5 mr-2 hidden z-[9999] md:flex ">
                 <p
-                  className="text-text text-sm font-medium hover:font-[800] whitespace-nowrap w-10 cursor-pointer"
+                  className="text-text text-sm font-medium  hover:font-[800] whitespace-nowrap w-10 cursor-pointer"
                   onClick={() => navigate.push("/login")}
                 >
                   Log In{" "}

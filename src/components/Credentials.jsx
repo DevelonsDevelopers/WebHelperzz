@@ -37,9 +37,7 @@ export const Credentials = ({ details }) => {
                 </div>
               ))}
             </div>
-            <p className="text-[#12937C] text-xl font-semibold hidden sm:block mt-5">
-              See More
-            </p>
+            
           </div>
           <div className="w-full lg:min-w-1/4  sm:overflow-auto">
             <h2 className="text-xl font-semibold mb-5 text-text">Badges </h2>

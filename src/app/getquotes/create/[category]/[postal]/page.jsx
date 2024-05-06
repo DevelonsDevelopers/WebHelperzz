@@ -459,7 +459,7 @@ function GetQuotes({ params }) {
                   <div className="p-4 w-[screen] space-y-4 md:space-y-6 md:p-8 text-black">
                     <div className=" items-center justify-center flex flex-wrap ">
                       <div
-                        className="mx-5 my-3 items-center grid justify-center "
+                        className="mx-5 my-3 items-center grid justify-center cursor-pointer"
                         onClick={() =>
                           handleTypeSelection("Detached / Semi-Detached Home")
                         }
@@ -496,7 +496,7 @@ function GetQuotes({ params }) {
                       </div>
 
                       <div
-                        className="mx-5 my-3 items-center grid justify-center"
+                        className="mx-5 my-3 items-center grid justify-center cursor-pointer"
                         onClick={() => handleTypeSelection("Condo / Townhouse")}
                       >
                         {" "}
