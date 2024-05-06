@@ -170,9 +170,9 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <Link href='/contact-us' className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
                                         Contact Us
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
                                     <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
