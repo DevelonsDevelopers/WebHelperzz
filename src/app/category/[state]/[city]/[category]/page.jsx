@@ -13,7 +13,7 @@ import imgpfp from "../../../../../../public/assets/profile2.png";
 import imgThumb from "../../../../../../public/assets/project_thumb.jpg";
 import trustsealimg from "../../../../../../public/assets/trustsealbadge.png";
 import contractorService from "../../../../../api/services/contractorService";
-import {IMAGE_PATH} from "@/api/BaseUrl";
+ import {IMAGE_PATH} from "@/api/BaseUrl";
 import reviewService from "../../../../../api/services/reviewService";
 
 import moment from "moment";
@@ -22,6 +22,8 @@ import {useRouter} from "next/navigation";
 import {Footer} from "@/components/Footer";
 import categoryService from "@/api/services/categoryService";
 import cityService from "@/api/services/cityService";
+import Autosuggest from "react-autosuggest";
+
 
 import {
     Pagination,
@@ -125,6 +127,9 @@ const Page = ({params}) => {
     const handleRadioChange = (e) => {
         const {value} = e.target;
         setSelectedOptions((prevOptions) => [value, ...prevOptions]);
+        // console.log('e target' , e.target.value.replaceAll(" ", "-")
+        // .toLowerCase())
+        location.replace(`/category/on/toronto/${e.target.value.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}`)
     };
 
     const handleOptionClose = (option) => {
@@ -259,7 +264,7 @@ const Page = ({params}) => {
     };
 
 
-    const itemsPerPage = 1;
+    const itemsPerPage = 6;
     const [currentPage, setCurrentPage] = useState(1);
     const handlePageChange = (event, newPage) => {
         setCurrentPage(newPage);
@@ -274,6 +279,57 @@ const Page = ({params}) => {
     }, [currentPage, contractors]);
 
     const theme = createTheme({palette: {primary: {main: '#E0EFEE', contrastText: '#EEE'}}})
+
+
+
+    const [paginatedDataReview, setPaginatedDataReview] = useState([]);
+
+    const itemsPerPageReviews = 4;
+    const [currentPageReviews, setCurrentPageReviews] = useState(1);
+    const handlePageChangeReviews = (event, newPage) => {
+        setCurrentPageReviews(newPage);
+    };
+
+    useEffect(() => {
+        const startIndex = (currentPageReviews - 1) * itemsPerPageReviews;
+        const endIndex = startIndex + itemsPerPageReviews;
+        setPaginatedDataReview(reviews.slice(startIndex, endIndex));
+    }, [currentPageReviews, reviews]);
+
+ 
+    const [citySuggestions, setCitySuggestions] = useState([]);
+    const [cities, setCities] = useState([])
+    const [citySelectedOption, setCitySelectedOption] = useState('');
+
+
+
+    useEffect(() => {
+        const getCities = async () => {
+            try {
+              const response = await cityService.fetchAll();
+              setCities(response.cities);
+            } catch (error) {
+              console.error(error);
+            }
+          };
+          getCities()
+    },[])
+
+
+    const getCitySuggestions = (inputValue) => {
+        const inputValueLowerCase = inputValue.trim().toLowerCase();
+        return cities.filter(
+          (city) =>
+            city.name.toLowerCase().includes(inputValueLowerCase) ||
+            city.tag.toLowerCase().includes(inputValueLowerCase)
+        );
+      };
+
+    const onCitySuggestionsFetchRequested = ({ value }) => {
+        const suggestions = getCitySuggestions(value);
+        setCitySuggestions(suggestions);
+        setCitySelectedOption(value);
+       };
 
 
     return (
@@ -362,23 +418,27 @@ const Page = ({params}) => {
                                 <div className="w-[25%] max-md:hidden ">
                                     <div className="bg-[#E8F5F2] p-4 rounded-lg ">
                                         <h5 className="text-[1.3rem] font-[600] ">Location</h5>
+                                       
 
-                                        <input
-                                            type="search"
-                                            value={inputCity}
-                                            onChange={handleInputChange}
-                                            className="bg-[#F7F9FB] border-[1px] border-[#12937C]  mt-4 py-1 px-4 rounded-lg focus:outline-none w-full pl-10 max-md:rounded-r-lg placeholder:text-[.8rem] align-items-center "
-                                            placeholder="Toronto ||"
-                                        />
-                                        <GrLocation
-                                            className="ml-3 mt-[-28px] text-gray-600"
-                                            size={20}
-                                        />
-                                        {/* <input
-                      type="search"
-                      className="bg-[#F7F9FB] border-[1px] border-[#12937C] mt-4 py-1 px-4 rounded-lg focus:outline-none w-full pl-4 max-md:rounded-r-lg placeholder:text-[.8rem] align-items-center"
-                      placeholder="Radius 50 mi"
-                    /> */}
+ <Autosuggest
+                    suggestions={citySuggestions?.slice(0,10)}
+                    onSuggestionsFetchRequested={onCitySuggestionsFetchRequested}
+                    onSuggestionsClearRequested={() => setCitySuggestions([])}
+                    getSuggestionValue={(suggestion) => suggestion.name}
+                    renderSuggestion={(suggestion) => (
+                      <div className=" p-2 border-[.5px] z-2 border-gray-200 bg-[#F7F9FB] sm:text-xs text-gray-800 bg-white cursor-pointer">
+                        {suggestion.name}
+                      </div>
+                    )}
+                    inputProps={{
+                      placeholder: 'Toronto ||',
+                      value: inputCity, 
+                      onChange: (_, { newValue }) => setInputCity(newValue),
+                      className: 'placeholder:text-[#696969] z-2 text-[#696969] bg-[#F7F9FB] font-normal py-2 rounded-md sm:text-xs ml-2 h-full outline-none w-full mt-2 pl-4',
+                    }}
+                  />
+
+ 
 
                                         <button
                                             onClick={handleCitySubmit}
@@ -426,25 +486,27 @@ const Page = ({params}) => {
                                                 <div class="w-full items-center flex mx-3 mt-6">
                                                     <form action="" className="flex flex-col gap-2">
                                                         {filterData?.categories?.map((value, index) => (
-                                                            <div
-                                                                key={index}
-                                                                className="flex items-center cursor-pointer"
-                                                            >
-                                                                <input
-                                                                    type="radio"
-                                                                    id="categories"
-                                                                    name="categories"
-                                                                    value={value.name}
-                                                                    onChange={handleRadioChange}
-                                                                    className="cursor-pointer form-checkbox w-[13px] h-[13px] border-[1px] border-gray-500 rounded-lg bg-transparent checked:bg-[#12937C] checked:border-green-600"
-                                                                />
-                                                                <label
-                                                                    for="category"
-                                                                    className="ml-2 text-sm font-[400] text-gray-500"
-                                                                >
-                                                                    {value.name}
-                                                                </label>
-                                                            </div>
+                                                           <div
+                                                           key={index}
+                                                           className="flex items-center cursor-pointer"
+                                                       >
+                                                           <input
+                                                               type="radio"
+                                                               id={`category-${index}`} 
+                                                               name="categories"
+                                                               value={value.name}
+                                                               checked={category?.name.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase() === value?.name.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}
+                                                               onChange={handleRadioChange}
+                                                               className="cursor-pointer form-checkbox w-[13px] h-[13px] border-[1px] border-gray-500 rounded-lg bg-transparent checked:bg-[#12937C] checked:border-green-600"
+                                                           />
+                                                           <label
+                                                               htmlFor={`category-${index}`} 
+                                                               className="ml-2 text-sm font-[400] text-gray-500 cursor-pointer"
+                                                           >
+                                                               {value.name}
+                                                           </label>
+                                                       </div>
+                                                       
                                                         ))}
                                                     </form>
                                                 </div>
@@ -824,19 +886,13 @@ const Page = ({params}) => {
                                 </h5>
 
                                 <div className="grid lg:grid-cols-2 gap-5 sm:mt-[3rem] mt-3">
-                                    {reviews?.map((value, index) => (
+                                    {paginatedDataReview?.map((value, index) => (
                                         <div
                                             key={index}
                                             className="bg-white sm:px-5 sm:py-8 py-4 rounded-xl  "
                                         >
                                             <div className="flex gap-5">
-                                                <div className="bg-white sm:p-3 rounded-full">
-                                                    <Image
-                                                        src={imgpfp}
-                                                        alt=""
-                                                        className="sm:h-16 sm:w-16 h-auto w-36"
-                                                    />
-                                                </div>
+                                                
                                                 <div>
                                                     <h4 className="text-[1.1rem] font-[500] ">
                                                         {value.name}
@@ -870,83 +926,35 @@ const Page = ({params}) => {
                                     ))}
                                 </div>
                             </div>
-                            {/* <ul class="list-style-none flex mt-7 mx-auto justify-center">
-                <li>
-                  <a
-                    class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                    href="#!"
-                  >
-                    1
-                  </a>
-                </li>
-                <li aria-current="page">
-                  <a
-                    class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                    href="#!"
-                  >
-                    2
-                    <span class="absolute -m-px h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 [clip:rect(0,0,0,0)]">
-                      (current)
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                    href="#!"
-                  >
-                    3
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                    href="#!"
-                  >
-                    4
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                    href="#!"
-                  >
-                    5
-                  </a>
-                </li>{" "}
-                <li>
-                  <a
-                    class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                    href="#!"
-                  >
-                    6
-                  </a>
-                </li>{" "}
-                <li>
-                  <a
-                    class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                    href="#!"
-                  >
-                    7
-                  </a>
-                </li>{" "}
-                <li>
-                  <a
-                    class="relative block bg-transparent sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 hover:bg-[#12937C] hover:bg-opacity-30 focus:bg-[#12937C] focus:bg-opacity-20 focus:outline-none active:bg-[#12937C] active:bg-opacity-20 text-black"
-                    href="#!"
-                  >
-                    8
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="relative block sm:px-3 px-[7px] py-1.5 text-sm text-surface transition duration-300 bg-[#12937C] text-white "
-                    href="#!"
-                  >
-                    Next Page
-                  </a>
-                </li>
-              </ul> */}
+                            <ThemeProvider theme={theme}>
+                                                <Stack direction="row" justifyContent="center" marginTop={2}>
+                                                    <Pagination
+                                                        count={Math.ceil(reviews.length / itemsPerPageReviews)}
+                                                        page={currentPageReviews}
+                                                        onChange={handlePageChangeReviews}
+                                                        color="primary"
+                                                        renderItem={(item) => (
+                                                            <PaginationItem
+                                                                components={{
+                                                                    previous: (props) => <button {...props}
+                                                                                                 className="display-none"></button>,
+                                                                    next: (props) => <button {...props}
+                                                                                             className=" p-[4px] !bg-[#12937C] px-4 rounded-md">Next</button>,
+                                                                }}
+                                                                style={{
+                                                                    paddingTop: '1.5rem',
+                                                                    paddingBottom: '1.5rem',
+                                                                    fontSize: '0.875rem',
+                                                                    color: '#333',
+                                                                    padding: '15px'
+                                                                }}
+                                                                {...item}
+                                                            />
+                                                        )}
+
+                                                    />
+                                                </Stack>
+                                            </ThemeProvider>
                         </div>
                     </div>
                 </>

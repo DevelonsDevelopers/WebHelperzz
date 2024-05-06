@@ -18,6 +18,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { Footer } from "@/components/Footer";
 import Link from "next/link";
 import moment from "moment";
+import { useRouter } from "next/navigation";
+
 
 function Costgguides(props) {
   const { buttonText, title } = props;
@@ -102,6 +104,8 @@ const Blog = () => {
 
   const [blogs , setBlogs] = useState()
   const [loading , setLoading] = useState(true)
+
+  const navigate = useRouter()
 
 
 useEffect(() => {
@@ -253,7 +257,7 @@ console.log('response of blogs fetch' , blogs)
           <h1 className="text-[28px] font-bold pb-7">Featured</h1>
 
           <div className="flex max-md:flex-col flex-wrap w-full md:w-[100%] gap-10">
-            <div className="w-[50%] max-lg:w-[95%] max-md:m-auto">
+            <div className="w-[50%] max-lg:w-[95%] max-md:m-auto" onClick={() => navigate.push(`/blog/${blogs?.featured?.[0].title.replaceAll(" ", "-").toLowerCase()}`)}>
               <img
                 className="w-full h-[460px] max-lg:h-[250px]"
                 alt='featured blog'
@@ -288,7 +292,7 @@ console.log('response of blogs fetch' , blogs)
                     {blogs?.featured?.[1].subtitle.split(0,50)}...
                     </h1>
                   </div>
-                  <h1 className="font-[400] text-[14px] text-[#12937C] cursor-pointer ">
+                  <h1 onClick={() => navigate.push(`/blog/${blogs?.featured?.[1].title.replaceAll(" ", "-").toLowerCase()}`)} className="font-[400] text-[14px] text-[#12937C] cursor-pointer ">
                     Read More
                   </h1>
                 </div>
@@ -318,7 +322,7 @@ console.log('response of blogs fetch' , blogs)
                     </h1>
                   </div>
 
-                  <h1 className="font-[400] text-[14px] text-[#12937C] cursor-pointer ">
+                  <h1 onClick={() => navigate.push(`/blog/${blogs?.featured?.[2].title.replaceAll(" ", "-").toLowerCase()}`)} className="font-[400] text-[14px] text-[#12937C] cursor-pointer ">
                     Read More
                   </h1>
                 </div>
@@ -366,7 +370,7 @@ console.log('response of blogs fetch' , blogs)
                 {moment(value.created_date).format("ll")}
                   </p>
                 </div>
-                <button className="border border-[#12937C] text-[#12937C] font-[500] text-sm p-2 rounded-xl mt-4">
+                <button onClick={() => navigate.push(`/blog/${value?.title.replaceAll(" ", "-").toLowerCase()}`)} className="border border-[#12937C] text-[#12937C] font-[500] text-sm p-2 rounded-xl mt-4">
                   Read More
                 </button>
               </div>
@@ -399,7 +403,7 @@ console.log('response of blogs fetch' , blogs)
                     {moment(value.created_date).format("ll")}
                   </p>
                 </div>
-                <button className="border border-[#12937C] text-[#12937C] font-[500] text-sm p-2 rounded-xl mt-4">
+                <button onClick={() => navigate.push(`/blog/${value?.title.replaceAll(" ", "-").toLowerCase()}`)} className="border border-[#12937C] text-[#12937C] font-[500] text-sm p-2 rounded-xl mt-4">
                   Read More
                 </button>
               </div>

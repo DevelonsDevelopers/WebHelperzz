@@ -16,6 +16,8 @@ import { Rating } from "@material-tailwind/react";
 import "../style/Profile.css";
 import Loading from "@/components/loading";
 import DoneIcon from '@mui/icons-material/Done';
+import { LuArrowUpDown } from "react-icons/lu";
+
 
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
@@ -261,11 +263,11 @@ const handleSubmit = (e) => {
 
 
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [zoomedImageUrl, setZoomedImageUrl] = useState(images[0].image); // Initial value
+    const [zoomedImageUrl, setZoomedImageUrl] = useState(images?.[0]?.image); // Initial value
 
     const handlePrevClick = () => {
       setSelectedIndex((prevIndex) =>
-        prevIndex === 0 ? images.length - 1 : prevIndex - 1
+        prevIndex === 0 ? images?.length - 1 : prevIndex - 1
       );
     };
 
@@ -287,7 +289,7 @@ const handleSubmit = (e) => {
 
     // Update zoomed image URL after selectedIndex changes
     useEffect(() => {
-      setZoomedImageUrl(images[selectedIndex].image);
+      setZoomedImageUrl(images?.[selectedIndex].image);
     }, [selectedIndex, images]);
 
 
@@ -306,7 +308,7 @@ const handleSubmit = (e) => {
           <div className="images-cards">
             <div className="mt-4 relative">
               <div className="grid grid-cols-3 gap-2 w-[55%]  sm:w-[75%] mx-auto">
-                {images.map((item, index) => (
+                {images?.map((item, index) => (
                   <div
                     key={item.id}
                     // onClick={() => setZoomedImageUrl(item.img)}
@@ -355,20 +357,30 @@ const handleSubmit = (e) => {
 
 
   const [showLatest, setShowLatest] = useState('Newest');
-
+  const [showHighestStars, setShowHighestStars] = useState(false);
+  
   const toggleReviews = () => {
-    if(showLatest === 'Newest')
-    setShowLatest('Oldest');
-  else {
-    setShowLatest('Newest')
-  }
+    if (showLatest === 'Newest') {
+      setShowLatest('Oldest');
+    } else {
+      setShowLatest('Newest');
+    }
   };
-
+  
+  const toggleStars = () => {
+    setShowHighestStars((prev) => !prev);
+  };
+  
   const sortedReviews = showLatest === 'Newest'
     ? details?.reviews?.slice().sort((a, b) => new Date(b?.created_date) - new Date(a?.created_date))
     : details?.reviews?.slice().sort((a, b) => new Date(a?.created_date) - new Date(b?.created_date));
+  
+  const sortedReviewsByStars = showHighestStars
+    ? sortedReviews?.slice().sort((a, b) => b?.rating - a?.rating)
+    : sortedReviews?.slice().sort((a, b) => a?.rating - b?.rating);
+  
 
-const [showPic , setShowPic] = useState(true)
+    const [showPic , setShowPic] = useState(true)
 
 
 
@@ -826,43 +838,35 @@ const [showPic , setShowPic] = useState(true)
                       </p>
                     </div>
                   </div>
-                  <div className="sorting_review w-[55%] flex pl-2 md:pl-0">
-                    <p className="sm:text-2xl mt-2 font-semibold text-lg">
+                  <div className="flex pl-2 md:pl-0 gap-2 items-center mt-4">
+                    <p className="sm:text-2xl  font-semibold text-lg">
                       Sort by:
                     </p>
-                    <div style={{ display: "flex", marginTop: "8px" }}>
+                   
                       <p className="sm:text-2xl font-semibold text-md">
                         {showLatest}
                       </p>
-                      <Image  onClick={() => toggleReviews()}
-                        src={require("../../public/assets/up-down-arrow-svgrepo-com 1.png")}
-                        className="filter_imag ml-3 md:h-9 md:w-9 h-4 w-4"
+                      <LuArrowUpDown  onClick={() => toggleReviews()} className={`md:h-6 md:w-6  h-4 w-4 cursor-pointer ${showLatest === 'Oldest' ? 'text-gray-400' : 'text-gray-900'}`}
+                         
                       />
-                    </div>
-                    <p className="sm:text-2xl mt-2 font-semibold text-md">
+                    <p className="sm:text-2xl font-semibold text-md">
                       By Star
                     </p>
-                    <Image  onClick={() => toggleReviews()}
-                        src={require("../../public/assets/up-down-arrow-svgrepo-com 1.png")}
-                        className="filter_imag ml-3 md:h-9 md:w-9 h-4 w-4"
-                      />
-                    <div style={{ display: "flex", marginTop: "8px" }}>
+                    <LuArrowUpDown  onClick={() => toggleStars()} className={`md:h-6 md:w-6  h-4 w-4 cursor-pointer ${!showHighestStars ? 'text-gray-400' : 'text-gray-900'}`}/>
+                     
                       <p className="sm:text-2xl font-semibold text-md">
                         Reviews with Photos
                       </p>
-                      {/* <Image
-                        src={require("../../public/assets/checkbox.png")}
-                        className="filter_imag ml-3  md:h-9 md:w-9 h-4 w-4"
-                      /> */}
+
 <input
   type="checkbox"
-  className="w-6 h-6 ml-2 mt-[6px] " checked={showPic} onChange={() => setShowPic(!showPic)}
+  className="w-6 h-6 ml-2  " checked={showPic} onChange={() => setShowPic(!showPic)}
 />       
-             </div>
+            
                   </div>
                   <div className="flex justify-between md:mt-6 mt-2 flex-wrap lg:flex-nowrap gap-3 md:gap-4">
                     <div className="flex-col justify-between flex-wrap lg:flex-nowrap gap-3 md:gap-4 w-[75%]">
-                      {sortedReviews?.slice(0, 3).map((value) => (
+                      {sortedReviewsByStars?.slice(0, 3).map((value) => (
                         <SubReview
                           key={value.id}
                           name={value.name}
@@ -1176,35 +1180,34 @@ const [showPic , setShowPic] = useState(true)
                       </p>
                     </div>
                   </div>
-                  <div className="sorting_review w-[55%] flex pl-2 md:pl-0">
-                    <p className="sm:text-2xl mt-2 font-semibold text-lg">
+                  <div className="flex items-center gap-2 mt-6 pl-2 md:pl-0">
+                    <p className="sm:text-2xl font-semibold text-lg">
                       Sort by:
                     </p>
-                    <div style={{ display: "flex", marginTop: "8px" }}>
                     <p className="sm:text-2xl font-semibold text-md">
                         {showLatest}
                       </p>
-                      <Image  onClick={() => toggleReviews()}
-                        src={require("../../public/assets/up-down-arrow-svgrepo-com 1.png")}
-                        className="filter_imag ml-3 md:h-9 md:w-9 h-4 w-4"
-                      />
-                    </div>
-                    <p className="sm:text-2xl mt-2 font-semibold text-md">
+                      <LuArrowUpDown  onClick={() => toggleReviews()} className={`md:h-6 md:w-6  h-4 w-4 cursor-pointer ${showLatest === 'Oldest' ? 'text-gray-400' : 'text-gray-900'}`}
+/>
+                   
+                    <p className="sm:text-2xl   font-semibold text-md">
                       By Star
                     </p>
-                    <div style={{ display: "flex", marginTop: "8px" }}>
+                    <LuArrowUpDown  onClick={() => toggleStars()} className={`md:h-6 md:w-6  h-4 w-4 cursor-pointer ${!showHighestStars ? 'text-gray-400' : 'text-gray-900'}`}/>
+
+                   
                       <p className="sm:text-2xl font-semibold text-md">
                         Reviews with Photos
                       </p>
                       <input
   type="checkbox"
-  className="w-6 h-6 ml-2 mt-[6px] " checked={showPic} onChange={() => setShowPic(!showPic)}
+  className="w-6 h-6 ml-2 " checked={showPic} onChange={() => setShowPic(!showPic)}
 />      
-                    </div>
+                  
                   </div>
                   <div className="flex justify-between md:mt-6 mt-2 flex-wrap lg:flex-nowrap gap-3 md:gap-4">
                     <div className="flex-col justify-between flex-wrap lg:flex-nowrap gap-3 md:gap-4 w-[75%]">
-                     {sortedReviews?.map((value) => (
+                     {sortedReviewsByStars?.map((value) => (
                         <SubReview
                           key={value.id}
                           name={value.name}
