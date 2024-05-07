@@ -179,8 +179,8 @@ const onCitySuggestionsFetchRequested = ({ value }) => {
       </div>
     </div>
     <div className="max-w-[1200px] m-auto my-10">
-      <p className="text-[2rem] text-gray-900 font-[600]">{category?.name}</p>
-      <p className="text-sm text-gray-600 font-[400] max-w-[600px]">Some projects are just better left for the professionals - hire {category?.details} .</p>
+      <p className="text-[2rem] text-gray-900 font-[600] max-md:text-center ">{category?.name}</p>
+      <p className="text-sm text-gray-600 font-[400] max-w-[600px] max-md:text-center ">Some projects are just better left for the professionals - hire {category?.details} .</p>
     </div>
 
 <div className="flex max-w-[1200px] gap-8 m-auto">
@@ -424,12 +424,12 @@ const onCitySuggestionsFetchRequested = ({ value }) => {
                   </div>
                 </div>
 
-<div className="w-[75%]">
+<div className="w-[75%] max-md:w-[80%] max-md:m-auto">
 
 
 {paginatedData?.length > 0 ?
 <>
-<div className="grid grid-cols-3 gap-4 max-w-[1000px]">
+<div className="grid grid-cols-3 max-md:grid-cols-1 gap-4 max-w-[1000px]">
 {paginatedData?.map((value, index) => (
     <div key={index} className='border-2 border-[#64B6E3] p-4 rounded-xl flex flex-col min-h-[300px] bg-[#F7F9FB] '>
       <div className="flex gap-4">

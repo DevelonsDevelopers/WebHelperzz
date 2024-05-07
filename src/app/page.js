@@ -110,7 +110,7 @@ function Costgguides(props) {
   return (
     <div
       className="costguides_container hover:border-[#119DED99] hover:shadow-md hover:shadow-[#119DED99]  cursor-pointer"
-      onClick={() => navigate.push(`/costGuide/${id}`)}
+      onClick={() => navigate.push(`/cost-guide/${id}`)}
     >
       <div className="btn_guides">
         <p className="btn_text">{buttonText}</p>

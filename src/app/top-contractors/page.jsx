@@ -107,7 +107,7 @@ const theme = createTheme({ palette: { primary: { main: '#E0EFEE', contrastText:
       </div>
 
 
-<div className="max-w-[1100px] m-auto my-10">
+<div className="max-w-[1100px] m-auto my-10 max-md:w-[80%]">
 
  <div>
 {paginatedData?.map((value, index) => (
@@ -130,7 +130,7 @@ const theme = createTheme({ palette: { primary: { main: '#E0EFEE', contrastText:
     </div>
 )}
 
-<div className="grid grid-cols-4 gap-6 mt-4">
+<div className="grid grid-cols-4 max-md:grid-cols-1 gap-6 mt-4 ">
   
     {value?.contractors?.slice(0,4).map((item) => (
       <div key={item.id} className="flex">
@@ -150,7 +150,7 @@ const theme = createTheme({ palette: { primary: { main: '#E0EFEE', contrastText:
                   <img
                     alt="blog"
                     src={`https://api.helperzz.com/public/uploads/${item.image}`}
-                    className="h-16 sm:w-16 rounded-full flex-shrink-0 object-cover object-center"
+                    className="h-16 w-16 rounded-full flex-shrink-0 object-cover object-center"
                   />
                   <span className="flex-grow flex flex-col pl-2 items-center">
                     <span className="text-lg font-semibold text-gray-900 line-clamp-1 text-ellipsis">
