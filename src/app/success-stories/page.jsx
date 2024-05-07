@@ -17,6 +17,9 @@ import { IMAGE_PATH } from "../../api/BaseUrl";
 import Link from "next/link";
 import costGuideService from "../../api/services/costGuideService";
 import "../../style/Home.css";
+import photo from '/public/assets/Rectangle 122.png'
+import { useRouter } from "next/navigation";
+
 
 
 
@@ -41,6 +44,8 @@ const Page = () => {
   const [loading , setLoading] = useState(true)
   const [contractors, setContractors] = useState([]);
   const [costGuides, setCostGuides] = useState([]);
+
+  const navigation = useRouter()
 
 
 
@@ -256,27 +261,21 @@ const Page = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-md:w-[90%] max-md:m-auto">
           {successStories?.map((value, index) => (
             <div key={index} className="max-md:mt-4 ">
-             <iframe
-  width="560"
-  height="315"
-  src={value?.youtube_link}
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+             <Image
+  src={photo}
   className="w-full h-[320px] object-cover rounded-xl"
-></iframe>
-              <h1 className="mt-2 text-[16px] font-[500]">{value?.name}</h1>
-              <div className="flex justify-between mt-2 pr-2">
-                <p className="font-[500] text-gray-600">
-                  {value.title}
-                </p>
-                <p className=" text-sm font-[300] text-gray-600">
+/>
+              <h1 className="mt-2 text-[16px] font-[500]">{value?.title.slice(0,60)}...</h1>
+               
+                <p className=" text-sm font-[300] text-gray-600 text-right">
                 {moment(value.created_at).format("MMM Do YY")}
                 </p>
-              </div>
-              <p className='font-[300] text-sm text-gray-500'>
-                {value?.description.split(0,150)}...
-                </p>
-              
+               
+                <button onClick={() => navigation.push(`/blog/${value?.title.replaceAll(" ", "-").toLowerCase()}`)} className="border border-[#12937C] text-[#12937C] font-[500] text-sm p-2 rounded-xl mt-4">
+                  Read More
+                </button> 
             </div>
+            
           ))}
         </div>
       </div>

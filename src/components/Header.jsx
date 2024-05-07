@@ -465,7 +465,7 @@ function Header() {
               </div>
               <span className="ml-3 text-black" >|</span>
               <div className="sm:w-28">
-                <div className="absolute z-50 top-1  px-2 border-[#696969] font-normal text-[#696969] ">
+                <div className="absolute z-20 top-1  px-2 border-[#696969] font-normal text-[#696969] ">
                   <Autosuggest
                     suggestions={citySuggestions?.slice(0,10)}
                     onSuggestionsFetchRequested={onCitySuggestionsFetchRequested}
@@ -489,7 +489,7 @@ function Header() {
               <span className="text-black" >|</span>
 
               <div
-                className="pl-2 cursor-pointer "
+                className="pl-2 cursor-pointer z-40"
                 onClick={(e) => handleSubmit(e)}
               >
                 <SearchIcon style={{ color: "#696969" }} />

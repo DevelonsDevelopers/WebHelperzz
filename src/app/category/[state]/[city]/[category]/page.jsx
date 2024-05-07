@@ -32,6 +32,7 @@ import {
     createTheme,
     PaginationItem
 } from "@mui/material";
+import Search from "@/components/search/Search";
 
 const data = {
     suggestedFilters: ["Verified Licence", "Hired On Helperzz"],
@@ -347,34 +348,9 @@ const Page = ({params}) => {
             ) : (
                 <>
                     <div className="mt-[80px]">
-                        <div
-                            className="bg-[#12937C] flex flex-col justify-center items-center mt-10 py-6 max-md:px-5 text-white ">
-                            <h1 className="text-[1.8rem] max-sm:text-[1.5rem] font-[700] ">
-                                Get Matched with Local Professionals
-                            </h1>
-                            <h3 className="text-[1.1rem] max-sm:text-[.9rem] font-[300] ">
-                                Answer a few questions,and we&apos;ll put you in touch with pros
-                                who can help.
-                            </h3>
-                            <div className="flex mt-5 mb-2 max-md:mt-3 max-md:justify-between max-md:w-[100%] ">
-                                <div className="max-md:w-[60%]">
-                                    <input
-                                        type="search"
-                                        className="bg-[#F7F9FB] py-2 text-[.9rem]  px-4 rounded-l-[15px] focus:outline-none pl-10 max-md:w-[100%] !text-gray-800"
-                                        placeholder="Postal Code"
-                                    />
-                                    <GrLocation
-                                        className="ml-4 mt-[-30px] text-gray-600"
-                                        size={20}
-                                    />
-                                </div>
-                                <div className="max-md:w-[40%]">
-                                    <p className="bg-[#119DED] text-white text-[.9rem] py-2 text-center max-md:py-[10px] font-semibold max-md:px-2 px-4 ml-[-17px] max-md:ml-[-20px] rounded-[15px] cursor-pointer focus:outline-none max-md:text-[12px]">
-                                        GET STARTED
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+
+                      <Search />
+
                         <div className="py-10 md:px-[4rem] px-4  max-w-[1200px] justify-center mx-auto">
                             <h1 className="sm:text-[1.8rem] text-2xl font-[500] ">
                                 {category?.name} in {city?.name}
