@@ -17,6 +17,7 @@ import "../style/Profile.css";
 import Loading from "@/components/loading";
 import DoneIcon from '@mui/icons-material/Done';
 import { LuArrowUpDown } from "react-icons/lu";
+import CarousalModal from './CarousalModal'
 
 
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -283,7 +284,7 @@ const handleSubmit = (e) => {
 
     const handleNextClick = () => {
       setSelectedIndex((prevIndex) =>
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+        prevIndex === images?.length - 1 ? 0 : prevIndex + 1
       );
     };
 
@@ -292,11 +293,12 @@ const handleSubmit = (e) => {
       setZoomedImageUrl(images?.[selectedIndex].image);
     }, [selectedIndex, images]);
 
-
+   
 
  
     return (
       <div className="overflow-hidden fixed z-10 top-0 left-0 w-full h-full  bg-black bg-opacity-100 flex justify-center ">
+       
         <div className="flex flex-col justify-center  sm:mt-[3rem] xl:flex xl:flex-col xl:justify-center">
           <div>
             <img
@@ -358,6 +360,9 @@ const handleSubmit = (e) => {
 
   const [showLatest, setShowLatest] = useState('Newest');
   const [showHighestStars, setShowHighestStars] = useState(false);
+
+
+
   
   const toggleReviews = () => {
     if (showLatest === 'Newest') {
@@ -383,9 +388,35 @@ const handleSubmit = (e) => {
     const [showPic , setShowPic] = useState(true)
 
 
+    const [openModal , setOpenModal] = useState(false)
+    const handleOpen = () => {
+      setOpenModal(!openModal)
+    }
+
+const [modalView , setModalView] = useState([])
+
+const [allPhotos , setAllPhotos] = useState([])
+
+useEffect(() => {
+  if (details?.projects) {
+    const allImages = details.projects.flatMap((project) => project.images);
+    setAllPhotos(allImages);
+  }
+}, [details?.projects]);
+
+
+
+const handleModalOpen = (images) => {
+console.log('images ' , images)
+  setModalView(images);
+  handleOpen(); 
+}
+
 
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
+             <CarousalModal  open={openModal} handleClose={handleOpen} images={modalView} />
+
       <TabContext value={value}>
         <Box
           sx={{
@@ -771,7 +802,7 @@ const handleSubmit = (e) => {
                       </button>
                     ))}
                   </div>
-                  <h2 className="text-2xl md:text-[28px] font-semibold md:mb-5 mb-2 text-text">
+                  <h2 className="text-2xl md:text-[28px] font-semibold md:mb-5 mb-2 text-text" >
                     10 Photos
                   </h2>
                   <p className="font-medium text-[#666666] md:text-base text-sm">
@@ -782,13 +813,14 @@ const handleSubmit = (e) => {
                       <div
                         className="mt-9"
                         key={index}
-                        onClick={() =>
-                          openZoomedImage(
-                            `${IMAGE_PATH}${project.images[0].image}`,
-                            project.images
-                          )
-                        }
-                      >
+                        // onClick={() =>
+                        //   openZoomedImage(
+                        //     `${IMAGE_PATH}${project.images[0].image}`,
+                        //     project.images
+                        //   )
+                        // }
+                        onClick={() => handleModalOpen(project?.images)}
+                        >
                         <img
                           src={`${IMAGE_PATH}${project.images[0].image}`}
                           alt=""
@@ -1133,12 +1165,14 @@ const handleSubmit = (e) => {
             <TabPanel value="3">
               <div className="img_align w-[screen] pl-2 md:pl-0  overflow-x-auto  flex flex-wrap gap-10">
                 {details?.projects?.map((project, index) => (
-                  <>
+                  < >
                     {project.images.map((img) => (
                       <div
-                        onClick={() =>
-                          openZoomedImage(`${IMAGE_PATH}${img.image}`)
-                        }
+                        // onClick={() =>
+                        //   openZoomedImage(`${IMAGE_PATH}${img.image}`)
+                        // }
+                        onClick={() => handleModalOpen(allPhotos)}
+                       
                         className="mt-5"
                         key={index}
                       >

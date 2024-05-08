@@ -258,13 +258,15 @@ const Page = () => {
 
       <div className="py-10  lg:w-[1100px] w-screen mx-auto">
       <h1 className="text-[28px] font-[600] pb-7">Successfull Stories</h1>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-md:w-[90%] max-md:m-auto">
+        <div className="grid grid-cols-3 max-md:grid-cols-1  gap-10 max-md:w-[90%] max-md:m-auto">
           {successStories?.map((value, index) => (
             <div key={index} className="max-md:mt-4 ">
-             <Image
-  src={photo}
-  className="w-full h-[320px] object-cover rounded-xl"
-/>
+ 
+ <img
+                src={`https://api.helperzz.com/public/uploads/${value.image}`}
+                  alt="image"
+                  className="w-[250px] h-[320px] object-cover rounded-xl"
+                />
               <h1 className="mt-2 text-[16px] font-[500]">{value?.title.slice(0,60)}...</h1>
                
                 <p className=" text-sm font-[300] text-gray-600 text-right">

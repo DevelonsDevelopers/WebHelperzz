@@ -104,13 +104,13 @@ function CategoryCart(props) {
 }
 
 function Costgguides(props) {
-  const { id, buttonText, title } = props;
+  const { tag, buttonText, title } = props;
   const navigate = useRouter();
 
   return (
     <div
       className="costguides_container hover:border-[#119DED99] hover:shadow-md hover:shadow-[#119DED99]  cursor-pointer"
-      onClick={() => navigate.push(`/cost-guide/${id}`)}
+      onClick={() => navigate.push(`/cost-guide/${tag}`)}
     >
       <div className="btn_guides">
         <p className="btn_text">{buttonText}</p>
@@ -663,7 +663,7 @@ console.log(blogs)
                 {displayedGuides.map((value) => (
                   <Costgguides
                     key={value.id}
-                    id={value.id}
+                    tag={value.title.replaceAll(" ","-").replaceAll("/","-").toLowerCase()}
                     buttonText={value.subtitle}
                     title={value.title}
                   />
