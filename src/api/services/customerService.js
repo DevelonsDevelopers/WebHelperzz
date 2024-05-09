@@ -17,6 +17,22 @@ const customerService = {
             throw error.response.data
         }
     },
+    setPassword: async (payload) => {
+        try {
+            const response = await axiosInstance.put('/customers/setPassword', payload)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
+    verifyEmail: async (payload) => {
+        try {
+            const response = await axiosInstance.put('/customers/verifyEmail', payload)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
 }
 
 export default customerService

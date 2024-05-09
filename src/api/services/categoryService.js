@@ -9,6 +9,14 @@ const categoryService = {
             throw error.response.data
         }
     },
+    fetchAllActive: async () => {
+        try {
+            const response = await axiosInstance.get('/categories/allActive')
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
     featured: async () => {
         try {
             const response = await axiosInstance.get('/categories/featured')

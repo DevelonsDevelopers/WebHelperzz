@@ -119,8 +119,8 @@ function Header() {
 
   const getCategoryContractors = async () => {
     try {
-      const response = await categoryService.categoriesContractors();
-      setSearchCategoriesContractors(response.categoriesContractors);
+      const response = await categoryService.fetchAllActive()
+      setSearchCategoriesContractors(response.categories);
     } catch (error) {
       console.error(error);
     }
@@ -160,6 +160,10 @@ function Header() {
     setUser(null);
     localStorage.removeItem("HELPERZZ-USER");
   };
+
+  useEffect(() => {
+    console.log(value)
+  }, [value]);
 
   useEffect(() => {
     getCategoryContractors();
@@ -440,7 +444,7 @@ function Header() {
                 : "border-[#888888]"
                 } w-auto min-h-9 items-center  rounded-xl ml-auto mr-4 px-2 h-fit lg:w-auto`}
             >
-              <div className="sm:w-48">
+              <div className="sm:w-32">
                 <div className="absolute z-50 top-1">
                   <Autosuggest
                     suggestions={suggestions?.slice(0,10)}
@@ -450,11 +454,10 @@ function Header() {
                     renderSuggestion={(suggestion) => (
                       <div className=" p-2 border-[.5px] border-gray-200 sm:text-xs text-gray-800 bg-white cursor-pointer">
                         {suggestion.name}
-                        <p className="text-gray-500">{suggestion.type}</p>
                       </div>
                     )}
                     inputProps={{
-                      placeholder: "Search for category or company",
+                      placeholder: "Search for category",
                       value,
                       onChange: (_, { newValue }) => setValue(newValue),
                       className:

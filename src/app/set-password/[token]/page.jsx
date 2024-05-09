@@ -7,6 +7,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import {useRouter} from "next/navigation";
 import toast from "react-hot-toast";
+import customerService from "@/api/services/customerService";
 
 
 const Page = ({ params }) => {
@@ -18,20 +19,20 @@ const Page = ({ params }) => {
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
 
-    // const newPassword = () => {
-    //     if (password === confirmPassword){
-    //         customerService.updatePassword({ token: params.token, password: password }).then(response => {
-    //             console.log(response)
-    //             if (response.success){
-    //                 navigation.push('/success-page/passowrd-change')
-    //             }
-    //         }).catch(err => {
+    const newPassword = () => {
+        if (password === confirmPassword){
+            customerService.setPassword({ token: params.token, password: password }).then(response => {
+                console.log(response)
+                if (response.success){
+                    navigation.push('/success-page/passowrd-change')
+                }
+            }).catch(err => {
 
-    //         })
-    //     } else {
-    //         toast.error('password not match');
-    //     }
-    // }
+            })
+        } else {
+            toast.error('password not match');
+        }
+    }
 
     return (
         <div>
