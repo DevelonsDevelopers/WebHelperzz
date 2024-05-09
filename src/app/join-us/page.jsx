@@ -11,6 +11,7 @@ import categoryService from "@/api/services/categoryService";
 import contractorService from "@/api/services/contractorService";
 import uploadService from "@/api/services/uploadService";
 import {useRouter} from "next/navigation";
+import emailService from "@/api/services/emailService";
 
 const schema = object({
     businessname: string().required().label('Business Name'),
@@ -64,6 +65,9 @@ const Page = ({params}) => {
     useEffect(() => {
         if (certificateDone && licenseDone){
             setSubmitting(false)
+            emailService.contractorJoin({ email: contractorData.email }).then(res => {
+
+            })
             navigate.push('/join-us/success')
         }
     }, [certificateDone, licenseDone]);

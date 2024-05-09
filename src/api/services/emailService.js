@@ -8,6 +8,14 @@ const emailService = {
         } catch (error) {
             throw error.response.data
         }
+    },
+    contractorJoin: async (payload) => {
+        try {
+            const response = await axiosInstance.post('/mailer/contractorRegistration', payload)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
     }
 }
 
