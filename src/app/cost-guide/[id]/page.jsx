@@ -30,6 +30,7 @@ function CostGuide({ params }) {
             <Header/>
             <div className="max-w-[1000px] mt-[10rem] m-auto">
             <div className="">
+              
                                     <h3 className="font-bold text-3xl max-w-2xl leading-relaxed">{costGuide?.title}</h3>
                                  <h4 className="font-semibold text-2xl font-[300]">{costGuide?.subtitle}</h4>
                                     {/* <p>Updated {moment(costGuide?.created_date).format("ll")}</p> */}
