@@ -67,7 +67,7 @@ function CategoryList({params}) {
                 <TitleComponent title="Toronto Home Improvement Pros"/>
             </div>
             <div className="w-full flex justify-center mt-[2rem] mb-[6rem]">
-                <div className="toronto-home lg:w-[75%] w-full max-md:mt-5 gap-2">
+                <div className="toronto-home max-w-[1400px]  w-full max-md:mt-5 gap-2">
                     <div
                         // key={index}
                         className="bg-[#F7F9FB] sm:p-4 p-1 flex max-md:flex-col items-center gap-5 mb-5"
@@ -93,7 +93,7 @@ function CategoryList({params}) {
                                 )}
                             </Link>
                         </div>
-                        <div className="w-[80%]">
+                        <div className="">
                             <div className="flex gap-2">
                                 <div className="bg-white p-3 rounded-full">
                                     <Link href={"#"}>
