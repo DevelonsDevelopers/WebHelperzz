@@ -151,6 +151,21 @@ function Home() {
     setSelectedError(false);
   };
 
+
+  useEffect(() => {
+    if(postalCode?.length === 0){
+      setIsValidPostalCode(true)
+    } 
+  },[postalCode])
+
+  useEffect(() => {
+    if( /^[A-Z]\d[A-Z] \d[A-Z]\d$/.test(postalCode)){
+      setIsValidPostalCode(true)
+      console.log('regex',/^[A-Z]\d[A-Z] \d[A-Z]\d$/.test(postalCode))
+    } 
+
+  },[postalCode])
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!selectedOption) {
@@ -160,6 +175,8 @@ function Home() {
 
     const postalCoderegex = /^[A-Z]\d[A-Z] \d[A-Z]\d$/;
     setIsValidPostalCode(postalCoderegex.test(postalCode));
+
+   
 
     if (!postalCoderegex.test(postalCode)) {
       return;
@@ -478,20 +495,19 @@ console.log(blogs)
           </h2>
           <div className="mt-8  sm:hidden min-h-9 items-center rounded-3xl w-full">
             <div className="">
-              <div className="w-full items-center  flex  gap-2 p-3 rounded-full bg-white shadow-md">
+              <div className="w-full items-center cursor-pointer flex  gap-2 p-3 rounded-full bg-white shadow-md">
                 <SearchIcon />
                 <Select
                   styles={{
-                    border: "none",
-                    control: (baseStyles, state) => ({
-                      ...baseStyles,
-                      // borderColor: state.isFocused ? "grey" : "red",
+                    control: (provided, state) => ({
+                      ...provided,
+                      cursor: 'pointer',
                     }),
                   }}
                   options={options}
                   placeholder="What service do you need?"
                   isSearchable={true}
-                  className="placeholder:text-[#696969] sm:w-[230px] w-[100%] text-black font-semibold ml-2 h-full outline-none border-none"
+                  className="placeholder:text-[#696969] !cursor-pointer sm:w-[230px] w-[100%] text-black font-semibold ml-2 h-full outline-none border-none"
                   onChange={(e) => handleSelectChange(e)}
                 />
               </div>
@@ -503,6 +519,8 @@ console.log(blogs)
                   type="text"
                   placeholder="Postal Code"
                   value={postalCode}
+                  maxlength='7'
+
                   onChange={(e) => handlePostalChange(e)}
                   className=" placeholder:text-[#696969]   font-semibold ml-2 h-full outline-none max-w-28"
                 />
@@ -539,6 +557,7 @@ console.log(blogs)
               <input
                 type="text"
                 placeholder="Postal Code"
+                maxlength='7'
                 value={postalCode}
                 onChange={(e) => handlePostalChange(e)}
                 className=" placeholder:text-[#696969] font-medium ml-2 h-full outline-none max-w-28"
@@ -560,14 +579,14 @@ console.log(blogs)
             )}
             {!isValidPostalCode && (
               <p className="mt-2 ml-[19rem] text-sm text-red-600 dark:text-red-500">
-                Please enter a valid postal code!
+Please provide a valid postal code (uppercase only)!
               </p>
             )}
           </div>
 
         </div>
-          <div className=" flex gap-2 items-center flex-col sm:flex-row sm:pb-0 !w-[100%] mt-6 justify-center max-md:pb-80 max-w-[1300px] ml-auto"> 
-            <h5 className="font-bold text-xl min-w-[110px]">Hire a pro:</h5>
+          <div className=" flex gap-2 items-center flex-col sm:flex-row sm:pb-0 !w-[100%] mt-6 justify-center  max-md:pb-80 max-w-[1300px] ml-auto"> 
+            <h5 className="font-bold text-xl min-w-[110px] ">Hire a pro:</h5>
             <div className="flex flex-wrap gap-3 max-md:m-auto max-md:w-[90%] ">
             {bannerCategories?.map((value, index) => (
             <div  key={index} className="flex flex-wrap gap-2 sm:gap-8">
@@ -689,7 +708,7 @@ console.log(blogs)
             {/* <h2 className="text-xl sm:text-3xl font-bold text-text sm:text-left text-center">
               Guides to help you grow{" "}
             </h2> */}
-            <Link href='/blog' className="text-[#276487] hover:text-primary text-2xl hidden sm:block pr-16">
+            <Link href='/blog' className="text-[#276487] hover:text-primary font-[700] text-2xl hidden sm:block pr-16">
               See More
             </Link>
           </div>
@@ -800,7 +819,7 @@ console.log(blogs)
                       </span>
                       for your project
                     </h2>
-                    <Link href='/top-contractors' class="absolute bottom-[1px] left-1/2 transform -translate-x-1/2 w-[90%] shadow-lg mt-12 text-xs hover:bg-transparent hover:text-text hover:border-primary cursor-pointer transition-none text-text mt-4 justify-center border py-3 rounded-2xl font-bold bg-[#fff] inline-flex items-center mx-auto">
+                    <Link href='/top-contractors' class="absolute bottom-[1px] left-1/2 transform -translate-x-1/2 w-[90%] shadow-lg mt-12 text-xs hover:bg-primary hover:text-white cursor-pointer hover:border-primary transition-none text-text mt-4 justify-center border py-3 rounded-2xl font-bold bg-[#fff] inline-flex items-center mx-auto">
                       View All top Helperzz
                     </Link>
                   </div>

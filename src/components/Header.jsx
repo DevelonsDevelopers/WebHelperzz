@@ -339,13 +339,13 @@ function Header() {
                   ) : (
                     <div className="gap-2 2xl:mr-5 mr-2 hidden md:flex">
                       <p
-                        className="text-text text-sm font-medium hover:font-[500] whitespace-nowrap cursor-pointer"
+                        className="text-text text-sm font-medium font-[700] whitespace-nowrap cursor-pointer"
                         onClick={() => navigate.push("/login")}
                       >
                         Log In
                       </p>
                       <p
-                        className="text-text text-sm font-medium hover:font-[500] whitespace-nowrap cursor-pointer"
+                        className="text-text text-sm font-medium font-[700] whitespace-nowrap cursor-pointer"
                         onClick={() => navigate.push("/signup")}
                       >
                         Sign up
@@ -370,9 +370,6 @@ function Header() {
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 Browse Categories
-                <span style={{ color: "black" }}>
-                  <FaChevronDown />
-                </span>
               </Button>
               {/*<Menu*/}
               {/*  id="basic-menu"*/}
@@ -416,7 +413,7 @@ function Header() {
               sx={{
                 my: 2,
                 color: "black",
-                fontWeight: "semibold",
+                fontWeight: "bold",
                 display: "block",
                 fontSize: 12
               }}
@@ -430,13 +427,15 @@ function Header() {
               sx={{
                 my: 2,
                 color: "black",
-                fontWeight: "semibold",
+                fontWeight: "bold",
                 display: "block",
                 fontSize: 12
               }}
             >
               Why work with us
             </Button>
+<div className="flex-col ml-auto relative top-0">
+
 
             <div
               className={`relative flex bg-transparent border  ${selectedError || !isValidPostalCode
@@ -452,7 +451,7 @@ function Header() {
                     onSuggestionsClearRequested={() => setSuggestions([])}
                     getSuggestionValue={(suggestion) => suggestion.name}
                     renderSuggestion={(suggestion) => (
-                      <div className=" p-2 border-[.5px] border-gray-200 sm:text-xs text-gray-800 bg-white cursor-pointer">
+                      <div className=" p-2 border-[.5px] border-gray-200 cursor-pointer sm:text-xs text-gray-800 bg-white cursor-pointer">
                         {suggestion.name}
                       </div>
                     )}
@@ -481,7 +480,7 @@ function Header() {
                       </div>
                     )}
                     inputProps={{
-                      placeholder: 'Search for City',
+                      placeholder: 'City',
                       value: cityValue, // Changed to 'value'
                       onChange: (_, { newValue }) => setCityValue(newValue),
                       className: 'placeholder:text-[#696969] text-[#696969] font-normal bg-transparent sm:text-xs ml-2 h-full outline-none w-8 sm:w-48 ',
@@ -497,6 +496,11 @@ function Header() {
               >
                 <SearchIcon style={{ color: "#696969" }} />
               </div>
+            </div>
+
+
+{/* <h1 className="text-right text-sm text-red-500 ml-[-15px]">Enter a valid postal code </h1> */}
+
             </div>
 
             {user ? (
@@ -533,13 +537,13 @@ function Header() {
             ) : (
               <div className="gap-4 2xl:mr-5 mr-2 hidden z-[9999] md:flex ">
                 <p
-                  className="text-text text-sm font-medium  hover:font-[800] whitespace-nowrap w-10 cursor-pointer"
+                  className="text-text text-sm font-bold whitespace-nowrap w-10 cursor-pointer"
                   onClick={() => navigate.push("/login")}
                 >
                   Log In{" "}
                 </p>
                 <p
-                  className="text-text text-sm text- font-medium hover:font-[800] whitespace-nowrap  w-10 mr-4 cursor-pointer"
+                  className="text-text text-sm text- font-bold whitespace-nowrap  w-10 mr-4 cursor-pointer"
                   onClick={() => navigate.push("/signup")}
                 >
                   Sign up

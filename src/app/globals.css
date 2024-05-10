@@ -60,9 +60,9 @@ button.slick-arrow {
 
 button.btn-next,
 button.btn-prev {
-  background-color: #f7f9fb;
+  background-color: #D3D3D3;
   padding: 10px;
-  margin: 0 10px;
+  margin: 0 5px;
   transition: all 0.3s ease;
 }
 
@@ -70,7 +70,7 @@ button.btn-next:hover,
 button.btn-prev:hover {
   background-color: #119ded;
   padding: 10px;
-  margin: 0 10px;
+  margin: 0 5px;
 }
 
 button.btn-prev {

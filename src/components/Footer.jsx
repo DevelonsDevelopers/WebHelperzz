@@ -57,18 +57,21 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                   delivered to <br /> your inbox
                 </h2>
               </div>
-              <div className="header2_part2 text-center sm:pr-16 flex flex-col items-center justify-center w-auto">
+              <form className="header2_part2 text-center sm:pr-16 flex flex-col items-center justify-center w-auto">
                 <input
                   type="text"
+                  required
                   className="border-2 border-[#43D9BE] w-full md:w-96 p-3 mx-auto rounded-xl mb-6 md:mb-0"
                   placeholder="Email Address"
                 />
-                <button
+                <input 
+                type="submit"
+                value="SUBSCRIBE"
                   className="hover:bg-[#43D9BE] w-fit mt-3 sm:w-48 mx-auto hover:text-white transition-all cursor-pointer text-text text-base lg:text-xl justify-center border-2 border-[#43D9BE] px-4 py-2 rounded-2xl font-bold bg-[#fff] text-transform: uppercase"
-                >
-                  SUBSCRIBE
-                </button>
-              </div>
+               />
+                  
+                
+              </form>
             </div>
           </div>
         </section>
