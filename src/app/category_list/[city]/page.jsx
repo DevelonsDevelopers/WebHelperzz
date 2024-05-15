@@ -44,7 +44,7 @@ function CategoryList({params}) {
             </div>
 
             <div className="main-title mt-[6rem] ml-8 my-8 sm:ml-16">
-                <h1 className="text-[18px]">Helperzz / Brose All Categories</h1>
+                <h1 className="text-[18px]">Helperzz / Browse All Categories</h1>
             </div>
 
             <Search/>

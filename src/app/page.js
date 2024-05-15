@@ -670,7 +670,7 @@ Please provide a valid postal code (uppercase only)!
 
       {/* Section 4 */}
       <div className="costguides_main flex justify-center align-content-center">
-        <div className="container px-5 sm:py-6">
+        <div className=" px-5 sm:py-6">
           <div className="mb-8 flex justify-between items-center flex-wrap">
             <h1 className="heading_costguides pb-3">Popular Cost Guides</h1>
           </div>
@@ -708,7 +708,7 @@ Please provide a valid postal code (uppercase only)!
             {/* <h2 className="text-xl sm:text-3xl font-bold text-text sm:text-left text-center">
               Guides to help you grow{" "}
             </h2> */}
-            <Link href='/blog' className="text-[#276487] hover:text-primary font-[700] text-2xl hidden sm:block pr-16">
+            <Link href='/blog' className="text-black hover:underline font-[700] text-2xl hidden sm:block pr-16">
               See More
             </Link>
           </div>
