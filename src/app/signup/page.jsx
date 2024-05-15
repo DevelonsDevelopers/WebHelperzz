@@ -6,10 +6,18 @@ import authenticationService from "../../api/services/authenticationService";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { PatternFormat } from "react-number-format";
+import { IoEye } from "react-icons/io5";
+import { IoEyeOff } from "react-icons/io5";
+
+
 
 const Page = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [userAlreadyPresent, setUserAlreadyPresent] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(true);
+  const [userAlreadyPresent, setUserAlreadyPresent] = useState("");
+  const [verifyPassword , setVerifyPassword] = useState('')
+
   const [validInput, setValidInput] = useState({
     isPhoneEntered: true,
     isEmailValid: false,
@@ -41,6 +49,7 @@ const Page = () => {
     tempErrors[names.indexOf(e.target.name)] = false;
     setErrors(tempErrors);
     setRegisterData((data) => ({ ...data, [e.target.name]: e.target.value }));
+
     if (e.target.name === "phone") {
       setValidInput((prevState) => ({
         ...prevState,
@@ -61,7 +70,8 @@ const Page = () => {
     }
   };
 
-  // console.log('phone validation' , /^\d{10}$/.test(registerData?.phone))
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -72,53 +82,56 @@ const Page = () => {
     }
     setErrors(tempErrors);
 
-    if (registerData?.name?.length > 4) 
-    {
-      if ( /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(registerData?.email)) {
+    if (registerData?.name?.length > 2) {
+      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(registerData?.email)) {
         if (registerData?.address?.length > 3) {
-        if (/^\d{10}$/.test(registerData?.phone)) {
-            if(registerData?.password?.length > 5) {
+          if (/^\d{10}$/.test(registerData?.phone)) {
+            if (passwordRegex.test(registerData.password)) {
+              if (registerData?.password === verifyPassword) {
+              
+              if (!tempErrors.includes(true)) {
+                authenticationService
+                  .register(registerData)
+                  .then((response) => {
+                    navigate.push("/login");
+                    toast.success(response.message);
+                  })
+                  .catch((error) => {
+                    setUserAlreadyPresent(error?.message);
+                    toast.error(error.message);
+                    console.log("error", error);
+                    // setSubmitting(false)
+                  });
+              }
+              } else {
+                toast.error("Password not match");
+              }
 
-            
-            
-            if (!tempErrors.includes(true)) {
-              authenticationService
-                .register(registerData)
-                .then((response) => {
-                  navigate.push("/login");
-                  toast.success(response.message);
-                })
-                .catch((error) => {
-                  setUserAlreadyPresent(true);
-                  // setSubmitting(false)
-                });
+            } else {
+              toast.error("Enter a Strong password");
             }
-            }
-else {
-  toast.error('Enter Strong Password')
-}
-
           } else {
-            toast.error('Enter a valid Phone')
+            toast.error("Enter a valid Phone");
           }
         } else {
-          toast.error('Enter your Address')
+          toast.error("Enter your Address");
         }
       } else {
-        toast.error('Enter a valid email')
+        toast.error("Enter a valid email");
       }
     } else {
-      toast.error('Enter your Display name')
+      toast.error("Enter your Display name");
     }
-
   };
+
+  const [phone, setPhone] = useState("");
+  console.log("phone number ", userAlreadyPresent);
 
   return (
     <>
       <Header />
       <section className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-200 min-h-[100vh] ">
-
-        <div className="block rounded-lg bg-gray-100 shadow-lg ">
+        <div className="block rounded-lg bg-gray-100 w-[50%] max-md:w-[90%] shadow-lg ">
           <div className="flex flex-wrap">
             <div className="px-8 md:px-0 ">
               <div className="md:mx-6 md:p-12">
@@ -181,12 +194,19 @@ else {
                       <label className="text-left text-gray-700 font-bold mb-2">
                         Phone Number
                       </label>
-                      <input
-                        name={names[3]}
-                        type="number"
-                        onChange={(e) => handleChange(e)}
+
+                      <PatternFormat
+                        type="tel"
+                        format="+1 (###) ###-####"
+                        onValueChange={(value) =>
+                          setRegisterData((data) => ({
+                            ...data,
+                            phone: value.value,
+                          }))
+                        }
+                        required
                         className={`w-full border-[1px] bg-transparent px-4 py-2  outline-none ${
-                          errors[3] ? "border-red-500" : "border-gray-300"
+                          errors[0] ? "border-red-500" : "border-gray-300"
                         }`}
                         style={{
                           boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
@@ -194,28 +214,59 @@ else {
                       />
                     </div>
 
-                    <div className="mb-8">
+                    <div className="">
                       <label className="text-left text-gray-700 font-bold mb-2">
-                        Create Password
+                        Password
                       </label>
                       <div className="relative">
                         <input
                           name={names[4]}
-                          type={showPassword ? "text" : "password"}
+                          type={!showPassword ? "text" : "password"}
                           onChange={(e) => handleChange(e)}
                           className={`w-full border-[1px] bg-transparent px-4 py-2 outline-none ${
                             errors[4] ? "border-red-500" : "border-gray-300"
                           }`}
-                          placeholder="must be atleast 4 characters"
+                          
                           style={{
                             boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
                           }}
                         />
+                        {showPassword ? 
+                      <IoEye className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPassword(false)} />
+:
+  <IoEyeOff className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPassword(true)} />
+                      }
                       </div>
                     </div>
-                  </div>
 
-                  <div className="mb-4 pb-1 pt-1 text-center">
+                    <div className="">
+                      <label className="text-left text-gray-700 font-bold mb-2">
+                        Confirm Password
+                      </label>
+                      <div className="relative">
+                        <input
+                          name='confirm-password'
+                          type={!showPasswordConfirm ? "text" : "password"}
+                          onChange={(e) => setVerifyPassword(e.target.value)}
+                          className={`w-full border-[1px] bg-transparent px-4 py-2 outline-none border-gray-300`}
+
+                          style={{
+                            boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
+                          }}
+                        />
+  {showPasswordConfirm ? 
+                      <IoEye className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPasswordConfirm(false)} />
+:
+  <IoEyeOff className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPasswordConfirm(true)} />
+                      }
+
+                      </div>
+                    </div>
+
+                  </div>
+<p className="mb-8 text-sm text-gray-600 font-[400] mt-2">*Password must have at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character, and be 8 characters long.</p>
+
+                  <div className="mb-4 pb-1 pt-1 text-center mt-4">
                     <button
                       onClick={(e) => handleRegister(e)}
                       className="mb-3 py-3 inline-block w-full rounded px-6 font-bold text-base uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out hover:shadow-dark-2 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:shadow-dark-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"

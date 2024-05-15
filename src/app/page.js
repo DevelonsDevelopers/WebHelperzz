@@ -115,7 +115,7 @@ function Costgguides(props) {
       <div className="btn_guides">
         <p className="btn_text">{buttonText}</p>
       </div>
-      <p className="cost_text">{title}</p>
+      <p className="cost_text !w-[70%]">{title}</p>
     </div>
   );
 }
@@ -338,9 +338,9 @@ function Home() {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
           rows: 2,
-          slidesToScroll: 2,
+          slidesToScroll: 3,
         },
       },
     ],
@@ -521,19 +521,20 @@ console.log(blogs)
                   value={postalCode}
                   maxlength='7'
 
-                  onChange={(e) => handlePostalChange(e)}
+                  onChange={(e) => setPostalCode(e.target.value)}
                   className=" placeholder:text-[#696969]   font-semibold ml-2 h-full outline-none max-w-28"
                 />
               </div>
-              <div className="w-1/2">
-                <button
-                  onClick={(e) => handleSubmit(e)}
-                  className="bg-primary  cursor-pointer hover:bg-white hover:text-white transition-none w-full  text-white rounded-3xl ml-auto p-3 text-transform : uppercase font-bold px-4 text-sm sm:text-base"
-                >
-                  Get Quotes
-                </button>
-              </div>
-            </div>
+              
+               {/* <p
+        // onClick={handleSubmit}
+        className="bg-primary cursor-pointer hover:bg-white hover:text-white transition-none w-full text-white rounded-3xl ml-auto p-3 text-transform uppercase font-bold px-4 text-sm sm:text-base"
+      >
+        Get Quo
+      </p> */}
+
+      <button onClick={(e) => handleSubmit(e)} className="bg-[#3F9DED] p-3 rounded-3xl text-white w-full">Get Quotes </button>
+             </div>
           </div>
           <div className="mt-8 sm:flex bg-white min-h-9 items-center  rounded-[20px] shadow-md w-full hidden ">
             <div className="pl-4">
@@ -578,7 +579,7 @@ console.log(blogs)
               </p>
             )}
             {!isValidPostalCode && (
-              <p className="mt-2 ml-[19rem] text-sm text-red-600 dark:text-red-500">
+              <p className="mt-2 ml-[19rem] max-md:ml-0 text-sm text-red-600 dark:text-red-500">
 Please provide a valid postal code (uppercase only)!
               </p>
             )}
@@ -690,7 +691,7 @@ Please provide a valid postal code (uppercase only)!
               </div>
               {isMobile && (
                 <a
-                  className="guide_btn text-text mt-2 justify-center border px-4 py-3 rounded-2xl font-bold bg-[#fff] flex align-item-center  items-center mx-auto"
+                  className="guide_btn !border-[#119DED] text-text mt-2 max-md:w-[70%] justify-center border px-4 py-3 rounded-2xl font-bold bg-[#fff] flex align-item-center  items-center mx-auto"
                   href="#"
                 >
                   View All Guides
@@ -704,10 +705,10 @@ Please provide a valid postal code (uppercase only)!
       {/* Section 5 */}
       <section className="text-gray-600 body-font mx-auto justify-center align-content-center items-center">
         <div className="container px-5 sm:py-6 mx-auto justify-center align-content-center items-center">
-          <div className="mb-8 flex justify-between items-center flex-wrap">
-            {/* <h2 className="text-xl sm:text-3xl font-bold text-text sm:text-left text-center">
+          <div className="mb-8 flex justify-between max-md:flex-col items-center flex-wrap">
+            <h2 className="text-xl sm:text-3xl font-[500] text-black sm:text-left text-center max-md:mt-10">
               Guides to help you grow{" "}
-            </h2> */}
+            </h2>
             <Link href='/blog' className="text-black hover:underline font-[700] text-2xl hidden sm:block pr-16">
               See More
             </Link>
@@ -769,28 +770,28 @@ Please provide a valid postal code (uppercase only)!
         <div className="mx-auto flex flex-col justify-center lg:w-[75%] items-center ">
           <div className="flex w-[90%] mx-auto gap-5 lg:gap-10 lg:pl-20 sm:p-0 justify-start sm:justify-between mt-6 flex-col lg:flex-row ">
             <div className="flex items-center ">
-              <h2 className="text-5xl sm:text-[70px] font-medium">1</h2>
+              <h2 className="text-5xl sm:text-[70px] font-medium max-md:min-w-[40px]">1</h2>
               <div className="flex gap-1 flex-col ml-3">
                 <h5 className="fs-6 font-semibold">Create a job for free</h5>
-                <p>tell us what you need</p>
+                <p className="capitalize font-[450] text-gray-900">tell us what you need</p>
               </div>
             </div>
             <div className="flex items-center ">
-              <h2 className="text-5xl sm:text-[70px] font-medium">2</h2>
+              <h2 className="text-5xl sm:text-[70px] font-medium max-md:min-w-[40px]">2</h2>
               <div className="flex gap-1 flex-col ml-3">
                 <h5 className="fs-6 font-semibold">Get a quotee</h5>
-                <p>Tradespeople get in touch</p>
+                <p className="capitalize font-[450] text-gray-900">Tradespeople get in touch</p>
               </div>
             </div>
             <div className="flex items-center ">
-              <h2 className="text-5xl sm:text-[70px] font-medium">3</h2>
+              <h2 className="text-5xl sm:text-[70px] font-medium max-md:min-w-[40px]">3</h2>
               <div className="flex gap-1 flex-col ml-3">
                 <h5 className="fs-6 font-semibold">Rate and review</h5>
-                <p>Job done - leave feedback</p>
+                <p className="capitalize font-[450] text-gray-900">Job done - leave feedback</p>
               </div>
             </div>
           </div>
-          <a href='/create-project' class="text-text mt-6 cursor-pointer hover:bg-primary hover:text-white transition-none  w-full md:w-fit min-w-60 justify-center border px-5 py-2 rounded-2xl font-semibold bg-[#fff] inline-flex items-center mx-auto">
+          <a href='/create-project' className="text-text !border-[#119DED] mt-6 cursor-pointer hover:bg-primary hover:text-white transition-none  w-full md:w-fit min-w-60 justify-center border px-5 py-2 rounded-2xl font-semibold bg-[#fff] inline-flex items-center mx-auto">
             Create A Job For Free
           </a>
         </div>
@@ -847,13 +848,13 @@ Please provide a valid postal code (uppercase only)!
                                 <img
                                   alt="blog"
                                   src={`${IMAGE_PATH}${value.image}`}
-                                  class="h-16 sm:w-16 rounded-full flex-shrink-0 object-cover object-center"
+                                  class="h-16 w-16 max-md:w-20 rounded-full flex-shrink-0 object-cover object-center"
                                 />
                                 <span class="flex-grow flex flex-col pl-2  items-center">
                                   <span class="text-lg font-semibold text-gray-900 line-clamp-1 text-ellipsis">
                                     {value.company_name}
                                   </span>
-                                  <span class="font-normal text-sm text-gray-900">
+                                  <span class="font-normal text-sm text-gray-900 !text-left mr-auto">
                                     {value.category_name}
                                   </span>
                                 </span>
@@ -906,7 +907,7 @@ Please provide a valid postal code (uppercase only)!
               Got A Dream Project?
             </h2>
             <p className="text-white mt-3">WE CAN PROVIDE A QUICK ESTIMATE !</p>
-            <Link href='/create-project' className="text-text mt-6  min-w-60 justify-center border px-5 py-3 font-bold rounded-2xl bg-[#fff] hover:bg-primary hover:border-primary hover:text-white inline-flex items-center md:mb-2 mx-auto">
+            <Link href='/create-project' className="text-text mt-6 max-md:border-[#119DED] max-md:border-[2px] shadow-sm shadow-black/20 min-w-60 justify-center border px-5 py-3 font-bold rounded-2xl bg-[#fff] hover:bg-primary hover:border-primary hover:text-white inline-flex items-center md:mb-2 mx-auto">
               GET A FREE QUOTE
             </Link>
           </div>
@@ -987,7 +988,7 @@ Please provide a valid postal code (uppercase only)!
                 <PlayIcon />
               </div> */}
             </div>
-            <p className="text-base mt-4 px-10 font-normal mb-4">
+            <p className="text-base mt-4 px-10 max-md:pr-2 max-md:pl-2  font-normal mb-4">
               “As an employee, I also use Helperzz because I trust the service.”
             </p>
             <h4 className="px-10 text-lg font-bold px-4">
@@ -1004,10 +1005,10 @@ Please provide a valid postal code (uppercase only)!
 
       {/* Section 10 */}
       <div className="review_parent">
-        <center>
+     
           <h1 className="heading_costguides text-center">HELPERZZ</h1>
-          <h1 className="text-lg text-center">REVIEWS</h1>
-        </center>
+          <h1 className="text-lg text-center max-md:mr-auto max-md:ml-4 max-md:mt-4">REVIEWS</h1>
+        
         {reviewLoading ? (
           <Loading />
         ) : (

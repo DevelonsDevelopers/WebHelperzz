@@ -5,6 +5,8 @@ import authenticationService from "../../api/services/authenticationService";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { IoEye } from "react-icons/io5";
+import { IoEyeOff } from "react-icons/io5";
 
 const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -82,7 +84,7 @@ const Page = () => {
                   </p>
 
                  
-                  {error.auth && (
+                  {/* {error.auth && (
                     <div
                       className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
                       role="alert"
@@ -93,9 +95,9 @@ const Page = () => {
                         Invalid Email or Password
                       </span>
                     </div>
-                  )}
+                  )} */}
 
-                  {error.email && (
+                  {/* {error.email && (
                     <div
                       className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
                       role="alert"
@@ -106,8 +108,8 @@ const Page = () => {
                         Please enter a valid email.
                       </span>
                     </div>
-                  )}
-                  {error.password && (
+                  )} */}
+                  {/* {error.password && (
                     <div
                       className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
                       role="alert"
@@ -118,7 +120,7 @@ const Page = () => {
                         Please enter your password.
                       </span>
                     </div>
-                  )}
+                  )} */}
 
                   <div className="mb-4">
                     <label className="text-left text-gray-700 font-bold mb-2">
@@ -128,12 +130,15 @@ const Page = () => {
                       type="email"
                       name="email"
                       onChange={(e) => handleChange(e)}
-                      className="w-full border-[1px] border-gray-300 bg-transparent px-4 py-2  outline-none "
+                      className={`w-full border-[1px] border-gray-300 bg-transparent px-4 py-2  outline-none ${error.email ? 'border-red-500' :''} `}
                       style={{
                         boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
                       }}
                     />
                   </div>
+                    {error.email && (
+                      <p className="text-red-600 -mt-4">Enter a valid email</p>
+                    )}
 
                   <div className="mb-4 my-6">
                     <label className="text-left text-gray-700 font-bold mb-2">
@@ -143,14 +148,24 @@ const Page = () => {
                       type={showPassword ? "text" : "password"}
                       name="password"
                       onChange={(e) => handleChange(e)}
-                      className="w-full border-[1px] border-gray-300 bg-transparent px-4 py-2  outline-none "
+                      className={`w-full border-[1px] border-gray-300 bg-transparent px-4 py-2  outline-none ${error.password ? 'border-red-500' : ''}`}
                       style={{
                         boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
                       }}
                     />
-                  </div>
+   {showPassword ? 
+                      <IoEye className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPassword(false)} />
+:
+  <IoEyeOff className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPassword(true)} />
+                      }
 
-                  <div className="mb-4 pb-1 pt-1 text-center">
+                  </div>
+                  {error.password && (
+                      <p className="text-red-600 -mt-4 ">Enter your password</p>
+                    )}
+
+
+                  <div className="mb-4 pb-1 pt-1 text-center mt-2">
                     <button
                       onClick={(e) => handleLogin(e)}
                       className="mb-3 py-3 inline-block w-full rounded px-6 font-bold text-base uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out hover:shadow-dark-2 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:shadow-dark-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"

@@ -23,7 +23,7 @@ export default function JoinSuccess() {
               We are Reviewing your contract. We will get back to you once your contract is approved.
             </div>
             <div className="mt-3 md:mt-5 flex justify-center text-center">
-              <Link href='/blog' class=" hover:bg-[#12937C]  bg-[#12936C] transition-all cursor-pointer text-white   text-sm md:text-lg justify-center rounded-md px-5  py-3  font-bold text-transform: uppercase">
+              <Link href='/' class=" hover:bg-[#12937C]  bg-[#12936C] transition-all cursor-pointer text-white   text-sm md:text-lg justify-center rounded-md px-5  py-3  font-bold text-transform: uppercase">
                 Browse More
               </Link>
             </div>
