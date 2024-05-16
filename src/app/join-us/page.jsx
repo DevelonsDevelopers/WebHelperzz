@@ -12,7 +12,7 @@ import contractorService from "@/api/services/contractorService";
 import uploadService from "@/api/services/uploadService";
 import {useRouter} from "next/navigation";
 import emailService from "@/api/services/emailService";
-import {PatternFormat} from "react-number-format";
+import { PatternFormat } from "react-number-format";
 
 
 const schema = object({
@@ -35,11 +35,12 @@ const Page = ({params}) => {
     const navigate = useRouter();
 
     const [sendEmail, setSendEmail] = useState('')
-    const [sendName, setSendName] = useState('')
     const [categories, setCategories] = useState([]);
     const [certificateDone, setCertificateDone] = useState(false)
     const [licenseDone, setLicenseDone] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+
+    const [phoneNumber , setPhoneNumber] = useState('')
     const [contractorData, setContractorData] = useState({
         name: "",
         email: "",
@@ -67,9 +68,9 @@ const Page = ({params}) => {
     })
 
     useEffect(() => {
-        if (certificateDone && licenseDone) {
+        if (certificateDone && licenseDone){
             setSubmitting(false)
-            emailService.contractorJoin({email: sendEmail, name: sendName}).then(res => {
+            emailService.contractorJoin({ email: sendEmail }).then(res => {
                 console.log(res)
             })
             navigate.push('/join-us/success')
@@ -100,11 +101,10 @@ const Page = ({params}) => {
         let contractorD = {...contractorData}
         contractorD.name = data.firstname + " " + data.lastname
         contractorD.email = data.email
-        contractorD.phone = data.phone_number
+        contractorD.phone = phoneNumber
         contractorD.address = data.address
         setSubmitting(true)
         setSendEmail(data.email)
-        setSendName(data.name)
         uploadService.single(data.logo[0]).then((file) => {
             contractorD.image = file.fileName
             contractorService.create(contractorD).then(response => {
@@ -182,8 +182,7 @@ const Page = ({params}) => {
                             <div className='flex flex-col lg:flex-row gap-4 w-full'>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Professional/Company Name</label>
-                                    <input type='text' required
-                                           className='border-2 w-full p-2' {...register("businessname")}
+                                    <input type='text' required className='border-2 w-full p-2' {...register("businessname")}
                                            placeholder='Your Business Name'/>
                                     {errors.businessname && (
                                         <span className="text-sm text-red-500">
@@ -218,8 +217,8 @@ const Page = ({params}) => {
                                 </div>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Last Name</label>
-                                    <input required type='text' className='border-2 w-full p-2'
-                                           placeholder='Last Name' {...register("lastname")}/>
+                                    <input  required type='text' className='border-2 w-full p-2'
+                                            placeholder='Last Name' {...register("lastname")}/>
                                     {errors.lastname && (
                                         <span className="text-sm text-red-500">
                       {errors.lastname.message}
@@ -244,10 +243,7 @@ const Page = ({params}) => {
                                     <PatternFormat
                                         type="tel"
                                         format="+1 (###) ###-####"
-                                        onValueChange={(value) => setContractorData({
-                                            ...contractorData,
-                                            phone: value.value
-                                        })}
+                                        onValueChange={(value) => setPhoneNumber(value.value) }
                                         placeholder="Phone Number"
                                         className='border-2 w-full p-2'
                                         required
@@ -256,6 +252,11 @@ const Page = ({params}) => {
                                     {/* <input required type='number' className='border-2 w-full p-2'
                                            placeholder='Phone Number' {...register("phone_number")}/> */}
 
+                                    {errors.phone_number && (
+                                        <span className="text-sm text-red-500">
+                      {errors.phone_number.message}
+                    </span>
+                                    )}
 
                                 </div>
                             </div>
@@ -272,8 +273,7 @@ const Page = ({params}) => {
                                 </div>
                                 <div className='flex-initial flex flex-col'>
                                     <label className='font-bold text-sm'>Postal Code</label>
-                                    <input required type='text'
-                                           className='border-2 w-full p-2' {...register("postal_code")}
+                                    <input required type='text' className='border-2 w-full p-2' {...register("postal_code")}
                                            placeholder='Postal Code'/>
                                     {errors.postal_code && (
                                         <span className="text-sm text-red-500">
@@ -298,7 +298,7 @@ const Page = ({params}) => {
                                                     <img
                                                         key={i}
                                                         src={URL.createObjectURL(license)}
-                                                        alt={`Uploaded Logo`}
+                                                        alt={Uploaded Logo}
                                                         className="w-20 object-cover mr-2"
                                                     />
                                                 ))
@@ -361,7 +361,7 @@ const Page = ({params}) => {
                                         <div className="flex flex-wrap py-3">
                                             <img
                                                 src={URL.createObjectURL(logo[0])}
-                                                alt={`Uploaded Logo`}
+                                                alt={Uploaded Logo}
                                                 className="w-20 object-cover mr-2"
                                             />
                                         </div> :
@@ -402,7 +402,7 @@ const Page = ({params}) => {
                                         onChange={(e) => setValue('logo', e.target.files)}
                                     />
                                 </div>
-                                {errors.logo && !logo?.length && (
+                                {errors.logo &&  !logo?.length && (
                                     <span className="text-sm text-red-500">
                     {errors.logo.message}
                   </span>
@@ -423,7 +423,7 @@ const Page = ({params}) => {
                                         <div className="flex flex-wrap py-3">
                                             <img
                                                 src={URL.createObjectURL(certificate[0])}
-                                                alt={`Uploaded Logo`}
+                                                alt={Uploaded Logo}
                                                 className="w-20 object-cover mr-2"
                                             />
                                         </div> :
@@ -464,7 +464,7 @@ const Page = ({params}) => {
                                         onChange={(e) => setValue('certificate', e.target.files)}
                                     />
                                 </div>
-                                {errors.certificate && !certificate?.length && (
+                                {errors.certificate && !certificate?.length &&  (
                                     <span className="text-sm text-red-500">
                     {errors.certificate.message}
                   </span>
@@ -473,12 +473,10 @@ const Page = ({params}) => {
                             {submitting ?
                                 <button type="submit" onClick={(e) => e.preventDefault()}
                                         className="py-5 bg-[#27A9E1] font-bold text-sm text-white">
-                                    <div
-                                        className="animate-spin rounded-full h-4 w-4 border-t-2 border-white mx-auto"></div>
+                                    <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-white mx-auto"></div>
                                 </button>
                                 :
-                                <button type='submit'
-                                        className="py-5 bg-[#27A9E1] font-bold text-sm text-white">REGISTER
+                                <button type='submit' className="py-5 bg-[#27A9E1] font-bold text-sm text-white">REGISTER
                                     NOW!
                                 </button>
                             }
