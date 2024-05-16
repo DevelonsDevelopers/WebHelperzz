@@ -106,7 +106,7 @@ const Page = ({params}) => {
         contractorD.address = data.address
         setSubmitting(true)
         setSendEmail(data.email)
-        setSendName(data.name)
+        setSendName(data.firstname + " " + data.lastname)
         uploadService.single(data.logo[0]).then((file) => {
             contractorD.image = file.fileName
             contractorService.create(contractorD).then(response => {
