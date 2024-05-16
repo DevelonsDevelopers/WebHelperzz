@@ -61,6 +61,8 @@ const Page = () => {
       })
       .catch((error) => {
         setError((prevError) => ({ ...prevError, auth: true }));
+        toast.error(error.error.message);
+        console.log('errror' , error.error.message)
       });
   };
 

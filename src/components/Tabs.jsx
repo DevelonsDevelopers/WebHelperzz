@@ -836,7 +836,7 @@ console.log('details ' , details)
                       onClick={handlePhotoButtonClick}
                       className="hover:bg-secondary hover:text-white transition-all cursor-pointer text-text w-[300px]  text-base lg:text-xl justify-center border border-secondary px-5 py-4 rounded-2xl font-bold bg-[#fff] text-transform: uppercase"
                     >
-                      See All Photos
+                      See All Reviews
                     </a>
                   </div>
                 </div>
@@ -973,7 +973,7 @@ console.log('details ' , details)
                           WRITE A REVIEW
                         </button>
                       </div>
-                      <div className=" ">
+                      <div className="mt-8 ">
                         <div className=" p-5 bg-white px-4 rounded-md mb-5">
                           <div className="flex ">
                             <Image
@@ -1316,7 +1316,7 @@ console.log('details ' , details)
                           WRITE A REVIEW
                         </button>
                       </div>
-                      <div className=" ">
+                      <div className="mt-8">
                         <div className=" p-5 bg-white px-4 rounded-md mb-5">
                           <div className="flex ">
                             <Image
