@@ -21,17 +21,23 @@ const Page = ({ params }) => {
     const [confirmPassword, setConfirmPassword] = useState("")
 
     const newPassword = () => {
-        if (password === confirmPassword){
-            customerService.updatePassword({ token: params.token, password: password }).then(response => {
-                console.log(response)
-                if (response.success){
-                    navigation.push('/success-page/passowrd-change')
-                }
-            }).catch(err => {
-
-            })
-        } else {
-            toast.error('password not match');
+        if(password?.length > 0) {
+            if (password === confirmPassword){
+                customerService.updatePassword({ token: params.token, password: password }).then(response => {
+                    console.log(response)
+                    if (response.success){
+                        navigation.push('/success-page/passowrd-change')
+                    }
+                }).catch(err => {
+    
+                })
+            }
+            else {
+               toast.error('password not match');
+           }
+        }
+         else {
+            toast.error('Enter new password');
         }
     }
 
@@ -60,6 +66,7 @@ const Page = ({ params }) => {
                                         <input
                                             type={visible ? 'text' : 'password'}
                                             name="passowrd"
+                                            required
                                             onChange={(e) => setPassword(e.target.value)}
                                             className="w-full border-[1px] border-gray-300 bg-transparent px-4 py-2  outline-none "
                                             style={{
@@ -82,6 +89,7 @@ const Page = ({ params }) => {
                                         <input
                                             type={confirmPasswordVisible ? 'text' : 'password'}
                                             name="passowrd"
+                                            required
                                             onChange={(e) => setConfirmPassword(e.target.value)}
                                             className="w-full border-[1px] border-gray-300 bg-transparent px-4 py-2  outline-none "
                                             style={{
