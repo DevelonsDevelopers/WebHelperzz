@@ -210,6 +210,13 @@ export default function Tabs({ id, details }) {
     }
   }, [details]);
 
+
+  useEffect(() => {
+    if(details?.reviews?.length === 0) {
+      setGivenRating(0)
+    }
+  },[details])
+
   const handleReviewButtonClick = () => {
     setValue("4");
   };
@@ -501,13 +508,13 @@ console.log('details ' , details)
                         {details?.details?.address}
                       </h5>
                       <div className="flex gap-2 items-center text-text md:text-md text-sm">
-                        {details?.reviews?.length > 0 ? (
+                     
                           <>
                             <StarIcon color={"#12937C"} />{" "}
-                            <span>{`${givenRating } / 5`}</span>{" "}
+                            <span>{`${givenRating ? givenRating : 0 } / 5`}</span>{" "}
                             <span className="text-[#444444]">{`(${details.reviews.length} Reviews)`}</span>
                           </>
-                        ) : null}
+                       
                       </div>
                     </div>
                   </div>
@@ -652,7 +659,7 @@ console.log('details ' , details)
                     </h2>
                     <div className="flex gap-2 items-center text-text">
                       <StarIcon color={"#12937C"} />{" "}
-                      <span>{`${givenRating } / 5`}</span>{" "}
+                      <span>{`${givenRating ? givenRating : 0 } / 5`}</span>{" "}
                     </div>
                     <span className="text-[#444444] mt-2 block">
                       {`(${details?.reviews?.length} Reviews)`}
@@ -794,8 +801,14 @@ console.log('details ' , details)
                       </button>
                     ))}
                   </div>
-                  <h2 className="text-2xl md:text-[28px] font-semibold md:mb-5 mb-2 text-text" >
-                    10 Photos
+
+                  <h2 className="text-2xl md:text-[28px] font-semibold md:mb-5 mb-2 text-text flex gap-2" >
+                  {details?.projects?.map((project, index) => (
+  <div key={index}>
+ {project.images.length}
+  </div>
+))}
+ Photos
                   </h2>
                   <p className="font-medium text-[#666666] md:text-base text-sm">
                     Filtered results based on the selected room categories{" "}
@@ -1066,7 +1079,7 @@ console.log('details ' , details)
                       </h5>
                       <div className="flex gap-2 items-center text-text md:text-md text-sm">
                         <StarIcon color={"#12937C"} />{" "}
-                        <span>{`${givenRating } / 5`}</span>{" "}
+                        <span>{`${givenRating ? givenRating : 0 } / 5`}</span>{" "}
                         <span className="text-[#444444]">{`(${details?.reviews?.length} Reviews)`}</span>
                       </div>
                     </div>
@@ -1112,13 +1125,13 @@ console.log('details ' , details)
                             Star Score
                           </h2>
                           <div className="flex gap-2 items-center text-text md:text-md text-sm">
-                            {details?.reviews?.length > 0 ? (
+                          
                               <>
                                 <StarIcon color={"#12937C"} />{" "}
-                                <span>{`${givenRating } / 5`}</span>{" "}
+                                <span>{`${givenRating ? givenRating : 0 } / 5`}</span>{" "}
                                 <span className="text-[#444444]">{`(${details.reviews.length} Reviews)`}</span>
                               </>
-                            ) : null}
+                         
                           </div>
                           <span className="text-[#444444] mt-2 block">
                             {`(${details?.reviews?.length} Reviews)`}

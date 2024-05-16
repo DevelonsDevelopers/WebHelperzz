@@ -97,6 +97,14 @@ const contractorService = {
             throw error.response.data
         }
     } ,
+    checkContractor: async (payload) => {
+        try {
+            const response = await axiosInstance.post('/contractors/check', payload)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    } ,
   
 
 }

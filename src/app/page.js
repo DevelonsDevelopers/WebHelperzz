@@ -586,7 +586,7 @@ Please provide a valid postal code (uppercase only)!
           </div>
 
         </div>
-          <div className=" flex gap-2 items-center flex-col sm:flex-row sm:pb-0 !w-[100%] mt-6 justify-center  max-md:pb-80 max-w-[1300px] ml-auto"> 
+          <div className=" flex gap-2 items-center flex-col sm:flex-row sm:pb-0  mt-6 justify-center  max-md:pb-80 max-w-[60%] max-md:w-[100%] max-md:ml-0 ml-[17%] "> 
             <h5 className="font-bold text-xl min-w-[110px] ">Hire a pro:</h5>
             <div className="flex flex-wrap gap-3 max-md:m-auto max-md:w-[90%] ">
             {bannerCategories?.map((value, index) => (

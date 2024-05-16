@@ -13,6 +13,7 @@ import uploadService from "@/api/services/uploadService";
 import {useRouter} from "next/navigation";
 import emailService from "@/api/services/emailService";
 import { PatternFormat } from "react-number-format";
+import toast from "react-hot-toast";
 
 
 const schema = object({
@@ -33,6 +34,7 @@ const schema = object({
 const Page = ({params}) => {
 
     const navigate = useRouter();
+    const [company , setCompany] = useState('')
 
     const [sendEmail, setSendEmail] = useState('')
     const [sendName, setSendName] = useState('')
@@ -82,6 +84,8 @@ const Page = ({params}) => {
     const certificateRef = useRef(null);
     const licensesRef = useRef(null);
 
+    // console.log('email ' , sendEmail , company )
+
     const {
         setValue,
         register,
@@ -115,30 +119,48 @@ const Page = ({params}) => {
                 contractorDetails.address = data.address
                 contractorDetails.postal_code = data.postal_code
                 contractorDetails.company_name = data.businessname
+                setCompany(data.businessname)
                 contractorDetails.category = data.category
-                contractorService.createDetails(contractorDetails).then(response => {
-                    console.log(response)
-                })
-                for (let i = 0; i < data.licenses.length; i++) {
-                    uploadService.single(data.licenses[i]).then((file) => {
-                        const docData = {contractor: response.contractor.id, title: "License", file: file.fileName};
-                        contractorService.createDocument(docData).then((docResponse) => {
-                            if (i === data.licenses.length - 1) {
-                                setLicenseDone(true)
-                            }
-                        });
-                    });
+                
+if(data.businessname && data.email) {
+    contractorService.checkContractor({email :data.email , company :data.businessname}).then((res) => { 
+
+if(res.responseCode === 407){
+    contractorService.createDetails(contractorDetails).then(response => {
+        console.log(response)
+    })
+    for (let i = 0; i < data.licenses.length; i++) {
+        uploadService.single(data.licenses[i]).then((file) => {
+            const docData = {contractor: response.contractor.id, title: "License", file: file.fileName};
+            contractorService.createDocument(docData).then((docResponse) => {
+                if (i === data.licenses.length - 1) {
+                    setLicenseDone(true)
                 }
-                uploadService.single(data.certificate[0]).then((file) => {
-                    const data = {
-                        contractor: response.contractor.id,
-                        title: "Incorporate Certificate",
-                        file: file.fileName
-                    };
-                    contractorService.createDocument(data).then((docResponse) => {
-                        setCertificateDone(true)
-                    });
-                });
+            });
+        });
+    }
+    uploadService.single(data.certificate[0]).then((file) => {
+        const data = {
+            contractor: response.contractor.id,
+            title: "Incorporate Certificate",
+            file: file.fileName
+        };
+        contractorService.createDocument(data).then((docResponse) => {
+            setCertificateDone(true)
+        });
+    });
+
+} 
+else {
+    toast.error(res?.message)
+    setSubmitting(false)
+}
+
+    })   
+} else {
+    console.log('no require data entered ' , data.businessname , data.email)
+}
+                
             }).catch(err => {
 
             })
@@ -161,7 +183,7 @@ const Page = ({params}) => {
 
     useEffect(() => {
         getCategories();
-    });
+    },[]);
 
 
     return (
