@@ -20,7 +20,7 @@ const schema = object({
     firstname: string().required().label('First Name'),
     lastname: string().required().label('Last Name'),
     email: string().email().required().label('Email'),
-    phone_number: string().min(10, 'Invalid Phone Number').label('Phone Number').required(),
+    // phone_number: string().min(10, 'Invalid Phone Number').label('Phone Number').required(),
     address: string().label('Address').required(),
     licenses: mixed().test('fileCount', 'Only six files are allowed', (value) => {
         return value.length <= 6;
@@ -39,6 +39,8 @@ const Page = ({params}) => {
     const [certificateDone, setCertificateDone] = useState(false)
     const [licenseDone, setLicenseDone] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+
+    const [phoneNumber , setPhoneNumber] = useState('')
     const [contractorData, setContractorData] = useState({
         name: "",
         email: "",
@@ -99,7 +101,7 @@ const Page = ({params}) => {
         let contractorD = {...contractorData}
         contractorD.name = data.firstname + " " + data.lastname
         contractorD.email = data.email
-        contractorD.phone = data.phone_number
+        contractorD.phone = phoneNumber
         contractorD.address = data.address
         setSubmitting(true)
         setSendEmail(data.email)
@@ -241,7 +243,7 @@ const Page = ({params}) => {
                                     <PatternFormat
                         type="tel"
                         format="+1 (###) ###-####"
-                        onValueChange={(value) => setContractorData({ ... contractorData , phone: value.value}) }
+                        onValueChange={(value) => setPhoneNumber(value.value) }
                          placeholder="Phone Number"
                         className='border-2 w-full p-2'
                         required
@@ -250,7 +252,11 @@ const Page = ({params}) => {
                                     {/* <input required type='number' className='border-2 w-full p-2'
                                            placeholder='Phone Number' {...register("phone_number")}/> */}
 
-
+{errors.phone_number && (
+                                        <span className="text-sm text-red-500">
+                      {errors.phone_number.message}
+                    </span>
+                                    )}
                                    
                                 </div>
                             </div>
