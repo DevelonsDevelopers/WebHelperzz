@@ -13,6 +13,13 @@ const tabs = [{name: 'For Service Pros'}, {name: 'For HomeOwners'}]
 const Page = () => {
 
     const [selected, setSelected] = useState(0)
+    const [contactData, setContactData] = useState({
+
+    })
+
+    const handleSubmit = () => {
+
+    }
 
     return (
         <div className="">
@@ -30,18 +37,6 @@ const Page = () => {
 
                 </div>
             </div>
-
-            {/* <div className="bg-[#12937C1A]  mx-auto justify-center items-center pt-[10rem]">
-          <div className="flex justify-center lg:w-[1100px] w-screen m-auto mt-6 p-4 gap-10">
-            {tabs.map((value, index) => (
-                <h1  onClick={() => setSelected(index)} className={` font-[500] text-[1.1rem] text-center p-[8px] rounded-xl cursor-pointer ${ selected === index ? "bg-white text-[#12937C]" : ""}  `}
-                     >
-              {value.name}
-            </h1>
-            ) )}
-
-          </div>
-        </div> */}
 
             <div className="flex max-md:flex-col max-w-[800px] my-10 max-md:w-[90%] m-auto ">
                 <div className="flex-col ">
@@ -61,23 +56,12 @@ const Page = () => {
                         <h1 className="text-center text-lg text-gray-600 font-[400] ">
                             Get in touch with us anytime, we're always here to help!
                         </h1>
-                        {/* <div className="flex items-center justify-evenly mt-4">
-
-<div className="flex items-center gap-2">
-<IoIosCall className='text-[#3FA9E3] ' size={28}  />
-<h1 className="text-[1.3rem] max-md:text-[.7rem] text-gray-800 font-[500] hover:text-[#3FA9E3] cursor-pointer">1-885-6457-4578</h1>
-    </div>
-<div className="flex gap-2 items-center">
-<MdFolderCopy className='text-[#3FA9E3] ' size={28} />
-<h1 className="text-[1.3rem] max-md:text-[.7rem] text-gray-800 font-[500] hover:text-[#3FA9E3] cursor-pointer">Service Pro FAQ</h1>
-    </div>
-    </div> */}
 
                         <h1 className="text-gray-700 text-[14px] my-4 text-center font-[500]">Fill out the form below to
                             send us a message: </h1>
 
 
-                        <form className="mt-4">
+                        <form className="mt-4" onSubmit={handleSubmit}>
                             <div className="flex gap-2 max-md:flex-col">
                                 <input type="text" required
                                        className="py-2 w-full border-[1px] border-gray-300 text-sm rounded-sm px-6 text-gray-600 focus:outline-none"
@@ -133,12 +117,6 @@ const Page = () => {
                         <h1 className="text-center text-lg text-gray-600 font-[500] ">
                             Get in touch with us anytime, we're always here to help!
                         </h1>
-                        {/* <div className="flex items-center justify-evenly mt-4">
-    <div className="flex gap-2">
-    <MdFolderCopy className='text-[#3FA9E3] ' size={28} />
-    <h1 className="text-[1.3rem] text-gray-800 font-[500] hover:text-[#3FA9E3] cursor-pointer">Service Pro FAQ</h1>
-        </div>
-        </div> */}
                         <h1 className="text-gray-700 text-[14px] my-4 text-center font-[500]">Fill out the form below to
                             send us a message: </h1>
 
@@ -154,7 +132,7 @@ const Page = () => {
                             <input type="email" required
                                    className="py-2 w-full border-[1px] border-gray-300 text-sm rounded-sm px-6 text-gray-600 focus:outline-none mt-2"
                                    placeholder="Email *"/>
-                            <textarea type="email" required
+                            <textarea required
                                       className="py-2 w-full border-[1px] border-gray-300 text-sm rounded-sm px-6 text-gray-600 focus:outline-none mt-2"
                                       placeholder="Message *"/>
                             <input type="submit" value="Send Message"
