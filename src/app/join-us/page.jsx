@@ -298,7 +298,7 @@ const Page = ({params}) => {
                                                     <img
                                                         key={i}
                                                         src={URL.createObjectURL(license)}
-                                                        alt={Uploaded Logo}
+                                                        alt={"Uploaded Logo"}
                                                         className="w-20 object-cover mr-2"
                                                     />
                                                 ))
@@ -361,7 +361,7 @@ const Page = ({params}) => {
                                         <div className="flex flex-wrap py-3">
                                             <img
                                                 src={URL.createObjectURL(logo[0])}
-                                                alt={Uploaded Logo}
+                                                alt={"Uploaded Logo"}
                                                 className="w-20 object-cover mr-2"
                                             />
                                         </div> :
@@ -423,7 +423,7 @@ const Page = ({params}) => {
                                         <div className="flex flex-wrap py-3">
                                             <img
                                                 src={URL.createObjectURL(certificate[0])}
-                                                alt={Uploaded Logo}
+                                                alt={"Uploaded Logo"}
                                                 className="w-20 object-cover mr-2"
                                             />
                                         </div> :
