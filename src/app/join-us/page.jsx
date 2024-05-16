@@ -35,6 +35,7 @@ const Page = ({params}) => {
     const navigate = useRouter();
 
     const [sendEmail, setSendEmail] = useState('')
+    const [sendName, setSendName] = useState('')
     const [categories, setCategories] = useState([]);
     const [certificateDone, setCertificateDone] = useState(false)
     const [licenseDone, setLicenseDone] = useState(false)
@@ -70,7 +71,7 @@ const Page = ({params}) => {
     useEffect(() => {
         if (certificateDone && licenseDone){
             setSubmitting(false)
-            emailService.contractorJoin({ email: sendEmail }).then(res => {
+            emailService.contractorJoin({ email: sendEmail, name: sendName }).then(res => {
                 console.log(res)
             })
             navigate.push('/join-us/success')
@@ -105,6 +106,7 @@ const Page = ({params}) => {
         contractorD.address = data.address
         setSubmitting(true)
         setSendEmail(data.email)
+        setSendName(data.name)
         uploadService.single(data.logo[0]).then((file) => {
             contractorD.image = file.fileName
             contractorService.create(contractorD).then(response => {
