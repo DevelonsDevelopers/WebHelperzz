@@ -2,6 +2,7 @@
 
 import React, {useState, useEffect} from "react";
 import Header from "../../components/Header";
+import {Footer} from "../../components/Footer";
 import {useRouter} from "next/navigation";
 import contractorService from "@/api/services/contractorService";
 import uploadService from "@/api/services/uploadService";
@@ -89,6 +90,7 @@ const Page = () => {
                     </div>
                 </div>
             </div>
+            <Footer  showNewsLetter={false}   postProject={false}/>
         </div>
     )
 }

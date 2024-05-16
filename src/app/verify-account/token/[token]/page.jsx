@@ -55,7 +55,7 @@ const Page = ({params}) => {
                                             onClick={() => navigate.push("/")}
 
                                         >
-                                            Continue
+                                           Got to Home page
                                         </Button>
                                     </center>
 

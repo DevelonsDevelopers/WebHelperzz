@@ -12,6 +12,8 @@ import contractorService from "@/api/services/contractorService";
 import uploadService from "@/api/services/uploadService";
 import {useRouter} from "next/navigation";
 import emailService from "@/api/services/emailService";
+import { PatternFormat } from "react-number-format";
+
 
 const schema = object({
     businessname: string().required().label('Business Name'),
@@ -87,11 +89,13 @@ const Page = ({params}) => {
     } = useForm({
         resolver: yupResolver(schema),
     });
+
     const logo = watch('logo');
     const certificate = watch('certificate')
     const licenses = watch('licenses')
 
     const onSubmit = (data) => {
+        console.log('clicked')
         let contractorD = {...contractorData}
         contractorD.name = data.firstname + " " + data.lastname
         contractorD.email = data.email
@@ -155,6 +159,7 @@ const Page = ({params}) => {
         getCategories();
     });
 
+
     return (
         <>
             <Header/>
@@ -175,7 +180,7 @@ const Page = ({params}) => {
                             <div className='flex flex-col lg:flex-row gap-4 w-full'>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Professional/Company Name</label>
-                                    <input type='text' className='border-2 w-full p-2' {...register("businessname")}
+                                    <input type='text' required className='border-2 w-full p-2' {...register("businessname")}
                                            placeholder='Your Business Name'/>
                                     {errors.businessname && (
                                         <span className="text-sm text-red-500">
@@ -186,6 +191,7 @@ const Page = ({params}) => {
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Category</label>
                                     <select
+                                    required
                                         className='bg-white text-gray-400 border-2 w-full p-2' {...register("category")}>
                                         <option value="">Select Category</option>
                                         {
@@ -199,7 +205,7 @@ const Page = ({params}) => {
                             <div className='flex flex-col lg:flex-row gap-4 w-full'>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>First Name</label>
-                                    <input type='text' className='border-2 w-full p-2'
+                                    <input required type='text' className='border-2 w-full p-2'
                                            placeholder='First Name' {...register("firstname")}/>
                                     {errors.firstname && (
                                         <span className="text-sm text-red-500">
@@ -209,7 +215,7 @@ const Page = ({params}) => {
                                 </div>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Last Name</label>
-                                    <input type='text' className='border-2 w-full p-2'
+                                    <input  required type='text' className='border-2 w-full p-2'
                                            placeholder='Last Name' {...register("lastname")}/>
                                     {errors.lastname && (
                                         <span className="text-sm text-red-500">
@@ -221,7 +227,7 @@ const Page = ({params}) => {
                             <div className='flex flex-col lg:flex-row gap-4 w-full'>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Email</label>
-                                    <input type='text' className='border-2 w-full p-2'
+                                    <input required type='text' className='border-2 w-full p-2'
                                            placeholder='Email Address' {...register("email")}/>
                                     {errors.email && (
                                         <span className="text-sm text-red-500">
@@ -231,19 +237,27 @@ const Page = ({params}) => {
                                 </div>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Phone Number</label>
-                                    <input type='number' className='border-2 w-full p-2'
-                                           placeholder='Phone Number' {...register("phone_number")}/>
-                                    {errors.phone_number && (
-                                        <span className="text-sm text-red-500">
-                      {errors.phone_number.message}
-                    </span>
-                                    )}
+
+                                    <PatternFormat
+                        type="tel"
+                        format="+1 (###) ###-####"
+                        onValueChange={(value) => setContractorData({ ... contractorData , phone: value.value}) }
+                         placeholder="Phone Number"
+                        className='border-2 w-full p-2'
+                        required
+                        />
+
+                                    {/* <input required type='number' className='border-2 w-full p-2'
+                                           placeholder='Phone Number' {...register("phone_number")}/> */}
+
+
+                                   
                                 </div>
                             </div>
                             <div className='flex gap-4'>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Address</label>
-                                    <input type='text' className='border-2 w-full p-2' {...register("address")}
+                                    <input required type='text' className='border-2 w-full p-2' {...register("address")}
                                            placeholder='Address'/>
                                     {errors.address && (
                                         <span className="text-sm text-red-500">
@@ -253,7 +267,7 @@ const Page = ({params}) => {
                                 </div>
                                 <div className='flex-initial flex flex-col'>
                                     <label className='font-bold text-sm'>Postal Code</label>
-                                    <input type='text' className='border-2 w-full p-2' {...register("postal_code")}
+                                    <input required type='text' className='border-2 w-full p-2' {...register("postal_code")}
                                            placeholder='Postal Code'/>
                                     {errors.postal_code && (
                                         <span className="text-sm text-red-500">
@@ -322,11 +336,9 @@ const Page = ({params}) => {
                                         onChange={(e) => setValue('licenses', e.target.files)}
                                     />
                                 </div>
-                                {errors.licenses && (
-                                    <span className="text-sm text-red-500">
-                    {errors.licenses.message}
-                  </span>
-                                )}
+                               {errors.licenses && !licenses?.length && (
+  <span className="text-sm text-red-500">{errors.licenses.message}</span>
+)}
                             </div>
                             <div className="min-w-[250px] w-[100%] mb-6 ">
                                 <label className='font-bold text-sm'>Company Logo</label>
@@ -384,7 +396,7 @@ const Page = ({params}) => {
                                         onChange={(e) => setValue('logo', e.target.files)}
                                     />
                                 </div>
-                                {errors.logo && (
+                                {errors.logo &&  !logo?.length && (
                                     <span className="text-sm text-red-500">
                     {errors.logo.message}
                   </span>
@@ -446,7 +458,7 @@ const Page = ({params}) => {
                                         onChange={(e) => setValue('certificate', e.target.files)}
                                     />
                                 </div>
-                                {errors.certificate && (
+                                {errors.certificate && !certificate?.length &&  (
                                     <span className="text-sm text-red-500">
                     {errors.certificate.message}
                   </span>
@@ -463,129 +475,11 @@ const Page = ({params}) => {
                             </button>
                             }
                         </form>
-                        <p className="text-sm">Already have an account? <Link href='/login'
-                                                                              className="font-bold underline">Log
-                            in</Link> to continue</p>
+                        
                     </div>
                 </div>
             </div>
-            <footer className="text-gray-800 bg-[#E8E8E8] body-font">
-                <div
-                    className="container px-14 sm:px-0 sm:py-24 mx-auto flex  md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
-                    <div className="flex-grow flex flex-wrap  -mb-10 md:mt-0 mt-10 md:text-left  text-left">
-                        <div className="footer_col_1 lg:w-1/4 md:w-1/2 w-full px-8">
-                            <h2 className="title-font font-bold text-gray-900 text-base mb-3 text-transform: uppercase">
-                                Homeowners
-                            </h2>
-                            <nav className="list-none mb-10">
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Browse Categories
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Browse Tasks
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Write A Review
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Blog
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Homeowner FAQ
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Review Guidelines
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Homeowner Trust
-                                    </a>
-                                </li>
-                            </nav>
-                        </div>
-                        <div className="lg:w-1/4 md:w-1/2 w-full">
-                            <h2 className="title-font font-bold text-gray-900 text-base mb-3">
-                                CONTRACTORS
-                            </h2>
-                            <nav className="list-none mb-10">
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Join Helperzz
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Home Professional FAQ
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Building Trust
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Home Professional Terms
-                                    </a>
-                                </li>
-                            </nav>
-                        </div>
-                        <div className="lg:w-1/4 md:w-1/2 w-full">
-                            <h2 className="title-font font-bold text-gray-900 text-base mb-3">
-                                HELPERZZ
-                            </h2>
-                            <nav className="list-none mb-10">
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        About
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Careers at Helperzz
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Careers at Helperzz
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Contact Us
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Terms of Use
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Privacy{" "}
-                                    </a>
-                                </li>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-                <div className="text-center  text-base text-transform: uppercase font-bold text-text">
-                    Helperzz.com
-                </div>
-                <p className="text-center text-sm  pb-4">2024</p>
-            </footer>
+
         </>
     )
 }

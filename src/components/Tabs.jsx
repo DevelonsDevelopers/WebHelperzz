@@ -412,6 +412,7 @@ console.log('images ' , images)
   handleOpen(); 
 }
 
+console.log('details ' , details)
 
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
@@ -526,21 +527,12 @@ console.log('images ' , images)
                         Website:
                       </h4>
                       <a
-                        href="https://www.homeimprovementpeople.com"
-                        className="text-md md:text-xl font-semibold mb-4 text-text break-words"
+                      
+                        href={`${details?.details?.website}`}
+                        className="text-md md:text-xl font-semibold mb-4 break-words underline text-blue-600"
                         rel="nofollow"
-                        onClick={(e) => {
-                          e.preventDefault(); // Prevents the default action of navigating to the URL
-                          // Optionally, you can copy the URL to the clipboard
-                          navigator.clipboard
-                            .writeText("https://www.homeimprovementpeople.com")
-                            .then(() => {
-                              alert("Link copied to clipboard");
-                            })
-                            .catch((err) => {
-                              console.error("Failed to copy: ", err);
-                            });
-                        }}
+                        target="_blank"
+                       
                       >
                         {details?.details?.website}
                       </a>
@@ -856,6 +848,10 @@ console.log('images ' , images)
                     <p className=" text-2xl md:text-3xl font-bold lg:pl-2 pl-0">
                       REVIEWS
                     </p>
+
+
+
+
                     <div className="review_head ">
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB3UlEQVR4nNWWv0tjQRDHn8LJFZq8HaNiISI5kasFwULEQv+BA5uzjmDvr8wsK9h4xWneTBRSWalgc1xx13p/wB1obWMtiHYqEiMbYk4SH+a9l/fAgal2vvvZ/e7sso7z7sKYrmomHSD4RzGdJApNM44A0yMIVVIeZhMDK6FVC7WpGFeSAzP9q4MF/yYCTXmYfYY+Z6ZAo7GDQQgbwcCYjx/MdNYEFjyNFdq7Q2PN0Fru0ue2A4f3zcf03ppSQpt+YDtma2xt6zvx9AwIXQLTje+OoiZX5750PT1dB/cVzSdguogNKnX4RdODo0qraRA6jguqGH+mvhvwtV2JzoHgffug+GBfOqfidLx55hlPjyvG83ZYq0RPttxsNsAzKWA8Cm2t4A/b5U7YcFkvWbuCWGs1TtToL6wPgGA5ALic2c4PRgYrxsXgNutcZDAI/g7eVPgrErSvaLoV422I5rqzzRkarIo07383ccOmX+NZbWgwCB2+djdd1lP1Gs5PvHrnGQ/CUUu5DyB43TDhcXrHuI2lvd+We4Cx1LDAm1DfX/Bw7uUkrodf39RI/gsIXv1fgJ4NDmbcqp4V04naxaFWdbbWamp2bwUGZwo06jItOMZ0BhYb02m1iXwCnfcST9nEk6kY/HV3AAAAAElFTkSuQmCC" />
                       <p className="text-xl md:text-3xl ">
@@ -870,22 +866,59 @@ console.log('images ' , images)
                       </p>
                     </div>
                   </div>
-                  <div className="flex pl-2 md:pl-0 gap-2 items-center mt-4">
+
+                  <div className="flex justify-between px-2 mt-4">
+  <h1 className="text-[#12937C] text-[1.3rem] font-[500] ">Photos</h1>
+  <h1 className="text-[#12937C] text-[1.3rem] font-[500] cursor-pointer " onClick={handlePhotoButtonClick}>View All</h1>
+
+  </div>
+
+<div className="flex flex-wrap gap-2 max-md:gap-[4px]"> 
+  {details?.projects?.map((project, index) => (
+                  < >
+{project.images.slice(0, 8).map((img, index) => (
+                      <div
+                        // onClick={() =>
+                        //   openZoomedImage(`${IMAGE_PATH}${img.image}`)
+                        // }
+                        onClick={() => handleModalOpen(allPhotos)}
+                       
+                        className="mt-5 m-auto"
+                        key={index}
+                      >
+                        <img
+                          src={`${IMAGE_PATH}${img.image}`}
+                          alt=""
+                          className="h-[120px] max-md:w-[70px] w-[130px] max-md:h-[70px] rounded-[22px]"
+                          width={350}
+                          height={280}
+                        />
+                      </div>
+                    ))}
+                  </>
+                ))}
+</div>
+
+                  <div className="flex max-md:flex-col pl-2 md:pl-0 gap-2 items-center mt-4 ">
+                    <div className="flex items-center gap-2 max-md:mr-auto">
                     <p className="sm:text-2xl  font-semibold text-lg">
                       Sort by:
                     </p>
-                   
                       <p className="sm:text-2xl font-semibold text-md">
                         {showLatest}
                       </p>
                       <LuArrowUpDown  onClick={() => toggleReviews()} className={`md:h-6 md:w-6  h-4 w-4 cursor-pointer ${showLatest === 'Oldest' ? 'text-gray-400' : 'text-gray-900'}`}
                          
                       />
+                      </div>
+                      <div className="flex items-center gap-2 max-md:mr-auto">
+                       
                     <p className="sm:text-2xl font-semibold text-md">
                       By Star
                     </p>
                     <LuArrowUpDown  onClick={() => toggleStars()} className={`md:h-6 md:w-6  h-4 w-4 cursor-pointer ${!showHighestStars ? 'text-gray-400' : 'text-gray-900'}`}/>
-                     
+                    </div>
+                    <div className="flex items-center gap-2 max-md:mr-auto">
                       <p className="sm:text-2xl font-semibold text-md">
                         Reviews with Photos
                       </p>
@@ -895,6 +928,7 @@ console.log('images ' , images)
   className="w-6 h-6 ml-2  " checked={showPic} onChange={() => setShowPic(!showPic)}
 />       
             
+  </div>
                   </div>
                   <div className="flex justify-between md:mt-6 mt-2 flex-wrap lg:flex-nowrap gap-3 md:gap-4">
                     <div className="flex-col justify-between flex-wrap lg:flex-nowrap gap-3 md:gap-4 w-[75%]">
@@ -929,11 +963,11 @@ console.log('images ' , images)
                             <span className="text-gray-400">{`(${details?.reviews?.length} Reviews)`}</span>
                           </p>
                         </div>
-                        <button className="bg-[#12937C]  text-white font-bold py-4 px-4 sm:text-lg rounded-2xl w-full mt-10 mb-5">
+                        <button className="bg-[#12937C]  text-white font-bold py-2 px-4 sm:text-lg rounded-2xl w-full mt-10 mb-5">
                           GET A QUOTE
                         </button>
                         <button
-                          className="bg-white font-semibold hover:bg-secondary hover:text-white transition-all py-4 px-6 cursor-pointer  border sm:text-md  border-[#12937C] rounded-2xl mx-auto mt-2  w-full"
+                          className="bg-white font-semibold hover:bg-secondary hover:text-white transition-all py-2 px-6 cursor-pointer  border sm:text-md  border-[#12937C] rounded-2xl mx-auto mt-2  w-full"
                           onClick={handleButtonClick}
                         >
                           WRITE A REVIEW
@@ -986,7 +1020,7 @@ console.log('images ' , images)
                             allowFullScreen
                           ></iframe>
                           <center className="lg:w-full w-[screen] mt-6">
-                            <button className="hover:bg-secondary hover:text-white transition-all cursor-pointer bg-transparent  font-semibold py-4 px-6  border sm:text-md  border-[#12937C] rounded-2xl mx-auto mt-2  ">
+                            <button className="hover:bg-secondary hover:text-white transition-all cursor-pointer bg-transparent  font-semibold py-2 px-6  border sm:text-md  border-[#12937C] rounded-2xl mx-auto mt-2  ">
                               VIEW SERVICE AREA{" "}
                             </button>
                           </center>
@@ -997,7 +1031,7 @@ console.log('images ' , images)
                   <center className="lg:w-full w-screen mt-2 ">
                     <button
                       onClick={handleReviewButtonClick}
-                      className="hover:bg-secondary hover:text-white transition-all cursor-pointer bg-white font-semibold lg:py-6 py-3  px-6 md:w-fit sm:text-md border border-[#12937C] rounded-2xl mx-auto mt-2 text-transform: uppercase "
+                      className="hover:bg-secondary hover:text-white transition-all cursor-pointer bg-white font-semibold lg:py-3 py-3  px-6 md:w-fit sm:text-md border border-[#12937C] rounded-2xl mx-auto mt-2 text-transform: uppercase "
                     >
                       See All reviewS{" "}
                     </button>
@@ -1272,11 +1306,11 @@ console.log('images ' , images)
                             <span className="text-gray-400">{`(${details?.reviews?.length} Reviews)`}</span>
                           </p>
                         </div>
-                        <button className="bg-[#12937C]  text-white font-bold py-4 px-4 sm:text-lg rounded-2xl w-full mt-10 mb-5">
+                        <button className="bg-[#12937C]  text-white font-bold py-2 px-4 sm:text-lg rounded-2xl w-full mt-10 mb-5">
                           GET A QUOTE
                         </button>
                         <button
-                          className="bg-white font-semibold hover:bg-secondary hover:text-white transition-all py-4 px-6 cursor-pointer  border sm:text-md  border-[#12937C] rounded-2xl mx-auto mt-2  w-full"
+                          className="bg-white font-semibold hover:bg-secondary hover:text-white transition-all py-2 px-6 cursor-pointer  border sm:text-md  border-[#12937C] rounded-2xl mx-auto mt-2  w-full"
                           onClick={handleButtonClick}
                         >
                           WRITE A REVIEW
