@@ -155,14 +155,14 @@ function Home() {
   useEffect(() => {
     if(postalCode?.length === 0){
       setIsValidPostalCode(true)
-    } 
+    }
   },[postalCode])
 
   useEffect(() => {
     if( /^[A-Z]\d[A-Z] \d[A-Z]\d$/.test(postalCode)){
       setIsValidPostalCode(true)
       console.log('regex',/^[A-Z]\d[A-Z] \d[A-Z]\d$/.test(postalCode))
-    } 
+    }
 
   },[postalCode])
 
@@ -176,7 +176,7 @@ function Home() {
     const postalCoderegex = /^[A-Z]\d[A-Z] \d[A-Z]\d$/;
     setIsValidPostalCode(postalCoderegex.test(postalCode));
 
-   
+
 
     if (!postalCoderegex.test(postalCode)) {
       return;
@@ -525,7 +525,7 @@ console.log(blogs)
                   className=" placeholder:text-[#696969]   font-semibold ml-2 h-full outline-none max-w-28"
                 />
               </div>
-              
+
                {/* <p
         // onClick={handleSubmit}
         className="bg-primary cursor-pointer hover:bg-white hover:text-white transition-none w-full text-white rounded-3xl ml-auto p-3 text-transform uppercase font-bold px-4 text-sm sm:text-base"
@@ -586,12 +586,12 @@ Please provide a valid postal code (uppercase only)!
           </div>
 
         </div>
-          <div className=" flex gap-2 items-center flex-col sm:flex-row sm:pb-0  mt-6 justify-center  max-md:pb-80 max-w-[60%] max-md:w-[100%] max-md:ml-0 ml-[17%] "> 
+          <div className=" flex gap-2 items-center flex-col sm:flex-row sm:pb-0  mt-6 justify-center  max-md:pb-80 max-w-[60%] max-md:w-[100%] max-md:ml-0 ml-[17%] ">
             <h5 className="font-bold text-xl min-w-[110px] ">Hire a pro:</h5>
             <div className="flex flex-wrap gap-3 max-md:m-auto max-md:w-[90%] ">
             {bannerCategories?.map((value, index) => (
             <div  key={index} className="flex flex-wrap gap-2 sm:gap-8">
-              <button onClick={() => navigate.push(`/category/on/toronto/${value?.tag}`)} className="text-[8px] sm:text-base py-2 sm:py-2 px-4 sm:px-2 bg-transparent border border-text rounded-2xl text-text font-bold">
+              <button onClick={() => navigate.push(`/category/on/toronto/${value?.tag}`)} className="text-[8px] sm:text-base py-2 sm:py-2 px-4 sm:px-2 bg-transparent border-[2px] border-text rounded-3xl text-text font-bold">
                 {value?.name}
               </button>
             </div>
@@ -673,7 +673,7 @@ Please provide a valid postal code (uppercase only)!
       <div className="costguides_main flex justify-center align-content-center">
         <div className=" px-5 sm:py-6">
           <div className="mb-8 flex justify-between items-center flex-wrap">
-            <h1 className="heading_costguides pb-3">Popular Cost Guides</h1>
+            <h1 className="heading_costguides pb-3 mt-5">Popular Cost Guides</h1>
           </div>
           {guideLoading ? (
             <Loading />
@@ -1005,10 +1005,10 @@ Please provide a valid postal code (uppercase only)!
 
       {/* Section 10 */}
       <div className="review_parent">
-     
+
           <h1 className="heading_costguides text-center">HELPERZZ</h1>
           <h1 className="text-lg text-center max-md:mr-auto max-md:ml-4 max-md:mt-4">REVIEWS</h1>
-        
+
         {reviewLoading ? (
           <Loading />
         ) : (
