@@ -17,11 +17,14 @@ import imgThumb from "../../../../public/assets/project_thumb.jpg";
 import trustsealimg from "../../../../public/assets/trustsealbadge.png";
 import contractorService from "@/api/services/contractorService";
 import categoryService from "@/api/services/categoryService";
+import {useRouter} from 'next/navigation'
 
 function CategoryList({params}) {
 
     const [categories, setCategories] = useState([])
     const [categoryLoading, setCategoryLoading] = useState(true)
+
+    const navigation = useRouter()
 
     const getCategories = async () => {
         try {
@@ -44,30 +47,30 @@ function CategoryList({params}) {
             </div>
 
             <div className="main-title mt-[6rem] ml-8 my-8 sm:ml-16">
-                <h1 className="text-[18px]">Helperzz / Browse All Categories</h1>
+                <h1 className="text-[18px]"><span className="cursor-pointer pr-2" onClick={() => navigation.push('/')}> Helperzz  </span> / <span className="cursor-pointer pl-2"> Browse All Categories </span></h1>
             </div>
 
             <Search/>
 
             <div className="flex justify-center">
-                <div className="max-w-[1100px] w-full px-[3rem] md-[8rem]  mt-14 mb-[6rem]">
+                <div className="max-w-[1400px] w-full px-[3rem] md-[8rem]  mt-14 mb-[6rem]">
                     <ProjectList categories={categories}/>
                 </div>
             </div>
 
             <div className="professions-container  mt-[50px]">
-                <div className="max-w-[1400px] px-10 m-auto">
+                <div className="max-w-[1500px] px-10 m-auto">
                 <TitleComponent title="Browse All Professionals"/>
 
                 <PopularList categories={categories}/>
                 </div>
             </div>
 
-            <div className="max-w-[1400px] px-10 m-auto mt-[4rem]">
+            <div className="max-w-[1450px] px-10 m-auto mt-[4rem]">
                 <TitleComponent title="Toronto Home Improvement Pros"/>
             </div>
             <div className="w-full flex justify-center mt-[2rem] mb-[6rem]">
-                <div className="toronto-home max-w-[1400px]  w-full max-md:mt-5 gap-2">
+                <div className="toronto-h4me max-w-[1400px]  w-full max-md:mt-5 gap-2">
                     <div
                         // key={index}
                         className="bg-[#F7F9FB] sm:p-4 p-1 flex max-md:flex-col items-center gap-5 mb-5"

@@ -88,7 +88,12 @@ const Page = ({params}) => {
     const [languages, setLanguages] = useState([])
     const [ratings, setRatings] = useState([])
 
+    const [selectedCategory , setSelectedCategory] = useState('')
+
     const [filterData, setFilterData] = useState()
+
+    const [categorySearch , setCategorySearch] = useState('')
+
 
     const highlightCheck = (value) => {
         if (highlights.includes(value)) {
@@ -128,9 +133,10 @@ const Page = ({params}) => {
     const handleRadioChange = (e) => {
         const {value} = e.target;
         setSelectedOptions((prevOptions) => [value, ...prevOptions]);
+        setSelectedCategory(e.target.value)
         // console.log('e target' , e.target.value.replaceAll(" ", "-")
         // .toLowerCase())
-        location.replace(`/category/on/toronto/${e.target.value.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}`)
+        location.replace(`/category/on/${inputCity ? inputCity : params.city}/${e.target.value.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}`)
     };
 
     const handleOptionClose = (option) => {
@@ -257,11 +263,13 @@ const Page = ({params}) => {
     };
 
     const handleCitySubmit = () => {
-        if (inputCity.trim() === "") {
-            fetchCityName();
-        } else {
-            setCityName(inputCity);
-        }
+        // if (inputCity.trim() === "") {
+        //     fetchCityName();
+        // } else {
+        //     setCityName(inputCity);
+        // }
+        location.replace(`/category/on/${inputCity.toLowerCase()}/${selectedCategory ?  selectedCategory : params?.category}`)
+
     };
 
 
@@ -331,6 +339,9 @@ const Page = ({params}) => {
         setCitySuggestions(suggestions);
         setCitySelectedOption(value);
        };
+
+       const [slicedCategory , setSlicedCategory] = useState(9)
+
 
 
     return (
@@ -450,6 +461,8 @@ const Page = ({params}) => {
                                             <div className="w-[100%] max-md:w-[100%]">
                                                 <input
                                                     type="search"
+                                                    value={categorySearch}
+                                                    onChange={(e) => setCategorySearch(e.target.value)}
                                                     className="bg-transparent border-[1px] border-gray-400 py-1 px-4 rounded-xl focus:outline-none w-full pl-10 placeholder:text-xs max-md:rounded-lg"
                                                     placeholder="Search Professional Category"
                                                 />
@@ -461,7 +474,10 @@ const Page = ({params}) => {
                                             {categoryOpen && (
                                                 <div class="w-full items-center flex mx-3 mt-6">
                                                     <form action="" className="flex flex-col gap-2">
-                                                        {filterData?.categories?.map((value, index) => (
+                                                    {filterData?.categories
+  ?.filter(value => value.name.toLowerCase().includes(categorySearch.toLowerCase()))
+  .slice(0, slicedCategory)
+  .map((value, index) => (
                                                            <div
                                                            key={index}
                                                            className="flex items-center cursor-pointer"
@@ -487,6 +503,11 @@ const Page = ({params}) => {
                                                     </form>
                                                 </div>
                                             )}
+                                            {slicedCategory === 9 ? 
+                                            <h1 onClick={() => setSlicedCategory(filterData?.categories?.length)} className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show more</h1>
+                                            :
+                                            <h1 onClick={() => setSlicedCategory(9)} className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show less </h1> 
+}
                                         </div>
 
                                         <div class="w-full border-gray-300  py-5 rounded-t border-b">
@@ -541,7 +562,7 @@ const Page = ({params}) => {
                                         </div>
                                         <div class="w-full border-gray-300  py-5 rounded-t border-b">
                                             <div
-                                                onClick={languagesOpen}
+                                                onClick={() => setLanguagesOpen(!languagesOpen)}
                                                 class="mb-3 p-1 bg-transparent flex items-center  rounded transition-all ease-in-out duration-500 "
                                             >
                                                 <div class="p-1 px-2 text-[1.2rem] font-[500] w-full text-gray-800">
@@ -739,7 +760,7 @@ const Page = ({params}) => {
                                       )} / 5`}
                                     </span>
                                                                                 <span
-                                                                                    className="sm:ml-3 ml-1 sm:text-md text-sm text-gray-500">
+                                                                                    className={`${value.trust_seal ? 'ml-3' : ''}  ml-1 sm:text-md text-sm text-gray-500`}>
                                       {`(${value.users} Reviews)`}
                                     </span>
                                                                             </>
@@ -760,18 +781,18 @@ const Page = ({params}) => {
                                                             </div>
                                                         </div>
                                                         <div className="mt-2">
-                                                            <h4 className="text-[15px] font-[600] text-gray-600">
+                                                            <h4 className="text-[15px] font-[600] text-gray-700">
                                                                 {value.skills}
                                                             </h4>
                                                             <h3
-                                                                className="text-sm font-[500] mt-3 text-ellipsis line-clamp-2"
+                                                                className="text-sm font-[500] text-gray-600 mt-3 text-ellipsis line-clamp-2"
                                                                 dangerouslySetInnerHTML={{
                                                                     __html: value.description,
                                                                 }}
                                                             ></h3>
                                                         </div>
                                                         <div className="flex justify-between w-full mt-2 ">
-                                                            <h5 className="text-sm font-[500]">{value.name}</h5>
+                                                            <h5 className="text-sm font-[500] text-gray-600">{value.name}</h5>
                                                             <Link
                                                                 className="text-sm font-[600] text-[#12937C] "
                                                                 href={
@@ -786,7 +807,7 @@ const Page = ({params}) => {
                                                         </div>
                                                         <div>
                                                             <Link
-                                                                className="text-md font-[600] mt-1 cursor-pointer"
+                                                                className="text-md font-[600] mt-1 cursor-pointer text-gray-700"
                                                                 href={
                                                                     `/profile/` +
                                                                     value.company_name
@@ -896,7 +917,7 @@ const Page = ({params}) => {
                                             </div>
 
                                             <p className="mt-5 text-[.9rem] max-md:text-[.8rem] ">
-                                                {value.review}
+                                               " {value.review} "
                                             </p>
                                         </div>
                                     ))}
@@ -935,7 +956,7 @@ const Page = ({params}) => {
                     </div>
                 </>
             )}
-            <Footer/>
+            <Footer  showNewsLetter={false}  postProject={false} />
         </>
     );
 };

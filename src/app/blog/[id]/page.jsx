@@ -1,5 +1,6 @@
 'use client'
 import Header from "@/components/Header";
+import {Footer} from "@/components/Footer";
 import Link from "next/link";
 import Image from "next/image";
 import {useForm} from 'react-hook-form';
@@ -10,11 +11,14 @@ import blogService from "@/api/services/blogService";
 import {useEffect, useState} from "react";
 import moment from "moment";
 import {IMAGE_PATH} from "@/api/BaseUrl";
+import {useRouter} from "next/navigation"
 
 const Page = ({params}) => {
 
     const [ID, setID] = useState()
     const [blog, setBlog] = useState()
+
+    const navigation = useRouter()
 
     useEffect(() => {
         setID(params.id);
@@ -40,24 +44,24 @@ const Page = ({params}) => {
             <Header/>
             <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center min-h-[100vh] ">
                 <div className='flex flex-col gap-7 w-full'>
-                    <h6 className="text-lg max-w-[1300px] w-full mx-auto">Helperzz / Blog</h6>
-                    <div className="flex justify-between bg-[#F7F9FB] w-full max-w-[1500px] mx-auto">
-                        <div className='flex justify-between max-w-[1300px] mx-auto w-full  py-10 px-4'>
+                    <h6 className="text-lg w-full mx-auto ml-[4rem] max-md:ml-4"><span onClick={() => navigation.push('/')} className="cursor-pointer" > Helperzz </span> / <span  className="cursor-pointer" onClick={() => navigation.push('/blog')}> Blog  /</span> <span className="cursor-pointer">{blog?.title}</span></h6>
+                    <div className="flex justify-between bg-[#E8F5F2] w-full max-w-[1500px] mx-auto">
+                        <div className='flex justify-between max-w-[97%] mx-auto w-full  py-10 px-4'>
                             <div className="flex flex-col gap-3">
                                 <h3 className="font-bold text-3xl max-w-2xl leading-relaxed">{blog?.title}</h3>
-                                <p>By <Link className="inline text-black" href='#'>{blog?.author}</Link></p>
-                                <p>Updated {moment(blog?.created_date).format("ll")}</p>
+                                <p className="text-xl font-[400]">By <Link className="inline text-black" href='#'>{blog?.author}</Link></p>
+                                <p className="text-xl font-[400]">Updated {moment(blog?.created_date).format("ll")}</p>
                             </div>
                         </div>
 
                     </div>
-                    <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full max-w-[1300px] mx-auto">
+                    <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full max-w-[97%] mx-auto">
                         <div className="flex text-lg flex-col gap-3 lg:w-[60%] w-screen p-4">
-                            <h4 className="font-bold text-2xl">{blog?.subtitle}</h4>
-                            <div className='relative w-full h-[600px]'>
-                                <img src={`${IMAGE_PATH}${blog?.image}`} className="object-cover" fill alt='Blog Image'/>
+                            {/* <h4 className="font-bold text-2xl">{blog?.subtitle}</h4> */}
+                            <div className='relative w-full max-h-[600px]'>
+                                <img src={`${IMAGE_PATH}${blog?.image}`} className="object-cover rounded-xl" fill alt='Blog Image'/>
                             </div>
-                            <p className={``} dangerouslySetInnerHTML={{
+                            <p className='font-[400] !text-black' dangerouslySetInnerHTML={{
                                 __html: blog?.content,
                             }}/>
                         </div>
@@ -68,123 +72,7 @@ const Page = ({params}) => {
                     </div>
                 </div>
             </div>
-            <footer className="text-gray-800 bg-[#E8E8E8] body-font">
-                <div
-                    className="container px-14 sm:px-0 sm:py-24 mx-auto flex  md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
-                    <div className="flex-grow flex flex-wrap  -mb-10 md:mt-0 mt-10 md:text-left  text-left">
-                        <div className="footer_col_1 lg:w-1/4 md:w-1/2 w-full px-8">
-                            <h2 className="title-font font-bold text-gray-900 text-base mb-3 text-transform: uppercase">
-                                Homeowners
-                            </h2>
-                            <nav className="list-none mb-10">
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Browse Categories
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Browse Tasks
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Write A Review
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Blog
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Homeowner FAQ
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Review Guidelines
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Homeowner Trust
-                                    </a>
-                                </li>
-                            </nav>
-                        </div>
-                        <div className="lg:w-1/4 md:w-1/2 w-full">
-                            <h2 className="title-font font-bold text-gray-900 text-base mb-3">
-                                CONTRACTORS
-                            </h2>
-                            <nav className="list-none mb-10">
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Join Helperzz
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Home Professional FAQ
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Building Trust
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Home Professional Terms
-                                    </a>
-                                </li>
-                            </nav>
-                        </div>
-                        <div className="lg:w-1/4 md:w-1/2 w-full">
-                            <h2 className="title-font font-bold text-gray-900 text-base mb-3">
-                                HELPERZZ
-                            </h2>
-                            <nav className="list-none mb-10">
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        About
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Careers at Helperzz
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Careers at Helperzz
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Contact Us
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Terms of Use
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Privacy{" "}
-                                    </a>
-                                </li>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-                <div className="text-center  text-base text-transform: uppercase font-bold text-text">
-                    Helperzz.com
-                </div>
-                <p className="text-center text-sm  pb-4">2024</p>
-            </footer>
+<Footer showNewsLetter={false}   postProject={false} />
         </>
 
     )
@@ -261,7 +149,7 @@ export const GetQuotesForm = (props) => {
 
 export const GetQuotes = (props) => {
     return (
-    <div className="sticky top-10 mr-4 ml-auto flex flex-col gap-5 lg:w-[80%] w-full bg-secondary text-white rounded-3xl p-8">
+    <div className="sticky top-10 mr-4 mr-auto flex flex-col gap-5 lg:w-[80%] w-full bg-secondary text-white rounded-3xl p-8">
         <h1 className="text-left font-bold text-[20px] capitalize ">
         Ready to start this project?
         </h1>
@@ -286,7 +174,7 @@ export const GuideCard = (props) => {
                     alt="blog"
                 />
                 <div className="py-4">
-                    <h2 className="title-font text-base font-semibold text-gray-900 mb-3 select-text">
+                    <h2 className="title-font text-base font-semibold text-gray-900  select-text">
                         Successful Contractor Life
                     </h2>
                     <p className="text-sm mb-3 overflow-hidden whitespace-nowrap overflow-ellipsis select-text">
@@ -313,14 +201,14 @@ export const BlogCard = (props) => {
             alt="blog"
         />
         <div className="flex-1 flex flex-col gap-5 p-3">
-            <h2 className="title-font text-lg font-bold text-gray-900 mb-3 select-text">
+            <h2 className="title-font text-lg font-bold text-gray-900 select-text">
                 Successful Contractor Life
             </h2>
-            <div className="flex justify-between">
+            <div className="flex justify-between -mt-2">
                 <p className="text-sm text-[#26262699]">By: Helperzz</p>
                 <p className="text-sm text-[#26262699]">July 6, 2024</p>
             </div>
-            <p className="text-sm mb-3 overflow-ellipsis select-text">
+            <p className="text-sm mb-3 overflow-ellipsis select-text text-gray-600">
                 A modern, renovated deck combines beauty and function to create the perfect entertaining space...
             </p>
             <a href='' className="text-secondary text-sm font-bold transition-all inline-flex items-center md:mb-2 lg:mb-0 sm:w-auto w-full sm:justify-start justify-center">

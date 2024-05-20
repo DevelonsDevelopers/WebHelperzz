@@ -19,8 +19,8 @@ const PopularList = ({ categories }) => {
       <div>
         {categories?.map((value) => (
           <>
-            <h2 className="mt-6 mb-2 text-[18px] font-[600]">{value.name}</h2>
-            <div className="grid grid-cols-4 pl-2">
+            <h2 className="mt-6 mb-2 text-[22px] font-[400]">{value.name}</h2>
+            <div className="grid grid-cols-4 pl-2 mt-2">
               {value?.subcategories.map((item, index) => (
                 <ProfessionCard key={index} item={item} />
               ))}

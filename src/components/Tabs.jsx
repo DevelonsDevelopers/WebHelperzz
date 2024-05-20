@@ -421,6 +421,8 @@ console.log('images ' , images)
 
 console.log('details ' , details)
 
+  const totalImages = details?.projects?.reduce((sum, project) => sum + project.images.length, 0);
+
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
              <CarousalModal  open={openModal} handleClose={handleOpen} images={modalView} />
@@ -529,7 +531,8 @@ console.log('details ' , details)
                           __html: details?.details?.description,
                         }}
                       />
-
+{details?.details?.website ? 
+<>
                       <h4 className="mt-10 text-xl md:text-2xl font-semibold mb-4 text-text">
                         Website:
                       </h4>
@@ -543,6 +546,11 @@ console.log('details ' , details)
                       >
                         {details?.details?.website}
                       </a>
+                      </>
+                      :
+                      ''
+                      
+}
                     </div>
                   </div>
                 </div>
@@ -803,12 +811,10 @@ console.log('details ' , details)
                   </div>
 
                   <h2 className="text-2xl md:text-[28px] font-semibold md:mb-5 mb-2 text-text flex gap-2" >
-                  {details?.projects?.map((project, index) => (
-  <div key={index}>
- {project.images.length}
-  </div>
-))}
- Photos
+<span className='pr-[5px]'>
+{totalImages} 
+  </span>
+    Photos
                   </h2>
                   <p className="font-medium text-[#666666] md:text-base text-sm">
                     Filtered results based on the selected room categories{" "}
@@ -890,24 +896,23 @@ console.log('details ' , details)
   {details?.projects?.map((project, index) => (
                   < >
 {project.images.slice(0, 8).map((img, index) => (
-                      <div
-                        // onClick={() =>
-                        //   openZoomedImage(`${IMAGE_PATH}${img.image}`)
-                        // }
-                        onClick={() => handleModalOpen(allPhotos)}
-                       
-                        className="mt-5 m-auto"
-                        key={index}
-                      >
-                        <img
-                          src={`${IMAGE_PATH}${img.image}`}
-                          alt=""
-                          className="h-[120px] max-md:w-[70px] w-[130px] max-md:h-[70px] rounded-[22px]"
-                          width={350}
-                          height={280}
-                        />
-                      </div>
-                    ))}
+  index > 0 && index < 10 ? (
+    <div
+      onClick={() => handleModalOpen(allPhotos)}
+      className="mt-5 m-auto"
+      key={index}
+    >
+      <img
+        src={`${IMAGE_PATH}${img.image}`}
+        alt=""
+        className="h-[120px] max-md:w-[70px] w-[130px] max-md:h-[70px] rounded-[22px]"
+        width={350}
+        height={280}
+      />
+    </div>
+  ) : null
+))}
+
                   </>
                 ))}
 </div>
