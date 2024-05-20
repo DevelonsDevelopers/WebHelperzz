@@ -34,13 +34,15 @@ import Image from "next/image";
 import { Rating } from "@material-tailwind/react";
 import moment from "moment";
 import Loading from "@/components/loading";
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 
 const hire = [{ id : 1 , name :'Interior Design' , tag : 'interior-design'},{ id : 3 , name :'Home Staging' , tag :'home-staging'} ,{ id : 2 , name :'Electrical' , tag :'Electrical'}  ,{ id : 4 , name :'Painting' , tag:'Painting'} ,{ id : 5 , name :'Flooring' , tag:'Flooring'} ,]
 
 function Review({ review }) {
   return (
-    <div className="Review_cart w-screen sm:w-[320px] text-center px-8 select-text">
+    <div className="h-[275px] bg-[#f7f9fb] rounded-[15px] flex flex-col justify-center items-center  transition-shadow duration-300 ease-in-out w-screen sm:w-[320px] text-center px-8 ">
       <p className="heading_review">{review.name}</p>
       <Rating
         readonly={true}
@@ -51,7 +53,7 @@ function Review({ review }) {
         {moment(review.created_date).format("ll")}
       </p>
       <center>
-        <p className="comment_review w-[250px]">{review.review}</p>
+        <p className="text-[1.2rem] max-md:text-[1rem] font-[500]">{review.review}</p> 
       </center>
     </div>
   );
@@ -109,13 +111,13 @@ function Costgguides(props) {
 
   return (
     <div
-      className="costguides_container hover:border-[#119DED99] hover:shadow-md hover:shadow-[#119DED99]  cursor-pointer"
+      className="h-[130px] w-[270px] max-md:h-auto max-md:w-[150px] mb-5 bg-[#f7f9fb] rounded-[15px] flex flex-col p-5 transition-shadow duration-300 ease-in-out justify-between hover:border-[#119DED99] hover:shadow-md hover:shadow-[#119DED99]  cursor-pointer"
       onClick={() => navigate.push(`/cost-guide/${tag}`)}
     >
-      <div className="btn_guides">
-        <p className="btn_text">{buttonText}</p>
+      <div className="bg-[#55dcc4] flex items-center h-[40px] rounded-[5px] justify-start p-[10px] max-md:p-[3px] max-md:h-[auto]">
+        <p className="text-[14px] font-[400] max-md:text-[12px]">{buttonText}</p>
       </div>
-      <p className="cost_text !w-[70%]">{title}</p>
+      <p className="text-[18px] font-[600] max-md:text-[13px]">{title}</p>
     </div>
   );
 }
@@ -145,6 +147,10 @@ function Home() {
   const [guideLoading, setGuideLoading] = useState(true);
   const [reviewLoading, setReviewLoading] = useState(true);
   const [contractorLoading, setContractorLoading] = useState(true);
+
+
+  const matches = useMediaQuery('(max-width:700px)');
+
 
   const handleSelectChange = (selectedOption) => {
     setSelectedOption(selectedOption);
@@ -357,8 +363,7 @@ function Home() {
   {
     /* Section 4 */
   }
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-  const displayedGuides = isMobile ? costGuides.slice(0, 2) : costGuides;
+   const displayedGuides = matches ? costGuides.slice(0, 2) : costGuides;
 
   // Section 5
   const guidesBlogSettings = {
@@ -457,6 +462,13 @@ function Home() {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          slidesToShow: 2,
           slidesToScroll: 1,
         },
       },
@@ -586,9 +598,9 @@ Please provide a valid postal code (uppercase only)!
           </div>
 
         </div>
-          <div className=" flex gap-2 items-center flex-col sm:flex-row sm:pb-0  mt-6 justify-center  max-md:pb-80 max-w-[60%] max-md:w-[100%] max-md:ml-0 ml-[17%] ">
+          <div className=" flex gap-2 items-center flex-col sm:flex-row sm:pb-0  mt-6 justify-center  max-md:pb-80 max-w-[100%] max-md:w-[100%] max-md:ml-0 ml-[17%] ">
             <h5 className="font-bold text-xl min-w-[110px] ">Hire a pro:</h5>
-            <div className="flex flex-wrap gap-3 max-md:m-auto max-md:w-[90%] ">
+            <div className="flex flex-wrap gap-3 max-md:m-auto max-md:w-[98%] ">
             {bannerCategories?.map((value, index) => (
             <div  key={index} className="flex flex-wrap gap-2 sm:gap-8">
               <button onClick={() => navigate.push(`/category/on/toronto/${value?.tag}`)} className="text-[8px] sm:text-base py-2 sm:py-2 px-4 sm:px-2 bg-transparent border-[2px] border-text rounded-3xl text-text font-bold">
@@ -670,7 +682,7 @@ Please provide a valid postal code (uppercase only)!
       </div>
 
       {/* Section 4 */}
-      <div className="costguides_main flex justify-center align-content-center">
+      <div className="max-w-[1000px] m-auto mt-10">
         <div className=" px-5 sm:py-6">
           <div className="mb-8 flex justify-between items-center flex-wrap">
             <h1 className="heading_costguides pb-3 mt-5">Popular Cost Guides</h1>
@@ -679,7 +691,7 @@ Please provide a valid postal code (uppercase only)!
             <Loading />
           ) : (
             <>
-              <div className="mx-auto grid pr-5 mb-5 grid-cols-2 md:grid-cols-3  justify-between">
+              <div className="mx-auto grid mb-5 grid-cols-2 md:grid-cols-3  justify-between gap-4 max-md:max-w-[90%] ">
                 {displayedGuides.map((value) => (
                   <Costgguides
                     key={value.id}
@@ -689,14 +701,14 @@ Please provide a valid postal code (uppercase only)!
                   />
                 ))}
               </div>
-              {isMobile && (
+            
                 <a
-                  className="guide_btn !border-[#119DED] text-text mt-2 max-md:w-[70%] justify-center border px-4 py-3 rounded-2xl font-bold bg-[#fff] flex align-item-center  items-center mx-auto"
+                  className="guide_btn hidden max-md:block text-center !border-[#119DED] text-text mt-2 max-md:w-[70%] justify-center border px-4 py-3 rounded-2xl font-bold bg-[#fff] flex align-item-center  items-center mx-auto"
                   href="#"
                 >
                   View All Guides
                 </a>
-              )}
+             
             </>
           )}
         </div>
@@ -704,12 +716,12 @@ Please provide a valid postal code (uppercase only)!
 
       {/* Section 5 */}
       <section className="text-gray-600 body-font mx-auto justify-center align-content-center items-center">
-        <div className="container px-5 sm:py-6 mx-auto justify-center align-content-center items-center">
+        <div className="container !max-w-[1000px]  px-5 sm:py-6 mx-auto justify-center align-content-center items-center">
           <div className="mb-8 flex justify-between max-md:flex-col items-center flex-wrap">
-            <h2 className="text-xl sm:text-3xl font-[500] text-black sm:text-left text-center max-md:mt-10">
+            <h2 className="text-xl sm:text-3xl font-[400] text-black sm:text-left text-center max-md:mt-10">
               Guides to help you grow{" "}
             </h2>
-            <Link href='/blog' className="text-black hover:underline font-[700] text-2xl hidden sm:block pr-16">
+            <Link href='/blog' className="text-[#276487] hover:underline font-[300] text-xl hidden sm:block pr-16">
               See More
             </Link>
           </div>
@@ -730,7 +742,7 @@ Please provide a valid postal code (uppercase only)!
                         <h2 className="title-font text-base font-semibold text-gray-900 mb-3 select-text">
                           {value.title}
                         </h2>
-                        <p className="text-sm mb-3 overflow-hidden whitespace-nowrap overflow-ellipsis select-text">
+                        <p className="text-sm mb-3 max-md:-mt-2 text-gray-700 overflow-hidden whitespace-nowrap overflow-ellipsis  ">
                           {value.subtitle}
                         </p>
 
@@ -746,7 +758,7 @@ Please provide a valid postal code (uppercase only)!
               </Slider>
             </div>
           )}
-          <div className="slider-controls">
+          <div className="slider-controls hidden max-md:block max-md:mt-[-3rem]" >
             <div className="carousel-buttons w-[screen] flex justify-center align-items-center mx-auto">
               <button className="btn-prev" onClick={blogPrevSlide}>
                 <FaChevronLeft />
@@ -767,27 +779,27 @@ Please provide a valid postal code (uppercase only)!
           </h2>
         </div>
 
-        <div className="mx-auto flex flex-col justify-center lg:w-[75%] items-center ">
-          <div className="flex w-[90%] mx-auto gap-5 lg:gap-10 lg:pl-20 sm:p-0 justify-start sm:justify-between mt-6 flex-col lg:flex-row ">
+        <div className="mx-auto flex flex-col justify-evenly max-w-[950px] items-center ">
+          <div className="flex w-[100%] gap-5 lg:gap-10   sm:p-0  sm:justify-between mt-6 flex-col lg:flex-row ">
             <div className="flex items-center ">
               <h2 className="text-5xl sm:text-[70px] font-medium max-md:min-w-[40px]">1</h2>
               <div className="flex gap-1 flex-col ml-3">
-                <h5 className="fs-6 font-semibold">Create a job for free</h5>
-                <p className="capitalize font-[450] text-gray-900">tell us what you need</p>
+                <h5 className=" font-[600]">Create a job for free</h5>
+                <p className="capitalize font-[450] text-gray-600">tell us what you need</p>
               </div>
             </div>
             <div className="flex items-center ">
               <h2 className="text-5xl sm:text-[70px] font-medium max-md:min-w-[40px]">2</h2>
               <div className="flex gap-1 flex-col ml-3">
-                <h5 className="fs-6 font-semibold">Get a quotee</h5>
-                <p className="capitalize font-[450] text-gray-900">Tradespeople get in touch</p>
+                <h5 className=" font-[600]">Get a quotee</h5>
+                <p className="capitalize font-[450] text-gray-600">Tradespeople get in touch</p>
               </div>
             </div>
             <div className="flex items-center ">
               <h2 className="text-5xl sm:text-[70px] font-medium max-md:min-w-[40px]">3</h2>
               <div className="flex gap-1 flex-col ml-3">
-                <h5 className="fs-6 font-semibold">Rate and review</h5>
-                <p className="capitalize font-[450] text-gray-900">Job done - leave feedback</p>
+                <h5 className=" font-[600]">Rate and review</h5>
+                <p className="capitalize font-[450] text-gray-600">Job done - leave feedback</p>
               </div>
             </div>
           </div>
@@ -799,20 +811,20 @@ Please provide a valid postal code (uppercase only)!
 
       {/* Section 7  */}
       <section className="my-0 mb-6 sm:my-16 container mx-auto">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-2  text-text  sm:text-left text-center ">
+        <h2 className="text-2xl sm:text-3xl font-[400] text-text  sm:text-left text-center mb-8">
           Top Helperzz
         </h2>
         <section class="text-gray-600 body-font">
           {contractorLoading ? (
             <Loading />
           ) : (
-            <div class="sm:w-[100%] sm:flex h-[100%] md:mx-auto">
-              <div class="rounded-3xl mr-2 mb-2 sm:w-[25%] px-4 py-7  bg-[#B7E2FA]">
+            <div class="sm:w-[100%] sm:flex h-[100%] md:mx-auto ">
+              <div class="rounded-3xl mr-2 mb-2 sm:w-[25%] px-4 w-[90%] max-md:mx-auto py-7  bg-[#B7E2FA]">
                 <div class="h-[180px] sm:h-full flex ">
                   <div class="relative flex-grow sm:p-3 p-0">
                     <h2
                       style={{ lineHeight: 1.45 }}
-                      className="text-xl pt-6  text-center sm:text-left font-bold  text-text w-full "
+                      className="text-xl max-md:text-[1.5rem] pt-6  text-center sm:text-left font-bold  text-text w-full "
                     >
                       Find the
                       <span className="mx-2 text-[#0067A1]">
@@ -820,7 +832,7 @@ Please provide a valid postal code (uppercase only)!
                       </span>
                       for your project
                     </h2>
-                    <Link href='/top-contractors' class="absolute bottom-[1px] left-1/2 transform -translate-x-1/2 w-[90%] shadow-lg mt-12 text-xs hover:bg-primary hover:text-white cursor-pointer hover:border-primary transition-none text-text mt-4 justify-center border py-3 rounded-2xl font-bold bg-[#fff] inline-flex items-center mx-auto">
+                    <Link href='/top-contractors' class="absolute bottom-[1px] left-1/2 transform -translate-x-1/2 w-[90%] shadow-lg mt-12 text-xs hover:bg-primary hover:text-white cursor-pointer hover:border-primary transition-none text-text mt-4 justify-center border py-3 rounded-2xl max-md:text-[1rem] font-bold bg-[#fff] inline-flex items-center mx-auto">
                       View All top Helperzz
                     </Link>
                   </div>
@@ -830,7 +842,7 @@ Please provide a valid postal code (uppercase only)!
                 <Slider {...TopHelperzzsettings} ref={topHelperzzSliderRef}>
                   {displayedTopHelperzz.map((value) => (
                     <div key={value.id} className="flex">
-                      <div className="sm:w-[220px] w-full">
+                      <div className="sm:w-[220px] w-[90%] max-md:mx-auto">
                         <div
                           class="py-3 px-2 mr-2 mb-2 border-primary border rounded-3xl relative cursor-pointer"
                           onClick={() =>
@@ -843,8 +855,8 @@ Please provide a valid postal code (uppercase only)!
                           }
                         >
                           <div class="h-[280px]  items-start select-text">
-                            <div class="flex p-3">
-                              <a class="inline-flex">
+                            <div class="flex p-3 gap-2">
+                              <a class="inline-flex gap-2">
                                 <img
                                   alt="blog"
                                   src={`${IMAGE_PATH}${value.image}`}
@@ -865,7 +877,7 @@ Please provide a valid postal code (uppercase only)!
                                   <span key={index}>{skill}</span>
                                 ))}
                               </div>
-                              <Link href='/create-project' class="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[70%] text-xs mt-3 cursor-pointer hover:bg-primary hover:text-white transition-none text-text mb-2 min-w-55 justify-center px-3 py-3 rounded-2xl font-bold bg-transparent border-primary border inline-flex items-center mx-auto">
+                              <Link href='/create-project' class="absolute bottom-4 max-md:text-[1rem] left-1/2 transform -translate-x-1/2 w-[70%] text-xs mt-3 cursor-pointer hover:bg-primary hover:text-white transition-none text-text mb-2 min-w-55 justify-center px-3 py-3 rounded-2xl font-bold bg-transparent border-primary border inline-flex items-center mx-auto">
                                 Get A Free Quote
                               </Link>
                             </div>
@@ -893,7 +905,7 @@ Please provide a valid postal code (uppercase only)!
 
       {/* Section 8 */}
       <section className="got_dream_header bg-[#12937C] py-2">
-        <div className="min-h-60  container  px-4 mx-auto flex items-center gap-[15%] flex-wrap">
+        <div className="min-h-60 flex container  px-4 mx-auto flex items-center gap-[15%] max-md:flex-col ">
           <div className="got_dream_header1 mb-4 sm:mb-0 flex justify-center items-center w-full sm:w-auto">
             <Image
               className="lg:h-60 md:h-36 py-5 w-full object-cover object-center rounded-3xl"
@@ -903,11 +915,11 @@ Please provide a valid postal code (uppercase only)!
           </div>
 
           <div className="got_dream_header2 text-center w-full sm:w-auto">
-            <h2 className="sm:text-4xl text-2xl font-bold text-center text-white ">
+            <h2 className="sm:text-3xl text-2xl font-bold text-center text-white uppercase">
               Got A Dream Project?
             </h2>
             <p className="text-white mt-3">WE CAN PROVIDE A QUICK ESTIMATE !</p>
-            <Link href='/create-project' className="text-text mt-6 max-md:border-[#119DED] max-md:border-[2px] shadow-sm shadow-black/20 min-w-60 justify-center border px-5 py-3 font-bold rounded-2xl bg-[#fff] hover:bg-primary hover:border-primary hover:text-white inline-flex items-center md:mb-2 mx-auto">
+            <Link href='/create-project' className="text-text mt-6 max-md:border-[#119DED] max-md:border-[2px] shadow-sm shadow-black/20 min-w-[280px] justify-center border px-5 py-3 font-bold rounded-2xl bg-[#fff] hover:bg-primary hover:border-primary hover:text-white inline-flex items-center md:mb-2 mx-auto">
               GET A FREE QUOTE
             </Link>
           </div>
@@ -916,8 +928,8 @@ Please provide a valid postal code (uppercase only)!
 
       {/* Section 9 */}
       <section className=" bg-[#fffff] py-14  ">
-        <div className="grid  grid-cols-1 sm:grid-cols-2 gap-20 container px-4 mx-auto">
-          <div className="bg-[#F7F9FB] rounded-3xl p-10 w-full">
+        <div className="grid  grid-cols-1 sm:grid-cols-2 gap-20 container  px-4 mx-auto">
+          <div className="bg-[#F7F9FB] rounded-3xl p-10 max-md:p-4 w-full">
             <h4 className=" sm:text-2xl text-2xl font-bold">
               Hire Verified and Reviewed Pros
             </h4>
@@ -952,8 +964,8 @@ Please provide a valid postal code (uppercase only)!
                 background check and are licensed.
               </p>
             </div>
-            <div className="flex justify-center mt-16">
-              <Link href='/create-project' class="text-text] border-2 text-lg px-6 py-3 rounded-2xl font-semibold cursor-pointer hover:bg-primary hover:text-white border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
+            <div className="flex justify-center mt-16 max-md:mt-10">
+              <Link href='/create-project' class="text-text] max-md:px-20 border-2  text-lg px-6 py-3 rounded-2xl font-semibold cursor-pointer hover:bg-primary hover:text-white border-primary inline-flex items-center md:mb-2 lg:mb-0 ">
                 Get started
               </Link>
             </div>
@@ -1012,7 +1024,7 @@ Please provide a valid postal code (uppercase only)!
         {reviewLoading ? (
           <Loading />
         ) : (
-          <div className="layout_review_cart select-text">
+          <div className="layout_review_cart ">
             <Slider ref={reviewSliderRef} {...reviewSettings}>
               {testimonials.map((value) => (
                 <Review key={value.id} review={value} />

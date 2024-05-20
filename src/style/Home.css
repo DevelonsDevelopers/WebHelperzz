@@ -78,7 +78,7 @@
 
 .heading_category {
   font-size: 1.9rem;
-  font-weight: bold;
+  font-weight: semibold;
   margin-bottom: 20px;
 }
 
@@ -146,7 +146,7 @@
 }
 .heading_costguides {
   font-size: 1.9rem;
-  font-weight: bold;
+  font-weight: semibold;
   margin-bottom: 20px;
 }
 @media screen and (max-width: 1100) {
@@ -273,6 +273,7 @@
   }
   .layout_review_cart {
     margin: auto;
+    max-width :900px;
   }
 }
 
@@ -467,7 +468,7 @@
 @media only screen and (max-width: 750px) {
   .Cart_category {
     height: 210px;
-    width: 160px;
+    width: 125px;
     margin-left: 5px;
     padding: 8px;
     text-align: center;
@@ -477,7 +478,7 @@
 @media only screen and (max-width: 700px) {
   .Cart_category {
     height: 220px;
-    width: 140px;
+    width: 125px;
     margin-left: 5px;
     padding: 8px;
     text-align: center;
@@ -487,7 +488,7 @@
 @media only screen and (max-width: 500px) {
   .Cart_category {
     height: 200px;
-    width: 125px;
+    width: 105px;
     margin-left: 5px;
     padding: 8px;
     text-align: center;
@@ -534,7 +535,7 @@
   flex-direction: column;
   padding: 20px;
   transition: box-shadow 0.3s ease;
-  margin-left: 30px;
+  
   justify-content: space-between;
 }
 .btn_guides {

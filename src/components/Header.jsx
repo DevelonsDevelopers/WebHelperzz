@@ -177,7 +177,7 @@ function Header() {
             sx={{backgroundColor: "transparent", boxShadow: "none"}}
         >
             <Container maxWidth="xl">
-                <Toolbar className="header_top py-2 select-text" disableGutters>
+                <Toolbar className=" flex flex-wrap py-2 select-text" disableGutters>
                     <div className="w-28 md:mr-10 select-text cursor-pointer">
                         <Image
                             onClick={() => navigate.push("/")}
@@ -188,11 +188,11 @@ function Header() {
                         />
                     </div>
 
-                    <div>
+                    <div className="ml-auto">
                         <Box
                             sx={{
                                 flexGrow: 1,
-                                justifyContent: "center",
+                                justifyContent: "between",
                                 display: {xs: "flex", md: "none"},
                             }}
                         >
@@ -204,7 +204,7 @@ function Header() {
                                 onClick={handleOpenNavMenu}
                                 color="inherit"
                             >
-                                <MenuIcon className="text-text"/>
+                                <MenuIcon className="text-text !ml-auto"   />
                             </IconButton>
                             <Menu
                                 id="menu-appbar"
@@ -416,25 +416,7 @@ function Header() {
                                             }}
                                             getOptionLabel={(e) => e.name}
                                         />
-                                        {/*<Autosuggest*/}
-                                        {/*    suggestions={suggestions?.slice(0, 10)}*/}
-                                        {/*    onSuggestionsFetchRequested={onSuggestionsFetchRequested}*/}
-                                        {/*    onSuggestionsClearRequested={() => setSuggestions([])}*/}
-                                        {/*    getSuggestionValue={(suggestion) => suggestion.name}*/}
-                                        {/*    renderSuggestion={(suggestion) => (*/}
-                                        {/*        <div*/}
-                                        {/*            className=" p-2 border-[.5px] border-gray-200 cursor-pointer sm:text-xs text-gray-800 bg-white cursor-pointer">*/}
-                                        {/*            {suggestion.name}*/}
-                                        {/*        </div>*/}
-                                        {/*    )}*/}
-                                        {/*    inputProps={{*/}
-                                        {/*        placeholder: "Search for category",*/}
-                                        {/*        value,*/}
-                                        {/*        onChange: (_, {newValue}) => setValue(newValue),*/}
-                                        {/*        className:*/}
-                                        {/*            "placeholder:text-[#696969] text-[#696969] font-normal bg-transparent sm:text-xs ml-2 h-full outline-none w-8 sm:w-48",*/}
-                                        {/*    }}*/}
-                                        {/*/>*/}
+
                                     </div>
                                 </div>
                                 <span className="ml-3 text-black">|</span>
@@ -468,26 +450,7 @@ function Header() {
                                             }}
                                             getOptionLabel={(e) => e.name}
                                         />
-                                        {/*<Autosuggest*/}
-                                        {/*    suggestions={citySuggestions?.slice(0, 10)}*/}
-                                        {/*    onSuggestionsFetchRequested={onCitySuggestionsFetchRequested}*/}
-                                        {/*    onSuggestionsClearRequested={() => setCitySuggestions([])}*/}
-                                        {/*    getSuggestionValue={(suggestion) => suggestion.name}*/}
-                                        {/*    onSuggestionSelected={(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method })=> console.log(suggestionValue)}*/}
-                                        {/*    renderSuggestion={(suggestion) => (*/}
-                                        {/*        <div*/}
-                                        {/*            className=" p-2 border-[.5px]  border-gray-200 sm:text-xs text-gray-800 bg-white cursor-pointer">*/}
-                                        {/*            {suggestion.name}*/}
-                                        {/*            /!*<p className="text-gray-500">Development</p>*!/*/}
-                                        {/*        </div>*/}
-                                        {/*    )}*/}
-                                        {/*    inputProps={{*/}
-                                        {/*        placeholder: 'City',*/}
-                                        {/*        value: cityValue, // Changed to 'value'*/}
-                                        {/*        onChange: (_, {newValue}) => setCityValue(newValue),*/}
-                                        {/*        className: 'placeholder:text-[#696969] text-[#696969] font-normal bg-transparent sm:text-xs ml-2 h-full outline-none w-8 sm:w-48 ',*/}
-                                        {/*    }}*/}
-                                        {/*/>*/}
+
                                     </div>
                                 </div>
                                 <span className="text-black">|</span>
@@ -554,7 +517,7 @@ function Header() {
                         )}
                     </Box>
 
-                    <div className=" hidden md:block">
+                    <div className=" hidden lg:block ml-auto">
                         <Button
                             style={{userSelect: "text"}}
                             variant="contained"

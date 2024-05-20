@@ -26,12 +26,12 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
 
           <div className="outer_header_part min-h-35 container px-4 flex flex-col items-center justify-center sm:justify-between flex-wrap sm:flex-row">
             <div className="header_part1 flex flex-col items-center justify-center sm:block bg-[#F7F9FB] sm:bg-transparent pb-10 md:pb-0 mb-10 md:mb-0 w-full sm:w-[60%]">
-              <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:text-white text-text mt-2 text-transform: uppercase sm:text-left text-center">
+              <h2 className="text-2xl max-md:!text-[1.4rem] max-md:font-[500] sm:text-3xl font-bold mb-6 sm:text-white mt-2 text-transform: uppercase sm:text-left text-center">
                 Suddenly IT’s all so doable.{" "}
               </h2>
               <Link
                 href="/create-project"
-                className="text-text sm:mt-3 mt-0 text-lg min-w-60 justify-center border-secondary cursor-pointer hover:bg-primary hover:text-white border font-bold sm:border px-5 py-3 rounded-2xl bg-[#fff] inline-flex items-center"
+                className="text-text sm:mt-3 max-md:w-full max-md:border-[#119DED] mt-0 text-lg min-w-60 justify-center border-secondary cursor-pointer hover:bg-primary hover:text-white border font-bold sm:border px-5 py-3 rounded-2xl bg-[#fff] inline-flex items-center"
               >
                 Post your Project
               </Link>
@@ -79,11 +79,11 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
         ""
       )}
 
-<footer className="text-gray-800 bg-[#E8E8E8] body-font">
+<footer className="text-gray-800 bg-[#E8E8E8] max-md:bg-[#F7F9FB]  ">
                 <div
-                    className="container px-14 sm:px-0 sm:py-24 mx-auto flex  md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
-                    <div className="flex-grow flex flex-wrap  -mb-10 md:mt-0 mt-10 md:text-left  text-left">
-                        <div className="footer_col_1 lg:w-1/4 md:w-1/2 w-full px-8">
+                    className="container px-14 sm:px-0 sm:pt-24 sm:pb-10 mx-auto flex  md:items-center lg:items-start md:flex-row  flex-col">
+                    <div className="flex-grow flex max-md:flex-col    md:mt-0 mt-10 md:text-left  text-left">
+                        <div className="footer_col_1 lg:w-1/4 w-1/2 max-md:mx-auto ">
                             <h2 className="title-font font-bold text-gray-900 text-base mb-3 text-transform: uppercase">
                                 Homeowners
                             </h2>
@@ -125,7 +125,7 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                                 </li>
                             </nav>
                         </div>
-                        <div className="lg:w-1/4 md:w-1/2 w-full">
+                        <div className="lg:w-1/4 w-1/2 max-md:mx-auto">
                             <h2 className="title-font font-bold text-gray-900 text-base mb-3">
                                 CONTRACTORS
                             </h2>
@@ -152,7 +152,7 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                                 </li>
                             </nav>
                         </div>
-                        <div className="lg:w-1/4 md:w-1/2 w-full">
+                        <div className="lg:w-1/4 w-1/2 max-md:mx-auto">
                             <h2 className="title-font font-bold text-gray-900 text-base mb-3">
                                 HELPERZZ
                             </h2>
@@ -191,7 +191,7 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                         </div>
                     </div>
                 </div>
-                <div className="text-center  text-base text-transform: uppercase font-bold text-text">
+                <div className="text-center text-base text-transform: uppercase font-bold text-text">
                     Helperzz.com
                 </div>
                 <p className="text-center text-sm  pb-4">2024</p>

@@ -4,14 +4,9 @@
 
 body {
   margin: 0;
-  font-family: "Heebo", sans-serif;
-  overflow-x: hidden;
+   overflow-x: hidden;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
+ 
 
 .select_bar div {
   border: 0px !important;
