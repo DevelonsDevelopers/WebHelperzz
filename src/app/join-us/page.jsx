@@ -26,7 +26,7 @@ const schema = object({
     licenses: mixed().test('fileCount', 'Only six files are allowed', (value) => {
         return value.length <= 6;
     }).label('Licenses').required(),
-    postal_code: string().matches(/^[A-Z]\d[A-Z] \d[A-Z]\d$/, 'Invalid Postal Code').label('Postal Code').required(),
+    postal_code: string().matches(/^[A-Z]\d[A-Z] \d[A-Z]\d$/i, 'Invalid Postal Code').label('Postal Code').required(),
     logo: mixed().label('Logo').required(),
     certificate: mixed().label('Cerificate').required(),
     category: string().label('Category').required()
