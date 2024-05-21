@@ -101,72 +101,82 @@ const Page = ({params}) => {
     const certificate = watch('certificate')
     const licenses = watch('licenses')
 
-    const onSubmit = (data) => {
-        console.log('clicked')
-        let contractorD = {...contractorData}
-        contractorD.name = data.firstname + " " + data.lastname
-        contractorD.email = data.email
-        contractorD.phone = phoneNumber
-        contractorD.address = data.address
-        setSubmitting(true)
-        setSendEmail(data.email)
-        setSendName(data.firstname + " " + data.lastname)
-        uploadService.single(data.logo[0]).then((file) => {
-            contractorD.image = file.fileName
-            contractorService.create(contractorD).then(response => {
-                let contractorDetails = {...detailsData}
-                contractorDetails.contractor = response.contractor.id
-                contractorDetails.address = data.address
-                contractorDetails.postal_code = data.postal_code
-                contractorDetails.company_name = data.businessname
-                setCompany(data.businessname)
-                contractorDetails.category = data.category
-                
-if(data.businessname && data.email) {
-    contractorService.checkContractor({email :data.email , company :data.businessname}).then((res) => { 
+    const onSubmit = async (data) => {
+        try {
+          console.log('clicked');
+      
+          let contractorD = { ...contractorData };
+          contractorD.name = `${data.firstname} ${data.lastname}`;
+          contractorD.email = data.email;
+          contractorD.phone = phoneNumber;
+          contractorD.address = data.address;
+      
+          setSubmitting(true);
+          setSendEmail(data.email);
+          setSendName(`${data.firstname} ${data.lastname}`);
+      
+          if (!data.businessname || !data.email) {
+            console.log('Required data missing:', data.businessname, data.email);
+            setSubmitting(false);
+            return;
+          }
+      
+          const checkContractorResponse = await contractorService.checkContractor({
+            email: data.email,
+            company: data.businessname,
+          });
+      
+          if (checkContractorResponse.responseCode === 407) {
+            const logoFile = await uploadService.single(data.logo[0]);
+            contractorD.image = logoFile.fileName;
+      
+            const createContractorResponse = await contractorService.create(contractorD);
+            const contractorId = createContractorResponse.contractor.id;
+      
+            let contractorDetails = { ...detailsData };
+            contractorDetails.contractor = contractorId;
+            contractorDetails.address = data.address;
+            contractorDetails.postal_code = data.postal_code;
+            contractorDetails.company_name = data.businessname;
+            contractorDetails.category = data.category;
+      
+            setCompany(data.businessname);
+      
+            await contractorService.createDetails(contractorDetails);
+      
+            await Promise.all(
+              data.licenses.map(async (license) => {
+                const licenseFile = await uploadService.single(license);
+                const docData = {
+                  contractor: contractorId,
+                  title: 'License',
+                  file: licenseFile.fileName,
+                };
+                await contractorService.createDocument(docData);
+              })
+            );
+      
+            const certificateFile = await uploadService.single(data.certificate[0]);
+            const certificateData = {
+              contractor: contractorId,
+              title: 'Incorporate Certificate',
+              file: certificateFile.fileName,
+            };
+            await contractorService.createDocument(certificateData);
+      
+            setLicenseDone(true);
+            setCertificateDone(true);
+          } else {
+            toast.error(checkContractorResponse?.message);
+            setSubmitting(false);
+          }
+        } catch (error) {
+          console.error('Error in onSubmit:', error);
+          setSubmitting(false);
+        }
+      };
+      
 
-if(res.responseCode === 407){
-    contractorService.createDetails(contractorDetails).then(response => {
-        console.log(response)
-    })
-    for (let i = 0; i < data.licenses.length; i++) {
-        uploadService.single(data.licenses[i]).then((file) => {
-            const docData = {contractor: response.contractor.id, title: "License", file: file.fileName};
-            contractorService.createDocument(docData).then((docResponse) => {
-                if (i === data.licenses.length - 1) {
-                    setLicenseDone(true)
-                }
-            });
-        });
-    }
-    uploadService.single(data.certificate[0]).then((file) => {
-        const data = {
-            contractor: response.contractor.id,
-            title: "Incorporate Certificate",
-            file: file.fileName
-        };
-        contractorService.createDocument(data).then((docResponse) => {
-            setCertificateDone(true)
-        });
-    });
-
-} 
-else {
-    toast.error(res?.message)
-    setSubmitting(false)
-}
-
-    })   
-} else {
-    console.log('no require data entered ' , data.businessname , data.email)
-}
-                
-            }).catch(err => {
-
-            })
-        });
-        console.log(data)
-    }
     const getCategories = async () => {
         try {
             const response = await categoryService.fetchAll();

@@ -91,8 +91,11 @@ const Steps = (props) => {
 
     const [step, setStep] = useState(1);
     const [option, setOption] = useState('')
+    const [checkOption , setCheckOption] = useState(false)
     const [option2, setOption2] = useState('')
+    const [checkOption2 , setCheckOption2] = useState(false)
     const [postalCode, setPostalCode] = useState('');
+    const [checkPostalCode , setCheckPostalCode] = useState(false)
     const [submitting, setSubmitting] = useState(false)
 
     const navigate = useRouter();
@@ -174,6 +177,36 @@ const Steps = (props) => {
             // });
         }
     };
+
+    const [checkTask , setCheckTask] = useState(false)
+
+    useEffect(() => {
+        if(requestData.subcategory >= 0){
+            setCheckTask(false)
+        }
+    },[requestData.subcategory])
+
+    useEffect(() => {
+        if(option){
+            setCheckOption(false)
+        }
+    },[option])
+
+    useEffect(() => {
+        if(option2){
+            setCheckOption2(false)
+        }
+    },[option2])
+
+    useEffect(() => {
+    if( /^[A-Z]\d[A-Z] \d[A-Z]\d$/i.test(postalCode)){
+            setCheckPostalCode(false)
+        }
+    },[postalCode])
+
+    console.log('option' , option )
+
+
 
     return (
         <div className="flex-1 flex flex-col gap-3 lg:gap-5 p-5">
@@ -257,11 +290,22 @@ const Steps = (props) => {
                             home
                         </p>
                         <SearchInput requestData={requestData}
+
                                      setRequestData={setRequestData}/>
+{checkTask && (
+    <h1 className="text-red-500 ml-2 -mt-2">please enter required data</h1>
+)}
+
                         <button
                             className="bg-secondary rounded-2xl text-lg font-semibold text-white py-3"
-                            onClick={() => setStep(step + 1)}
-                        >
+                            onClick={() => {
+                                if (requestData.subcategory) {
+                                    setStep(step + 1);
+                                } else {
+                                    setCheckTask(true);
+                                }
+                              }}                                           
+                               >
                             Next
                         </button>
                     </>
@@ -278,18 +322,27 @@ const Steps = (props) => {
                             message={"Postal Code"}
                             postalcode={false}
                         />
+                                          {checkPostalCode && (
+    <h1 className="text-red-500 ml-2 mt-[-2rem]">please enter correct postal code</h1>
+)}
                         <SelectInput
                             value={option}
                             data={work}
                             selectedOption={handleOptionSelect}
                             message={"What type of home do you live in?"}
                         />
+                        {checkOption && (
+    <h1 className="text-red-500 ml-2 mt-[-2rem]">please select option</h1>
+)}
                         <SelectInput
                             value={option2}
                             data={time}
                             selectedOption={handleOptionSelect2}
                             message={"When do you want to start this project?"}
                         />
+                                       {checkOption2 && (
+    <h1 className="text-red-500 ml-2 mt-[-2rem]">please select option</h1>
+)}
                         <div className="grid grid-cols-2 gap-10 mt-5 ">
                             <button
                                 className="bg-white rounded-2xl text-lg font-semibold py-3"
@@ -297,7 +350,22 @@ const Steps = (props) => {
                             >
                                 Go Back
                             </button>
-                            <button onClick={() => handleDescribe()}
+                            <button  onClick={() => {
+    if( /^[A-Z]\d[A-Z] \d[A-Z]\d$/i.test(postalCode)){
+        if (option) {
+                                    if (option2) {
+                                        setStep(step + 1);
+                                    } else {
+                                        setCheckOption2(true);
+                                    }
+                                } else {
+                                    setCheckOption(true);
+                                }
+                              } else {
+                                setCheckPostalCode(true)
+                              }
+                              }
+                            }
                                     className="bg-white hover:bg-secondary hover:text-white rounded-2xl text-lg font-semibold py-3">
                                 Next
                             </button>
@@ -413,12 +481,12 @@ const Steps = (props) => {
                             </div>
 
                             <div className="grid grid-cols-2 gap-10 mt-5 ">
-                                {/*<button*/}
-                                {/*    className="bg-white rounded-2xl text-lg font-semibold py-3"*/}
-                                {/*    onClick={() => setStep(step - 1)}*/}
-                                {/*>*/}
-                                {/*    Go Back*/}
-                                {/*</button>*/}
+                                <button
+                                    className="bg-white rounded-2xl text-lg font-semibold py-3"
+                                  onClick={() => setStep(step - 1)}
+                                >
+                                   Go Back
+                                </button>
                                 <input type='submit'
                                 value="Submit"
                                 
