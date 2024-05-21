@@ -26,6 +26,8 @@ import { useRouter } from "next/navigation";
 import customerService from "@/api/services/customerService";
 import requestService from "@/api/services/requestService";
 import contractorService from "@/api/services/contractorService";
+import { PatternFormat } from "react-number-format";
+
 
 // import customerService from "../../../../../api/services/customerService";
 
@@ -191,6 +193,8 @@ export default function Tabs({ id, details }) {
     "exterior",
     "entry",
   ];
+
+  const [selectedButton , setSelectedButton] = useState(0)
   const navigate = useRouter();
 
   const handleButtonClick = () => {
@@ -243,6 +247,8 @@ const handleSubmit = (e) => {
 
   e.preventDefault();
 
+  if( /^[A-Z]\d[A-Z] \d[A-Z]\d$/i.test(formData?.postal_code)){
+
   customerService.passwordLessCreate(userData).then((response) => {
     const customer = response.customer.id;
     const data = { ...formData };
@@ -256,6 +262,11 @@ const handleSubmit = (e) => {
       }
     })
   });
+  }
+  else {
+    setValidPostalCode(true)
+  }
+
 }
 
 
@@ -423,6 +434,20 @@ console.log('details ' , details)
 
   const totalImages = details?.projects?.reduce((sum, project) => sum + project.images.length, 0);
 
+
+  const [validPostalCode , setValidPostalCode] = useState(false)
+  useEffect(() => {
+    if( /^[A-Z]\d[A-Z] \d[A-Z]\d$/i.test(formData?.postal_code)){
+   setValidPostalCode(false)
+    } 
+  },[formData?.postal_code])
+
+  useEffect(() => {
+    if(formData?.postal_code.length === 0){
+   setValidPostalCode(false)
+    } 
+  },[formData?.postal_code])
+
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
              <CarousalModal  open={openModal} handleClose={handleOpen} images={modalView} />
@@ -503,12 +528,15 @@ console.log('details ' , details)
                       <h1 className="text-2xl md:text-2xl font-semibold mb-3 text-text">
                         {details?.details?.company_name}
                       </h1>
-                      <h2 className=" md:text-xl text-md md:mt-4 mt-2 text-[#444444]">
+                      <div className="flex gap-2 items-center mb-2">
+                      <h2 className=" md:text-xl text-md  text-[#444444]">
                         {details?.details?.category_name}
                       </h2>
-                      <h5 className="mb-3  md:text-xl text-md mt-2 text-[#444444]">
+                      <h2 className=" md:text-xl text-md  text-[#444444]"> / </h2>
+                      <h5 className=" md:text-xl text-md  text-[#444444]">
                         {details?.details?.address}
                       </h5>
+                        </div>
                       <div className="flex gap-2 items-center text-text md:text-md text-sm">
                      
                           <>
@@ -595,7 +623,7 @@ console.log('details ' , details)
                       />
                     </div>
                     <div className="mb-5">
-                      <input
+                      {/* <input
                         placeholder="Phone Number"
                         type="tel"
                         id="phone"
@@ -607,14 +635,32 @@ console.log('details ' , details)
                         className={
                           "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
                         }
+                      /> */}
+  <PatternFormat
+                        type="tel"
+                        format="+1 (###) ###-####"
+                        onValueChange={(value) =>
+                          setUserData((data) => ({
+                            ...data,
+                            phone: value.value,
+                          }))
+                        }
+                        placeholder="Enter phone"
+                        required
+                        className={
+                          "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
+                        }
                       />
+
+
                     </div>
                     <div className="mb-5">
                       <input
                         type="text"
                         id="postal"
                         placeholder="Postal Code"
-                        value={formData?.postal}
+                        value={formData?.postal_code}
+                        maxLength="7"
                         onChange={(e) => setFormData({...formData, postal_code:e.target.value})}
                         name="postal"
                         required
@@ -622,6 +668,11 @@ console.log('details ' , details)
                           "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
                         }
                       />
+                      {validPostalCode && (
+                        <p className="mt-2 ml-2 text-sm text-red-600 dark:text-red-500">
+Please provide a valid postal code !
+              </p>
+                      )}
                     </div>
                     <div className="mb-7">
                       <textarea
@@ -803,7 +854,8 @@ console.log('details ' , details)
                     {buttons.map((item, index) => (
                       <button
                         key={index}
-                        className="bg-secondary transition-all whitespace-nowrap bg-opacity-10 md:text-md text-sm min-w-[120px] hover:bg-opacity-100 hover:text-white border border-secondary text-text text-transform: capitalize  font-semibold sm:py-3 py-[7px] sm:px-4 px-[10px] rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white"
+                        onClick={() => setSelectedButton(index)}
+                        className={` ${selectedButton === index ? ' text-white bg-opacity-100 bg-secondary' : ' bg-secondary bg-opacity-10' } transition-all whitespace-nowrap  md:text-md text-sm min-w-[120px] border border-secondary text-text text-transform: capitalize  font-semibold sm:py-3 py-[7px] sm:px-4 px-[10px] rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white`}
                       >
                         {item}{" "}
                       </button>
@@ -855,7 +907,7 @@ console.log('details ' , details)
                       onClick={handlePhotoButtonClick}
                       className="hover:bg-secondary hover:text-white transition-all cursor-pointer text-text w-[300px]  text-base lg:text-xl justify-center border border-secondary px-5 py-4 rounded-2xl font-bold bg-[#fff] text-transform: uppercase"
                     >
-                      See All Reviews
+                      See All Photos
                     </a>
                   </div>
                 </div>
@@ -917,8 +969,8 @@ console.log('details ' , details)
                 ))}
 </div>
 
-                  <div className="flex max-md:flex-col pl-2 md:pl-0 gap-2 items-center mt-4 ">
-                    <div className="flex items-center gap-2 max-md:mr-auto">
+                  <div className="flex max-md:flex-col ml-4  md:pl-0 gap-2 items-center mt-10 ">
+                    <div className="flex items-center gap-4  max-md:mr-auto">
                     <p className="sm:text-2xl  font-semibold text-lg">
                       Sort by:
                     </p>
@@ -981,9 +1033,12 @@ console.log('details ' , details)
                             <span className="text-gray-400">{`(${details?.reviews?.length} Reviews)`}</span>
                           </p>
                         </div>
-                        <button className="bg-[#12937C]  text-white font-bold py-2 px-4 sm:text-lg rounded-2xl w-full mt-10 mb-5">
-                          GET A QUOTE
-                        </button>
+                        <button 
+  onClick={() => navigate.push(`/getquotes/create/${details?.details?.category_name.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}/any`)}  
+  className="bg-[#12937C] text-white font-bold py-2 px-4 sm:text-lg rounded-2xl w-full mt-10 mb-5"
+>
+  GET A QUOTE
+</button>
                         <button
                           className="bg-white font-semibold hover:bg-secondary hover:text-white transition-all py-2 px-6 cursor-pointer  border sm:text-md  border-[#12937C] rounded-2xl mx-auto mt-2  w-full"
                           onClick={handleButtonClick}
@@ -1266,7 +1321,7 @@ console.log('details ' , details)
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 mt-6 pl-2 md:pl-0">
+                  <div className="flex items-center gap-4 mt-10 pl-2 md:pl-0">
                     <p className="sm:text-2xl font-semibold text-lg">
                       Sort by:
                     </p>

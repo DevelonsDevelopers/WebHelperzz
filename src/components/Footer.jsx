@@ -59,7 +59,7 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
               </div>
               <form className="header2_part2 text-center sm:pr-16 flex flex-col items-center justify-center w-auto">
                 <input
-                  type="text"
+                  type="email"
                   required
                   className="border-2 border-[#43D9BE] w-full md:w-96 p-3 mx-auto rounded-xl mb-6 md:mb-0"
                   placeholder="Email Address"
@@ -167,11 +167,7 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                                         Careers at Helperzz
                                     </a>
                                 </li>
-                                <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
-                                        Careers at Helperzz
-                                    </a>
-                                </li>
+                                
                                 <li>
                                     <Link href='/contact-us' className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
                                         Contact Us

@@ -273,19 +273,53 @@ const Page = ({params}) => {
     };
 
 
+    // const itemsPerPage = 6;
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const handlePageChange = (event, newPage) => {
+    //     setCurrentPage(newPage);
+    // };
+
+    // const [paginatedData, setPaginatedData] = useState([]);
+
+    // useEffect(() => {
+    //     const startIndex = (currentPage - 1) * itemsPerPage;
+    //     const endIndex = startIndex + itemsPerPage;
+    //     setPaginatedData(contractors.slice(startIndex, endIndex));
+    // }, [currentPage, contractors]);
+
+const [searchData , setSearchData] = useState('')
+
+
     const itemsPerPage = 6;
     const [currentPage, setCurrentPage] = useState(1);
     const handlePageChange = (event, newPage) => {
-        setCurrentPage(newPage);
+      setCurrentPage(newPage);
     };
-
+  
+    const [filteredData, setFilteredData] = useState([]);
     const [paginatedData, setPaginatedData] = useState([]);
-
+  
+  
     useEffect(() => {
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        setPaginatedData(contractors.slice(startIndex, endIndex));
-    }, [currentPage, contractors]);
+      if (contractors) {
+        const filteredResult = contractors.filter((item) =>
+         ( item.company_name && item.company_name?.toLowerCase().includes(searchData?.toLowerCase())) ||
+         ( item.skills && item.skills?.toLowerCase().includes(searchData?.toLowerCase())) ||
+         ( item.name && item.name?.toLowerCase().includes(searchData?.toLowerCase())) 
+
+        );
+        setFilteredData(filteredResult);
+        setCurrentPage(1); 
+      }
+    }, [searchData, contractors]);
+  
+  
+    useEffect(() => {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      setPaginatedData(filteredData.slice(startIndex, endIndex));
+    }, [currentPage, filteredData]);
+
 
     const theme = createTheme({palette: {primary: {main: '#E0EFEE', contrastText: '#EEE'}}})
 
@@ -391,6 +425,8 @@ const Page = ({params}) => {
                                     <div className="w-[100%] max-md:w-[100%]">
                                         <input
                                             type="search"
+                                            value={searchData}
+                                            onChange={(e) => setSearchData(e.target.value)}
                                             className="bg-[#F7F9FB] py-2 px-4 rounded-xl border-[1px] border-[#12937C] text-sm focus:outline-none w-full pl-10 max-md:rounded-xl placeholder:text-[.8rem]"
                                             placeholder="Search by name or keyword"
                                         />
@@ -829,7 +865,7 @@ const Page = ({params}) => {
                                             <ThemeProvider theme={theme}>
                                                 <Stack direction="row" justifyContent="center" marginTop={2}>
                                                     <Pagination
-                                                        count={Math.ceil(contractors.length / itemsPerPage)}
+                                                        count={Math.ceil(filteredData.length / itemsPerPage)}
                                                         page={currentPage}
                                                         onChange={handlePageChange}
                                                         color="primary"

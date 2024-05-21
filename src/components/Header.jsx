@@ -336,7 +336,6 @@ function Header() {
                     </div>
 
                     <Box sx={{flexGrow: 1, display: {xs: "none", md: "flex"}}}>
-                        <div>
                             <Button
                                 ref={buttonRef}
                                 style={{
@@ -349,7 +348,21 @@ function Header() {
                             >
                                 Browse Categories
                             </Button>
-                        </div>
+                        <Button
+                            style={{userSelect: "text"}}
+                            className="whitespace-nowrap"
+                            onClick={handleCloseNavMenu}
+                            href="/blog"
+                            sx={{
+                                my: 2,
+                                color: "black",
+                                fontWeight: "bold",
+                                display: "block",
+                                fontSize: 12
+                            }}
+                        >
+                            Blog
+                        </Button>
                         <Button
                             style={{userSelect: "text"}}
                             className="whitespace-nowrap"

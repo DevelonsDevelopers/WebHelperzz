@@ -6,6 +6,8 @@ import contractorService from "../../../../api/services/contractorService";
 import uploadService from "../../../../api/services/uploadService";
 import {useRouter} from "next/navigation";
 import customerService from "@/api/services/customerService";
+import { PatternFormat } from "react-number-format";
+
 
 const Page = ({params}) => {
     const [clicked, setClicked] = useState(false);
@@ -176,7 +178,7 @@ const Page = ({params}) => {
             >
                 <div className="bg-gray-100 shadow-lg w-[90%]">
                     <div className="flex flex-wrap px-8 md:px-0 md:mx-6 md:p-12">
-                        <form className="justify-center items-center mx-auto ">
+                        <form onSubmit={() => handleSubmit()} className="justify-center items-center mx-auto ">
                             <h1 className="mb-8 text-center mt-5 font-semibold text-3xl">
                                 Review Home
                             </h1>
@@ -219,6 +221,7 @@ const Page = ({params}) => {
                                                 title: e.target.value,
                                             }))
                                         }
+                                        required
                                         className={`w-full border-[1px] bg-transparent px-4 py-2  outline-none border-gray-300`}
                                     />
                                 </div>
@@ -237,6 +240,7 @@ const Page = ({params}) => {
                                                 postal_code: e.target.value,
                                             }))
                                         }
+                                        required
                                         className={`w-full border-[1px] bg-transparent px-4 py-2  outline-none border-gray-300`}
                                     />
                                 </div>
@@ -255,6 +259,7 @@ const Page = ({params}) => {
                                                     price: e.target.value,
                                                 }))
                                             }
+                                            required
                                             className={`md:w-[55%] w-full border-[1px] bg-transparent px-4 py-2  outline-none border-gray-300`}
                                         />
                                         <div
@@ -264,6 +269,7 @@ const Page = ({params}) => {
                                                 type="checkbox"
                                                 value=""
                                                 onChange={(e) => handlePaid(e)}
+                                                required
                                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                                             />
                                             <label
@@ -287,6 +293,7 @@ const Page = ({params}) => {
                                                 review: e.target.value,
                                             }))
                                         }
+                                        required
                                         rows={4}
                                         id="message"
                                         name="message"
@@ -331,6 +338,7 @@ const Page = ({params}) => {
                                             name="image"
                                             className="hidden"
                                             multiple
+                                            required
                                             onChange={handleFileChange}
                                         />
                                     </label>
@@ -374,32 +382,13 @@ const Page = ({params}) => {
                                                 email: e.target.value,
                                             }))
                                         }
+                                        required
                                         value={userData.email}
                                         disabled={loggedIn}
                                         className={`border text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-base `}
                                     />
                                 </div>
-                                {/*{!loggedIn && (*/}
-                                {/*    <>*/}
-                                {/*        <div className="mb-4 mt-5">*/}
-                                {/*            <label className="block mb-2 md:text-xl text-md font-normal text-gray-500">*/}
-                                {/*                Password*/}
-                                {/*            </label>*/}
-                                {/*            <input*/}
-                                {/*                type="password"*/}
-                                {/*                name="password"*/}
-                                {/*                placeholder="Password"*/}
-                                {/*                onChange={(e) =>*/}
-                                {/*                    setReviewData((data) => ({*/}
-                                {/*                        ...data,*/}
-                                {/*                        title: e.target.value,*/}
-                                {/*                    }))*/}
-                                {/*                }*/}
-                                {/*                className={`border text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-base `}*/}
-                                {/*            />*/}
-                                {/*        </div>*/}
-                                {/*    </>*/}
-                                {/*)}*/}
+
                                 <div className="mb-4 mt-5">
                                     <label className="block mb-2 md:text-xl text-md font-normal text-gray-500">
                                         Full Name
@@ -407,6 +396,7 @@ const Page = ({params}) => {
                                     <input
                                         type="text"
                                         name="name"
+                                        required
                                         placeholder="Full Name"
                                         value={userData.name}
                                         onChange={(e) =>
@@ -426,6 +416,7 @@ const Page = ({params}) => {
                                     <input
                                         type="text"
                                         name="address"
+                                        required
                                         placeholder="Address"
                                         value={userData.address}
                                         onChange={(e) =>
@@ -442,9 +433,10 @@ const Page = ({params}) => {
                                     <label className="block mb-2 md:text-xl text-md font-normal text-gray-500">
                                         Phone Number
                                     </label>
-                                    <input
+                                    {/* <input
                                         type="number"
                                         name="phone"
+                                        required
                                         placeholder="Phone Number"
                                         value={userData.phone}
                                         onChange={(e) =>
@@ -455,21 +447,34 @@ const Page = ({params}) => {
                                         }
                                         disabled={loggedIn}
                                         className={`border text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-base `}
-                                    />
+                                    /> */}
+                                     <PatternFormat
+                        type="tel"
+                        format="+1 (###) ###-####"
+                        onValueChange={(value) =>
+                            setUserData((data) => ({
+                            ...data,
+                            phone: value.value,
+                          }))
+                        }
+                        disabled={loggedIn}
+                        placeholder="Phone Number"
+                        required
+                        className={`border text-gray-600 placeholder-gray-400 md:text-md text-sm rounded-md block w-full p-3 placeholder:text-base `}
+
+                      />
                                 </div>
                             </div>
 
                             <div className="mb-4 pb-1 pt-5 text-center">
-                                <button
-                                    onClick={() => handleSubmit()}
+                                <input type="submit"
+                                value="submit"
                                     className="mb-3 py-3 inline-block w-full rounded px-6 font-bold text-base uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out hover:shadow-dark-2 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:shadow-dark-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
-                                    type="button"
-                                    style={{
+                                     style={{
                                         background: "#27a9e1",
                                     }}
-                                >
-                                    Submit
-                                </button>
+                                />
+                                     
                             </div>
                         </form>
                     </div>

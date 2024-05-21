@@ -165,29 +165,30 @@ function Home() {
   },[postalCode])
 
   useEffect(() => {
-    if( /^[A-Z]\d[A-Z] \d[A-Z]\d$/.test(postalCode)){
+    if( /^[A-Z]\d[A-Z] \d[A-Z]\d$/i.test(postalCode)){
       setIsValidPostalCode(true)
-      console.log('regex',/^[A-Z]\d[A-Z] \d[A-Z]\d$/.test(postalCode))
+      console.log('regex',/^[A-Z]\d[A-Z] \d[A-Z]\d$/i.test(postalCode))
     }
 
   },[postalCode])
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (!selectedOption) {
       setSelectedError(true);
       return;
     }
 
-    const postalCoderegex = /^[A-Z]\d[A-Z] \d[A-Z]\d$/;
-    setIsValidPostalCode(postalCoderegex.test(postalCode));
+    const postalCoderegex = /^[A-Z]\d[A-Z] \d[A-Z]\d$/i;
+    const isPostalCodeValid = postalCoderegex.test(postalCode);
+    setIsValidPostalCode(isPostalCodeValid);
 
-
-
-    if (!postalCoderegex.test(postalCode)) {
+    if (!isPostalCodeValid) {
       return;
     }
-    if (selectedOption && isValidPostalCode) {
+
+    if (selectedOption && isPostalCodeValid) {
       console.log(selectedOption);
       let postal = postalCode.replaceAll(" ", "-").toLowerCase();
       navigate.push("/getquotes/create/" + selectedOption.value + "/" + postal);
@@ -505,50 +506,41 @@ console.log(blogs)
             Thousands of homeowners connect with the right pro every week for
             their remodeling projects. Ready to find yours?
           </h2>
-          <div className="mt-8  sm:hidden min-h-9 items-center rounded-3xl w-full">
-            <div className="">
-              <div className="w-full items-center cursor-pointer flex  gap-2 p-3 rounded-full bg-white shadow-md">
-                <SearchIcon />
-                <Select
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      cursor: 'pointer',
-                    }),
-                  }}
-                  options={options}
-                  placeholder="What service do you need?"
-                  isSearchable={true}
-                  className="placeholder:text-[#696969] !cursor-pointer sm:w-[230px] w-[100%] text-black font-semibold ml-2 h-full outline-none border-none"
-                  onChange={(e) => handleSelectChange(e)}
-                />
-              </div>
-            </div>
-            <div className="flex items-center justify-between mt-4 gap-3">
-              <div className="w-1/2 s flex shadow-md items-center gap-2 p-3 rounded-full bg-white  font-bold text-[#888888]   text-sm sm:text-base">
-                <LocationIcon />
-                <input
-                  type="text"
-                  placeholder="Postal Code"
-                  value={postalCode}
-                  maxlength='7'
-
-                  onChange={(e) => setPostalCode(e.target.value)}
-                  className=" placeholder:text-[#696969]   font-semibold ml-2 h-full outline-none max-w-28"
-                />
-              </div>
-
-               {/* <p
-        // onClick={handleSubmit}
-        className="bg-primary cursor-pointer hover:bg-white hover:text-white transition-none w-full text-white rounded-3xl ml-auto p-3 text-transform uppercase font-bold px-4 text-sm sm:text-base"
-      >
-        Get Quo
-      </p> */}
-
-      <button onClick={(e) => handleSubmit(e)} className="bg-[#3F9DED] p-3 rounded-3xl text-white w-full">Get Quotes </button>
-             </div>
-          </div>
-          <div className="mt-8 sm:flex bg-white min-h-9 items-center  rounded-[20px] shadow-md w-full hidden ">
+          <form onSubmit={handleSubmit} className="mt-8 sm:hidden min-h-9 items-center rounded-3xl w-full">
+      <div>
+        <div className="w-full items-center cursor-pointer flex gap-2 p-3 rounded-full bg-white shadow-md">
+          <SearchIcon />
+          <Select
+            styles={{
+              control: (provided) => ({
+                ...provided,
+                cursor: 'pointer',
+              }),
+            }}
+            options={options}
+            placeholder="What service do you need?"
+            isSearchable={true}
+            className="placeholder:text-[#696969] !cursor-pointer sm:w-[230px] w-[100%] text-black font-semibold ml-2 h-full outline-none border-none"
+            onChange={handleSelectChange}
+          />
+        </div>
+      </div>
+      <div className="flex items-center justify-between mt-4 gap-3">
+        <div className="w-1/2 flex shadow-md items-center gap-2 p-3 rounded-full bg-white font-bold text-[#888888] text-sm sm:text-base">
+          <LocationIcon />
+          <input
+            type="text"
+            placeholder="Postal Code"
+            value={postalCode}
+            maxLength="7"
+            onChange={(e) => setPostalCode(e.target.value)}
+            className="placeholder:text-[#696969] font-semibold ml-2 h-full outline-none max-w-28"
+          />
+        </div>
+        <input type="submit" value="Get Quotes" className="bg-[#3F9DED] p-3 rounded-3xl text-white w-full" />
+      </div>
+    </form>
+          <form onSubmit={(e) => handleSubmit(e)} className="mt-8 sm:flex bg-white min-h-9 items-center  rounded-[20px] shadow-md w-full hidden ">
             <div className="pl-4">
               <SearchIcon />
             </div>
@@ -576,13 +568,12 @@ console.log(blogs)
                 className=" placeholder:text-[#696969] font-medium ml-2 h-full outline-none max-w-28"
               />
             </div>
-            <button
-              onClick={(e) => handleSubmit(e)}
+            <input type="submit"
+            value="Get Quotes"
               className="bg-primary cursor-pointer hover:bg-white hover:text-primary transition-none border-2 border-primary text-white rounded-[20px] ml-auto p-3 text-transform : uppercase font-bold px-5 text-sm sm:text-base"
-            >
-              Get Quotes
-            </button>
-          </div>
+           />
+             
+          </form>
 
           <div className="flex w-[100%]">
             {selectedError && (
@@ -592,7 +583,7 @@ console.log(blogs)
             )}
             {!isValidPostalCode && (
               <p className="mt-2 ml-[19rem] max-md:ml-0 text-sm text-red-600 dark:text-red-500">
-Please provide a valid postal code (uppercase only)!
+Please provide a valid postal code !
               </p>
             )}
           </div>

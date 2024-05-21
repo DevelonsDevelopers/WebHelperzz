@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 import customerService from "@/api/services/customerService";
 import requestService from "@/api/services/requestService";
 import {useRouter} from "next/navigation";
+import { PatternFormat } from "react-number-format";
+
 
 
 const work = [{name: 'Detached / Semi-Detached Home'}, {name: 'Condo / Townhouse'}]
@@ -126,7 +128,7 @@ const Steps = (props) => {
     };
 
     const handleDescribe = () => {
-        if (/^[A-Z]\d[A-Z] \d[A-Z]\d$/.test(postalCode)) {
+        if( /^[A-Z]\d[A-Z] \d[A-Z]\d$/i.test(postalCode)){
             setStep(step + 1)
         } else {
             toast.error('please enter a valid postal code ');
@@ -325,7 +327,7 @@ const Steps = (props) => {
                 {step === 4 && (
                     <>
 
-                        <form className="bg-secondary bg-opacity-10 rounded-2xl p-6 md:p-10">
+                        <form onSubmit={(e) => handleSubmit(e)} className="bg-secondary bg-opacity-10 rounded-2xl p-6 md:p-10">
                             <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-text">
                                 Help us to reach you.
                             </h2>
@@ -337,6 +339,7 @@ const Steps = (props) => {
                                     type="email"
                                     placeholder="Email Address"
                                     id="email"
+
                                     // disabled={authData ? true : false}
                                     value={userData?.email}
                                     onChange={(e) => setUserData({...userData, email:e.target.value})}
@@ -363,7 +366,7 @@ const Steps = (props) => {
                                 />
                             </div>
                             <div className="mb-5">
-                                <input
+                                {/* <input
                                     placeholder="Phone Number"
                                     type="tel"
                                     id="phone"
@@ -375,7 +378,24 @@ const Steps = (props) => {
                                     className={
                                         "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
                                     }
-                                />
+                                /> */}
+ <PatternFormat
+                        type="tel"
+                        format="+1 (###) ###-####"
+                        onValueChange={(value) =>
+                            setUserData((data) => ({
+                            ...data,
+                            phone: value.value,
+                          }))
+                        }
+                        required
+                        placeholder="Phone Number"
+                        className={
+                            "w-full bg-white border border-[#43D9BE] rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#43D9BE]"
+                        }
+                      />
+
+
                             </div>
                             <div className="mb-5">
                                 <input
@@ -399,11 +419,12 @@ const Steps = (props) => {
                                 {/*>*/}
                                 {/*    Go Back*/}
                                 {/*</button>*/}
-                                <button onClick={(e) => handleSubmit(e)}
-                                    className="bg-white hover:bg-secondary hover:text-white rounded-2xl text-lg font-semibold py-3">
-                                    Sumbit
-                                </button>
-                            </div>
+                                <input type='submit'
+                                value="Submit"
+                                
+                                    className="bg-white cursor-pointer hover:bg-secondary hover:text-white rounded-2xl text-lg font-semibold py-3" />
+                                    
+                             </div>
                         </form>
 
                     </>
@@ -553,6 +574,7 @@ const SelectInput = ({message, value, data, selectedOption, postalcode = true, h
                         type="text"
                         className="flex-1  focus:outline-none ring-0"
                         placeholder="Enter Postal code "
+                        maxLength="7"
                         onChange={(e) => handleInput(e.target.value)}
                     />
                 }

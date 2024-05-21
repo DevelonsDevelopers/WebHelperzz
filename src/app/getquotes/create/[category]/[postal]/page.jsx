@@ -9,6 +9,8 @@ import imgLogo from "../../../../../../public/assets/logo.jpeg";
 import Image from "next/image";
 import categoryService from "@/api/services/categoryService";
 import toast from "react-hot-toast";
+import { PatternFormat } from "react-number-format";
+
 
 
 function GetQuotes({params}) {
@@ -301,8 +303,7 @@ function GetQuotes({params}) {
         }
     };
 
-    console.log('filteredOptions', filteredOptions)
-
+   
 
     return (
         <>
@@ -751,7 +752,26 @@ function GetQuotes({params}) {
                                                 >
                                                     Phone
                                                 </label>
-                                                <input
+
+                                                <PatternFormat
+                        type="tel"
+                        format="+1 (###) ###-####"
+                        onValueChange={(value) =>
+                          setUserData((data) => ({
+                            ...data,
+                            phone: value.value,
+                          }))
+                        }
+                        placeholder="your phone"
+                        required
+                        className={` border ${
+                            validInput.isPhoneEntered
+                                ? "border-gray-400"
+                                : "border-red-700"
+                        } text-gray-600 placeholder-gray-400 text-sm md:text-md rounded-md block w-full p-3 placeholder:text-base`}
+                      />
+
+                                                {/* <input
                                                     type="phone"
                                                     id="phone"
                                                     name="phone"
@@ -763,7 +783,8 @@ function GetQuotes({params}) {
                                                     placeholder="Your Phone"
                                                     value={userData.phone}
                                                     onChange={handleUserDataChange}
-                                                />
+                                                /> */}
+
                                                 {!validInput.isPhoneEntered && (
                                                     <p className="mt-2 text-sm text-red-600 dark:text-red-500">
                                                         Please enter your phone number!
