@@ -9,7 +9,7 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
         {postProject && (
       <section className="sm:bg-secondary">
 
-        
+
         <div
           className="main_part pt-5 pb-0 sm:py-14 relative mt-10 mx-auto sm:flex sm:justify-center"
           style={{ maxWidth: "1400px" }}
@@ -64,13 +64,13 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                   className="border-2 border-[#43D9BE] w-full md:w-96 p-3 mx-auto rounded-xl mb-6 md:mb-0"
                   placeholder="Email Address"
                 />
-                <input 
+                <input
                 type="submit"
                 value="SUBSCRIBE"
                   className="hover:bg-[#43D9BE] w-fit mt-3 sm:w-48 mx-auto hover:text-white transition-all cursor-pointer text-text text-base lg:text-xl justify-center border-2 border-[#43D9BE] px-4 py-2 rounded-2xl font-bold bg-[#fff] text-transform: uppercase"
                />
-                  
-                
+
+
               </form>
             </div>
           </div>
@@ -89,37 +89,37 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                             </h2>
                             <nav className="list-none mb-10">
                                 <li>
-                                    <Link href="/category_list/toronto" className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <Link href="/category_list/toronto" className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Browse Categories
                                     </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Browse Tasks
                                     </a>
                                 </li>
                                 <li>
-                                    <Link href="/write_review" className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <Link href="/write_review" className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Write A Review
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/blog" className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <Link href="/blog" className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Blog
                                     </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Homeowner FAQ
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Review Guidelines
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Homeowner Trust
                                     </a>
                                 </li>
@@ -131,22 +131,22 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                             </h2>
                             <nav className="list-none mb-10">
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Join Helperzz
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Home Professional FAQ
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Building Trust
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Home Professional Terms
                                     </a>
                                 </li>
@@ -158,28 +158,28 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                             </h2>
                             <nav className="list-none mb-10">
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         About
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Careers at Helperzz
                                     </a>
                                 </li>
-                                
+
                                 <li>
-                                    <Link href='/contact-us' className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <Link href='/contact-us' className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Contact Us
                                     </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Terms of Use
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 text-transform: uppercase mb-2 block">
+                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Privacy{" "}
                                     </a>
                                 </li>
