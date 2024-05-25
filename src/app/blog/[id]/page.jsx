@@ -55,7 +55,7 @@ const Page = ({params}) => {
                         </div>
 
                     </div>
-                    <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full max-w-[97%] mx-auto">
+                    <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full  max-w-[1500px] mx-auto">
                         <div className="flex text-lg flex-col gap-3 lg:w-[60%] w-screen p-4">
                             {/* <h4 className="font-bold text-2xl">{blog?.subtitle}</h4> */}
                             <div className='relative w-full max-h-[600px]'>

@@ -228,8 +228,8 @@ const Page = ({params}) => {
                                     <label className='font-bold text-sm'>Category</label>
                                     <select
                                         required
-                                        className='bg-white text-gray-400 border-2 w-full p-2' {...register("category")}>
-                                        <option value="">Select Category</option>
+                                        className='bg-white  border-2 w-full p-2' {...register("category")}>
+                                        <option value="" selected disabled >Select Category</option>
                                         {
                                             options.map((option, i) => (
                                                 <option key={i} value={option.value}>{option.label}</option>

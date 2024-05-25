@@ -71,16 +71,17 @@ if(selectedOption) {
           </h1>
         </div>
         <div className="search-input">
-          <div className="relative bg-white rounded-[20px] shadow-md h-[45px] flex items-center">
-            <div className="mr-2 pl-3 sm:pl-6">
-              <Image
-                src={searchIcon}
-                alt="Search Icon"
-                width={20}
-                height={20}
-              />
-            </div>
+          <div className=" bg-white max-md:bg-transparent  rounded-[20px] shadow-md   flex items-center max-md:flex-col">
+            <div className="flex items-center bg-white rounded-[20px]">
 
+    <div className="mr-2 pl-3 sm:pl-3 ">
+      <Image
+        src={searchIcon}
+        alt="Search Icon"
+        width={20}
+        height={20}
+        />
+    </div>
 <Select
   styles={{
     control: (baseStyles, state) => ({
@@ -90,7 +91,8 @@ if(selectedOption) {
       width: "250px", 
       flexGrow: 1,
       fontSize: "14px",
-      "&:focus": { outline: "none" },
+      borderRadius:"20px",
+       "&:focus": { outline: "none" },
     }),
   }}
   options={options}
@@ -100,8 +102,10 @@ if(selectedOption) {
   onChange={(e) => handleSelectChange(e)}
 />
 
-
-            <div className="mr-2 ml-5">
+  </div>
+<div className="flex items-center max-md:mt-2" > 
+<div className="bg-white rounded-[20px] py-2 flex ">
+            <div className="mr-2 ml-5 ">
               <Image src={mapIcon} alt="Map Icon" width={20} height={20} />
             </div>
             <input
@@ -109,12 +113,14 @@ if(selectedOption) {
               placeholder="Postal Code"
               value={postalCode}
               onChange={(e) => setPostalCode(e.target.value)}
-              className="focus:outline-none flex-grow text-black text-[10px] sm:text-[16px] w-[60px] sm:w-[110px]"
-            />
-            <button onClick={(e) => handleSubmit(e)} className="bg-blue-500 text-white px-3 text-[8px] sm:text-[14px] sm:px-5 h-[45px] rounded-[20px] ml-2">
+              className="focus:outline-none flex-grow text-black bg-transparent text-[10px] sm:text-[16px]  sm:w-[110px]"
+              />
+              </div>
+            <button onClick={(e) => handleSubmit(e)} className="bg-blue-500 text-white text-[14px] px-5 h-[45px] rounded-[20px] ml-2">
               GET QUOTES
             </button>
           </div>
+              </div>
         </div>
       </div>
     </div>

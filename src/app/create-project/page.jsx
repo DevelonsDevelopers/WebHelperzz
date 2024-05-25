@@ -39,7 +39,7 @@ export default function Page() {
                         </Link>
                         <Typography
                             color="text.primary"
-                            style={{color: "#000", fontSize: 20, fontWeight: "bold"}}
+                            style={{color: "#000", fontSize: 20,}}
                         >
                             My Account
                         </Typography>
@@ -47,7 +47,7 @@ export default function Page() {
                 </div>
                 <div className="mt-8 bg-[#12937C1A] bg-opacity-10 max-w-[1500px] mx-auto py-5">
                     <div className="max-w-[1200px] mx-auto">
-                        <div className="rounded-2xl py-4 px-24 w-fit text-secondary font-semibold text-center">
+                        <div className="rounded-2xl py-4 px-24 bg-white w-fit text-secondary font-semibold text-center">
                             Overview
                         </div>
                     </div>
@@ -213,7 +213,7 @@ const Steps = (props) => {
             <div className="flex flex-wrap gap-3 lg:gap-0 items-center">
                 <div className="flex items-center gap-2 lg:gap-3">
                     {step === 1 ? (
-                        <div className="flex p-2 lg:p-3 bg-secondary rounded-lg ">
+                        <div className="flex w-12 h-12 justify-center items-center bg-secondary rounded-lg ">
                             <img src="/assets/check.svg" className="w-6" alt=""/>
                         </div>
                     ) : (
@@ -237,7 +237,7 @@ const Steps = (props) => {
                     <div className={`h-12 border ${step >= 1 && "border-secondary"}`}/>
                     <div className={`w-16 border ${step >= 1 && "border-secondary"}`}/>
                     {step === 2 ? (
-                        <div className="flex p-2 lg:p-3 bg-secondary rounded-lg ">
+                            <div className="flex w-12 h-12 justify-center items-center bg-secondary rounded-lg ">
                             <img src="/assets/check.svg" className="w-6" alt=""/>
                         </div>
                     ) : (
@@ -261,9 +261,9 @@ const Steps = (props) => {
                     <div className={`h-12 border ${step >= 2 && "border-secondary"} `}/>
                     <div className={`w-16 border ${step >= 2 && "border-secondary"} `}/>
                     {step === 3 ? (
-                        <div className="flex p-2 lg:p-3 bg-secondary rounded-lg ">
-                            <img src="/assets/check.svg" className="w-5" alt=""/>
-                        </div>
+                           <div className="flex w-12 h-12 justify-center items-center bg-secondary rounded-lg ">
+                           <img src="/assets/check.svg" className="w-6" alt=""/>
+                       </div>
                     ) : (
                         <div
                             className={`${
@@ -537,13 +537,13 @@ const SearchInput = ({message, icon, requestData, setRequestData}) => {
 
     return (
         <div className="relative w-full">
-            <div className="absolute -top-5 left-5 px-10 text-white py-1 lg:py-2 bg-secondary rounded-xl">
+            <div className="absolute -top-5 left-5 px-10 text-[#FFFFFFCC] py-1 lg:py-2 bg-secondary rounded-xl">
                 What do you need done?
             </div>
             <div className="flex w-full bg-white rounded-2xl px-3 border border-secondary">
                 <img
                     src="/assets/search.svg"
-                    className="w-4 cursor-pointer mr-3"
+                    className="w-4 cursor-pointer ml-3"
                     alt=""
                 />
 
@@ -561,7 +561,7 @@ const SearchInput = ({message, icon, requestData, setRequestData}) => {
                         {label: value?.name, value: value?.id}
                     ))}
 
-                    placeholder="What type of service do you need?"
+                    placeholder="Search"
                     isSearchable={true}
                     className="flex-1 py-5 focus:outline-none ring-0"
                     onChange={(e) => handleSelectChange(e)}
@@ -623,6 +623,7 @@ const SelectInput = ({message, value, data, selectedOption, postalcode = true, h
 
     const handleClick = (e) => {
         selectedOption(e.target.value)
+        setShowResult(!showResult)
     };
 
 
@@ -630,10 +631,10 @@ const SelectInput = ({message, value, data, selectedOption, postalcode = true, h
     return (
         <div className="relative w-full">
             <div
-                className="absolute lg:-top-5 -top-2 left-5 text-xs lg:text-base px-5 lg:px-10 text-white py-1 lg:py-2 bg-secondary rounded-xl">
+                className="absolute lg:-top-5 -top-2 left-5 text-xs lg:text-base px-5 lg:px-10 text-[#FFFFFFCC] py-1 lg:py-2 bg-secondary rounded-xl">
                 {message}
             </div>
-            <div className="flex w-full bg-white rounded-2xl py-5 px-3 border border-secondary cursor-pointer"
+            <div className="flex w-full bg-white rounded-2xl py-5 px-3 pt-8  border border-secondary cursor-pointer"
                  onClick={() => setShowResult(!showResult)}>
                 {postalcode ?
                     <div className="flex-1 font-semibold ">{value ? value : "Select"}</div>

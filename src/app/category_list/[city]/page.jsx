@@ -88,7 +88,7 @@ function CategoryList({params}) {
                                 ) : (
                                     <Image
                                         src={imgThumb}
-                                        className={`h-[250px] w-[250px]`}
+                                        className={`h-[250px] w-[250px] `}
                                         alt=""
                                         height={250}
                                         width={550}
@@ -97,13 +97,13 @@ function CategoryList({params}) {
                             </Link>
                         </div>
                         <div className="">
-                            <div className="flex gap-2">
-                                <div className="bg-white p-3 rounded-full">
+                            <div className="flex gap-2 items-center">
+                                <div className="p-3 rounded-full">
                                     <Link href={"#"}>
                                         <img
                                             src={"/assets/newImages/Ellipse 7.png"}
                                             alt=""
-                                            className="sm:h-16 sm:w-16 h-auto w-36 cursor-pointer"
+                                            className="sm:h-16 sm:w-16 h-auto w-36 cursor-pointer rounded-md"
                                             // href={
                                             //   `/profile/` +
                                             //   value.company_name.replaceAll(" ", "-").toLowerCase()
@@ -112,10 +112,10 @@ function CategoryList({params}) {
                                     </Link>
                                 </div>
                                 <div className="">
-                                    <h2 className="text-[1.2rem] md:text-lg font-[500] cursor-pointer">
-                                        <Link href={"#"}> Helperzz</Link>
+                                    <h2 className="text-[1.2rem] md:text-lg font-[500] cursor-pointer max-md:hidden">
+                                        <Link href={"/"}> Helperzz</Link>
                                     </h2>
-                                    <div className="flex flex-wrap">
+                                    <div className="flex  max-md:flex-col">
                                         {true ? (
                                             <Image
                                                 src={trustsealimg}
@@ -141,7 +141,7 @@ function CategoryList({params}) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex gap-2 mt-4">
+                            <div className="flex gap-2 mt-4 px-6">
                                 <div
                                     className="flex items-center gap-3 bg-[#12937C1A] border-[1px] border-[#12937C] py-1 px-2 rounded-lg">
                   <span>
@@ -152,19 +152,19 @@ function CategoryList({params}) {
                                     </p>
                                 </div>
                             </div>
-                            <div className="mt-2">
+                            <div className="mt-2 px-6">
                                 <h4 className="text-[15px] font-[600] text-gray-600">
                                     helperzzz
                                 </h4>
                                 <h3
-                                    className="text-sm font-[500] mt-3 text-ellipsis line-clamp-2"
+                                    className="text-sm font-[500] mt-3 text-ellipsis line-clamp-2  "
                                     dangerouslySetInnerHTML={{
                                         __html:
                                             "Premier Roofing Services: Our company specializes in delivering top-tier roofing solutions, offering impeccable installations, repairs, and maintenance...",
                                     }}
                                 ></h3>
                             </div>
-                            <div className="flex justify-between w-full mt-2 ">
+                            <div className="flex justify-between w-full mt-2 px-6">
                                 <h5 className="text-sm font-[500]">helperzzz</h5>
                                 <Link className="text-sm font-[600] text-[#12937C] " href={"#"}>
                                     Read More
@@ -172,14 +172,14 @@ function CategoryList({params}) {
                             </div>
                             <div>
                                 <Link
-                                    className="text-md font-[600] mt-1 cursor-pointer"
+                                    className="text-md font-[600] mt-1 cursor-pointer px-6"
                                     href={"#"}
                                 >
                                     projects
                                 </Link>
                             </div>
                             <button
-                                className="py-2 px-5 mt-4 bg-[#12937C] text-white text-md rounded-[10px] text-opacity-70 cursor-pointer hover:bg-opacity-80 font-[600]">
+                                className="py-2 px-5 max-md:ml-3 mt-4 bg-[#12937C] text-white text-md rounded-[10px] text-opacity-70 cursor-pointer hover:bg-opacity-80 font-[600]">
                                 Send Message
                             </button>
                         </div>

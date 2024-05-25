@@ -432,6 +432,9 @@ console.log('images ' , images)
 
 console.log('details ' , details)
 
+const allImages = details?.projects?.flatMap(project => project.images) || [];
+const limitedImages = allImages.slice(0, 8);
+
   const totalImages = details?.projects?.reduce((sum, project) => sum + project.images.length, 0);
 
 
@@ -448,9 +451,12 @@ console.log('details ' , details)
     } 
   },[formData?.postal_code])
 
+
+  const [selectedImage , setSelectedImage] = useState()
+
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
-             <CarousalModal  open={openModal} handleClose={handleOpen} images={modalView} />
+             <CarousalModal  open={openModal} handleClose={handleOpen} images={modalView} selectedImage={selectedImage} />
 
       <TabContext value={value}>
         <Box
@@ -713,6 +719,8 @@ Please provide a valid postal code !
               <div className="rounded-2xl bg-[#F7F9FB] p-7 mt-10">
                 <div className="flex items-center gap-4 flex-wrap md:flex-nowrap">
                   <div>
+
+                    
                     <h2 className="whitespace-nowrap text-lg md:text-xl font-semibold mb-3 text-text">
                       Star Score
                     </h2>
@@ -876,12 +884,7 @@ Please provide a valid postal code !
                       <div
                         className="mt-9"
                         key={index}
-                        // onClick={() =>
-                        //   openZoomedImage(
-                        //     `${IMAGE_PATH}${project.images[0].image}`,
-                        //     project.images
-                        //   )
-                        // }
+                      
                         onClick={() => handleModalOpen(project?.images)}
                         >
                         <img
@@ -945,13 +948,12 @@ Please provide a valid postal code !
   </div>
 
 <div className="flex flex-wrap gap-2 max-md:gap-[4px]"> 
-  {details?.projects?.map((project, index) => (
-                  < >
-{project.images.slice(0, 8).map((img, index) => (
-  index > 0 && index < 10 ? (
+  
+{limitedImages.map((img, index) => (
+
     <div
-      onClick={() => handleModalOpen(allPhotos)}
-      className="mt-5 m-auto"
+    onClick={() => {handleModalOpen(allPhotos) ; setSelectedImage(img.image)}}
+    className="mt-5 m-auto"
       key={index}
     >
       <img
@@ -962,11 +964,8 @@ Please provide a valid postal code !
         height={280}
       />
     </div>
-  ) : null
 ))}
 
-                  </>
-                ))}
 </div>
 
                   <div className="flex max-md:flex-col ml-4  md:pl-0 gap-2 items-center mt-10 ">
@@ -1145,122 +1144,179 @@ Please provide a valid postal code !
                     </div>
                   </div>
                   <div>
-                    <div className="mt-10">
+                  <div className="mt-10">
+                    {details?.details?.description ? 
+                    <>
+
                       <h2 className="text-2xl font-semibold mb-4 text-text ">
                         About company
                       </h2>
-                      <p
-                        className="md:text-xl text-md mt-4 text-[#444444]"
-                        dangerouslySetInnerHTML={{
-                          __html: details?.details?.description,
-                        }}
+                      <h5
+                      className="md:text-xl text-md mt-4 text-[#444444]"
+                      dangerouslySetInnerHTML={{
+                        __html: details?.details?.description,
+                      }}
                       />
-
-                      <hh3 className="mt-10 text-xl md:text-2xl font-semibold mb-4 text-text">
+                    </>
+                     :
+                    ''
+                  }
+{details?.details?.website ? 
+<>
+                      <h4 className="mt-10 text-xl md:text-2xl font-semibold mb-4 text-text">
                         Website:
-                      </hh3>
+                      </h4>
                       <a
-                        href="https://www.homeimprovementpeople.com"
-                        className="text-md md:text-xl font-semibold mb-4 text-text break-words"
+                      
+                        href={`${details?.details?.website}`}
+                        className="text-md md:text-xl font-semibold mb-4 break-words underline text-blue-600"
                         rel="nofollow"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          navigator.clipboard
-                            .writeText("https://www.homeimprovementpeople.com")
-                            .then(() => {
-                              alert("Link copied to clipboard");
-                            })
-                            .catch((err) => {
-                              console.error("Failed to copy: ", err);
-                            });
-                        }}
+                        target="_blank"
+                       
                       >
                         {details?.details?.website}
                       </a>
+                      </>
+                      :
+                      ''
+                      
+}
                     </div>
+
+
+
                     <div className="rounded-2xl bg-[#F7F9FB] p-7 mt-10">
-                      <div className="flex items-center gap-4 flex-wrap md:flex-nowrap">
-                        <div>
-                          <h2 className="whitespace-nowrap text-lg md:text-xl font-semibold mb-3 text-text">
-                            Star Score
-                          </h2>
-                          <div className="flex gap-2 items-center text-text md:text-md text-sm">
-                          
-                              <>
-                                <StarIcon color={"#12937C"} />{" "}
-                                <span>{`${givenRating ? givenRating : 0 } / 5`}</span>{" "}
-                                <span className="text-[#444444]">{`(${details.reviews.length} Reviews)`}</span>
-                              </>
-                         
-                          </div>
-                          <span className="text-[#444444] mt-2 block">
-                            {`(${details?.reviews?.length} Reviews)`}
-                          </span>
+                      
+                <div className="flex items-center gap-4 flex-wrap md:flex-nowrap">
+                  <div>
+                    <h2 className="whitespace-nowrap text-lg md:text-xl font-semibold mb-3 text-text">
+                      Star Score
+                    </h2>
+                    <div className="flex gap-2 items-center text-text">
+                      <StarIcon color={"#12937C"} />{" "}
+                      <span>{`${givenRating ? givenRating : 0 } / 5`}</span>{" "}
+                    </div>
+                    <span className="text-[#444444] mt-2 block">
+                      {`(${details?.reviews?.length} Reviews)`}
+                    </span>
+                  </div>
+                  <div className="w-full">
+                    <div className="grid md:grid-cols-2 gap-5">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h5 className="md:w-[250px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
+                            Average Rating{" "}
+                          </h5>
+                          <progress
+                            id="file"
+                            value={details?.ratings?.avg}
+                            max="5"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
+                          <ExclamationMarkIcon />
                         </div>
-                        <div className="w-full">
-                          <div className="grid md:grid-cols-2 gap-5">
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <h5 className="md:w-[250px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
-                                  Average Rating{" "}
-                                </h5>
-                                <span className="bg-secondary rounded-full h-4 w-full block"></span>
-                                <ExclamationMarkIcon />
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <h5 className="md:w-[250px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
-                                  Recency
-                                </h5>
-                                <span className="bg-secondary  rounded-full h-4 w-full block"></span>
-                                <ExclamationMarkIcon />
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <h5 className="md:w-[250px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
-                                  Reputation{" "}
-                                </h5>
-                                <span className="bg-secondary rounded-full h-4 w-full block"></span>
-                                <ExclamationMarkIcon />
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <h5 className="md:w-[250px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base text-text">
-                                  Responsiveness{" "}
-                                </h5>
-                                <span className="bg-secondary rounded-full h-4 w-full block"></span>
-                                <ExclamationMarkIcon />
-                              </div>
-                            </div>
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <h5 className=" mb-1 w-full font-bold whitespace-nowrap text-wrap text-sm md:text-sm  text-text">
-                                  Reviews by rating{" "}
-                                  <span className="text-[#666]">
-                                    (past 12 months)
-                                  </span>
-                                </h5>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <h5 className="md:w-[90px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
-                                  Great{" "}
-                                </h5>
-                                <span className="bg-secondary  rounded-full h-4 w-full block"></span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <h5 className="md:w-[90px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
-                                  Average{" "}
-                                </h5>
-                                <span className="bg-[#E0E0E0] rounded-full h-4 w-full block"></span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <h5 className="md:w-[90px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base text-text">
-                                  Poor{" "}
-                                </h5>
-                                <span className="bg-[#E0E0E0] rounded-full h-4 w-full block"></span>
-                              </div>
-                            </div>
-                          </div>
+                        <div className="flex items-center gap-2">
+                          <h5 className="md:w-[250px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
+                            Recency
+                          </h5>
+                          <progress
+                            id="file"
+                            value={details?.ratings?.recency}
+                            max="1"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
+                          <ExclamationMarkIcon />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <h5 className="md:w-[250px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
+                            Reputation{" "}
+                          </h5>
+                          <progress
+                            id="file"
+                            value={details?.ratings?.reputation}
+                            max="1"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
+                          <ExclamationMarkIcon />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <h5 className="md:w-[250px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base text-text">
+                            Responsiveness{" "}
+                          </h5>
+                          <progress
+                            id="file"
+                            value="0"
+                            max="100"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
+                          <ExclamationMarkIcon />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h5 className=" mb-1 w-full font-bold whitespace-nowrap text-wrap text-sm md:text-sm  text-text">
+                            Reviews by rating{" "}
+                            <span className="text-[#666]">
+                              (past 12 months)
+                            </span>
+                          </h5>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <h5 className="md:w-[90px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
+                            Great{" "}
+                          </h5>
+                          <progress
+                            id="file"
+                            value={details?.ratings?.great}
+                            max="1"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <h5 className="md:w-[90px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base  text-text">
+                            Average{" "}
+                          </h5>
+                          <progress
+                            id="file"
+                            value={details?.ratings?.average}
+                            max="1"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <h5 className="md:w-[90px] mb-1 w-full whitespace-nowrap text-sm text-end  md:text-base text-text">
+                            Poor{" "}
+                          </h5>
+                          <progress
+                            id="file"
+                            value={details?.ratings?.poor}
+                            max="1"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
                         </div>
                       </div>
                     </div>
+                    {/* <Image
+                          src={require("/src/assets/images/progressBar.png")}
+                          alt=""
+                        /> */}
+                  </div>
+                </div>
+              </div>
                   </div>
                 </div>
               </div>
@@ -1301,6 +1357,7 @@ Please provide a valid postal code !
             <Loading />
           ) : (
             <TabPanel value="4">
+{details?.reviews?.length > 0 ?  
               <div className="review_section ">
                 <div className=" md:px-6 px-0 py-10 lg::mx-auto">
                   <div style={{ display: "flex", flexDirection: "row" }}>
@@ -1446,6 +1503,8 @@ Please provide a valid postal code !
                   </div>
                 </div>
               </div>
+:
+<h1 className="text-center font-[600] text-[2rem] max-md:text-[1.2rem]">No Reviews Found </h1> }
             </TabPanel>
           )}
         </div>

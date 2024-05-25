@@ -8,12 +8,12 @@ import { MdCancel } from "react-icons/md";
 
 
  
-const CarousalModal = ({ open, handleClose ,images}) => {
+const CarousalModal = ({ open, handleClose ,images,selectedImage}) => {
 
     console.log('images' ,images)
 
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [zoomedImageUrl, setZoomedImageUrl] = useState(images?.[0]?.image); 
+    const [zoomedImageUrl, setZoomedImageUrl] = useState(selectedImage); 
 
     useEffect(() => {
         setZoomedImageUrl(images?.[0]?.image)

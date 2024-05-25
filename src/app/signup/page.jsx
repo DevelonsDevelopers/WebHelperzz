@@ -232,9 +232,9 @@ const Page = () => {
                           }}
                         />
                         {showPassword ? 
-                      <IoEye className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPassword(false)} />
+                      <IoEyeOff className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPassword(false)} />
 :
-  <IoEyeOff className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPassword(true)} />
+  <IoEye className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPassword(true)} />
                       }
                       </div>
                     </div>
@@ -255,9 +255,9 @@ const Page = () => {
                           }}
                         />
   {showPasswordConfirm ? 
-                      <IoEye className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPasswordConfirm(false)} />
+                      <IoEyeOff className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPasswordConfirm(false)} />
 :
-  <IoEyeOff className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPasswordConfirm(true)} />
+  <IoEye className="ml-auto mt-[-2rem] mr-4 cursor-pointer" size={24} onClick={() => setShowPasswordConfirm(true)} />
                       }
 
                       </div>
