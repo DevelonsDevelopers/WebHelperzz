@@ -27,6 +27,7 @@ import customerService from "@/api/services/customerService";
 import requestService from "@/api/services/requestService";
 import contractorService from "@/api/services/contractorService";
 import { PatternFormat } from "react-number-format";
+import GalleryModal from "./GalleryModal";
 
 
 // import customerService from "../../../../../api/services/customerService";
@@ -378,8 +379,23 @@ const handleSubmit = (e) => {
 
   const [showLatest, setShowLatest] = useState('Newest');
   const [showHighestStars, setShowHighestStars] = useState(false);
+  const [gallery, setGallery] = useState([]);
 
+  useEffect(() => {
+      const fetchGallery = async () => {
+          try {
+              const response = await contractorService.contractorGallery(details?.contractor?.id);
+              setGallery(response?.gallery);
+              console.log('response of gallery', response);
+          } catch (error) {
+              console.error('Error fetching gallery:', error);
+          }
+      };
 
+      if (details?.contractor?.id) {
+          fetchGallery();
+      }
+  }, [details]);
 
   
   const toggleReviews = () => {
@@ -409,6 +425,10 @@ const handleSubmit = (e) => {
     const [openModal , setOpenModal] = useState(false)
     const handleOpen = () => {
       setOpenModal(!openModal)
+    }
+    const [openModal2 , setOpenModal2] = useState(false)
+    const handleOpen2 = () => {
+      setOpenModal2(!openModal2)
     }
 
 const [modalView , setModalView] = useState([])
@@ -453,10 +473,12 @@ const limitedImages = allImages.slice(0, 8);
 
 
   const [selectedImage , setSelectedImage] = useState()
+  const [selectedImage2 , setSelectedImage2] = useState()
 
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
              <CarousalModal  open={openModal} handleClose={handleOpen} images={modalView} selectedImage={selectedImage} />
+             <GalleryModal  open={openModal2} handleClose={handleOpen2} images={gallery} selectedImage={selectedImage2} />
 
       <TabContext value={value}>
         <Box
@@ -949,10 +971,10 @@ Please provide a valid postal code !
 
 <div className="flex flex-wrap gap-2 max-md:gap-[4px]"> 
   
-{limitedImages.map((img, index) => (
+{gallery.slice(0,8).map((img, index) => (
 
     <div
-    onClick={() => {handleModalOpen(allPhotos) ; setSelectedImage(img.image)}}
+    onClick={() => {handleOpen2() ; setSelectedImage2(index) }}
     className="mt-5 m-auto"
       key={index}
     >

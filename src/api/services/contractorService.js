@@ -105,6 +105,14 @@ const contractorService = {
             throw error.response.data
         }
     } ,
+    contractorGallery: async (id) => {
+        try {
+            const response = await axiosInstance.get(`/contractors/gallery/${id}`)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    } ,
   
 
 }
