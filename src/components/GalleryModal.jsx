@@ -10,7 +10,17 @@ const GalleryModal = ({ open, handleClose, images, selectedImage }) => {
     const initialSelectedImage = Number(selectedImage);
 
     const [selectedIndex, setSelectedIndex] = useState(initialSelectedImage);
-    const [zoomedImageUrl, setZoomedImageUrl] = useState(images?.[initialSelectedImage]?.image);
+    const [zoomedImageUrl, setZoomedImageUrl] = useState(images?.[selectedIndex]?.image);
+
+
+
+    useEffect(() => {
+        setSelectedIndex(initialSelectedImage);
+    }, []);
+
+    useEffect(() => {
+        setZoomedImageUrl(images?.[selectedIndex]?.image);
+    }, []);
 
     useEffect(() => {
         setZoomedImageUrl(images?.[selectedIndex]?.image);
