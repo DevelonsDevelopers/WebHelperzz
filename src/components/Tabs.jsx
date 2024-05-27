@@ -1348,6 +1348,8 @@ Please provide a valid postal code !
             <Loading />
           ) : (
             <TabPanel value="3">
+{gallery?.length > 0 ?
+
               <div className="img_align w-[screen] pl-2 md:pl-0  overflow-x-auto  flex flex-wrap gap-10">
                     {gallery.map((img , index) => (
                       <div
@@ -1366,6 +1368,14 @@ Please provide a valid postal code !
                       </div>
                     ))}
               </div>
+              :
+              <div>
+ <h1 className="text-center font-[600] text-xl text-gray-700">
+  No image found
+  </h1>
+ 
+                </div> 
+}
             </TabPanel>
           )}
           {isLoaded ? (
