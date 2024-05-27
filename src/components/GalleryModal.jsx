@@ -1,50 +1,40 @@
 'use client'
 import { Button, Modal, Typography } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { IMAGE_PATH } from "@/api/BaseUrl";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 
 const GalleryModal = ({ open, handleClose, images, selectedImage }) => {
-    
     const initialSelectedImage = Number(selectedImage);
+    const selectedIndexRef = useRef(initialSelectedImage);
+    const zoomedImageRef = useRef(null);
+    console.log('selected index' ,selectedImage)
 
-    const [selectedIndex, setSelectedIndex] = useState(initialSelectedImage);
-    const [zoomedImageUrl, setZoomedImageUrl] = useState(images?.[selectedIndex]?.image);
-
-
-
-    useEffect(() => {
-        setSelectedIndex(initialSelectedImage);
-    }, []);
-
-    useEffect(() => {
-        setZoomedImageUrl(images?.[selectedIndex]?.image);
-    }, []);
+    const updateZoomedImage = () => {
+        if (zoomedImageRef.current) {
+            zoomedImageRef.current.src = `${IMAGE_PATH}${images[selectedIndexRef.current]?.image}`;
+        }
+    };
 
     useEffect(() => {
-        setZoomedImageUrl(images?.[selectedIndex]?.image);
-    }, [selectedIndex]);
+        selectedIndexRef.current = initialSelectedImage;
+        updateZoomedImage();
+    }, [initialSelectedImage, images]);
 
     const handlePrevClick = () => {
-        setSelectedIndex((prevIndex) =>
-            prevIndex === 0 ? images?.length - 1 : prevIndex - 1
-        );
+        selectedIndexRef.current = 
+            selectedIndexRef.current === 0 ? images.length - 1 : selectedIndexRef.current - 1;
+        updateZoomedImage();
     };
 
     const handleNextClick = () => {
-        setSelectedIndex((prevIndex) =>
-            prevIndex === images?.length - 1 ? 0 : prevIndex + 1
-        );
+        selectedIndexRef.current = 
+            selectedIndexRef.current === images.length - 1 ? 0 : selectedIndexRef.current + 1;
+        updateZoomedImage();
     };
 
-    useEffect(() => {
-        setZoomedImageUrl(images?.[selectedIndex]?.image);
-    }, [selectedIndex, images]);
-
     const handleModalClose = () => {
-        setSelectedIndex(initialSelectedImage);
-        setZoomedImageUrl(images?.[initialSelectedImage]?.image);
         handleClose();
     };
 
@@ -67,6 +57,7 @@ const GalleryModal = ({ open, handleClose, images, selectedImage }) => {
                 className="bg-white/40 rounded-xl px-10 py-2"
             >
                 <div className="flex justify-end items-center">
+                    <h1 className="text-gray-600">Close</h1>
                     <MdCancel
                         className="text-2xl text-gray-600 cursor-pointer"
                         onClick={handleModalClose}
@@ -75,7 +66,8 @@ const GalleryModal = ({ open, handleClose, images, selectedImage }) => {
                 <div className="flex flex-col justify-center mt-4">
                     <div className="flex justify-center">
                         <img
-                            src={`${IMAGE_PATH}${zoomedImageUrl}`}
+                            ref={zoomedImageRef}
+                            src={`${IMAGE_PATH}${images[initialSelectedImage]?.image}`}
                             alt="Zoomed"
                             className="w-full h-[350px] xl:h-[75vh] sm:h-[400px] object-cover rounded-md"
                         />
@@ -96,15 +88,15 @@ const GalleryModal = ({ open, handleClose, images, selectedImage }) => {
                     </div>
                 </div>
                 <div className="flex gap-2 mt-2 overflow-x-auto max-w-[70vh] mx-auto">
-                    {images?.map((item, index) => (
+                    {images.map((item, index) => (
                         <div
                             key={index}
                             onClick={() => {
-                                setZoomedImageUrl(item.image);
-                                setSelectedIndex(index);
+                                selectedIndexRef.current = index;
+                                updateZoomedImage();
                             }}
                             className={`cursor-pointer ${
-                                selectedIndex === index ? "border-solid border-2 border-sky-500" : ""
+                                selectedIndexRef.current === index ? "border-solid border-2 border-sky-500" : ""
                             }`}
                         >
                             <img

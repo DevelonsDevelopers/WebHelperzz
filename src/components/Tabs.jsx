@@ -1349,15 +1349,10 @@ Please provide a valid postal code !
           ) : (
             <TabPanel value="3">
               <div className="img_align w-[screen] pl-2 md:pl-0  overflow-x-auto  flex flex-wrap gap-10">
-                {details?.projects?.map((project, index) => (
-                  < >
-                    {project.images.map((img) => (
+                    {gallery.map((img , index) => (
                       <div
-                        // onClick={() =>
-                        //   openZoomedImage(`${IMAGE_PATH}${img.image}`)
-                        // }
-                        onClick={() => handleModalOpen(allPhotos)}
-                       
+                    
+                        onClick={() => {handleOpen2() ; setSelectedImage2(index) }}
                         className="mt-5"
                         key={index}
                       >
@@ -1370,8 +1365,6 @@ Please provide a valid postal code !
                         />
                       </div>
                     ))}
-                  </>
-                ))}
               </div>
             </TabPanel>
           )}
