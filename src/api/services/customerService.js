@@ -33,6 +33,14 @@ const customerService = {
             throw error.response.data
         }
     },
+    checkToken: async (token) => {
+        try {
+            const response = await axiosInstance.get('/customers/checkToken/' + token)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    }
 }
 
 export default customerService

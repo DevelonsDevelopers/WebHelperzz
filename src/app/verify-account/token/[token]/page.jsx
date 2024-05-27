@@ -1,7 +1,6 @@
 'use client'
 
 import React, {useState, useRef, useEffect} from "react";
-// import Header from "../../components/Header";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Button from "@mui/material/Button";
 import {useRouter} from 'next/navigation'
@@ -10,21 +9,41 @@ import customerService from "@/api/services/customerService";
 const Page = ({params}) => {
 
     const [verified, setVerified] = useState(false)
-    const [setFailed, setSetFailed] = useState(false)
+    const [failed, setFailed] = useState(false)
     const navigate = useRouter()
+    const [expired, setExpired] = useState(0)
 
     useEffect(() => {
-        if (params.token) {
-            customerService.verifyEmail({token: params.token}).then(response => {
-                console.log(response)
-                if (response.success) {
-                    setVerified(true)
-                }
-            }).catch(err => {
-                setFailed(true)
-            })
+        if (expired === 0) {
+            if (params.token) {
+                customerService.checkToken(params.token).then(response => {
+                    console.log(response)
+                    if (response.exist) {
+                        setExpired(1)
+                    } else {
+                        setExpired(2)
+                    }
+                }).catch(e => {
+                    setExpired(2)
+                })
+            }
         }
-    }, [params.token]);
+    }, [params.token, expired]);
+
+    useEffect(() => {
+        if (expired === 1) {
+            if (params.token) {
+                customerService.verifyEmail({token: params.token}).then(response => {
+                    console.log(response)
+                    if (response.success) {
+                        setVerified(true)
+                    }
+                }).catch(err => {
+                    setFailed(true)
+                })
+            }
+        }
+    }, [expired]);
 
     return (
         <div>
@@ -37,13 +56,19 @@ const Page = ({params}) => {
                     <div className="flex flex-wrap  ">
                         <div className="px-8 md:px-0 m-auto">
                             <div className="md:mx-6 md:p-12">
+                                {expired === 2 ?
+                                    <p className="  mt-6 font-semibold text-2xl  text-center">
+                                        Token Expired
+                                    </p>
+                                    :
+                                    <>
                                 {verified ?
                                 <form className="justify-center items-center mx-auto">
                                     <div className="flex justify-center">
                                         <CheckCircleOutlineIcon style={{fontSize: 90, color: '#44CA77'}}/>
                                     </div>
                                     <p className="  mt-6 font-semibold text-2xl  text-center">
-                                        Account verified successfuly
+                                        Account verified successfully
                                     </p>
 
                                     <center className="mt-4">
@@ -64,6 +89,7 @@ const Page = ({params}) => {
                                     <p className="  mt-6 font-semibold text-2xl  text-center">
                                         Verifying
                                     </p>}
+                                    </>}
                             </div>
                         </div>
                     </div>
