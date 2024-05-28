@@ -14,6 +14,7 @@ import {useRouter} from "next/navigation";
 import emailService from "@/api/services/emailService";
 import { PatternFormat } from "react-number-format";
 import toast from "react-hot-toast";
+import cityService from "@/api/services/cityService";
 
 
 const schema = object({
@@ -100,6 +101,23 @@ const Page = ({params}) => {
     const logo = watch('logo');
     const certificate = watch('certificate')
     const licenses = watch('licenses')
+
+    const [cities , setCities] = useState([])
+
+useEffect(() => {
+    const getCities = async () => {
+        try {
+            const response = await cityService.fetchAll();
+            setCities(response.cities);
+            console.log('cities ', response)
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    getCities()
+},[])
+
+
 
     const onSubmit = async (data) => {
         try {
@@ -294,6 +312,23 @@ const Page = ({params}) => {
 
                                 </div>
                             </div>
+
+                            <div className='flex-1 flex flex-col'>
+                                    <label className='font-bold text-sm'>City</label>
+                                    <select
+                                        required
+                                        className='bg-white  border-2 w-full p-2' 
+                                        // {...register("category")}
+                                        >
+                                        <option value="" selected disabled >Select City</option>
+                                        {
+                                            cities.map((option, i) => (
+                                                <option key={i} value={option.name}>{option.name}</option>
+                                            ))
+                                        }
+                                    </select>
+                                </div>
+
                             <div className='flex gap-4'>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Address</label>
