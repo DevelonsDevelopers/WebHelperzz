@@ -963,9 +963,32 @@ Please provide a valid postal code !
                     </div>
                   </div>
 
-            
+                  {/* <div className="flex justify-between px-2 mt-4">
+  <h1 className="text-[#12937C] text-[1.3rem] font-[500] ">Photos</h1>
+  <h1 className="text-[#12937C] text-[1.3rem] font-[500] cursor-pointer " onClick={handlePhotoButtonClick}>View All</h1>
 
+  </div>
 
+<div className="flex flex-wrap gap-2 max-md:gap-[4px]"> 
+  
+{gallery.slice(0,8).map((img, index) => (
+
+    <div
+    onClick={() => {handleOpen2() ; setSelectedImage2(index) }}
+    className="mt-5 m-auto"
+      key={index}
+    >
+      <img
+        src={`${IMAGE_PATH}${img.image}`}
+        alt={img.image}
+        className="h-[120px] max-md:w-[70px] w-[130px] max-md:h-[70px] rounded-[22px]"
+        width={350}
+        height={280}
+      />
+    </div>
+))}
+
+</div> */}
 
                   <div className="flex max-md:flex-col ml-4  md:pl-0 gap-2 items-center mt-10 ">
                     <div className="flex items-center gap-4  max-md:mr-auto">
