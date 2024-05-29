@@ -5,6 +5,8 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Button from "@mui/material/Button";
 import {useRouter} from 'next/navigation'
 import customerService from "@/api/services/customerService";
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 const Page = ({params}) => {
 
@@ -12,6 +14,7 @@ const Page = ({params}) => {
     const [failed, setFailed] = useState(false)
     const navigate = useRouter()
     const [expired, setExpired] = useState(0)
+    const pathname = usePathname()
 
     useEffect(() => {
         if (expired === 0) {
@@ -47,7 +50,16 @@ const Page = ({params}) => {
 
     return (
         <div>
-            {/* <Header /> */}
+             <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
 
 
             <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-200 min-h-[100vh] ">

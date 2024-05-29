@@ -9,7 +9,7 @@ export default function JoinSuccess() {
       <header className="w-[1300px] mx-auto justify-center">
         <Link href="/">
           <div className="w-32 md:mr-10 select-text logo p-4  h-[5vh] ">
-            <Image src={imgLogo} alt="" width={150} height={100} />
+            <Image src={imgLogo} alt="image logo" width={150} height={100} />
           </div>
         </Link>
       </header>

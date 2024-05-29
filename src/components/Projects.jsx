@@ -82,7 +82,7 @@ export const Projects = () => {
             key={index}
             onClick={() => openZoomedImage(project.img)}
           >
-            <Image src={project.img} alt="" className="rounded-[22px]" />
+            <Image src={project.img} alt={project.title} className="rounded-[22px]" />
             <h2 className="text-lg md:text-[22px] text-center md:text-left font-semibold mt-5 text-text">
               {project.title}
             </h2>

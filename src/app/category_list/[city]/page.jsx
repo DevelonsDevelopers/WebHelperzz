@@ -17,12 +17,16 @@ import imgThumb from "../../../../public/assets/project_thumb.jpg";
 import trustsealimg from "../../../../public/assets/trustsealbadge.png";
 import contractorService from "@/api/services/contractorService";
 import categoryService from "@/api/services/categoryService";
-import {useRouter} from 'next/navigation'
+import {useRouter} from 'next/navigation';
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 function CategoryList({params}) {
 
     const [categories, setCategories] = useState([])
     const [categoryLoading, setCategoryLoading] = useState(true)
+    
+    const pathname = usePathname()
 
     const navigation = useRouter()
 
@@ -42,6 +46,16 @@ function CategoryList({params}) {
 
     return (
         <>
+         <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
             <div className="shadow-lg">
                 <Header/>
             </div>
@@ -81,7 +95,7 @@ function CategoryList({params}) {
                                     <img
                                         src={`/assets/newImages/Rectangle 132.png`}
                                         className={`h-[250px] w-[250px] object-cover cursor-pointer`}
-                                        alt=""
+                                        alt="rectangle"
                                         height={250}
                                         width={550}
                                     />
@@ -89,7 +103,7 @@ function CategoryList({params}) {
                                     <Image
                                         src={imgThumb}
                                         className={`h-[250px] w-[250px] `}
-                                        alt=""
+                                        alt="image thumb"
                                         height={250}
                                         width={550}
                                     />
@@ -102,7 +116,7 @@ function CategoryList({params}) {
                                     <Link href={"#"}>
                                         <img
                                             src={"/assets/newImages/Ellipse 7.png"}
-                                            alt=""
+                                            alt="ellipse"
                                             className="sm:h-16 sm:w-16 h-auto w-36 cursor-pointer rounded-md"
                                             // href={
                                             //   `/profile/` +

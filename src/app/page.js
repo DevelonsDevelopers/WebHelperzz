@@ -35,7 +35,8 @@ import {Rating} from "@material-tailwind/react";
 import moment from "moment";
 import Loading from "@/components/loading";
 import useMediaQuery from '@mui/material/useMediaQuery';
-
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 
 const hire = [{id: 1, name: 'Interior Design', tag: 'interior-design'}, {
@@ -158,6 +159,7 @@ function Home() {
     const [reviewLoading, setReviewLoading] = useState(true);
     const [contractorLoading, setContractorLoading] = useState(true);
 
+    const pathname = usePathname()
 
     const matches = useMediaQuery('(max-width:700px)');
 
@@ -504,6 +506,17 @@ function Home() {
     console.log(blogs)
     return (
         <>
+ <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
+
             <Header/>
             {/* Section 1 */}
             <main className="hero_image px-4 mt-[-100px] w-[100%] !flex-col">
@@ -747,7 +760,7 @@ function Home() {
                                             <img
                                                 className="object-cover h-[300px] object-center rounded-3xl"
                                                 src={`${IMAGE_PATH}${value.image}`}
-                                                alt="blog"
+                                                alt= {value.title}
                                             />
                                             <div className="py-4">
                                                 <h2 className="title-font text-base font-semibold text-gray-900 mb-3 select-text">
@@ -874,7 +887,7 @@ function Home() {
                                                         <div class="flex p-3 gap-2">
                                                             <a class="inline-flex gap-2">
                                                                 <img
-                                                                    alt="blog"
+                                                                    alt={value.company_name}
                                                                     src={`${IMAGE_PATH}${value.image}`}
                                                                     class="h-16 w-16 max-md:w-20 rounded-full flex-shrink-0 object-cover object-center"
                                                                 />

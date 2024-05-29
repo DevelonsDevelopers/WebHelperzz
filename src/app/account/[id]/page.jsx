@@ -17,6 +17,10 @@ import { Footer } from "@/components/Footer";
 import trustsealbadge from "../../../../public/assets/trustsealbadge.png";
 import contractorService from "../../../api/services/contractorService";
 import customerService from "../../../api/services/customerService";
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
+
+
 
 import { useRouter } from "next/navigation";
 import Loading from "@/components/loading";
@@ -26,9 +30,22 @@ function Page({ params }) {
   const [ID, setID] = useState();
   const [details, setDetails] = useState();
   const [loading, setLoading] = useState(false);
+  const pathname = usePathname()
+
 
   return (
     <>
+ <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
+
       <Header />;
       <div className="flex flex-col gap-10 mt-16 ">
         <div className="max-w-[1200px] mx-auto  px-6  pt-4 md:pt-7 text-left">
@@ -164,7 +181,7 @@ export const ProfileCard = (props) => {
           <IoStarSharp className="text-[#12937C]" size={30} />
           <p className="text-base">4.8 / 5</p>
         </div>
-        <Image src={trustsealbadge} width={100} height={50} alt="" />
+        <Image src={trustsealbadge} width={100} height={50} alt="trustBadge" />
       </div>
       <div className="flex flex-col w-full">
         <div className="flex gap-1 items-center">

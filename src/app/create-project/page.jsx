@@ -13,7 +13,8 @@ import customerService from "@/api/services/customerService";
 import requestService from "@/api/services/requestService";
 import {useRouter} from "next/navigation";
 import { PatternFormat } from "react-number-format";
-
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 
 const work = [{name: 'Detached / Semi-Detached Home'}, {name: 'Condo / Townhouse'}]
@@ -21,10 +22,21 @@ const time = [{name: `It's an emergency`}, {name: 'Within a week'}, {name: 'With
 
 
 export default function Page() {
+    const pathname = usePathname()
 
 
     return (
         <>
+         <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
             <Header/>
             <div className="pt-14">
                 <div className="profile_container max-w-[1200px] mx-auto  px-6 pt-10">
@@ -214,7 +226,7 @@ const Steps = (props) => {
                 <div className="flex items-center gap-2 lg:gap-3">
                     {step === 1 ? (
                         <div className="flex w-12 h-12 justify-center items-center bg-secondary rounded-lg ">
-                            <img src="/assets/check.svg" className="w-6" alt=""/>
+                            <img src="/assets/check.svg" className="w-6" alt="check"/>
                         </div>
                     ) : (
                         <div
@@ -222,7 +234,7 @@ const Steps = (props) => {
                                 step > 1 ? "bg-secondary" : "bg-[#2626264D]"
                             } bg-opacity-30 rounded-lg p-3`}
                         >
-                            <img src="/assets/describe.svg" className="w-6" alt=""/>
+                            <img src="/assets/describe.svg" className="w-6" alt="describe"/>
                         </div>
                     )}
                     <h4
@@ -238,7 +250,7 @@ const Steps = (props) => {
                     <div className={`w-16 border ${step >= 1 && "border-secondary"}`}/>
                     {step === 2 ? (
                             <div className="flex w-12 h-12 justify-center items-center bg-secondary rounded-lg ">
-                            <img src="/assets/check.svg" className="w-6" alt=""/>
+                            <img src="/assets/check.svg" className="w-6" alt="check"/>
                         </div>
                     ) : (
                         <div
@@ -246,7 +258,7 @@ const Steps = (props) => {
                                 step > 2 ? "bg-secondary" : "bg-[#2626264D]"
                             } bg-opacity-30 rounded-lg p-3`}
                         >
-                            <img src="/assets/describe.svg" className="w-6" alt=""/>
+                            <img src="/assets/describe.svg" className="w-6" alt="describe"/>
                         </div>
                     )}
                 </div>
@@ -262,7 +274,7 @@ const Steps = (props) => {
                     <div className={`w-16 border ${step >= 2 && "border-secondary"} `}/>
                     {step === 3 ? (
                            <div className="flex w-12 h-12 justify-center items-center bg-secondary rounded-lg ">
-                           <img src="/assets/check.svg" className="w-6" alt=""/>
+                           <img src="/assets/check.svg" className="w-6" alt="check"/>
                        </div>
                     ) : (
                         <div
@@ -270,7 +282,7 @@ const Steps = (props) => {
                                 step > 3 ? "bg-secondary" : "bg-[#2626264D]"
                             } bg-opacity-30 rounded-lg p-3`}
                         >
-                            <img src="/assets/message.svg" className="w-6" alt=""/>
+                            <img src="/assets/message.svg" className="w-6" alt="message"/>
                         </div>
                     )}
                 </div>
@@ -544,7 +556,7 @@ const SearchInput = ({message, icon, requestData, setRequestData}) => {
                 <img
                     src="/assets/search.svg"
                     className="w-4 cursor-pointer ml-3"
-                    alt=""
+                    alt="search"
                 />
 
                 <Select
@@ -651,7 +663,7 @@ const SelectInput = ({message, value, data, selectedOption, postalcode = true, h
                     <img
                         src="/assets/thick-arrow-down.svg"
                         className="w-2 cursor-pointer"
-                        alt=""
+                        alt="arrow"
 
                     />
                 }

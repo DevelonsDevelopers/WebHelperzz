@@ -19,7 +19,7 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
               <Image
                 className="image_footer sm:min-w-[600px]  sm:max-w-[70%] max-w-[100%] w-full object-center mb-0 pb-0 rounded-3xl mx-auto -mt-28 md-sm:mt-0"
                 src={require("/public/assets/images/women-image.png")}
-                alt="blog"
+                alt="women image"
               />
             </div>
           </div>

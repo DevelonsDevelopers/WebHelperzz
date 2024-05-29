@@ -19,7 +19,8 @@ import costGuideService from "../../api/services/costGuideService";
 import "../../style/Home.css";
 import photo from '/public/assets/Rectangle 122.png'
 import { useRouter } from "next/navigation";
-
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 
 
@@ -39,6 +40,7 @@ function Costgguides(props) {
 
 
 const Page = () => {
+  const pathname = usePathname()
 
   const [successStories, setSuccessStories] = useState([]);
   const [loading , setLoading] = useState(true)
@@ -134,7 +136,16 @@ const Page = () => {
 
   return (
     <div>
-
+ <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
 
       <Header />
       <div className="main-title mt-[6rem] ml-8 my-8 sm:ml-16">
@@ -264,7 +275,7 @@ const Page = () => {
  
  <img
                 src={`https://api.helperzz.com/public/uploads/${value.image}`}
-                  alt="image"
+                  alt={value?.title}
                   className="w-[250px] h-[320px] object-cover rounded-xl"
                 />
               <h1 className="mt-2 text-[16px] font-[500]">{value?.title.slice(0,60)}...</h1>
@@ -326,7 +337,7 @@ const Page = () => {
                             <div class="flex p-3">
                               <a class="inline-flex">
                                 <img
-                                  alt="blog"
+                                  alt={value.company_name}
                                   src={`${IMAGE_PATH}${value.image}`}
                                   class="h-16 sm:w-16 rounded-full flex-shrink-0 object-cover object-center"
                                 />

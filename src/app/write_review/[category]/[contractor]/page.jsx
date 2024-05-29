@@ -7,7 +7,8 @@ import uploadService from "../../../../api/services/uploadService";
 import {useRouter} from "next/navigation";
 import customerService from "@/api/services/customerService";
 import { PatternFormat } from "react-number-format";
-
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 const Page = ({params}) => {
     const [clicked, setClicked] = useState(false);
@@ -15,6 +16,7 @@ const Page = ({params}) => {
     const [invalidFile, setInvalidFile] = useState(false);
     const [limitLength, setLimitLength] = useState(false);
     const [allImages, setAllImages] = useState([]);
+    const pathname = usePathname()
 
     const [userData, setUserData] = useState({
         name: "",
@@ -172,6 +174,16 @@ const Page = ({params}) => {
 
     return (
         <>
+        <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
             <section
                 className="flex items-center justify-center min-h-screen bg-gray-200"
                 style={{alignItems: "center"}}

@@ -7,6 +7,8 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,6 +16,7 @@ const Page = () => {
     email: "",
     password: "",
   });
+  const pathname = usePathname()
 
   const [error, setError] = useState({
     email: false,
@@ -72,6 +75,18 @@ const Page = () => {
 
   return (
     <div className="bg-gray-200">
+
+<Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
+
       <Header />
 
       <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-200 min-h-[100vh] ">

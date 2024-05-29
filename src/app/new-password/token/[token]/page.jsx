@@ -11,11 +11,13 @@ import customerService from "@/api/services/customerService";
 import toast from "react-hot-toast";
 import Loading from "@/components/loading";
 
-
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 const Page = ({ params }) => {
 
     const navigation = useRouter();
+    const pathname = usePathname()
 
     const [visible, setVisible] = useState(false)
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false)
@@ -87,6 +89,17 @@ if(expired === 1) {
 
     return (
         <div>
+ <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
+
             <Header/>
 {loading ? 
 <Loading />

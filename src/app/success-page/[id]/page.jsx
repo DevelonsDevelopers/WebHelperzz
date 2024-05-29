@@ -4,16 +4,27 @@ import React, { useState , useRef} from "react";
 // import Header from "../../components/Header";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Button from "@mui/material/Button";
-
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
  
 const Page = ({params}) => {
   
+  const pathname = usePathname()
 
 console.log('params', params)
 
     return(
         <div>
-     {/* <Header /> */}
+     <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
 
 
  <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-200 min-h-[100vh] ">

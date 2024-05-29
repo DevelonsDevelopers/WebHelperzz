@@ -32,7 +32,7 @@ export const Credentials = ({ details }) => {
                   <img
                     className="w-[100px] h-[118px] object-cover rounded-xl"
                     src={`${IMAGE_PATH}${value.image}`}
-                    alt="blog"
+                    alt={value.id}
                   />
                 </div>
               ))}
@@ -59,7 +59,7 @@ export const Credentials = ({ details }) => {
                   <img
                     className="w-[100px] h-[118px] object-cover rounded-xl"
                     src={`${IMAGE_PATH}${value.image}`}
-                    alt="blog"
+                    alt={value.id}
                   />
                 </div>
               ))}
@@ -78,7 +78,7 @@ export const Credentials = ({ details }) => {
                   <img
                     className="w-[100px] h-[118px] object-cover rounded-xl"
                     src={`${IMAGE_PATH}${value.image}`}
-                    alt="blog"
+                    alt={value.id}
                   />
                 </div>
               ))}

@@ -12,8 +12,13 @@ import {useEffect, useState} from "react";
 import moment from "moment";
 import {IMAGE_PATH} from "@/api/BaseUrl";
 import {useRouter} from "next/navigation"
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 const Page = ({params}) => {
+
+    const pathname = usePathname()
+
 
     const [ID, setID] = useState()
     const [blog, setBlog] = useState()
@@ -41,6 +46,17 @@ const Page = ({params}) => {
 
     return (
         <>
+ <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
+
             <Header/>
             <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center min-h-[100vh] ">
                 <div className='flex flex-col gap-7 w-full'>

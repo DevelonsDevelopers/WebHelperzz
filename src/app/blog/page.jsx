@@ -19,6 +19,10 @@ import { Footer } from "@/components/Footer";
 import Link from "next/link";
 import moment from "moment";
 import { useRouter } from "next/navigation";
+import { usePathname } from 'next/navigation'
+import Head from 'next/head';
+
+
 
 
 function Costgguides(props) {
@@ -34,42 +38,9 @@ function Costgguides(props) {
   );
 }
 
-const points = [
-  { name: "Featured" },
-  { name: "Improvements" },
-  { name: "Design" },
-  { name: "Updates" },
-];
-
-const design = [
-  {
-    name: "2024 Kitchen Ideas: Unlock the Top Trends of the Year!",
-    image: "../../../public/assets/Rectangle 120.png",
-  },
-  {
-    name: "New Year, New You: Decor & Design Trends to Add to Your Home",
-    image: "../../../public/assets/Rectangle 120.png",
-  },
-  {
-    name: "5 Reasons To Install A Backyard Storage Shed This Season",
-    image: "../../../public/assets/Rectangle 120.png",
-  },
-];
-
-const improvements = [
-  {
-    name: "2024 Kitchen Ideas: Unlock the Top Trends of the Year!",
-    image: "../../../public/assets/Rectangle 120.png",
-  },
-  {
-    name: "New Year, New You: Decor & Design Trends to Add to Your Home",
-    image: "../../../public/assets/Rectangle 120.png",
-  },
-  {
-    name: "5 Reasons To Install A Backyard Storage Shed This Season",
-    image: "../../../public/assets/Rectangle 120.png",
-  },
-];
+ 
+ 
+ 
 
 
 const updates = [
@@ -102,10 +73,17 @@ const Blog = () => {
   const topHelperzzSliderRef = useRef(null);
   const [contractors, setContractors] = useState([]);
 
+
   const [blogs , setBlogs] = useState()
   const [loading , setLoading] = useState(true)
 
   const navigate = useRouter()
+
+  const pathname = usePathname()
+
+  console.log('route name' , pathname.replaceAll('/',''));
+
+  
 
 
 useEffect(() => {
@@ -194,6 +172,17 @@ console.log('response of blogs fetch' , blogs)
 
   return (
     <>
+ <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
+
       <Header />
 {loading ?  
 <Loading />
@@ -260,7 +249,7 @@ console.log('response of blogs fetch' , blogs)
             <div className="w-[50%] max-lg:w-[95%] max-md:m-auto" onClick={() => navigate.push(`/blog/${blogs?.featured?.[0].title.replaceAll(" ", "-").toLowerCase()}`)}>
               <img
                 className="w-full h-[460px] max-lg:h-[250px]"
-                alt='featured blog'
+                alt={blogs?.featured?.[1].subtitle.split(0,50)}
                 src={blogs?.featured?.[1]?.image ? `https://api.helperzz.com/public/uploads/${blogs.featured[1].image}` : ''}
                 />
               <h1 className="text-[20px] font-[600] shadow-xl  mt-[-38px] max-md:text-[13px] text-gray-500 text-center">
@@ -271,7 +260,7 @@ console.log('response of blogs fetch' , blogs)
               <div className="flex bg-[#E8F5F2] gap-4 rounded-2xl  h-[220px]">
                 <img
                 src={blogs?.featured?.[1]?.image ? `https://api.helperzz.com/public/uploads/${blogs.featured[1].image}` : ''}
-                alt="women"
+                alt={blogs?.featured?.[1].title.split(0,50)}
                   className="w-[200px] h-[220px] object-cover rounded-l-2xl"
                 />
                 <div className="p-4 flex flex-col justify-between">
@@ -301,7 +290,7 @@ console.log('response of blogs fetch' , blogs)
               <div className="flex bg-[#E8F5F2] gap-4 rounded-2xl  mt-4 h-[220px]">
                 <img
                 src={blogs?.featured?.[2]?.image ? `https://api.helperzz.com/public/uploads/${blogs.featured[2].image}` : ''}
-                alt="women"
+                alt={blogs?.featured?.[2].title.split(0,50)}
                   className="w-[200px] h-[220px] object-cover rounded-l-2xl"
                 />
                 <div className="p-4 flex flex-col justify-between">
@@ -358,7 +347,7 @@ console.log('response of blogs fetch' , blogs)
               <div key={index} className="max-md:mt-4 ">
                 <img
                 src={`https://api.helperzz.com/public/uploads/${value.image}`}
-                  alt="image"
+                  alt={value?.title.split(0,50)}
                   className="w-full h-[320px] object-cover rounded-xl"
                 />
                 <h1 className="mt-2 text-[16px] font-[500]">{value?.title.split(0,50)}...</h1>
@@ -391,7 +380,7 @@ console.log('response of blogs fetch' , blogs)
               <div key={index} className="max-md:mt-4 ">
                 <img
                 src={`https://api.helperzz.com/public/uploads/${value.image}`}
-                  alt="image"
+                  alt={value?.title}
                   className="w-full h-[320px] object-cover rounded-xl"
                 />
                 <h1 className="mt-2 text-[16px] font-[500]">{value?.title.split(0,50)}...</h1>
@@ -496,7 +485,7 @@ console.log('response of blogs fetch' , blogs)
                             <div class="flex p-3">
                               <a class="inline-flex">
                                 <img
-                                  alt="blog"
+                                  alt={value.company_name}
                                   src={`${IMAGE_PATH}${value.image}`}
                                   class="h-16 sm:w-16 rounded-full flex-shrink-0 object-cover object-center"
                                 />

@@ -7,12 +7,16 @@ import {useRouter} from "next/navigation";
 import contractorService from "@/api/services/contractorService";
 import uploadService from "@/api/services/uploadService";
 import emailService from "@/api/services/emailService";
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 const Page = () => {
 
     const navigation = useRouter();
     const [email, setEmail] = useState()
     const [response , setResponse] = useState()
+    const pathname = usePathname()
+
 
     const submitRequest = (e, email) => {
         e.preventDefault();
@@ -37,6 +41,16 @@ const Page = () => {
 
     return (
         <div>
+             <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
             <Header/>
             <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-200 min-h-[100vh] ">
 

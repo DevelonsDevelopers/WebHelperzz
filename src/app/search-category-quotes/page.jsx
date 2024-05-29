@@ -2,10 +2,25 @@
 import Header from '../../components/Header'
 import React from 'react'
 import { IoSearch } from 'react-icons/io5'
-
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 const Page = () => {
+
+    const pathname = usePathname()
+
     return (
         <div className='h-screen flex items-center justify-center'>
+ <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
+
             <Header />
             <div className='w-full h-[50%] flex items-center bg-gray-50 border-t-2 border-b-2 border-gray-200' >
                 <div className='w-[70%] m-auto px-20 py-10' >

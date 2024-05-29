@@ -9,7 +9,8 @@ import Link from "next/link";
 import { PatternFormat } from "react-number-format";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
-
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 
 const Page = () => {
@@ -17,6 +18,7 @@ const Page = () => {
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(true);
   const [userAlreadyPresent, setUserAlreadyPresent] = useState("");
   const [verifyPassword , setVerifyPassword] = useState('')
+  const pathname = usePathname()
 
   const [validInput, setValidInput] = useState({
     isPhoneEntered: true,
@@ -129,6 +131,17 @@ const Page = () => {
 
   return (
     <>
+<Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
+
       <Header />
       <section className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-200 min-h-[100vh] ">
         <div className="block rounded-lg bg-gray-100 w-[50%] max-md:w-[90%] shadow-lg ">

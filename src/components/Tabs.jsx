@@ -549,7 +549,7 @@ const limitedImages = allImages.slice(0, 8);
                       <img
                         className="lg:w-[300px] w-[screen]"
                         src={`${IMAGE_PATH}${details?.contractor?.image}`}
-                        alt=""
+                        alt={details?.details?.company_name}
                       />
                     </div>
                     <div className="lg:ml-4">
@@ -911,7 +911,7 @@ Please provide a valid postal code !
                         >
                         <img
                           src={`${IMAGE_PATH}${project.images[0].image}`}
-                          alt=""
+                          alt={project.title}
                           className="rounded-[22px] w-full h-[250px] object-cover"
                         />
                         <h2 className="text-lg md:text-[22px] text-center md:text-left font-semibold mt-5 text-text">
@@ -980,7 +980,7 @@ Please provide a valid postal code !
     >
       <img
         src={`${IMAGE_PATH}${img.image}`}
-        alt=""
+        alt={img.image}
         className="h-[120px] max-md:w-[70px] w-[130px] max-md:h-[70px] rounded-[22px]"
         width={350}
         height={280}
@@ -1145,7 +1145,7 @@ Please provide a valid postal code !
                       <img
                         className="lg:w-[300px] w-[screen]"
                         src={`${IMAGE_PATH}${details?.contractor?.image}`}
-                        alt=""
+                        alt={details?.details?.company_name}
                       />
                     </div>
                     <div className="lg:ml-4">
@@ -1360,7 +1360,7 @@ Please provide a valid postal code !
                       >
                         <img
                           src={`${IMAGE_PATH}${img.image}`}
-                          alt=""
+                          alt={img.image}
                           className="h-[280px] w-[350px] rounded-[22px]"
                           width={350}
                           height={280}

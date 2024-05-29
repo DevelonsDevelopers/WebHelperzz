@@ -3,14 +3,29 @@ import React from "react";
 import Link from "next/link";
 import imgLogo from "/public/assets/logo.png";
 import Image from "next/image";
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 export default function SentRequest() {
+  const pathname = usePathname()
+
   return (
     <div>
+ <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
+
       <header className="w-[1300px] mx-auto justify-center">
         <Link href="/">
           <div className="w-32 md:mr-10 select-text logo p-4  h-[5vh] ">
-            <Image src={imgLogo} alt="" width={150} height={100} />
+            <Image src={imgLogo} alt="image logo" width={150} height={100} />
           </div>
         </Link>
       </header>

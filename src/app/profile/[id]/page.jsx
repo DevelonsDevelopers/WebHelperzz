@@ -9,11 +9,14 @@ import contractorService from "../../../api/services/contractorService";
 
 import { useRouter } from "next/navigation";
 import Loading from "@/components/loading";
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 function Page({ params }) {
   const [ID, setID] = useState();
   const [details, setDetails] = useState();
   const [loading, setLoading] = useState(false);
+  const pathname = usePathname()
 
   const location = useRouter();
   // const params = new URLSearchParams(location.search);
@@ -42,6 +45,16 @@ function Page({ params }) {
 
   return (
     <>
+     <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
       <Header />
       {loading ? (
         <Loading />

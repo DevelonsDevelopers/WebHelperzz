@@ -16,7 +16,8 @@ import { IoSearch } from "react-icons/io5";
  import trustsealing from '/public/assets/trustsealbadge.png';
  import { useRouter } from 'next/navigation';
  import Autosuggest from "react-autosuggest";
-
+ import Head from 'next/head';
+ import { usePathname } from 'next/navigation'
 
 import {
   Pagination,
@@ -42,6 +43,7 @@ const Page = ({params}) => {
   const [category , setCategory] = useState()
 
   const [categorySearch , setCategorySearch] = useState('')
+  const pathname = usePathname()
 
 
 
@@ -144,6 +146,17 @@ const onCitySuggestionsFetchRequested = ({ value }) => {
 
   return (
     <>
+ <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
+
       <Header />
       <div className="mt-[7rem]">
           <div className="main-title mt-[6rem] ml-8 my-8 sm:ml-16">
@@ -433,7 +446,7 @@ const onCitySuggestionsFetchRequested = ({ value }) => {
 {paginatedData?.map((value, index) => (
     <div key={index} className='border-2 border-[#64B6E3] p-4 rounded-xl flex flex-col min-h-[300px] bg-[#F7F9FB] '>
       <div className="flex gap-4">
-        <img src={`${IMAGE_PATH}${value?.image}`} alt="image" className="w-12 h-12 rounded-full" />
+        <img src={`${IMAGE_PATH}${value?.image}`} alt={value?.company_name} className="w-12 h-12 rounded-full" />
         <div className='mt-2'>
           <h1 className='font-semibold text-sm'>{value?.company_name}</h1>  
           <h1 className=' text-xs mt-2 font-[500] text-gray-600'>{value?.category_name}</h1> 

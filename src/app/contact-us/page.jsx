@@ -5,10 +5,15 @@ import {useState} from "react";
 import {IoIosCall} from "react-icons/io";
 import {MdFolderCopy} from "react-icons/md";
 import contactService from "@/api/services/contactService";
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 const tabs = [{name: "For Service Pros"}, {name: "For HomeOwners"}];
 
 const Page = () => {
+    const pathname = usePathname()
+
+
     const [selected, setSelected] = useState(0);
     const [homeOwnerData, setHomeOwnerData] = useState({
         name: "",
@@ -57,6 +62,18 @@ const Page = () => {
 
     return (
         <div className="">
+
+<Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
+
             <Header/>
 
             <div className="bg-[#1B3047] mt-[5rem] py-20">

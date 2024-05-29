@@ -5,11 +5,14 @@ import blogService from "@/api/services/blogService";
 import {useEffect, useState} from "react";
 import moment from "moment";
 import {IMAGE_PATH} from "@/api/BaseUrl";
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 const Page = ({params}) => {
 
     const [ID, setID] = useState()
     const [story, setStory] = useState()
+    const pathname = usePathname()
 
     useEffect(() => {
         setID(params.id);
@@ -32,6 +35,16 @@ const Page = ({params}) => {
 
     return (
         <>
+         <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
             <Header/>
             <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center min-h-[100vh] ">
                 <div className='flex flex-col gap-7 w-full'>
@@ -51,7 +64,7 @@ const Page = ({params}) => {
                         <div className="flex text-lg flex-col gap-3 lg:w-[60%] w-screen p-4">
                             <h4 className="font-bold text-2xl">{story?.subtitle}</h4>
                             <div className='relative w-full h-[600px]'>
-                                <img src={`${IMAGE_PATH}${story?.image}`} className="object-cover" fill alt='Blog Image'/>
+                                <img src={`${IMAGE_PATH}${story?.image}`} className="object-cover" fill alt={story?.subtitle}/>
                             </div>
                             <p className={``} dangerouslySetInnerHTML={{
                                 __html: story?.content,
@@ -207,7 +220,7 @@ export const GuideCard = (props) => {
                 <img
                     className="object-cover h-[300px] object-center rounded-3xl"
                     src={`/cali-constructions.png`}
-                    alt="blog"
+                    alt="construction"
                 />
                 <div className="py-4">
                     <h2 className="title-font text-base font-semibold text-gray-900 mb-3 select-text">
@@ -234,7 +247,7 @@ export const StoryCard = (props) => {
         <img
             className="object-cover w-[40%] h-[250px] object-center rounded-3xl"
             src={`/cali-constructions.png`}
-            alt="blog"
+            alt="construction"
         />
         <div className="flex-1 flex flex-col gap-5 p-3">
             <h2 className="title-font text-lg font-bold text-gray-900 mb-3 select-text">

@@ -22,7 +22,7 @@ const Search = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const postalCoderegex = /^[A-Z]\d[A-Z] \d[A-Z]\d$/;
+    const postalCoderegex = /^[A-Z]\d[A-Z] \d[A-Z]\d$/i;
 if(selectedOption) {
 
   if (postalCoderegex.test(postalCode)) {

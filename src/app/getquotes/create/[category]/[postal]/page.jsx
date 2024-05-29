@@ -10,6 +10,8 @@ import Image from "next/image";
 import categoryService from "@/api/services/categoryService";
 import toast from "react-hot-toast";
 import { PatternFormat } from "react-number-format";
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 
 
@@ -64,6 +66,7 @@ function GetQuotes({params}) {
             }));
         }
     };
+    const pathname = usePathname()
 
     const [selectedType, setSelectedType] = useState("");
 
@@ -307,10 +310,20 @@ function GetQuotes({params}) {
 
     return (
         <>
+         <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
             <header>
                 <div className="p-6 mt-2 select-text cursor-pointer">
                     <Link href="/">
-                        <Image src={imgLogo} alt="" width={120} height={100}/>
+                        <Image src={imgLogo} alt="image logo" width={120} height={100}/>
                     </Link>
                 </div>
 

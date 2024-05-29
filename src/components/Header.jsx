@@ -182,7 +182,7 @@ function Header() {
                         <Image
                             onClick={() => navigate.push("/")}
                             src={imgLogo}
-                            alt=""
+                            alt="image logo"
                             width={150}
                             height={100}
                         />

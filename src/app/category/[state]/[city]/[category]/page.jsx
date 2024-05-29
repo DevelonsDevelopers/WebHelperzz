@@ -23,6 +23,8 @@ import {Footer} from "@/components/Footer";
 import categoryService from "@/api/services/categoryService";
 import cityService from "@/api/services/cityService";
 import Autosuggest from "react-autosuggest";
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 
 import {
@@ -93,6 +95,7 @@ const Page = ({params}) => {
     const [filterData, setFilterData] = useState()
 
     const [categorySearch , setCategorySearch] = useState('')
+    const pathname = usePathname()
 
 
     const highlightCheck = (value) => {
@@ -380,6 +383,17 @@ const [searchData , setSearchData] = useState('')
 
     return (
         <>
+ <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
+
             <Header/>
             {loading ? (
                 <>
@@ -720,7 +734,7 @@ const [searchData , setSearchData] = useState('')
                                                                 <img
                                                                     src={`${IMAGE_PATH}${value.cover}`}
                                                                     className={`h-[250px] w-[250px] object-cover cursor-pointer`}
-                                                                    alt=""
+                                                                    alt={value?.company_name}
                                                                     height={250}
                                                                     width={550}
                                                                 />
@@ -728,7 +742,7 @@ const [searchData , setSearchData] = useState('')
                                                                 <Image
                                                                     src={imgThumb}
                                                                     className={`h-[250px] w-[250px]`}
-                                                                    alt=""
+                                                                    alt={value?.company_name}
                                                                     height={250}
                                                                     width={550}
                                                                 />
@@ -748,7 +762,7 @@ const [searchData , setSearchData] = useState('')
                                                                 >
                                                                     <img
                                                                         src={`${IMAGE_PATH}${value.image}`}
-                                                                        alt=""
+                                                                        alt={value?.company_name}
                                                                         className="sm:h-16 sm:w-16 h-auto w-36 cursor-pointer"
                                                                         href={
                                                                             `/profile/` +

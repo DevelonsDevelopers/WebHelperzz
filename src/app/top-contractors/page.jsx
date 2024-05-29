@@ -14,7 +14,8 @@ import {IoSearch} from "react-icons/io5";
 import trustsealing from '/public/assets/trustsealbadge.png'
 import {FaArrowRight} from "react-icons/fa";
 import {useRouter} from 'next/navigation'
-
+import Head from 'next/head';
+import { usePathname } from 'next/navigation'
 
 
 import {
@@ -31,6 +32,7 @@ import {
 const Page = () => {
 
     const [data, setData] = useState([])
+    const pathname = usePathname()
 
     const navigation = useRouter()
 
@@ -70,6 +72,16 @@ const Page = () => {
 
     return (
         <>
+         <Head>
+        <title>
+         {pathname.replaceAll('/','')}
+        </title>
+        <meta
+          name="description"
+          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+          key="desc"
+        />
+      </Head>
             <Header/>
             <div className="mt-[7rem]">
                 <div className="main-title mt-[6rem] ml-8 my-8 sm:ml-16">
