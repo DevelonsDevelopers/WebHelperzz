@@ -144,14 +144,24 @@ const Page = () => {
       </Head>
 
       <Header />
-      <section className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-200 min-h-[100vh] ">
-        <div className="block rounded-lg bg-gray-100 w-[50%] max-md:w-[90%] shadow-lg ">
+      <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-100 min-h-[100vh]">
+
+      <div className='flex-1'>
+                    <div className=" flex flex-col items-start ml-auto gap-10 max-w-xl p-1">
+                        <h3 className='font-bold text-3xl lg:text-5xl'>Sign Up.</h3>
+                        <div className='bg-[#27A9E1] h-1.5 rounded-full w-[130px]'/>
+                    </div>
+
+                </div>
+
+      <section className="flex-1 ">
+        <div className="block rounded-lg bg-gray-100 w-[100%] max-md:w-[90%] shadow-lg ">
           <div className="flex flex-wrap">
             <div className="px-8 md:px-0 ">
               <div className="md:mx-6 md:p-12">
                 <form className="justify-center items-center mx-auto">
                   <p className="mb-8 text-left sm:mt-4 mt-20 font-semibold text-2xl ">
-                    Sign up for an account
+                  Sign up as a customer
                   </p>
 
                   <div className="grid sm:grid-cols-2 gap-4 grid-cols-1">
@@ -308,9 +318,10 @@ const Page = () => {
             </div>
           </div>
         </div>
-        <Footer   showNewsLetter={false} postProject={false}/>
 
       </section>
+        </div>
+        <Footer   showNewsLetter={false} postProject={false}/>
     </>
   );
 };

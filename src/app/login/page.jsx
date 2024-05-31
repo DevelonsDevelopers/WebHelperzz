@@ -91,9 +91,19 @@ const Page = () => {
 
       <Header />
 
-      <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-200 min-h-[100vh] ">
+      <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-100 min-h-[100vh]">
 
-        <div className=" rounded-lg bg-gray-100 shadow-lg w-[50%] max-md:w-[90%]">
+      <div className='flex-1'>
+                    <div className=" flex flex-col items-start ml-auto gap-10 max-w-xl p-1">
+                        <h3 className='font-bold text-3xl lg:text-5xl'>Log In.</h3>
+                        <div className='bg-[#27A9E1] h-1.5 rounded-full w-[90px]'/>
+                    </div>
+
+                </div>
+
+
+      <div className='flex-1 min-w-[50%]'>
+        <div className=" rounded-lg bg-gray-100 shadow-lg w-[100%] max-md:w-[90%]">
           <div className="flex flex-wrap  ">
             <div className="px-8 md:px-0 m-auto">
               <div className="md:mx-6 md:p-12">
@@ -101,45 +111,6 @@ const Page = () => {
                   <p className="mb-8 text-left mt-10 font-semibold text-2xl">
                     Login to your account
                   </p>
-
-                 
-                  {/* {error.auth && (
-                    <div
-                      className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
-                      role="alert"
-                    >
-                      <strong className="font-bold">Error!</strong>
-                      <span className="block sm:inline">
-                        {" "}
-                        Invalid Email or Password
-                      </span>
-                    </div>
-                  )} */}
-
-                  {/* {error.email && (
-                    <div
-                      className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
-                      role="alert"
-                    >
-                      <strong className="font-bold">Error!</strong>
-                      <span className="block sm:inline">
-                        {" "}
-                        Please enter a valid email.
-                      </span>
-                    </div>
-                  )} */}
-                  {/* {error.password && (
-                    <div
-                      className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-6 rounded relative"
-                      role="alert"
-                    >
-                      <strong className="font-bold">Error!</strong>
-                      <span className="block sm:inline">
-                        {" "}
-                        Please enter your password.
-                      </span>
-                    </div>
-                  )} */}
 
                   <div className="mb-4">
                     <label className="text-left text-gray-700 font-bold mb-2">
@@ -222,7 +193,10 @@ const Page = () => {
             </div>
           </div>
         </div>
+        </div>
       </div>
+
+
       <Footer   showNewsLetter={false} postProject={false}/>
 
     </div>
