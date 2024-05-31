@@ -309,6 +309,7 @@ const Page = () => {
                     </div>
                 )}
             </div>
+            <Footer   showNewsLetter={false} postProject={false}/>
         </div>
     );
 };

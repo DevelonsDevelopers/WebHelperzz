@@ -5,6 +5,7 @@ import imgLogo from "/public/assets/logo.png";
 import Image from "next/image";
 import Head from 'next/head';
 import { usePathname } from 'next/navigation'
+import { Footer } from "@/components/Footer";
 
 export default function SentRequest() {
   const pathname = usePathname()
@@ -81,6 +82,8 @@ export default function SentRequest() {
           </div>
         </div>
       </div>
+      <Footer   showNewsLetter={false} postProject={false}/>
+
     </div>
   );
 }

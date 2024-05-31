@@ -1,4 +1,5 @@
 'use client'
+import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
 import { Button } from "@mui/material";
 import {useRouter} from "next/navigation";
@@ -39,7 +40,7 @@ const Page = () => {
 
     </div>
 
-
+<Footer />
     </div>
     )
 }

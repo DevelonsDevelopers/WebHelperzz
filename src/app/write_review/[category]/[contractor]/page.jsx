@@ -9,6 +9,8 @@ import customerService from "@/api/services/customerService";
 import { PatternFormat } from "react-number-format";
 import Head from 'next/head';
 import { usePathname } from 'next/navigation'
+import { Footer } from "@/components/Footer";
+
 
 const Page = ({params}) => {
     const [clicked, setClicked] = useState(false);
@@ -492,6 +494,8 @@ const Page = ({params}) => {
                     </div>
                 </div>
             </section>
+            <Footer   showNewsLetter={false} postProject={false}/>
+
         </>
     );
 };

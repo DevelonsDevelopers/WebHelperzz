@@ -7,6 +7,7 @@ import {useRouter} from 'next/navigation'
 import customerService from "@/api/services/customerService";
 import Head from 'next/head';
 import { usePathname } from 'next/navigation'
+import { Footer } from "@/components/Footer";
 
 const Page = ({params}) => {
 
@@ -107,6 +108,8 @@ const Page = ({params}) => {
                     </div>
                 </div>
             </div>
+            <Footer   showNewsLetter={false} postProject={false}/>
+
         </div>
     )
 }

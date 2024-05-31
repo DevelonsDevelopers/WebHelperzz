@@ -9,6 +9,8 @@ import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
 import Head from 'next/head';
 import { usePathname } from 'next/navigation'
+import { Footer } from "@/components/Footer";
+
 
 const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -221,6 +223,8 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <Footer   showNewsLetter={false} postProject={false}/>
+
     </div>
   );
 };

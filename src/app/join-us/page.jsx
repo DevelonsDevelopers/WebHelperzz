@@ -1,5 +1,7 @@
 'use client'
 import Header from "@/components/Header";
+import { Footer } from "@/components/Footer";
+
 import Link from "next/link";
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -569,7 +571,7 @@ useEffect(() => {
                     </div>
                 </div>
             </div>
-
+<Footer  showNewsLetter={false} postProject={false}/>
         </>
     )
 }

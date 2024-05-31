@@ -246,7 +246,7 @@ console.log('response of blogs fetch' , blogs)
           <h1 className="text-[28px] font-bold pb-7">Featured</h1>
 
           <div className="flex max-md:flex-col flex-wrap w-full md:w-[100%] gap-10">
-            <div className="w-[50%] max-lg:w-[95%] max-md:m-auto" onClick={() => navigate.push(`/blog/${blogs?.featured?.[0].title.replaceAll(" ", "-").toLowerCase()}`)}>
+            <div className="w-[50%] max-lg:w-[95%] max-md:m-auto cursor-pointer" onClick={() => navigate.push(`/blog/${blogs?.featured?.[0].title.replaceAll(" ", "-").toLowerCase()}`)}>
               <img
                 className="w-full h-[460px] max-lg:h-[250px]"
                 alt={blogs?.featured?.[1].subtitle.split(0,50)}
@@ -257,7 +257,7 @@ console.log('response of blogs fetch' , blogs)
               </h1>
             </div>
             <div className="flex flex-col flex-wrap gap-3 w-[45%] hidden lg:block">
-              <div className="flex bg-[#E8F5F2] gap-4 rounded-2xl  h-[220px]">
+              <div className="flex bg-[#E8F5F2] gap-4 rounded-2xl  h-[220px] cursor-pointer " onClick={() => navigate.push(`/blog/${blogs?.featured?.[1].title.replaceAll(" ", "-").toLowerCase()}`)}>
                 <img
                 src={blogs?.featured?.[1]?.image ? `https://api.helperzz.com/public/uploads/${blogs.featured[1].image}` : ''}
                 alt={blogs?.featured?.[1].title.split(0,50)}
@@ -287,7 +287,7 @@ console.log('response of blogs fetch' , blogs)
                 </div>
               </div>
 
-              <div className="flex bg-[#E8F5F2] gap-4 rounded-2xl  mt-4 h-[220px]">
+              <div className="flex bg-[#E8F5F2] gap-4 rounded-2xl  mt-4 h-[220px] cursor-pointer" onClick={() => navigate.push(`/blog/${blogs?.featured?.[2].title.replaceAll(" ", "-").toLowerCase()}`)}>
                 <img
                 src={blogs?.featured?.[2]?.image ? `https://api.helperzz.com/public/uploads/${blogs.featured[2].image}` : ''}
                 alt={blogs?.featured?.[2].title.split(0,50)}

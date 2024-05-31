@@ -4,6 +4,7 @@ import React, {useState, useRef ,useEffect} from "react";
 import Header from "../../../../components/Header";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { Footer } from "@/components/Footer";
 
 import {useRouter} from "next/navigation";
 import emailService from "@/api/services/emailService";
@@ -194,6 +195,7 @@ if(expired === 1) {
 </div>
 </div>
 }
+<Footer   showNewsLetter={false} postProject={false}/>
 
           
         </div>

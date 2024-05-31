@@ -3,6 +3,8 @@ import React from "react";
 import Link from "next/link";
 import imgLogo from "/public/assets/logo.png";
 import Image from "next/image";
+import { Footer } from "@/components/Footer";
+
 export default function JoinSuccess() {
   return (
     <div>
@@ -61,6 +63,8 @@ export default function JoinSuccess() {
           </div>
         </div>
       </div>
+      <Footer   showNewsLetter={false} postProject={false}/>
+
     </div>
   );
 }
