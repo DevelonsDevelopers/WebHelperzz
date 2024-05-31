@@ -6,7 +6,8 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Button from "@mui/material/Button";
 import Head from 'next/head';
 import { usePathname } from 'next/navigation'
- 
+import { Footer } from "@/components/Footer";
+
 const Page = ({params}) => {
   
   const pathname = usePathname()
@@ -63,7 +64,9 @@ console.log('params', params)
       </div>
     </div>
   </div>
-</div>       
+</div>   
+<Footer   showNewsLetter={false} postProject={false}/>
+
      </div>
     )
 }

@@ -60,18 +60,18 @@ const Page = ({params}) => {
             <Header/>
             <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center min-h-[100vh] ">
                 <div className='flex flex-col gap-7 w-full'>
-                    <h6 className="text-lg w-full mx-auto ml-[4rem] max-md:ml-4"><span onClick={() => navigation.push('/')} className="cursor-pointer" > Helperzz </span> / <span  className="cursor-pointer" onClick={() => navigation.push('/blog')}> Blog  /</span> <span className="cursor-pointer">{blog?.title}</span></h6>
-                    <div className="flex justify-between bg-[#E8F5F2] w-full max-w-[1500px] mx-auto">
+                    <h6 className="text-lg w-full mx-auto max-md:ml-4  max-w-[1300px] px-10 max-md:px-0 mx-auto"><span onClick={() => navigation.push('/')} className="cursor-pointer" > Helperzz </span> / <span  className="cursor-pointer" onClick={() => navigation.push('/blog')}> Blog  /</span> <span className="cursor-pointer">{blog?.title}</span></h6>
+                    <div className="flex justify-between bg-[#E8F5F2] rounded-xl w-full max-w-[1300px] px-10 max-md:px-0 mx-auto">
                         <div className='flex justify-between max-w-[97%] mx-auto w-full  py-10 px-4'>
                             <div className="flex flex-col gap-3">
                                 <h3 className="font-bold text-3xl max-w-2xl leading-relaxed">{blog?.title}</h3>
-                                <p className="text-xl font-[400]">By <Link className="inline text-black" href='#'>{blog?.author}</Link></p>
-                                <p className="text-xl font-[400]">Updated {moment(blog?.created_date).format("ll")}</p>
+                                <p className="text-xl font-[400] -mt-4">By <Link className="inline text-black" href='#'>{blog?.author}</Link></p>
+                                <p className="text-xl font-[400] ">Updated {moment(blog?.created_date).format("ll")}</p>
                             </div>
                         </div>
 
                     </div>
-                    <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full  max-w-[1500px] mx-auto">
+                    <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full  max-w-[1300px] px-10 max-md:px-0 mx-auto">
                         <div className="flex text-lg flex-col gap-3 lg:w-[60%] w-screen p-4">
                             {/* <h4 className="font-bold text-2xl">{blog?.subtitle}</h4> */}
                             <div className='relative w-full max-h-[600px]'>
@@ -165,7 +165,7 @@ export const GetQuotesForm = (props) => {
 
 export const GetQuotes = (props) => {
     return (
-    <div className="sticky top-10 mr-4 mr-auto flex flex-col gap-5 lg:w-[80%] w-full bg-secondary text-white rounded-3xl p-8">
+    <div className="sticky top-10 mr-4 ml-auto flex flex-col gap-5 lg:w-[80%] w-full bg-secondary text-white rounded-3xl p-8">
         <h1 className="text-left font-bold text-[20px] capitalize ">
         Ready to start this project?
         </h1>

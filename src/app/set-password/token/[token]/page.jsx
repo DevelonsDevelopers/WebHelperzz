@@ -4,6 +4,7 @@ import React, {useState, useRef , useEffect} from "react";
 import Header from "@/components/Header";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { Footer } from "@/components/Footer";
 
 import {useRouter} from "next/navigation";
 import toast from "react-hot-toast";
@@ -184,7 +185,8 @@ const Page = ({ params }) => {
 </div>
 }
 
-         
+<Footer   showNewsLetter={false} postProject={false}/>
+    
         </div>
     )
 }

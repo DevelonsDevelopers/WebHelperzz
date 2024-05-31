@@ -381,7 +381,7 @@ function Header() {
                         <Button
                             style={{userSelect: "text"}}
                             className="whitespace-nowrap"
-                            href="/join-us"
+                            href="/why-work-with-us"
                             sx={{
                                 my: 2,
                                 color: "black",

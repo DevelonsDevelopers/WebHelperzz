@@ -4,6 +4,8 @@ import React from 'react'
 import { IoSearch } from 'react-icons/io5'
 import Head from 'next/head';
 import { usePathname } from 'next/navigation'
+import { Footer } from "@/components/Footer";
+
 const Page = () => {
 
     const pathname = usePathname()
