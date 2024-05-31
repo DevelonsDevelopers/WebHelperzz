@@ -8,6 +8,7 @@ import customerService from "@/api/services/customerService";
 import Head from 'next/head';
 import { usePathname } from 'next/navigation'
 import { Footer } from "@/components/Footer";
+import  Header  from "@/components/Header";
 
 const Page = ({params}) => {
 
@@ -61,7 +62,7 @@ const Page = ({params}) => {
           key="desc"
         />
       </Head>
-
+<Header />
 
             <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-200 min-h-[100vh] ">
 

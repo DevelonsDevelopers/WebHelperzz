@@ -10,6 +10,7 @@ import { PatternFormat } from "react-number-format";
 import Head from 'next/head';
 import { usePathname } from 'next/navigation'
 import { Footer } from "@/components/Footer";
+import  Header  from "@/components/Header";
 
 
 const Page = ({params}) => {
@@ -186,8 +187,11 @@ const Page = ({params}) => {
           key="desc"
         />
       </Head>
+<Header />
+
+
             <section
-                className="flex items-center justify-center min-h-screen bg-gray-200"
+                className="flex items-center justify-center min-h-screen bg-gray-200 pt-44"
                 style={{alignItems: "center"}}
             >
                 <div className="bg-gray-100 shadow-lg w-[90%]">
