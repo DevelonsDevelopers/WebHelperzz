@@ -21,6 +21,7 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import { usePathname } from 'next/navigation'
 import Head from 'next/head';
+import seoService from "@/api/services/seoService";
 
 
 
@@ -38,9 +39,9 @@ function Costgguides(props) {
   );
 }
 
- 
- 
- 
+
+
+
 
 
 const updates = [
@@ -72,6 +73,7 @@ const Blog = () => {
   const [contractorLoading, setContractorLoading] = useState(true);
   const topHelperzzSliderRef = useRef(null);
   const [contractors, setContractors] = useState([]);
+  const [seo, setSeo] = useState(null)
 
 
   const [blogs , setBlogs] = useState()
@@ -83,7 +85,7 @@ const Blog = () => {
 
   console.log('route name' , pathname.replaceAll('/',''));
 
-  
+
 
 
 useEffect(() => {
@@ -115,6 +117,15 @@ console.log('response of blogs fetch' , blogs)
       const response = await contractorService.featured();
       setContractors(response.contractors);
       setContractorLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getSEO = async () => {
+    try {
+      const response = await seoService.fetchSEObyRoute("blog");
+      console.log(response)
+      setSeo(response.seo)
     } catch (error) {
       console.error(error);
     }
@@ -166,6 +177,7 @@ console.log('response of blogs fetch' , blogs)
   };
 
   useEffect(() => {
+    getSEO()
     getCostGuides();
     getContractors();
   }, []);
@@ -174,17 +186,16 @@ console.log('response of blogs fetch' , blogs)
     <>
  <Head>
         <title>
-         {pathname.replaceAll('/','')}
+          {seo?.title}
         </title>
         <meta
-          name="description"
-          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
-          key="desc"
+          name={seo?.meta_description}
+          content={seo?.meta_content}
         />
       </Head>
 
       <Header />
-{loading ?  
+{loading ?
 <Loading />
 :
 
