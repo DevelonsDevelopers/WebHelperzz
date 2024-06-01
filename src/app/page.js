@@ -529,10 +529,10 @@ function Home() {
                         Thousands of homeowners connect with the right pro every week for
                         their remodeling projects. Ready to find yours?
                     </h2>
-                    <form onSubmit={handleSubmit} className="mt-8 sm:hidden min-h-9 items-center rounded-3xl w-full">
+                    <form onSubmit={handleSubmit} className="mt-8 sm:hidden min-h-9 cursor-pointer items-center rounded-3xl w-full">
                         <div>
                             <div
-                                className="w-full items-center cursor-pointer flex gap-2 p-3 rounded-full bg-white shadow-md">
+                                className="w-full cursor-pointer items-center cursor-pointer flex gap-2 p-3 rounded-full bg-white shadow-md">
                                 <SearchIcon/>
                                 <Select
                                     styles={{
@@ -567,7 +567,7 @@ function Home() {
                         </div>
                     </form>
                     <form onSubmit={(e) => handleSubmit(e)}
-                          className="mt-8 sm:flex bg-white min-h-9 items-center  rounded-[20px] shadow-md w-full hidden ">
+                          className="mt-8 sm:flex bg-white min-h-9   items-center  rounded-[20px] shadow-md w-full hidden ">
                         <div className="pl-4">
                             <SearchIcon/>
                         </div>
@@ -581,7 +581,7 @@ function Home() {
                             options={options}
                             placeholder="What service do you need?"
                             isSearchable={true}
-                            className="placeholder:text-[#696969] text-black select_bar sm:w-[230px] w-[100%]  font-medium ml-2 h-full outline-none"
+                            className="placeholder:text-[#696969] text-black select_bar  sm:w-[230px] w-[100%]  font-medium ml-2 h-full outline-none"
                             onChange={(e) => handleSelectChange(e)}
                         />
                         <div className=" font-bold text-[#696969] ml-6 flex items-center gap-2 text-sm sm:text-base">
