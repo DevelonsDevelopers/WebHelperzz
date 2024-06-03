@@ -141,8 +141,8 @@ function Header() {
         event.preventDefault();
         if (value) {
             if (cityValue) {
-                let postal = cityValue.postalCode.replaceAll(" ", "-").toLowerCase();
-                navigate.push("/getquotes/create/" + value.name.replaceAll(" ", "-").toLowerCase() + "/" + postal);
+                // let postal = cityValue.postalCode.replaceAll(" ", "-").toLowerCase();
+                navigate.push("/category/on/" + cityValue.name.replaceAll(" ", "-").toLowerCase() + "/" + value.name.replaceAll(" ", "-").toLowerCase());
             }
         }
     };

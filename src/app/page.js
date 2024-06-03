@@ -208,7 +208,17 @@ function Home() {
     };
 
     const handlePostalChange = (e) => {
-        const inputPostal = e.target.value;
+        let inputPostal = e.target.value;
+        inputPostal = inputPostal.toUpperCase()
+        if (inputPostal.length > postalCode.length) {
+            if (!inputPostal.includes(" ")) {
+                if (inputPostal.length > 2) {
+                    let p1 = inputPostal.substring(0, 3)
+                    let p2 = inputPostal.substring(3, 5)
+                    inputPostal = p1 + " " + p2;
+                }
+            }
+        }
         setPostalCode(inputPostal);
     };
 
