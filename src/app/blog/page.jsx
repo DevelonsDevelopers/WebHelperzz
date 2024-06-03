@@ -1,25 +1,21 @@
 import React from 'react';
 import BlogComponent from "@/app/blog/blogComponent";
-import Head from "next/head";
-import {NextSeo} from "next-seo";
+import seoService from "@/api/services/seoService";
 
-export async function getServerSideProps() {
-    const res = await fetch(`https://api.helperzz.com/api/seo/get/blog`)
-    const data = await res.json()
-    return {props: {data}}
+export async function generateMetadata() {
+
+    const res = await seoService.fetchSEObyRoute("blog")
+
+    return {
+        title: res?.seo?.title,
+        description: res?.seo?.meta_description
+    }
 }
 
-export const metadata = {
-    title: "Blog",
-    description: 'Blog Page',
-}
-
-const Page = ({ childern }) => {
+const Page = () => {
     return (
         <>
-            <BlogComponent>
-                {childern}
-            </BlogComponent>
+            <BlogComponent/>
         </>
     );
 };
