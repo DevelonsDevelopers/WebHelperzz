@@ -85,7 +85,7 @@ const Page = () => {
             <Header/>
             <div className="mt-[7rem]">
                 <div className="main-title mt-[6rem] ml-8 my-8 sm:ml-16">
-                    <h1 className="text-[18px]">Helperzz / Plumbing</h1>
+                    <h1 className="text-[18px]"><span className="cursor-pointer" onClick={() => navigation.push('/')}> Helperzz </span>  / Top Contractors</h1>
                 </div>
                 <div className="w-full bg-[#12937C] flex justify-center ">
                     <div className="search-container  h-[204px] width-100 flex flex-col justify-center items-center ">
