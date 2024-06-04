@@ -6,7 +6,8 @@ const seoService = {
             const response = await axiosInstance.get('/seo/get/' + route)
             return response.data
         } catch (error) {
-            throw error.response.data
+            // throw error.response.data
+            console.log('error seo' , error)
         }
     }
 }
