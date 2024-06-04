@@ -14,7 +14,7 @@ import { usePathname } from 'next/navigation'
 import { Footer } from "@/components/Footer";
 
 
-const page = () => {
+const Page = () => {
     const [showPassword, setShowPassword] = useState(true);
     const [showPasswordConfirm, setShowPasswordConfirm] = useState(true);
     const [userAlreadyPresent, setUserAlreadyPresent] = useState("");
@@ -326,4 +326,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;

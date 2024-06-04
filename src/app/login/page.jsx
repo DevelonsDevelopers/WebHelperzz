@@ -1,5 +1,6 @@
 "use client";
-import React, { useState , useRef} from "react";
+
+import React, {useState} from "react";
 import Header from "../../components/Header";
 import authenticationService from "../../api/services/authenticationService";
 import toast from "react-hot-toast";
@@ -12,7 +13,7 @@ import { usePathname } from 'next/navigation'
 import { Footer } from "@/components/Footer";
 
 
-const page = () => {
+const Page = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [loginData, setLoginData] = useState({
         email: "",
@@ -202,4 +203,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;
