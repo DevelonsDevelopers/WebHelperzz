@@ -24,7 +24,7 @@ import categoryService from "@/api/services/categoryService";
 import cityService from "@/api/services/cityService";
 import Autosuggest from "react-autosuggest";
 import Head from 'next/head';
-import { usePathname } from 'next/navigation'
+import {usePathname} from 'next/navigation'
 
 
 import {
@@ -90,11 +90,11 @@ const Page = ({params}) => {
     const [languages, setLanguages] = useState([])
     const [ratings, setRatings] = useState([])
 
-    const [selectedCategory , setSelectedCategory] = useState('')
+    const [selectedCategory, setSelectedCategory] = useState('')
 
     const [filterData, setFilterData] = useState()
 
-    const [categorySearch , setCategorySearch] = useState('')
+    const [categorySearch, setCategorySearch] = useState('')
     const pathname = usePathname()
 
 
@@ -106,7 +106,7 @@ const Page = ({params}) => {
         }
     }
 
-    console.log('params' , params)
+    console.log('params', params)
 
     const languageCheck = (value) => {
         if (languages.includes(value)) {
@@ -181,26 +181,26 @@ const Page = ({params}) => {
         console.log(params);
         setID(26);
         getCategoryByTag();
-        getCityByTag();
+        // getCityByTag();
     }, []);
 
     const getCategoryByTag = async () => {
         try {
-            const response = await categoryService.fetchByTag(params.category);
+            const response = await categoryService.fetchByTag(params.tag);
             setCategory(response.category);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const getCityByTag = async () => {
-        try {
-            const response = await cityService.fetchByTag(params.city);
-            setCity(response.city);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    // const getCityByTag = async () => {
+    //     try {
+    //         const response = await cityService.fetchByTag(params.city);
+    //         setCity(response.city);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
 
     const getContractors = async (id, data) => {
         console.log("hello")
@@ -243,7 +243,6 @@ const Page = ({params}) => {
         let isLanguages = false;
         let isHighlights = false;
         if (ratings.length > 0) {
-            console.log(ratings)
             isRatings = true
         }
         if (languages.length > 0) {
@@ -274,7 +273,7 @@ const Page = ({params}) => {
         // } else {
         //     setCityName(inputCity);
         // }
-        location.replace(`/category/on/${inputCity.toLowerCase()}/${selectedCategory ?  selectedCategory : params?.category}`)
+        location.replace(`/category/on/${inputCity.toLowerCase()}/${selectedCategory ? selectedCategory : params?.category}`)
 
     };
 
@@ -293,7 +292,7 @@ const Page = ({params}) => {
     //     setPaginatedData(contractors.slice(startIndex, endIndex));
     // }, [currentPage, contractors]);
 
-    const [searchData , setSearchData] = useState('')
+    const [searchData, setSearchData] = useState('')
 
 
     const itemsPerPage = 6;
@@ -309,10 +308,9 @@ const Page = ({params}) => {
     useEffect(() => {
         if (contractors) {
             const filteredResult = contractors.filter((item) =>
-                ( item.company_name && item.company_name?.toLowerCase().includes(searchData?.toLowerCase())) ||
-                ( item.skills && item.skills?.toLowerCase().includes(searchData?.toLowerCase())) ||
-                ( item.name && item.name?.toLowerCase().includes(searchData?.toLowerCase()))
-
+                (item.company_name && item.company_name?.toLowerCase().includes(searchData?.toLowerCase())) ||
+                (item.skills && item.skills?.toLowerCase().includes(searchData?.toLowerCase())) ||
+                (item.name && item.name?.toLowerCase().includes(searchData?.toLowerCase()))
             );
             setFilteredData(filteredResult);
             setCurrentPage(1);
@@ -362,7 +360,7 @@ const Page = ({params}) => {
             }
         };
         getCities()
-    },[])
+    }, [])
 
 
     const getCitySuggestions = (inputValue) => {
@@ -374,13 +372,13 @@ const Page = ({params}) => {
         );
     };
 
-    const onCitySuggestionsFetchRequested = ({ value }) => {
+    const onCitySuggestionsFetchRequested = ({value}) => {
         const suggestions = getCitySuggestions(value);
         setCitySuggestions(suggestions);
         setCitySelectedOption(value);
     };
 
-    const [slicedCategory , setSlicedCategory] = useState(9)
+    const [slicedCategory, setSlicedCategory] = useState(9)
 
 
 
@@ -388,7 +386,7 @@ const Page = ({params}) => {
         <>
             <Head>
                 <title>
-                    {pathname.replaceAll('/','')}
+                    {pathname.replaceAll('/', '')}
                 </title>
                 <meta
                     name="description"
@@ -411,14 +409,14 @@ const Page = ({params}) => {
                 <>
                     <div className="mt-[80px]">
 
-                        <Search />
+                        <Search/>
 
                         <div className="py-10 md:px-[4rem] px-4  max-w-[1200px] justify-center mx-auto">
                             <h1 className="sm:text-[1.8rem] text-2xl font-[500] ">
-                                {category?.name} in {city?.name}
+                                {category?.name} Contractors
                             </h1>
                             <h3 className="text-gray-600 sm:text-md text-sm mt-4">
-                                {category?.name} in {city?.name}: {category?.details}
+                                {category?.name} Contractors: {category?.details}
                             </h3>{" "}
                             <div className="flex max-sm:flex-col mt-10 w-full justify-between items-center ">
                                 <div className="flex flex-wrap gap-3 lg:gap-5 max-md:gap-2">
@@ -456,37 +454,6 @@ const Page = ({params}) => {
                             </div>
                             <div className="flex max-md:flex-col gap-5 mt-10 ">
                                 <div className="w-[25%] max-md:hidden ">
-                                    <div className="bg-[#E8F5F2] p-4 rounded-lg ">
-                                        <h5 className="text-[1.3rem] font-[600] ">Location</h5>
-
-
-                                        <Autosuggest
-                                            suggestions={citySuggestions?.slice(0,10)}
-                                            onSuggestionsFetchRequested={onCitySuggestionsFetchRequested}
-                                            onSuggestionsClearRequested={() => setCitySuggestions([])}
-                                            getSuggestionValue={(suggestion) => suggestion.name}
-                                            renderSuggestion={(suggestion) => (
-                                                <div className=" p-2 border-[.5px] z-2 border-gray-200 bg-[#F7F9FB] sm:text-xs text-gray-800 bg-white cursor-pointer">
-                                                    {suggestion.name}
-                                                </div>
-                                            )}
-                                            inputProps={{
-                                                placeholder: 'Toronto ||',
-                                                value: inputCity,
-                                                onChange: (_, { newValue }) => setInputCity(newValue),
-                                                className: 'placeholder:text-[#696969] z-2 text-[#696969] bg-[#F7F9FB] font-normal py-2 rounded-md sm:text-xs ml-2 h-full outline-none w-full mt-2 pl-4',
-                                            }}
-                                        />
-
-
-
-                                        <button
-                                            onClick={handleCitySubmit}
-                                            className="py-1 px-5 mt-4 bg-[#12937C] text-white text-[15px] rounded-[10px] w-full cursor-pointer hover:bg-opacity-80 font-[550]"
-                                        >
-                                            Filter City
-                                        </button>
-                                    </div>
                                     <div className="bg-[#E8F5F2] p-2 rounded-lg mt-5">
 
                                         <div class="w-full border-gray-300  py-5 rounded-t border-b">
@@ -557,9 +524,13 @@ const Page = ({params}) => {
                                                 </div>
                                             )}
                                             {slicedCategory === 9 ?
-                                                <h1 onClick={() => setSlicedCategory(filterData?.categories?.length)} className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show more</h1>
+                                                <h1 onClick={() => setSlicedCategory(filterData?.categories?.length)}
+                                                    className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show
+                                                    more</h1>
                                                 :
-                                                <h1 onClick={() => setSlicedCategory(9)} className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show less </h1>
+                                                <h1 onClick={() => setSlicedCategory(9)}
+                                                    className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show
+                                                    less </h1>
                                             }
                                         </div>
 
@@ -699,8 +670,8 @@ const Page = ({params}) => {
                                                                     name="review"
                                                                     value={value.name}
                                                                     className="cursor-pointer"
-                                                                    checked={ratings.includes(value.value)}
-                                                                    onChange={() => ratingCheck(value.value)}
+                                                                    checked={ratings.includes(value.id)}
+                                                                    onChange={() => ratingCheck(value.id)}
                                                                 />
                                                                 <label
                                                                     for={`review-${index}`}
@@ -929,87 +900,87 @@ const Page = ({params}) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-[#F7F9FB] md:px-[4rem] px-6 py-10  ">
-                            <div className="max-w-[1100px] justify-center mx-auto">
-                                <h5 className="sm:text-[1.8rem] text-2xl font-[600] ">
-                                    Featured Reviews for {category?.name} in {city?.name}
-                                </h5>
+                        {/*<div className="bg-[#F7F9FB] md:px-[4rem] px-6 py-10  ">*/}
+                        {/*    <div className="max-w-[1100px] justify-center mx-auto">*/}
+                        {/*        <h5 className="sm:text-[1.8rem] text-2xl font-[600] ">*/}
+                        {/*            Featured Reviews for {category?.name}*/}
+                        {/*        </h5>*/}
 
-                                <div className="grid lg:grid-cols-2 gap-5 sm:mt-[3rem] mt-3">
-                                    {paginatedDataReview?.map((value, index) => (
-                                        <div
-                                            key={index}
-                                            className="bg-white sm:px-5 sm:py-8 py-4 rounded-xl  "
-                                        >
-                                            <div className="flex gap-5">
+                        {/*        <div className="grid lg:grid-cols-2 gap-5 sm:mt-[3rem] mt-3">*/}
+                        {/*            {paginatedDataReview?.map((value, index) => (*/}
+                        {/*                <div*/}
+                        {/*                    key={index}*/}
+                        {/*                    className="bg-white sm:px-5 sm:py-8 py-4 rounded-xl  "*/}
+                        {/*                >*/}
+                        {/*                    <div className="flex gap-5">*/}
 
-                                                <div>
-                                                    <h4 className="text-[1.1rem] font-[500] ">
-                                                        {value.name}
-                                                    </h4>
-                                                    <h4 className="text-[.9rem] font-[600] ">
-                                                        {value.title}
-                                                    </h4>
-                                                    <div className="flex items-center ">
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+                        {/*                        <div>*/}
+                        {/*                            <h4 className="text-[1.1rem] font-[500] ">*/}
+                        {/*                                {value.name}*/}
+                        {/*                            </h4>*/}
+                        {/*                            <h4 className="text-[.9rem] font-[600] ">*/}
+                        {/*                                {value.title}*/}
+                        {/*                            </h4>*/}
+                        {/*                            <div className="flex items-center ">*/}
+                        {/*                                <MdStar*/}
+                        {/*                                    className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>*/}
+                        {/*                                <MdStar*/}
+                        {/*                                    className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>*/}
+                        {/*                                <MdStar*/}
+                        {/*                                    className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>*/}
+                        {/*                                <MdStar*/}
+                        {/*                                    className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>*/}
+                        {/*                                <MdStar*/}
+                        {/*                                    className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>*/}
 
-                                                        <p className="sm:ml-5 ml-1 sm:text-[.8rem] text-[10px]  text-gray-500 ">
-                                                            {moment(value.created_date).format("ll")}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                        {/*                                <p className="sm:ml-5 ml-1 sm:text-[.8rem] text-[10px]  text-gray-500 ">*/}
+                        {/*                                    {moment(value.created_date).format("ll")}*/}
+                        {/*                                </p>*/}
+                        {/*                            </div>*/}
+                        {/*                        </div>*/}
+                        {/*                    </div>*/}
 
-                                            <p className="mt-5 text-[.9rem] max-md:text-[.8rem] ">
-                                                " {value.review} "
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <ThemeProvider theme={theme}>
-                                <Stack direction="row" justifyContent="center" marginTop={2}>
-                                    <Pagination
-                                        count={Math.ceil(reviews.length / itemsPerPageReviews)}
-                                        page={currentPageReviews}
-                                        onChange={handlePageChangeReviews}
-                                        color="primary"
-                                        renderItem={(item) => (
-                                            <PaginationItem
-                                                components={{
-                                                    previous: (props) => <button {...props}
-                                                                                 className="display-none"></button>,
-                                                    next: (props) => <button {...props}
-                                                                             className=" p-[4px] !bg-[#12937C] px-4 rounded-md">Next</button>,
-                                                }}
-                                                style={{
-                                                    paddingTop: '1.5rem',
-                                                    paddingBottom: '1.5rem',
-                                                    fontSize: '0.875rem',
-                                                    color: '#333',
-                                                    padding: '15px'
-                                                }}
-                                                {...item}
-                                            />
-                                        )}
+                        {/*                    <p className="mt-5 text-[.9rem] max-md:text-[.8rem] ">*/}
+                        {/*                        " {value.review} "*/}
+                        {/*                    </p>*/}
+                        {/*                </div>*/}
+                        {/*            ))}*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    <ThemeProvider theme={theme}>*/}
+                        {/*        <Stack direction="row" justifyContent="center" marginTop={2}>*/}
+                        {/*            <Pagination*/}
+                        {/*                count={Math.ceil(reviews.length / itemsPerPageReviews)}*/}
+                        {/*                page={currentPageReviews}*/}
+                        {/*                onChange={handlePageChangeReviews}*/}
+                        {/*                color="primary"*/}
+                        {/*                renderItem={(item) => (*/}
+                        {/*                    <PaginationItem*/}
+                        {/*                        components={{*/}
+                        {/*                            previous: (props) => <button {...props}*/}
+                        {/*                                                         className="display-none"></button>,*/}
+                        {/*                            next: (props) => <button {...props}*/}
+                        {/*                                                     className=" p-[4px] !bg-[#12937C] px-4 rounded-md">Next</button>,*/}
+                        {/*                        }}*/}
+                        {/*                        style={{*/}
+                        {/*                            paddingTop: '1.5rem',*/}
+                        {/*                            paddingBottom: '1.5rem',*/}
+                        {/*                            fontSize: '0.875rem',*/}
+                        {/*                            color: '#333',*/}
+                        {/*                            padding: '15px'*/}
+                        {/*                        }}*/}
+                        {/*                        {...item}*/}
+                        {/*                    />*/}
+                        {/*                )}*/}
 
-                                    />
-                                </Stack>
-                            </ThemeProvider>
-                        </div>
+                        {/*            />*/}
+                        {/*        </Stack>*/}
+                        {/*    </ThemeProvider>*/}
+                        {/*</div>*/}
                     </div>
                 </>
             )}
-            <Footer  showNewsLetter={false}  postProject={false} />
+            <Footer showNewsLetter={false} postProject={false}/>
         </>
     );
 };
