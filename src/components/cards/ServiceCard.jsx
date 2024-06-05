@@ -6,7 +6,8 @@ const Card = ({ imageSrc, text, tag }) => {
 
   return (
     <div
-    onClick={() => navigate.push(`/getquotes/create/${tag}/any`)}
+    // onClick={() => navigate.push(`/getquotes/create/${tag}/any`)}s
+    onClick={() => navigate.push(`/category/on/toronto/${text.replaceAll(' ', '-').replaceAll('/', '-').toLowerCase()}`)}
       className="cursor-pointer w-full h-[160px] bg-[#F7F9FB] rounded-[20px] flex items-center flex-col  hover:shadow-[2.0px_4.0px_4.0px_#119DED99]"
     >
       <div className="w-16 h-[70px] mb-5 pt-[2rem] flex justify-center items-start">

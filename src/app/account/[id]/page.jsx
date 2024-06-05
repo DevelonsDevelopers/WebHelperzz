@@ -17,6 +17,7 @@ import {Footer} from "@/components/Footer";
 import trustsealbadge from "../../../../public/assets/trustsealbadge.png";
 import contractorService from "../../../api/services/contractorService";
 import customerService from "../../../api/services/customerService";
+import image from '../../../../public/assets/bath.png'
 import Head from 'next/head';
 import {usePathname} from 'next/navigation'
 
@@ -138,20 +139,27 @@ const ServicesRequests = (props) => {
 };
 
 const ChatComponent = (props) => {
+const [showChat , setShowChat] = useState(true)
+
     return (
-        <div className="flex flex-wrap border rounded-3xl divide-x-2 w-full">
+        <div className="flex flex-wrap border rounded-3xl divide-x-2 w-full duration-100">
             <div className="divide-y  lg:w-[45%] flex-1 w-screen">
                 <div className="flex items-center justify-between p-5 h-20">
                     <p className="text-[#000000] text-opacity-80 text-base font-semibold">
                         My Service Request Details
                     </p>
-                    <MdArrowForwardIos size={20}/>
+                    
+                    {/* <MdArrowForwardIos size={20} onClick={() => setShowChat(!showChat)} className={`cursor-pointer duration-100 ${showChat ? 'rotate-180 ' : ''}`} /> */}
                 </div>
-                <Conversations/>
+               
+                    <Conversations />
+                
             </div>
+            {/* {showChat && (
             <div className=" lg:w-[55%] flex-1 w-screen">
                 <ChatBoard/>
             </div>
+            )} */}
         </div>
     );
 };
@@ -267,9 +275,35 @@ const Conversations = (props) => {
     const [active, setActive] = useState(0);
     return (
         <div className="flex flex-col gap-5 pt-8">
-            <h6 className="text-xl font-bold px-5 ">Conversations</h6>
+                        {Array.from({length: 2}).map((value, index) => (
+<>
+
+            <h6 className="text-xl font-bold px-5 ">Service Request</h6>
+            {Array.from({length: 2}).map((_, index) => (
+
+            <button
+            onClick={() => setActive(index)}
+            className={classNames(
+                "flex items-start justify-between w-full py-6 px-5 border-t",
+                {"bg-[#12937C] bg-opacity-10": active === index}
+            )}
+        >
+            {/* <div className="bg-[#D9D9D9] sm:w-14 sm:h-14 w-10 h-10 rounded-full"/> */}
+            <Image  src={image} className="sm:w-14 sm:h-14 w-10 h-10" />
+            <div className="flex flex-col items-start gap-1 mt-1 sm:w-[240px] w-screen ml-2">
+                <h6 className="text-black font-semibold text-left text-opacity-80 text-base line-clamp-1 text-ellipsis">
+                    Cali Construction and design
+                </h6>
+                <p className="text-black text-opacity-80 text-sm">Interested</p>
+            </div>
+            <p className="text-black text-opacity-50 text-sm mt-2">Mar 25</p>
+        </button>
+
+                ))}
+            <h6 className="text-xl font-bold px-5 ">Conversation</h6>
+
             <div>
-                {Array.from({length: 5}).map((_, index) => (
+                {Array.from({length: 2}).map((_, index) => (
                     <Conversation
                         key={index}
                         index={index}
@@ -278,6 +312,7 @@ const Conversations = (props) => {
                     />
                 ))}
             </div>
+            </> ))}
         </div>
     );
 };
@@ -369,7 +404,7 @@ const Dropdown = (props) => {
                     <div className="bg-green-500 w-2 h-2 absolute -right-2 -top-1 rounded-full"/>
                     {" "}
                 </div>
-                <MdKeyboardArrowDown size={25}/>
+                <MdKeyboardArrowDown size={25} />
             </Menu.Button>
             <Menu.Items
                 className="absolute top-full z-50 bg-white flex flex-col gap-2 border-2 p-2 w-[250px] rounded-md">
