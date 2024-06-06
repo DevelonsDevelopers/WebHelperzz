@@ -16,22 +16,33 @@ const Page = () => {
     const [email, setEmail] = useState()
     const [response , setResponse] = useState()
     const pathname = usePathname()
+    const [emailError , setEmailError] = useState(false)
 
 
     const submitRequest = (e, email) => {
         e.preventDefault();
-      
-        emailService.forgotPassword({ email: email }).then(response => {
-            console.log(response)
-            setResponse(response)
-            if (response?.resonseCode === 200){
-                
-                navigation.push('/success-page/email-sent')
-            }
-        }).catch(err => {
+      if(email) {
 
-        })
+          emailService.forgotPassword({ email: email }).then(response => {
+              console.log(response)
+              setResponse(response)
+              if (response?.resonseCode === 200){
+                  
+                  navigation.push('/success-page/email-sent')
+              }
+          }).catch(err => {
+  
+          })
+      } else {
+        setEmailError(true)
+      }
     }
+
+    useEffect(() => {
+        if(email?.length > 0) {
+            setEmailError(false)
+        }
+    },[email])
     
     useEffect(() => {
         if(response?.responseCode === 200) {
@@ -52,9 +63,17 @@ const Page = () => {
         />
       </Head>
             <Header/>
-            <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-200 min-h-[100vh] ">
+            <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-100 min-h-[100vh] ">
+           
+            <div className='flex-1'>
+                    <div className=" flex flex-col items-start ml-auto gap-10 max-w-xl p-1">
+                        <h3 className='font-bold text-3xl lg:text-5xl'>Forgot Password.</h3>
+                        <div className='bg-[#27A9E1] h-1.5 rounded-full w-[90px]'/>
+                    </div>
 
-                <div className=" rounded-lg bg-gray-100 shadow-lg w-[50%] max-md:w-[90%]">
+                </div>
+
+                <div className='flex-1 min-w-[50%] rounded-lg shadow-lg bg-gray-100 '>
                     <div className="flex flex-wrap  ">
                         <div className="px-8 md:px-0 m-auto">
                             <div className="md:mx-6 md:p-12">
@@ -74,14 +93,15 @@ const Page = () => {
                                         <input
                                             type="email"
                                             name="email"
-                                            required
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            className="w-full border-[1px] border-gray-300 bg-transparent px-4 py-2  outline-none "
+                                             onChange={(e) => setEmail(e.target.value)}
+                                            className={`${emailError ? 'border-red-500' :'border-gray-300'} w-full border-[1px]  bg-transparent px-4 py-2  outline-none `}
                                             style={{
                                                 boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
                                             }}
                                         />
+                                    <p className={` ${emailError ? 'text-red-600' :'text-transparent'}  `}>Enter a valid email</p>
                                     </div>
+
 
 
                                     <div className="mb-4 pb-1 pt-1 text-center">

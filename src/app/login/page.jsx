@@ -126,11 +126,11 @@ const Page = () => {
                                                 }}
                                             />
                                         </div>
-                                        {error.email && (
-                                            <p className="text-red-600 -mt-4">Enter a valid email</p>
-                                        )}
+                                        {/* {error.email && ( */}
+                                            <p className={` ${error.email ? 'text-red-600' :'text-transparent'} -mt-4 `}>Enter a valid email</p>
+                                        {/* )} */}
 
-                                        <div className="mb-4 my-6">
+                                        <div className="mb-4 mt-2">
                                             <label className="text-left text-gray-700 font-bold mb-2">
                                                 Password
                                             </label>
@@ -150,9 +150,7 @@ const Page = () => {
                                             }
 
                                         </div>
-                                        {error.password && (
-                                            <p className="text-red-600 -mt-4 ">Enter your password</p>
-                                        )}
+                                            <p className={` ${error.password ? 'text-red-600' :'text-transparent'} -mt-2 `}>Enter your password</p>
 
 
                                         <div className="mb-4 pb-1 pt-1 text-center mt-2">
