@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import {Fade} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import {FaChevronDown} from "react-icons/fa";
+import {toast} from 'react-hot-toast'
 
 const pages = ["Browse Categories", "Blog", "Write A review"];
 import Image from "next/image";
@@ -143,7 +144,12 @@ function Header() {
             if (cityValue) {
                 // let postal = cityValue.postalCode.replaceAll(" ", "-").toLowerCase();
                 navigate.push("/category/on/" + cityValue.name.replaceAll(" ", "-").toLowerCase() + "/" + value.name.replaceAll(" ", "-").toLowerCase());
+            } 
+            else {
+                toast.error('Select city first')
             }
+        } else {
+            toast.error('Select category first')
         }
     };
 
