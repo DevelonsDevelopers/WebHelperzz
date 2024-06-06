@@ -1,6 +1,14 @@
 import axiosInstance from "./axiosInstance";
 
 const contractorService = {
+    join: async (payload) => {
+        try {
+            const response = await axiosInstance.post('/contractors/join', payload)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
     create: async (payload) => {
         try {
             const response = await axiosInstance.post('/contractors/create', payload)
@@ -113,7 +121,7 @@ const contractorService = {
             throw error.response.data
         }
     } ,
-  
+
 
 }
 

@@ -1,6 +1,6 @@
 'use client'
 import Header from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import {Footer} from "@/components/Footer";
 
 import Link from "next/link";
 import {useForm} from 'react-hook-form';
@@ -14,11 +14,11 @@ import contractorService from "@/api/services/contractorService";
 import uploadService from "@/api/services/uploadService";
 import {useRouter} from "next/navigation";
 import emailService from "@/api/services/emailService";
-import { PatternFormat } from "react-number-format";
+import {PatternFormat} from "react-number-format";
 import toast from "react-hot-toast";
 import cityService from "@/api/services/cityService";
 import Head from 'next/head';
-import { usePathname } from 'next/navigation'
+import {usePathname} from 'next/navigation'
 
 
 
@@ -35,13 +35,13 @@ const schema = object({
     postal_code: string().matches(/^[A-Z]\d[A-Z] \d[A-Z]\d$/i, 'Invalid Postal Code').label('Postal Code').required(),
     logo: mixed().label('Logo').required(),
     certificate: mixed().label('Cerificate').required(),
-    category: string().label('Category').required()
+    category: string().label('Category').required(),
+    city: string().label('City').required()
 });
 const JoinUsComponent = ({params}) => {
     const pathname = usePathname()
 
     const navigate = useRouter();
-    const [company , setCompany] = useState('')
 
     const [sendEmail, setSendEmail] = useState('')
     const [sendName, setSendName] = useState('')
@@ -50,7 +50,7 @@ const JoinUsComponent = ({params}) => {
     const [licenseDone, setLicenseDone] = useState(false)
     const [submitting, setSubmitting] = useState(false)
 
-    const [phoneNumber , setPhoneNumber] = useState('')
+    const [phoneNumber, setPhoneNumber] = useState('')
     const [contractorData, setContractorData] = useState({
         name: "",
         email: "",
@@ -60,14 +60,27 @@ const JoinUsComponent = ({params}) => {
         image: "-",
         status: 0,
         checked: 0,
+        contractor: '',
+        company_name: '',
+        postal_code: '',
+        category: '0',
+        city: '0',
+        skills: '',
+        service_areas: '',
+        availability_days: '',
+        availability_hours: '',
+        website: '',
+        description: '',
+        trust_seal: 0,
     });
 
     const [detailsData, setDetailsData] = useState({
         contractor: '',
         company_name: '',
         address: '',
-        postal_code: '56000',
+        postal_code: '',
         category: '0',
+        city: '0',
         skills: '',
         service_areas: '',
         availability_days: '',
@@ -78,9 +91,9 @@ const JoinUsComponent = ({params}) => {
     })
 
     useEffect(() => {
-        if (certificateDone && licenseDone){
+        if (certificateDone && licenseDone) {
             setSubmitting(false)
-            emailService.contractorJoin({ email: sendEmail, name: sendName }).then(res => {
+            emailService.contractorJoin({email: sendEmail, name: sendName}).then(res => {
                 console.log(res)
             })
             navigate.push('/join-us/success')
@@ -108,98 +121,84 @@ const JoinUsComponent = ({params}) => {
     const certificate = watch('certificate')
     const licenses = watch('licenses')
 
-    const [cities , setCities] = useState([])
+    const [cities, setCities] = useState([])
 
-useEffect(() => {
-    const getCities = async () => {
-        try {
-            const response = await cityService.fetchAll();
-            setCities(response.cities);
-            console.log('cities ', response)
-        } catch (error) {
-            console.error(error);
-        }
-    };
-    getCities()
-},[])
+    useEffect(() => {
+        const getCities = async () => {
+            try {
+                const response = await cityService.fetchAll();
+                setCities(response.cities);
+                console.log('cities ', response)
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        getCities()
+    }, [])
 
 
 
     const onSubmit = async (data) => {
         try {
-          console.log('clicked');
-      
-          let contractorD = { ...contractorData };
-          contractorD.name = `${data.firstname} ${data.lastname}`;
-          contractorD.email = data.email;
-          contractorD.phone = phoneNumber;
-          contractorD.address = data.address;
-      
-          setSubmitting(true);
-          setSendEmail(data.email);
-          setSendName(`${data.firstname} ${data.lastname}`);
-      
-          if (!data.businessname || !data.email) {
-            console.log('Required data missing:', data.businessname, data.email);
-            setSubmitting(false);
-            return;
-          }
-      
-          const checkContractorResponse = await contractorService.checkContractor({
-            email: data.email,
-            company: data.businessname,
-          });
-      
-          if (checkContractorResponse.responseCode === 407) {
+            console.log('clicked');
+            console.log(data)
+
+            let contractorD = {...contractorData};
+            contractorD.name = `${data.firstname} ${data.lastname}`;
+            contractorD.email = data.email;
+            contractorD.phone = phoneNumber;
+            contractorD.address = data.address;
+            contractorD.postal_code = data.postal_code;
+            contractorD.company_name = data.businessname;
+            contractorD.category = data.category;
+            contractorD.city = data.city;
+
+            setSubmitting(true);
+            setSendEmail(data.email);
+            setSendName(`${data.firstname} ${data.lastname}`);
+
+            if (!data.businessname || !data.email) {
+                setSubmitting(false);
+                return;
+            }
+
             const logoFile = await uploadService.single(data.logo[0]);
             contractorD.image = logoFile.fileName;
-      
-            const createContractorResponse = await contractorService.create(contractorD);
-            const contractorId = createContractorResponse.contractor.id;
-      
-            let contractorDetails = { ...detailsData };
-            contractorDetails.contractor = contractorId;
-            contractorDetails.address = data.address;
-            contractorDetails.postal_code = data.postal_code;
-            contractorDetails.company_name = data.businessname;
-            contractorDetails.category = data.category;
-      
-            setCompany(data.businessname);
-      
-            await contractorService.createDetails(contractorDetails);
-      
-            await Promise.all(
-              data.licenses.map(async (license) => {
-                const licenseFile = await uploadService.single(license);
-                const docData = {
-                  contractor: contractorId,
-                  title: 'License',
-                  file: licenseFile.fileName,
+
+            const submittedContractor = await contractorService.join(contractorD);
+
+            if (submittedContractor.contractor !== null) {
+                await Promise.all(
+                    data.licenses.map(async (license) => {
+                        const licenseFile = await uploadService.single(license);
+                        const docData = {
+                            contractor: submittedContractor.contractor,
+                            title: 'License',
+                            file: licenseFile.fileName,
+                        };
+                        await contractorService.createDocument(docData);
+                    })
+                );
+
+                const certificateFile = await uploadService.single(data.certificate[0]);
+                const certificateData = {
+                    contractor: submittedContractor.contractor,
+                    title: 'Incorporate Certificate',
+                    file: certificateFile.fileName,
                 };
-                await contractorService.createDocument(docData);
-              })
-            );
-      
-            const certificateFile = await uploadService.single(data.certificate[0]);
-            const certificateData = {
-              contractor: contractorId,
-              title: 'Incorporate Certificate',
-              file: certificateFile.fileName,
-            };
-            await contractorService.createDocument(certificateData);
-      
-            setLicenseDone(true);
-            setCertificateDone(true);
-          } else {
-            toast.error(checkContractorResponse?.message);
-            setSubmitting(false);
-          }
+                await contractorService.createDocument(certificateData);
+
+                setLicenseDone(true);
+                setCertificateDone(true);
+            } else {
+                setSubmitting(false);
+            }
         } catch (error) {
-          console.error('Error in onSubmit:', error);
-          setSubmitting(false);
+            console.error('Error in onSubmit:', error);
+            setSubmitting(false);
         }
-      };
-      
+    };
+
 
     const getCategories = async () => {
         try {
@@ -217,21 +216,21 @@ useEffect(() => {
 
     useEffect(() => {
         getCategories();
-    },[]);
+    }, []);
 
 
     return (
         <>
-         <Head>
-        <title>
-         {pathname.replaceAll('/','')}
-        </title>
-        <meta
-          name="description"
-          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
-          key="desc"
-        />
-      </Head>
+            <Head>
+                <title>
+                    {pathname.replaceAll('/', '')}
+                </title>
+                <meta
+                    name="description"
+                    content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+                    key="desc"
+                />
+            </Head>
 
             <Header/>
             <div className="flex flex-col gap-5 lg:gap-10 py-44 justify-center items-center bg-gray-100 min-h-[100vh]">
@@ -251,7 +250,8 @@ useEffect(() => {
                             <div className='flex flex-col lg:flex-row gap-4 w-full'>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Professional/Company Name</label>
-                                    <input type='text' required className='border-2 w-full p-2' {...register("businessname")}
+                                    <input type='text' required
+                                           className='border-2 w-full p-2' {...register("businessname")}
                                            placeholder='Your Business Name'/>
                                     {errors.businessname && (
                                         <span className="text-sm text-red-500">
@@ -264,7 +264,7 @@ useEffect(() => {
                                     <select
                                         required
                                         className='bg-white  border-2 w-full p-2' {...register("category")}>
-                                        <option value="" selected disabled >Select Category</option>
+                                        <option value="" selected disabled>Select Category</option>
                                         {
                                             options.map((option, i) => (
                                                 <option key={i} value={option.value}>{option.label}</option>
@@ -286,12 +286,10 @@ useEffect(() => {
                                 </div>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Last Name</label>
-                                    <input  required type='text' className='border-2 w-full p-2'
-                                            placeholder='Last Name' {...register("lastname")}/>
+                                    <input required type='text' className='border-2 w-full p-2'
+                                           placeholder='Last Name' {...register("lastname")}/>
                                     {errors.lastname && (
-                                        <span className="text-sm text-red-500">
-                      {errors.lastname.message}
-                    </span>
+                                        <span className="text-sm text-red-500">{errors.lastname.message}</span>
                                     )}
                                 </div>
                             </div>
@@ -312,7 +310,7 @@ useEffect(() => {
                                     <PatternFormat
                                         type="tel"
                                         format="+1 (###) ###-####"
-                                        onValueChange={(value) => setPhoneNumber(value.value) }
+                                        onValueChange={(value) => setPhoneNumber(value.value)}
                                         placeholder="Phone Number"
                                         className='border-2 w-full p-2'
                                         required
@@ -331,20 +329,20 @@ useEffect(() => {
                             </div>
 
                             <div className='flex-1 flex flex-col'>
-                                    <label className='font-bold text-sm'>City</label>
-                                    <select
-                                        required
-                                        className='bg-white  border-2 w-full p-2' 
-                                        // {...register("category")}
-                                        >
-                                        <option value="" selected disabled >Select City</option>
-                                        {
-                                            cities.map((option, i) => (
-                                                <option key={i} value={option.name}>{option.name}</option>
-                                            ))
-                                        }
-                                    </select>
-                                </div>
+                                <label className='font-bold text-sm'>City</label>
+                                <select
+                                    required
+                                    className='bg-white  border-2 w-full p-2'
+                                    {...register("city")}
+                                >
+                                    <option value="" selected disabled>Select City</option>
+                                    {
+                                        cities.map((option, i) => (
+                                            <option key={i} value={option.id}>{option.name}</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
 
                             <div className='flex gap-4'>
                                 <div className='flex-1 flex flex-col'>
@@ -359,7 +357,8 @@ useEffect(() => {
                                 </div>
                                 <div className='flex-initial flex flex-col'>
                                     <label className='font-bold text-sm'>Postal Code</label>
-                                    <input required type='text' className='border-2 w-full p-2' {...register("postal_code")}
+                                    <input required type='text'
+                                           className='border-2 w-full p-2' {...register("postal_code")}
                                            placeholder='Postal Code'/>
                                     {errors.postal_code && (
                                         <span className="text-sm text-red-500">
@@ -373,8 +372,7 @@ useEffect(() => {
                                 <div
                                     htmlFor="dropzone-file"
                                     onClick={() => licensesRef.current?.click()}
-                                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300
-  `}
+                                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300`}
                                 >
                                     {licenses && licenses.length > 0 ?
                                         <div className="flex flex-wrap gap-1 py-3">
@@ -440,8 +438,7 @@ useEffect(() => {
                                         console.log('here', logoRef.current);
                                         logoRef.current?.click()
                                     }}
-                                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300
-  `}
+                                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300`}
                                 >
                                     {logo && logo.length > 0 ?
                                         <div className="flex flex-wrap py-3">
@@ -488,7 +485,7 @@ useEffect(() => {
                                         onChange={(e) => setValue('logo', e.target.files)}
                                     />
                                 </div>
-                                {errors.logo &&  !logo?.length && (
+                                {errors.logo && !logo?.length && (
                                     <span className="text-sm text-red-500">
                     {errors.logo.message}
                   </span>
@@ -502,8 +499,7 @@ useEffect(() => {
                                         console.log('here', certificateRef.current);
                                         certificateRef.current?.click()
                                     }}
-                                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300
-  `}
+                                    className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300`}
                                 >
                                     {certificate && certificate.length > 0 ?
                                         <div className="flex flex-wrap py-3">
@@ -550,7 +546,7 @@ useEffect(() => {
                                         onChange={(e) => setValue('certificate', e.target.files)}
                                     />
                                 </div>
-                                {errors.certificate && !certificate?.length &&  (
+                                {errors.certificate && !certificate?.length && (
                                     <span className="text-sm text-red-500">
                     {errors.certificate.message}
                   </span>
@@ -559,10 +555,12 @@ useEffect(() => {
                             {submitting ?
                                 <button type="submit" onClick={(e) => e.preventDefault()}
                                         className="py-5 bg-[#27A9E1] font-bold text-sm text-white">
-                                    <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-white mx-auto"></div>
+                                    <div
+                                        className="animate-spin rounded-full h-4 w-4 border-t-2 border-white mx-auto"></div>
                                 </button>
                                 :
-                                <button type='submit' className="py-5 bg-[#27A9E1] font-bold text-sm text-white">REGISTER
+                                <button type='submit'
+                                        className="py-5 bg-[#27A9E1] font-bold text-sm text-white">REGISTER
                                     NOW!
                                 </button>
                             }
@@ -571,7 +569,7 @@ useEffect(() => {
                     </div>
                 </div>
             </div>
-<Footer  showNewsLetter={false} postProject={false}/>
+            <Footer showNewsLetter={false} postProject={false}/>
         </>
     )
 }
