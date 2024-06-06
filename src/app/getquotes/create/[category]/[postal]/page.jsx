@@ -775,6 +775,7 @@ function GetQuotes({params}) {
                             phone: value.value,
                           }))
                         }
+                        value={userData.phone}
                         placeholder="your phone"
                         required
                         className={` border ${
