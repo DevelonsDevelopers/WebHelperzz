@@ -61,13 +61,13 @@ export default function CreateProjectComponent() {
             </Typography>
           </Breadcrumbs>
         </div>
-        <div className="mt-8 bg-[#12937C1A] bg-opacity-10 max-w-[1500px] mx-auto py-5">
+        {/* <div className="mt-8 bg-[#12937C1A] bg-opacity-10 max-w-[1500px] mx-auto py-5">
           <div className="max-w-[1200px] mx-auto">
             <div className="rounded-2xl py-4 px-24 bg-white w-fit text-secondary font-semibold text-center">
               Overview
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="flex flex-col lg:flex-row gap-10 mt-24 max-w-[1200px] mx-auto min-h-[100vh]">
           <div className="flex-initial flex flex-col max-w-[500px] w-full gap-5 p-5">
             <h2 className="text-3xl font-bold">Planning a new project?</h2>

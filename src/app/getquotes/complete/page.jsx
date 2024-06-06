@@ -43,15 +43,15 @@ export default function SentRequest() {
               HomeStars{" "}
               <span className="font-bold text-gray-600">dashboard</span>
             </div>
-            <div className="mt-3 md:mt-5 flex justify-center text-center">
+            {/* <div className="mt-3 md:mt-5 flex justify-center text-center">
               <a class=" hover:bg-[#12937C]  bg-[#12936C] transition-all cursor-pointer text-white   text-sm md:text-lg justify-center rounded-md px-5  py-3  font-bold text-transform: uppercase">
                 complete profile
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
         <div>
-          <div className="text-2xl font-bold mt-12">What Happens Next?</div>
+          <div className="text-2xl font-bold mt-4 ml-10 max-md:ml-0">What Happens Next?</div>
           <div className="flex md:flex-row mt-10 xl:gap-36 lg:gap-28 flex-col mb-20">
             <div className="flex flex-row md:flex-col justify-center max-auto items-center mt-4 md:mt-0">
               <div>

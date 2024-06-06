@@ -25,6 +25,7 @@ import cityService from "@/api/services/cityService";
 import Autosuggest from "react-autosuggest";
 import Head from 'next/head';
 import { usePathname } from 'next/navigation'
+import toast from 'react-hot-toast';
 
 
 import {
@@ -269,29 +270,16 @@ const Page = ({params}) => {
     };
 
     const handleCitySubmit = () => {
-        // if (inputCity.trim() === "") {
-        //     fetchCityName();
-        // } else {
-        //     setCityName(inputCity);
-        // }
-        location.replace(`/category/on/${inputCity.toLowerCase()}/${selectedCategory ?  selectedCategory : params?.category}`)
+if(inputCity) {
+
+    location.replace(`/category/on/${inputCity.toLowerCase()}/${selectedCategory ?  selectedCategory : params?.category}`)
+} else {
+    toast.error('select city first')
+}
 
     };
 
 
-    // const itemsPerPage = 6;
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const handlePageChange = (event, newPage) => {
-    //     setCurrentPage(newPage);
-    // };
-
-    // const [paginatedData, setPaginatedData] = useState([]);
-
-    // useEffect(() => {
-    //     const startIndex = (currentPage - 1) * itemsPerPage;
-    //     const endIndex = startIndex + itemsPerPage;
-    //     setPaginatedData(contractors.slice(startIndex, endIndex));
-    // }, [currentPage, contractors]);
 
     const [searchData , setSearchData] = useState('')
 

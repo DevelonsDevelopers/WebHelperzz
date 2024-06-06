@@ -67,7 +67,7 @@ export const Credentials = ({ details }) => {
           </div>
           <div className="w-full lg:min-w-1/4 overflow-x-scroll md:overflow-auto">
             <h2 className="text-xl font-semibold mb-5 text-text">
-              2 Affilations{" "}
+              Affilations{" "}
             </h2>
             <div className="flex gap-3">
               {details?.affiliations?.slice(0, 3).map((value) => (
