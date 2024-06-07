@@ -100,6 +100,8 @@ const Page = ({params}) => {
 
 
     const [subCategories , setSubCategories ] = useState([])
+    const [subcategoryId , setSubcategoryId] = useState()
+    
 
 
     const highlightCheck = (value) => {
@@ -109,8 +111,6 @@ const Page = ({params}) => {
             setHighlights(v => [...v, value])
         }
     }
-
-    console.log('params', params)
 
     const languageCheck = (value) => {
         if (languages.includes(value)) {
@@ -198,20 +198,17 @@ const Page = ({params}) => {
     },[params])
 
     useEffect(() => {
-            const getSubCategoryByName = async () => {
+            const getSubCategoryByName = async (category) => {
                 try {
                     const response = await subcategoryService.fetchByCategory(category?.id);
                     setSubCategories(response?.subcategories);
-                    console.log('response of subcategory' , response)
                 } catch (error) {
                     console.log(error);
                 }
             };
-            getSubCategoryByName()
+            getSubCategoryByName(category)
     },[category , params])
 
-    console.log('subCategories ', subCategories)
-  
 
 
 
@@ -225,17 +222,43 @@ const Page = ({params}) => {
     };
 
 
-    const getContractors = async (id, data) => {
-        console.log("hello")
-        try {
-            const response = await contractorService.category(id, data);
-            setContractors(response.contractors);
-            setLoading(false);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    // const getContractors = async (id, data) => {
+    //     console.log("hello")
+    //     try {
+    //         const response = await contractorService.category(id, data);
+    //         setContractors(response.contractors);
+    //         setLoading(false);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
 
+    useEffect(() => {
+        const fetchSubcategoryByTag = async (params) => {
+            try {
+                const response = await subcategoryService.fetchByTag(params?.subcategory);
+                setSubcategoryId(response?.subcategory?.id);
+                // setLoading(false);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchSubcategoryByTag(params) 
+    },[params])
+
+                 console.log('response of subcategory ' , subcategoryId)
+
+
+
+        const getContractorsBySubcategory = async (id , data) => {
+             try {
+                const response = await contractorService.contractorBySubcategory(id , data);
+                console.log('response of contractors of subcategory' , response)
+                setContractors(response?.contractors)
+             } catch (error) {
+                console.error(error);
+            }
+        };
    
 
     useEffect(() => {
@@ -261,8 +284,8 @@ const Page = ({params}) => {
         if (highlights.length > 0) {
             isHighlights = true
         }
-        if (category) {
-            getContractors(category.id, {
+        if (subcategoryId) {
+            getContractorsBySubcategory(subcategoryId, {
                 highlights: highlights.toString(),
                 languages: languages.toString(),
                 ratings: ratings.toString(),
@@ -317,8 +340,6 @@ const Page = ({params}) => {
 
 
     const theme = createTheme({palette: {primary: {main: '#E0EFEE', contrastText: '#EEE'}}})
-
-
 
 
     const [citySuggestions, setCitySuggestions] = useState([]);

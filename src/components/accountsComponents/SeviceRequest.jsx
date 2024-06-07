@@ -85,7 +85,7 @@ const ServicesRequests = ({ params }) => {
       <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full">
         <div className="lg:w-[72%] w-screen">
           <div className="flex flex-wrap border rounded-3xl divide-x-2 w-full duration-100">
-            <div className="divide-y  lg:w-[45%] flex-1 w-screen">
+            <div className="   lg:w-[45%] flex-1 w-screen">
               <div className="flex items-center justify-between p-5 h-20">
                 <p className="text-[#000000] text-opacity-80 text-base font-semibold">
                   My Service Request Details
@@ -106,7 +106,7 @@ const ServicesRequests = ({ params }) => {
                 });
             }}
             className={classNames(
-                "flex items-start justify-between w-full py-6 px-5 border-t",
+                "flex justify-between w-full items-center py-2 px-5 border-t",
                 { "bg-[#12937C] bg-opacity-10": value?.dropDown }
             )}
         >
@@ -128,22 +128,23 @@ const ServicesRequests = ({ params }) => {
             <IoIosArrowDown  className={`${value.dropDown ? 'rotate-180 ' :''} transition ease-in-out delay-200`} />
         </button>
         {value?.dropDown && (
+    <>
+        {value?.contractors?.length > 0 ? (
             <div>
-                <h6 className="text-xl font-bold px-5 mt-2">Contractors</h6>
+                <h6 className="text-xl font-bold px-5 py-2 text-center">Contractors</h6>
                 <div>
-                    {value?.contractors?.map((_, index) => (
+                    {value.contractors.map((contractor, index) => (
                         <button
                             key={index}
                             onClick={() => setChatActive(index)}
                             className={classNames(
-                                "flex items-start justify-between w-full py-6 px-5  ",
+                                "flex items-start justify-between w-full py-6 px-5",
                                 { "border-b-2 border-black bg-opacity-10": chatActive === index }
                             )}
                         >
-                            {/* <div className="bg-[#D9D9D9] sm:w-14 sm:h-14 w-10 h-10 rounded-full" /> */}
                             <div className="flex flex-col items-start gap-1 mt-1 sm:w-[240px] w-screen ml-2">
                                 <h6 className="text-black font-semibold text-left text-opacity-80 text-base line-clamp-1 text-ellipsis">
-                                    {_.company_name}
+                                    {contractor.company_name}
                                 </h6>
                                 <p className="text-black text-opacity-80 text-sm">
                                     Interested
@@ -156,7 +157,12 @@ const ServicesRequests = ({ params }) => {
                     ))}
                 </div>
             </div>
+        ) : (
+            <h1 className="text-center font-semibold text-xl py-6">No contractors yet</h1>
         )}
+    </>
+)}
+
     </div>
 ))}
 

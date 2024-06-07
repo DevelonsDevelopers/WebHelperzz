@@ -12,9 +12,10 @@ import {useRouter} from 'next/navigation'
 
 const PopularList = ({ categories }) => {
 
+
 const navigation = useRouter()
-const handlSubmit = (name) => {
-  navigation.push(`/subcategory/${name?.replaceAll(" ","-").replaceAll("/","-").toLowerCase()}`)
+const handlSubmit = (name , category) => {
+  navigation.push(`/s/${category?.replaceAll(" ","-").replaceAll("/","-").toLowerCase()}/${name?.replaceAll(" ","-").replaceAll("/","-").toLowerCase()}`)
 }
 
 
@@ -30,7 +31,7 @@ const handlSubmit = (name) => {
                 </h2>
                 <div className="grid grid-cols-4 max-md:grid-cols-2 mt-2">
                   {value?.subcategories.map((item, index) => (
-                     <span  onClick={() => handlSubmit(item?.name)} className="text-[15px] font-[500] cursor-pointer mt-[4px]">
+                     <span  onClick={() => handlSubmit(item?.name , item?.category_name)} className="text-[15px] font-[500] cursor-pointer mt-[4px]">
                      {item?.name}
                    </span>
                   ))}
