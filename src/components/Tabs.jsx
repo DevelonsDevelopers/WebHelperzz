@@ -312,12 +312,12 @@ const handleSubmit = (e) => {
       setZoomedImageUrl(images?.[selectedIndex].image);
     }, [selectedIndex, images]);
 
-   
 
- 
+
+
     return (
       <div className="overflow-hidden fixed z-10 top-0 left-0 w-full h-full  bg-black bg-opacity-100 flex justify-center ">
-       
+
         <div className="flex flex-col justify-center  sm:mt-[3rem] xl:flex xl:flex-col xl:justify-center">
           <div>
             <img
@@ -397,7 +397,7 @@ const handleSubmit = (e) => {
       }
   }, [details]);
 
-  
+
   const toggleReviews = () => {
     if (showLatest === 'Newest') {
       setShowLatest('Oldest');
@@ -405,19 +405,19 @@ const handleSubmit = (e) => {
       setShowLatest('Newest');
     }
   };
-  
+
   const toggleStars = () => {
     setShowHighestStars((prev) => !prev);
   };
-  
+
   const sortedReviews = showLatest === 'Newest'
     ? details?.reviews?.slice().sort((a, b) => new Date(b?.created_date) - new Date(a?.created_date))
     : details?.reviews?.slice().sort((a, b) => new Date(a?.created_date) - new Date(b?.created_date));
-  
+
   const sortedReviewsByStars = showHighestStars
     ? sortedReviews?.slice().sort((a, b) => b?.rating - a?.rating)
     : sortedReviews?.slice().sort((a, b) => a?.rating - b?.rating);
-  
+
 
     const [showPic , setShowPic] = useState(true)
 
@@ -447,7 +447,7 @@ useEffect(() => {
 const handleModalOpen = (images) => {
 console.log('images ' , images)
   setModalView(images);
-  handleOpen(); 
+  handleOpen();
 }
 
 console.log('details ' , details)
@@ -462,13 +462,13 @@ const limitedImages = allImages.slice(0, 8);
   useEffect(() => {
     if( /^[A-Z]\d[A-Z] \d[A-Z]\d$/i.test(formData?.postal_code)){
    setValidPostalCode(false)
-    } 
+    }
   },[formData?.postal_code])
 
   useEffect(() => {
     if(formData?.postal_code.length === 0){
    setValidPostalCode(false)
-    } 
+    }
   },[formData?.postal_code])
 
 
@@ -566,13 +566,13 @@ const limitedImages = allImages.slice(0, 8);
                       </h5>
                         </div>
                       <div className="flex gap-2 items-center text-text md:text-md text-sm">
-                     
+
                           <>
                             <StarIcon color={"#12937C"} />{" "}
                             <span>{`${givenRating ? givenRating?.toFixed(2) : 0 } / 5`}</span>{" "}
                             <span className="text-[#444444]">{`(${details.reviews.length} Reviews)`}</span>
                           </>
-                       
+
                       </div>
                     </div>
                   </div>
@@ -587,25 +587,25 @@ const limitedImages = allImages.slice(0, 8);
                           __html: details?.details?.description,
                         }}
                       />
-{details?.details?.website ? 
+{details?.details?.website ?
 <>
                       <h4 className="mt-10 text-xl md:text-2xl font-semibold mb-4 text-text">
                         Website:
                       </h4>
                       <a
-                      
+
                         href={`${details?.details?.website}`}
                         className="text-md md:text-xl font-semibold mb-4 break-words underline text-blue-600"
                         rel="nofollow"
                         target="_blank"
-                       
+
                       >
                         {details?.details?.website}
                       </a>
                       </>
                       :
                       ''
-                      
+
 }
                     </div>
                   </div>
@@ -742,7 +742,7 @@ Please provide a valid postal code !
                 <div className="flex items-center gap-4 flex-wrap md:flex-nowrap">
                   <div>
 
-                    
+
                     <h2 className="whitespace-nowrap text-lg md:text-xl font-semibold mb-3 text-text">
                       Star Score
                     </h2>
@@ -881,20 +881,20 @@ Please provide a valid postal code !
                   </h2>
 
                   <div className="flex mb-10 items-center gap-2 lg:gap-6 flex-wrap">
-                    {buttons.map((item, index) => (
+                    {details?.subcategories?.map((item, index) => (
                       <button
                         key={index}
                         onClick={() => setSelectedButton(index)}
                         className={` ${selectedButton === index ? ' text-white bg-opacity-100 bg-secondary' : ' bg-secondary bg-opacity-10' } transition-all whitespace-nowrap  md:text-md text-sm min-w-[120px] border border-secondary text-text text-transform: capitalize  font-semibold sm:py-3 py-[7px] sm:px-4 px-[10px] rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white`}
                       >
-                        {item}{" "}
+                        {item.name}{" "}
                       </button>
                     ))}
                   </div>
 
                   <h2 className="text-2xl md:text-[28px] font-semibold md:mb-5 mb-2 text-text flex gap-2" >
 <span className='pr-[5px]'>
-{totalImages} 
+{totalImages}
   </span>
     Photos
                   </h2>
@@ -906,7 +906,7 @@ Please provide a valid postal code !
                       <div
                         className="mt-9"
                         key={index}
-                      
+
                         onClick={() => handleModalOpen(project?.images)}
                         >
                         <img
@@ -969,8 +969,8 @@ Please provide a valid postal code !
 
   </div>
 
-<div className="flex flex-wrap gap-2 max-md:gap-[4px]"> 
-  
+<div className="flex flex-wrap gap-2 max-md:gap-[4px]">
+
 {gallery.slice(0,8).map((img, index) => (
 
     <div
@@ -999,11 +999,11 @@ Please provide a valid postal code !
                         {showLatest}
                       </p>
                       <LuArrowUpDown  onClick={() => toggleReviews()} className={`md:h-6 md:w-6  h-4 w-4 cursor-pointer ${showLatest === 'Oldest' ? 'text-gray-400' : 'text-gray-900'}`}
-                         
+
                       />
                       </div>
                       <div className="flex items-center gap-2 max-md:mr-auto">
-                       
+
                     <p className="sm:text-2xl font-semibold text-md">
                       By Star
                     </p>
@@ -1017,8 +1017,8 @@ Please provide a valid postal code !
 <input
   type="checkbox"
   className="w-6 h-6 ml-2  " checked={showPic} onChange={() => setShowPic(!showPic)}
-/>       
-            
+/>
+
   </div>
                   </div>
                   <div className="flex justify-between md:mt-6 mt-2 flex-wrap lg:flex-nowrap gap-3 md:gap-4">
@@ -1054,8 +1054,8 @@ Please provide a valid postal code !
                             <span className="text-gray-400">{`(${details?.reviews?.length} Reviews)`}</span>
                           </p>
                         </div>
-                        <button 
-  onClick={() => navigate.push(`/getquotes/create/${details?.details?.category_name.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}/any`)}  
+                        <button
+  onClick={() => navigate.push(`/getquotes/create/${details?.details?.category_name.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}/any`)}
   className="bg-[#12937C] text-white font-bold py-2 px-4 sm:text-lg rounded-2xl w-full mt-10 mb-5"
 >
   GET A QUOTE
@@ -1167,7 +1167,7 @@ Please provide a valid postal code !
                   </div>
                   <div>
                   <div className="mt-10">
-                    {details?.details?.description ? 
+                    {details?.details?.description ?
                     <>
 
                       <h2 className="text-2xl font-semibold mb-4 text-text ">
@@ -1183,32 +1183,32 @@ Please provide a valid postal code !
                      :
                     ''
                   }
-{details?.details?.website ? 
+{details?.details?.website ?
 <>
                       <h4 className="mt-10 text-xl md:text-2xl font-semibold mb-4 text-text">
                         Website:
                       </h4>
                       <a
-                      
+
                         href={`${details?.details?.website}`}
                         className="text-md md:text-xl font-semibold mb-4 break-words underline text-blue-600"
                         rel="nofollow"
                         target="_blank"
-                       
+
                       >
                         {details?.details?.website}
                       </a>
                       </>
                       :
                       ''
-                      
+
 }
                     </div>
 
 
 
                     <div className="rounded-2xl bg-[#F7F9FB] p-7 mt-10">
-                      
+
                 <div className="flex items-center gap-4 flex-wrap md:flex-nowrap">
                   <div>
                     <h2 className="whitespace-nowrap text-lg md:text-xl font-semibold mb-3 text-text">
@@ -1353,7 +1353,7 @@ Please provide a valid postal code !
               <div className="img_align w-[screen] pl-2 md:pl-0  overflow-x-auto  flex flex-wrap gap-10">
                     {gallery.map((img , index) => (
                       <div
-                    
+
                         onClick={() => {handleOpen2() ; setSelectedImage2(index) }}
                         className="mt-5"
                         key={index}
@@ -1373,8 +1373,8 @@ Please provide a valid postal code !
  <h1 className="text-center font-[600] text-xl text-gray-700">
   No image found
   </h1>
- 
-                </div> 
+
+                </div>
 }
             </TabPanel>
           )}
@@ -1382,7 +1382,7 @@ Please provide a valid postal code !
             <Loading />
           ) : (
             <TabPanel value="4">
-{details?.reviews?.length > 0 ?  
+{details?.reviews?.length > 0 ?
               <div className="review_section ">
                 <div className=" md:px-6 px-0 py-10 lg::mx-auto">
                   <div style={{ display: "flex", flexDirection: "row" }}>
@@ -1412,21 +1412,21 @@ Please provide a valid postal code !
                       </p>
                       <LuArrowUpDown  onClick={() => toggleReviews()} className={`md:h-6 md:w-6  h-4 w-4 cursor-pointer ${showLatest === 'Oldest' ? 'text-gray-400' : 'text-gray-900'}`}
 />
-                   
+
                     <p className="sm:text-2xl   font-semibold text-md">
                       By Star
                     </p>
                     <LuArrowUpDown  onClick={() => toggleStars()} className={`md:h-6 md:w-6  h-4 w-4 cursor-pointer ${!showHighestStars ? 'text-gray-400' : 'text-gray-900'}`}/>
 
-                   
+
                       <p className="sm:text-2xl font-semibold text-md">
                         Reviews with Photos
                       </p>
                       <input
   type="checkbox"
   className="w-6 h-6 ml-2 " checked={showPic} onChange={() => setShowPic(!showPic)}
-/>      
-                  
+/>
+
                   </div>
                   <div className="flex justify-between md:mt-6 mt-2 flex-wrap lg:flex-nowrap gap-3 md:gap-4">
                     <div className="flex-col justify-between flex-wrap lg:flex-nowrap gap-3 md:gap-4 w-[75%]">
