@@ -11,6 +11,7 @@ import {CiFileOn} from "react-icons/ci";
 import {log} from "next/dist/server/typescript/utils";
 import categoryService from "@/api/services/categoryService";
 import contractorService from "@/api/services/contractorService";
+import subcategoryService from "@/api/services/subcategoryService";
 import uploadService from "@/api/services/uploadService";
 import {useRouter} from "next/navigation";
 import emailService from "@/api/services/emailService";
@@ -18,7 +19,8 @@ import {PatternFormat} from "react-number-format";
 import toast from "react-hot-toast";
 import cityService from "@/api/services/cityService";
 import Head from 'next/head';
-import {usePathname} from 'next/navigation'
+import {usePathname} from 'next/navigation';
+import Select from 'react-select'
 
 
 
@@ -49,7 +51,9 @@ const JoinUsComponent = ({params}) => {
     const [certificateDone, setCertificateDone] = useState(false)
     const [licenseDone, setLicenseDone] = useState(false)
     const [submitting, setSubmitting] = useState(false)
-
+    const [subcategory , setSubcategory] = useState([])
+    const [subcategoryValue , setSubcategoryValue] = useState()
+ 
     const [phoneNumber, setPhoneNumber] = useState('')
     const [contractorData, setContractorData] = useState({
         name: "",
@@ -90,6 +94,7 @@ const JoinUsComponent = ({params}) => {
         trust_seal: 0,
     })
 
+ 
     useEffect(() => {
         if (certificateDone && licenseDone) {
             setSubmitting(false)
@@ -105,6 +110,7 @@ const JoinUsComponent = ({params}) => {
     const licensesRef = useRef(null);
 
     // console.log('email ' , sendEmail , company )
+    const [category , setCategory] = useState()
 
     const {
         setValue,
@@ -136,6 +142,21 @@ const JoinUsComponent = ({params}) => {
         getCities()
     }, [])
 
+        const getSubcategoryByCategory = async (category) => {
+            try {
+                const response = await subcategoryService.fetchByCategory(category);
+                setSubcategory(response.subcategories);
+                console.log('cities ', response)
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        useEffect(() => {
+            if(category) {
+                getSubcategoryByCategory(category)
+            }
+        },[category])
+
 
 
     const onSubmit = async (data) => {
@@ -150,7 +171,7 @@ const JoinUsComponent = ({params}) => {
             contractorD.address = data.address;
             contractorD.postal_code = data.postal_code;
             contractorD.company_name = data.businessname;
-            contractorD.category = data.category;
+            contractorD.category = category;
             contractorD.city = data.city;
 
             setSubmitting(true);
@@ -218,6 +239,24 @@ const JoinUsComponent = ({params}) => {
         getCategories();
     }, []);
 
+    console.log('subcategoryValue', subcategoryValue);
+    const [secondSub, setSecondSub] = useState(subcategoryValue);
+    
+    useEffect(() => {
+        setSecondSub(subcategoryValue);
+    }, [subcategoryValue]);
+    
+    useEffect(() => {
+        if (Array.isArray(secondSub) && secondSub.length > 0) {
+            const concatenatedValues = secondSub.map(option => option.value).toString();
+            setSecondSub(concatenatedValues);
+        }
+    }, [secondSub]);
+    
+    console.log('secondSub', secondSub);
+    
+    
+
 
     return (
         <>
@@ -261,7 +300,9 @@ const JoinUsComponent = ({params}) => {
                                     <label className='font-bold text-sm'>Category</label>
                                     <select
                                         required
-                                        className='bg-white  border-2 w-full p-2' {...register("category")}>
+                                        className='bg-white  border-2 w-full p-2' value={category} 
+                                        onChange={(e) => setCategory(e.target.value)}
+                                      >
                                         <option value="" selected disabled>Select Category</option>
                                         {
                                             options.map((option, i) => (
@@ -271,6 +312,37 @@ const JoinUsComponent = ({params}) => {
                                     </select>
                                 </div>
                             </div>
+                                <div className='flex-1 flex flex-col'>
+                                    <label className='font-bold text-sm'>Subcategories</label>
+                                    <Select
+                                    placeholder="Select category first"
+                                    required
+    value={subcategoryValue}
+    onChange={(e) => setSubcategoryValue(e)}
+    className='bg-white border-2 w-full !focus:outline-none'
+    options={subcategory.map((value , index) => (
+        { label: value.name, value: value.id }
+    ))}
+    isMulti={true}  
+    styles={{
+        control: (provided) => ({
+          ...provided,
+          border: 'none',  
+        }),
+        menu: (provided) => ({
+          ...provided,
+          border: 'none',  
+        }),
+        multiValue: (provided) => ({
+          ...provided,
+          borderRadius: '0',  
+        }),
+    }}
+/>
+
+                                        
+                                 
+                                </div>
                             <div className='flex flex-col lg:flex-row gap-4 w-full'>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>First Name</label>
