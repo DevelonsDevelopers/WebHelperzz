@@ -666,7 +666,9 @@ const limitedImages = allImages.slice(0, 8);
                       /> */}
   <PatternFormat
                         type="tel"
+                        disabled={authData ? true : false}
                         format="+1 (###) ###-####"
+                        value={userData?.phone}
                         onValueChange={(value) =>
                           setUserData((data) => ({
                             ...data,
@@ -1393,7 +1395,7 @@ Please provide a valid postal code !
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB3UlEQVR4nNWWv0tjQRDHn8LJFZq8HaNiISI5kasFwULEQv+BA5uzjmDvr8wsK9h4xWneTBRSWalgc1xx13p/wB1obWMtiHYqEiMbYk4SH+a9l/fAgal2vvvZ/e7sso7z7sKYrmomHSD4RzGdJApNM44A0yMIVVIeZhMDK6FVC7WpGFeSAzP9q4MF/yYCTXmYfYY+Z6ZAo7GDQQgbwcCYjx/MdNYEFjyNFdq7Q2PN0Fru0ue2A4f3zcf03ppSQpt+YDtma2xt6zvx9AwIXQLTje+OoiZX5750PT1dB/cVzSdguogNKnX4RdODo0qraRA6jguqGH+mvhvwtV2JzoHgffug+GBfOqfidLx55hlPjyvG83ZYq0RPttxsNsAzKWA8Cm2t4A/b5U7YcFkvWbuCWGs1TtToL6wPgGA5ALic2c4PRgYrxsXgNutcZDAI/g7eVPgrErSvaLoV422I5rqzzRkarIo07383ccOmX+NZbWgwCB2+djdd1lP1Gs5PvHrnGQ/CUUu5DyB43TDhcXrHuI2lvd+We4Cx1LDAm1DfX/Bw7uUkrodf39RI/gsIXv1fgJ4NDmbcqp4V04naxaFWdbbWamp2bwUGZwo06jItOMZ0BhYb02m1iXwCnfcST9nEk6kY/HV3AAAAAElFTkSuQmCC" />
                       <p className="text-xl md:text-3xl ">
                         {" "}
-                        {`${givenRating} / 5`}
+                        {`${givenRating ? givenRating.toFixed(2) : 0} / 5`}
                       </p>
                       <p
                         className="text-xl md:text-3xl ml-3 "
@@ -1457,7 +1459,7 @@ Please provide a valid postal code !
                         <div className="flex mt-5">
                           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB3UlEQVR4nNWWv0tjQRDHn8LJFZq8HaNiISI5kasFwULEQv+BA5uzjmDvr8wsK9h4xWneTBRSWalgc1xx13p/wB1obWMtiHYqEiMbYk4SH+a9l/fAgal2vvvZ/e7sso7z7sKYrmomHSD4RzGdJApNM44A0yMIVVIeZhMDK6FVC7WpGFeSAzP9q4MF/yYCTXmYfYY+Z6ZAo7GDQQgbwcCYjx/MdNYEFjyNFdq7Q2PN0Fru0ue2A4f3zcf03ppSQpt+YDtma2xt6zvx9AwIXQLTje+OoiZX5750PT1dB/cVzSdguogNKnX4RdODo0qraRA6jguqGH+mvhvwtV2JzoHgffug+GBfOqfidLx55hlPjyvG83ZYq0RPttxsNsAzKWA8Cm2t4A/b5U7YcFkvWbuCWGs1TtToL6wPgGA5ALic2c4PRgYrxsXgNutcZDAI/g7eVPgrErSvaLoV422I5rqzzRkarIo07383ccOmX+NZbWgwCB2+djdd1lP1Gs5PvHrnGQ/CUUu5DyB43TDhcXrHuI2lvd+We4Cx1LDAm1DfX/Bw7uUkrodf39RI/gsIXv1fgJ4NDmbcqp4V04naxaFWdbbWamp2bwUGZwo06jItOMZ0BhYb02m1iXwCnfcST9nEk6kY/HV3AAAAAElFTkSuQmCC" />
                           <p className="ml-2 text-md">
-                            <span>{`${givenRating } / 5`}</span>{" "}
+                            <span>{`${givenRating ? givenRating.toFixed(2) : 0}  / 5`}</span>{" "}
                             <span className="text-gray-400">{`(${details?.reviews?.length} Reviews)`}</span>
                           </p>
                         </div>
