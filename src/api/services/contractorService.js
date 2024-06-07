@@ -121,9 +121,9 @@ const contractorService = {
             throw error.response.data
         }
     } ,
-    contractorBySubcategory: async (id) => {
+    contractorBySubcategory: async (id , data) => {
         try {
-            const response = await axiosInstance.post(`/contractors/subcategory/${id}`)
+            const response = await axiosInstance.post(`/contractors/subcategory/${id}` , data)
             return response.data
         } catch (error) {
             throw error.response.data

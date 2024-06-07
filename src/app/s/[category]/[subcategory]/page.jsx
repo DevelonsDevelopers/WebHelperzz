@@ -197,7 +197,6 @@ const Page = ({params}) => {
             getCategoryByName()
     },[params])
 
-    useEffect(() => {
             const getSubCategoryByName = async (category) => {
                 try {
                     const response = await subcategoryService.fetchByCategory(category?.id);
@@ -206,8 +205,13 @@ const Page = ({params}) => {
                     console.log(error);
                 }
             };
+
+
+    useEffect(() => {
+        if(subCategories.length === 0 && category){
             getSubCategoryByName(category)
-    },[category , params])
+        }
+    },[category])
 
 
 
@@ -222,23 +226,13 @@ const Page = ({params}) => {
     };
 
 
-    // const getContractors = async (id, data) => {
-    //     console.log("hello")
-    //     try {
-    //         const response = await contractorService.category(id, data);
-    //         setContractors(response.contractors);
-    //         setLoading(false);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
 
     useEffect(() => {
         const fetchSubcategoryByTag = async (params) => {
             try {
                 const response = await subcategoryService.fetchByTag(params?.subcategory);
                 setSubcategoryId(response?.subcategory?.id);
-                // setLoading(false);
+                setLoading(false);
             } catch (error) {
                 console.error(error);
             }
@@ -384,16 +378,16 @@ const Page = ({params}) => {
         <>
 
             <Header/>
-            {/* {loading ? ( */}
-                {/* <>
+            {loading ? (
+                <>
                     <div className="flex space-x-2 justify-center items-center bg-white h-screen">
                         <span className="sr-only">Loading...</span>
                         <div className="h-6 w-6 bg-black rounded-full animate-bounce [animation-delay:-0.3s]"></div>
                         <div className="h-6 w-6 bg-black rounded-full animate-bounce [animation-delay:-0.15s]"></div>
                         <div className="h-6 w-6 bg-black rounded-full animate-bounce"></div>
                     </div>
-                </> */}
-            {/* // ) : ( */}
+                </>
+             ) : ( 
                 <>
                     <div className="mt-[80px]">
 
@@ -658,8 +652,8 @@ const Page = ({params}) => {
                                                                     name="review"
                                                                     value={value.name}
                                                                     className="cursor-pointer"
-                                                                    checked={ratings.includes(value.id)}
-                                                                    onChange={() => ratingCheck(value.id)}
+                                                                    checked={ratings.includes(value.value)}
+                                                                    onChange={() => ratingCheck(value.value)}
                                                                 />
                                                                 <label
                                                                     for={`review-${index}`}
@@ -787,9 +781,12 @@ const Page = ({params}) => {
                             <span>
                               <FiBox/>
                             </span>
-                                                                <p className="text-sm font-semibold text-gray-600">
-                                                                    Provides 3D visualization
+                            {value.highlights.map((_,i) => (
+
+                                <p className="text-sm font-semibold text-gray-600">
+                                                                    {_.highlight}
                                                                 </p>
+                                                                ))}
                                                             </div>
                                                         </div>
                                                         <div className="mt-2">
@@ -891,7 +888,7 @@ const Page = ({params}) => {
 
                     </div>
                 </>
-            {/* )} */}
+           )} 
             <Footer showNewsLetter={false} postProject={false}/>
         </>
     );
