@@ -101,7 +101,7 @@ const Page = ({params}) => {
 
     const [subCategories , setSubCategories ] = useState([])
     const [subcategoryId , setSubcategoryId] = useState()
-    
+
 
 
     const highlightCheck = (value) => {
@@ -237,7 +237,7 @@ const Page = ({params}) => {
                 console.error(error);
             }
         };
-        fetchSubcategoryByTag(params) 
+        fetchSubcategoryByTag(params)
     },[params])
 
                  console.log('response of subcategory ' , subcategoryId)
@@ -253,7 +253,7 @@ const Page = ({params}) => {
                 console.error(error);
             }
         };
-   
+
 
     useEffect(() => {
         const fetchFilter = async () => {
@@ -387,7 +387,7 @@ const Page = ({params}) => {
                         <div className="h-6 w-6 bg-black rounded-full animate-bounce"></div>
                     </div>
                 </>
-             ) : ( 
+             ) : (
                 <>
                     <div className="mt-[80px]">
 
@@ -783,7 +783,7 @@ const Page = ({params}) => {
                             </span>
                             {value.highlights.map((_,i) => (
 
-                                <p className="text-sm font-semibold text-gray-600">
+                                <p key={i} className="text-sm font-semibold text-gray-600">
                                                                     {_.highlight}
                                                                 </p>
                                                                 ))}
@@ -888,7 +888,7 @@ const Page = ({params}) => {
 
                     </div>
                 </>
-           )} 
+           )}
             <Footer showNewsLetter={false} postProject={false}/>
         </>
     );

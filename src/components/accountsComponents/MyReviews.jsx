@@ -50,7 +50,7 @@ const MyReviews = () => {
        <div className="grid grid-cols-2 gap-4 py-10">
 
       {data.map((value, index) => (
-        <div className="flex flex-col gap-2">
+        <div key={index} className="flex flex-col gap-2">
           <div className="flex flex-col gap-2 bg-white rounded-2xl p-4">
             <div className="flex gap-2">
 
