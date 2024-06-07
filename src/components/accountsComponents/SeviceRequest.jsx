@@ -10,6 +10,8 @@ import trustsealbadge from "/public/assets/trustsealbadge.png";
 import customerService from "@/api/services/customerService";
 import moment from 'moment';
 import { IoIosArrowDown } from "react-icons/io";
+import {PatternFormat} from "react-number-format";
+import {useRouter} from 'next/navigation'
 
 
 const ServicesRequests = () => {
@@ -19,6 +21,14 @@ const ServicesRequests = () => {
 
   const [request, setRequest] = useState([]);
   const [data, setData] = useState([]);
+  
+  const navigation = useRouter()
+
+  const [ratings , setRatings] = useState()
+  const [reviews , setReviews] = useState()
+  const [trustSeal , setTrustSeal] = useState()
+  const [contractor , setContractor] = useState()
+
 
   useEffect(() => {
       const dataWithDropdown = request.map(item => ({
@@ -28,14 +38,6 @@ const ServicesRequests = () => {
       setData(dataWithDropdown);
   }, [request]);
 
-  // console.log('data main' , data)
-  // const [id, setId] = useState(params?.id);
-  //
-  // useEffect(() => {
-  //   if (params) {
-  //     setId(params?.id);
-  //   }
-  // }, [params]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,35 +55,7 @@ const ServicesRequests = () => {
 
   return (
     <div className="flex flex-col items-start gap-10 max-w-[1100px] px-10 mx-auto justify-center">
-      {/* <Menu as="div" className="relative">
-        <Menu.Button className="flex justify-center items-center gap-3 border-2 rounded-xl py-2 px-5">
-          <div className="relative">
-            State Active{" "}
-            <div className="bg-green-500 w-2 h-2 absolute -right-2 -top-1 rounded-full" />{" "}
-          </div>
-          <MdKeyboardArrowDown size={25} />
-        </Menu.Button>
-        <Menu.Items className="absolute top-full z-50 bg-white flex flex-col gap-2 border-2 p-2 w-[250px] rounded-md">
-          <Menu.Item>
-            {({ active }) => (
-              <button
-                className={`text-left px-5 py-1 ${active && "bg-gray-50"}`}
-              >
-                Active
-              </button>
-            )}
-          </Menu.Item>
-          <Menu.Item>
-            {({ active }) => (
-              <button
-                className={`text-left px-5 py-1 ${active && "bg-gray-50"}`}
-              >
-                Idle
-              </button>
-            )}
-          </Menu.Item>
-        </Menu.Items>
-      </Menu> */}
+
       <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full">
         <div className="lg:w-[72%] w-screen">
           <div className="flex flex-wrap border rounded-3xl divide-x-2 w-full duration-100">
@@ -130,13 +104,13 @@ const ServicesRequests = () => {
         {value?.dropDown && (
     <>
         {value?.contractors?.length > 0 ? (
-            <div>
+            <div className="max-h-[20rem] overflow-y-auto">
                 <h6 className="text-xl font-bold px-5 py-2 text-center">Contractors</h6>
                 <div>
                     {value.contractors.map((contractor, index) => (
                         <button
                             key={index}
-                            onClick={() => setChatActive(index)}
+                            onClick={() => {setChatActive(index) ; setReviews(contractor?.reviews) ; setRatings(contractor?.ratings) , setTrustSeal(contractor?.trust_seal) ; setContractor(contractor?.company_name)}}
                             className={classNames(
                                 "flex items-start justify-between w-full py-6 px-5",
                                 { "border-b-2 border-black bg-opacity-10": chatActive === index }
@@ -146,12 +120,18 @@ const ServicesRequests = () => {
                                 <h6 className="text-black font-semibold text-left text-opacity-80 text-base line-clamp-1 text-ellipsis">
                                     {contractor.company_name}
                                 </h6>
-                                <p className="text-black text-opacity-80 text-sm">
-                                    Interested
-                                </p>
+                                <PatternFormat
+                                disabled={true}
+                                        type="tel"
+                                        format="+1 (###) ###-####"
+                                        value={contractor?.phone}
+                                         placeholder="Phone Number"
+                                        className='border-0 '
+                                        required
+                                    />
                             </div>
                             <p className="text-black text-opacity-50 text-sm mt-2">
-                                Mar 25
+                                {moment(value.created_date).format("MMM Do YY")}
                             </p>
                         </button>
                     ))}
@@ -188,84 +168,104 @@ const ServicesRequests = () => {
               />
             </div>
             <h6 className="text-xl font-semibold line-clamp-1 text-ellipsis">
-              Cali Construction and design
+             {contractor}
             </h6>
             <div className="flex items-center w-full md:justify-between justify-center md:gap-0 gap-5">
               <h6 className="text-base font-semibold pl-3">Star Score </h6>
               <div className="flex items-center gap-2 ">
                 <IoStarSharp className="text-[#12937C]" size={30} />
-                <p className="text-base">4.8 / 5</p>
+                <p className="text-base">{ratings?.average ? parseFloat(ratings.average).toFixed(2) : 0 } / 5</p>
               </div>
-              <Image
+              {trustSeal != 0 && (
+                <Image
                 src={trustsealbadge}
                 width={100}
                 height={50}
                 alt="trustBadge"
-              />
+                />
+              )}
             </div>
             <div className="flex flex-col w-full">
               <div className="flex gap-1 items-center">
                 <p className="w-[200px] text-right text-sm">Average Rating</p>
-                <div className="w-full rounded-full h-[13px] bg-[#12937C]" />
+                 <progress
+                            id="file"
+                            value={ratings?.avg}
+                            max="5"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
                 <IoAlertCircle className="text-[#E0E0E0] " size={30} />
               </div>
               <div className="flex gap-1 items-center">
                 <p className="w-[200px] text-right text-sm">Recency</p>
-                <div className="w-full rounded-full h-[13px] bg-[#12937C]" />
+                 <progress
+                            id="file"
+                            value={ratings?.recency}
+                            max="5"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
                 <IoAlertCircle className="text-[#E0E0E0] " size={30} />
               </div>
               <div className="flex gap-1 items-center">
                 <p className="w-[200px] text-right text-sm">Reputation</p>
-                <div className="w-full rounded-full h-[13px] bg-[#12937C]" />
+                 <progress
+                            id="file"
+                            value={ratings?.reputation}
+                            max="5"
+                            class="w-full h-4 block"
+                          >
+                            <span class="rounded-full">32%</span>
+                          </progress>
                 <IoAlertCircle className="text-[#E0E0E0] " size={30} />
               </div>
-              <div className="flex gap-1 items-center">
-                <p className="w-[200px] text-right text-sm">Responsiveness</p>
-                <div className="w-full rounded-full h-[13px] bg-[#12937C]" />
-                <IoAlertCircle className="text-[#E0E0E0] " size={30} />
-              </div>
-              <button className="font-semibold text-base w-[170px] mx-auto rounded-2xl px-5 py-[10px] mt-3 bg-white border border-[#12937C]">
-                See Full Profile
-              </button>
+            {contractor && (
+              <button 
+              onClick={() => navigation.push(`/profile/${contractor?.replaceAll(" ","-").replaceAll("/" ,"-").toLowerCase()}`)} 
+              className="font-semibold text-base w-[170px] mx-auto rounded-2xl px-5 py-[10px] mt-3 bg-white border border-[#12937C]"
+>
+    See Full Profile
+</button>
+)}
+
             </div>
           </div>
           <div className="flex flex-col gap-5 items-center w-full border bg-[#F7F9FB] rounded-3xl p-5">
             <h6 className="text-xl font-bold">Recent Reviews</h6>
-            <div className="flex flex-col gap-2">
+{reviews?.map((value , index) => (
+
+            <div key={index} className="flex flex-col gap-2">
               <div className="flex flex-col gap-2 bg-white rounded-2xl p-4">
                 <div className="flex gap-2">
-                  <Image
-                    width={80}
-                    height={50}
-                    className="rounded-xl"
-                    src="/profile.png"
-                    alt="profile"
-                  />
+                  
                   <div className="flex flex-col justify-between">
                     <p className="font-bold line-clamp-1 text-ellipsis">
-                      BELINA{" "}
+                      {value?.name}
                       <span className="font-normal text-[#313232] pl-3">
-                        28.02.2024
+                        {moment(value?.created_date).format('MMM Do YY')}
                       </span>
                     </p>
                     <div className="flex items-center gap-2 ">
                       <IoStarSharp className="text-[#12937C]" size={25} />
-                      <p className="">4.8 / 5</p>
+                      <p className="">{value?.rating} / 5</p>
                     </div>
                     <p className="font-semibold text-[#313232] text-xs">
-                      Bathroom Renovation new Bathroom
+                      {value?.title}
                     </p>
                   </div>
                 </div>
                 <p className="text-[#262626] font-semibold text-sm line-clamp-2 text-ellipsis">
-                  Happy to have found HIP to do my bathrooms! Did my kitchen
-                  basement renos and all were...
+                  {value?.review}
                 </p>
-                <Link href="" className="text-sm font-semibold text-[#12937C]">
+                {/* <Link href="" className="text-sm font-semibold text-[#12937C]">
                   Read More
-                </Link>
+                </Link> */}
               </div>
             </div>
+))}
           </div>
         </div>
       </div>
