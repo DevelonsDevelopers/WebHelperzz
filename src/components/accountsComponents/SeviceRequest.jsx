@@ -8,7 +8,9 @@ import Link from "next/link";
 import classNames from "classnames";
 import trustsealbadge from "/public/assets/trustsealbadge.png";
 import customerService from "@/api/services/customerService";
-import moment from 'moment'
+import moment from 'moment';
+import { IoIosArrowDown } from "react-icons/io";
+
 
 const ServicesRequests = ({ params }) => {
   const [active, setActive] = useState(0);
@@ -123,12 +125,13 @@ const ServicesRequests = ({ params }) => {
             <p className="text-black text-opacity-50 text-sm mt-2">
                {moment(value.created_at).format("MMM Do YY")}
             </p>
+            <IoIosArrowDown  className={`${value.dropDown ? 'rotate-180 ' :''} transition ease-in-out delay-200`} />
         </button>
         {value?.dropDown && (
             <div>
                 <h6 className="text-xl font-bold px-5 mt-2">Contractors</h6>
                 <div>
-                    {value?.secondBox?.map((_, index) => (
+                    {value?.contractors?.map((_, index) => (
                         <button
                             key={index}
                             onClick={() => setChatActive(index)}
@@ -137,10 +140,10 @@ const ServicesRequests = ({ params }) => {
                                 { "border-b-2 border-black bg-opacity-10": chatActive === index }
                             )}
                         >
-                            <div className="bg-[#D9D9D9] sm:w-14 sm:h-14 w-10 h-10 rounded-full" />
+                            {/* <div className="bg-[#D9D9D9] sm:w-14 sm:h-14 w-10 h-10 rounded-full" /> */}
                             <div className="flex flex-col items-start gap-1 mt-1 sm:w-[240px] w-screen ml-2">
                                 <h6 className="text-black font-semibold text-left text-opacity-80 text-base line-clamp-1 text-ellipsis">
-                                    Cali Construction and design
+                                    {_.company_name}
                                 </h6>
                                 <p className="text-black text-opacity-80 text-sm">
                                     Interested
