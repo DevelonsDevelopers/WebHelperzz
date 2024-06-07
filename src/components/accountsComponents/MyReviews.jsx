@@ -4,24 +4,20 @@ import Link from "next/link";
 import { IoStarSharp } from "react-icons/io5";
 import { LuArrowUpDown } from "react-icons/lu";
 import customerService from '@/api/services/customerService'
+import moment from 'moment';
 
 
-const data = [{id:1} ,{id:1} ,{id:1} ,{id:1} ,{id:1} ,{id:1} ]
+// const data = [{id:1} ,{id:1} ,{id:1} ,{id:1} ,{id:1} ,{id:1} ]
 
 const MyReviews = () => {
 
-    // const [id, setId] = useState(params?.id);
-
-  // useEffect(() => {
-  //     if(params) {
-  //         setId(params?.id)
-  //     }
-  // },[params])
+  const [data , setData] = useState([])
 
     useEffect(() => {
       const fetchData = async () => {
         try {
           const response = await customerService.getReviews();
+          setData(response.reviews)
           console.log('response' , response);
         } catch (error) {
           console.error("Error fetching profile:", error);
@@ -60,27 +56,25 @@ const MyReviews = () => {
 
               <div className="flex flex-col justify-between">
                 <p className="font-bold line-clamp-1 text-ellipsis">
-                  BELINA{" "}
-                  <span className="font-normal text-[#313232] pl-3">
-                    28.02.2024
+                   <span className="font-normal text-[#313232]">
+                   {moment(value.created_date).format("MMM Do YY")}
                   </span>
                 </p>
                 <div className="flex items-center gap-2 ">
                   <IoStarSharp className="text-[#12937C]" size={25} />
-                  <p className="">4.8 / 5</p>
+                  <p className="">{value.rating} / 5</p>
                 </div>
                 <p className="font-semibold text-[#313232] text-xs">
-                  Bathroom Renovation new Bathroom
+                  {value.title}
                 </p>
               </div>
             </div>
             <p className="text-[#262626] font-semibold text-sm line-clamp-2 text-ellipsis">
-              Happy to have found HIP to do my bathrooms! Did my kitchen
-              basement renos and all were...
+             {value.review}
             </p>
-            <Link href="" className="text-sm font-semibold text-[#12937C]">
+            {/* <Link href="" className="text-sm font-semibold text-[#12937C]">
               Read More
-            </Link>
+            </Link> */}
           </div>
         </div>
       ))}

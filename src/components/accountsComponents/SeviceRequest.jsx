@@ -53,7 +53,7 @@ const ServicesRequests = () => {
 
   return (
     <div className="flex flex-col items-start gap-10 max-w-[1100px] px-10 mx-auto justify-center">
-      <Menu as="div" className="relative">
+      {/* <Menu as="div" className="relative">
         <Menu.Button className="flex justify-center items-center gap-3 border-2 rounded-xl py-2 px-5">
           <div className="relative">
             State Active{" "}
@@ -81,7 +81,7 @@ const ServicesRequests = () => {
             )}
           </Menu.Item>
         </Menu.Items>
-      </Menu>
+      </Menu> */}
       <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full">
         <div className="lg:w-[72%] w-screen">
           <div className="flex flex-wrap border rounded-3xl divide-x-2 w-full duration-100">

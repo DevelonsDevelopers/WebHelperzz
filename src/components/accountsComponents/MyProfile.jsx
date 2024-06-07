@@ -4,20 +4,31 @@ import customerService from '@/api/services/customerService'
 
 const MyProfile = () => {
 
-    // const [id, setId] = useState(params?.id);
-    // console.log('params in profile request', id)
-    //
-    // useEffect(() => {
-    //     if (params) {
-    //         setId(params?.id)
-    //     }
-    // }, [params])
+const [data , setData] = useState()
+
+const [formData , setFormData] = useState({
+    name:data?.name,
+    email:data?.email,
+    phone:data?.phone,
+    address:data?.address
+})
+
+useEffect(() => {
+    if(data) {
+        setFormData({...formData , name:data?.name ,email:data?.email,
+            phone:data?.phone,
+            address:data?.address})
+    }
+},[data])
+
+console.log('formData' , formData)
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await customerService.getProfile();
                 console.log('response', response);
+                setData(response.customer)
             } catch (error) {
                 console.error("Error fetching profile:", error);
             }
@@ -25,6 +36,9 @@ const MyProfile = () => {
 
         fetchData();
     }, []);
+
+
+
 
     return (
         <div>
@@ -35,8 +49,8 @@ const MyProfile = () => {
                             Display Name
                         </label>
                         <input
-                            // name={names[0]}
-                            // onChange={(e) => handleChange(e)}
+                        value={formData?.name}
+                             onChange={(e) => setFormData({...formData , name:e.target.value})}
                             type="text"
                             className={`w-full border-[1px] bg-transparent px-4 py-2  outline-none `}
                             style={{
@@ -49,8 +63,8 @@ const MyProfile = () => {
                             Email
                         </label>
                         <input
-                            // name={names[0]}
-                            // onChange={(e) => handleChange(e)}
+                            value={formData?.email}
+                            onChange={(e) => setFormData({...formData , email:e.target.value})}
                             type="text"
                             className={`w-full border-[1px] bg-transparent px-4 py-2  outline-none `}
                             style={{
@@ -66,8 +80,8 @@ const MyProfile = () => {
                             Address
                         </label>
                         <input
-                            // name={names[0]}
-                            // onChange={(e) => handleChange(e)}
+                            value={formData?.address}
+                            onChange={(e) => setFormData({...formData , address:e.target.value})}
                             type="text"
                             className={`w-full border-[1px] bg-transparent px-4 py-2  outline-none `}
                             style={{
@@ -88,6 +102,8 @@ const MyProfile = () => {
                             //         phone: value.value,
                             //     }))
                             // }
+                            value={formData?.phone}
+                            onValueChange={(value) => setFormData({...formData , phone:value.value})}
                             required
                             className={`w-full border-[1px] bg-transparent px-4 py-2  outline-none  `}
                             style={{

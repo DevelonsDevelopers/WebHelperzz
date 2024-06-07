@@ -304,9 +304,9 @@ function Header() {
                                                 onClose={handleCloseUserMenu}
                                                 TransitionComponent={Fade}
                                             >
-                                                <MenuItem onClick={handleCloseUserMenu}>
+                                                {/* <MenuItem onClick={handleCloseUserMenu}>
                                                     Profile
-                                                </MenuItem>
+                                                </MenuItem> */}
                                                 <MenuItem onClick={handleCloseUserMenu}>
                                                     My account
                                                 </MenuItem>
@@ -509,8 +509,8 @@ function Header() {
                                     onClose={handleCloseUserMenu}
                                     TransitionComponent={Fade}
                                 >
-                                    <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
-                                    <MenuItem onClick={handleCloseUserMenu}>My account</MenuItem>
+                                    {/* <MenuItem onClick={() => {handleCloseUserMenu() ; navigate.push('/account')}}>Profile</MenuItem> */}
+                                    <MenuItem onClick={() => {handleCloseUserMenu() ; navigate.push('/account')}}>My account</MenuItem>
                                     <MenuItem onClick={handleLogout}>
                                         <p className="cursor-pointer" onClick={() => setUser(null)}>
                                             Logout
