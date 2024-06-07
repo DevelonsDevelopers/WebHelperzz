@@ -69,21 +69,14 @@ const data = {
 
 
 const Page = ({params}) => {
-    const [suggestedFilterOpen, setSuggestedFilterOpen] = useState(true);
     const [categoryOpen, setCategoryOpen] = useState(true);
-    const [credentialsOpen, setCredentialsOpen] = useState(true);
     const [bussinessHighlightsOpen, setBussinessHighlightsOpen] = useState(true);
     const [languagesOpen, setLanguagesOpen] = useState(true);
     const [ratingOpen, setRatingOpen] = useState(true);
-    const [cityName, setCityName] = useState("Toronto");
-    const [inputCity, setInputCity] = useState("");
-    const [isVisible, setIsVisible] = useState(true);
-    const [ID, setID] = useState();
     const [contractors, setContractors] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [category, setCategory] = useState();
-    const [city, setCity] = useState();
     const [loading, setLoading] = useState(true);
 
     const [highlights, setHighlights] = useState([])
@@ -124,24 +117,11 @@ const Page = ({params}) => {
         }
     }
 
-    const handleCheckboxChange = (e) => {
-        const {value, checked} = e.target;
-        if (checked) {
-            setSelectedOptions((prevOptions) => [...prevOptions, value]);
-        } else {
-            setSelectedOptions((prevOptions) =>
-                prevOptions.filter((option) => option !== value)
-            );
-        }
-    };
-
     const handleRadioChange = (e) => {
         const {value} = e.target;
         setSelectedOptions((prevOptions) => [value, ...prevOptions]);
         setSelectedCategory(e.target.value)
-        // console.log('e target' , e.target.value.replaceAll(" ", "-")
-        // .toLowerCase())
-        location.replace(`/category/on/${inputCity ? inputCity : params.city}/${e.target.value.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}`)
+        location.replace(`/category/on/${params.city}/${e.target.value.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}`)
     };
 
     const handleOptionClose = (option) => {
@@ -151,26 +131,12 @@ const Page = ({params}) => {
     };
 
     const location = useRouter();
-    // const params = new URLSearchParams(location.query);
 
-    const handleBoxClose = () => {
-        setIsVisible(false);
-    };
-
-    const handleSuggestedFilterClick = () => {
-        setSuggestedFilterOpen(!suggestedFilterOpen);
-    };
     const handleCategoryClick = () => {
         setCategoryOpen(!categoryOpen);
     };
-    const handleCredentialsClick = () => {
-        setCredentialsOpen(!credentialsOpen);
-    };
     const handleBussinessHighlightsClick = () => {
         setBussinessHighlightsOpen(!bussinessHighlightsOpen);
-    };
-    const handleLanguagesClick = () => {
-        setLanguagesOpen(!languagesOpen);
     };
     const handleRatingClick = () => {
         setRatingOpen(!ratingOpen);
@@ -178,10 +144,7 @@ const Page = ({params}) => {
 
 
     useEffect(() => {
-        console.log(params);
-        setID(26);
         getCategoryByTag();
-        // getCityByTag();
     }, []);
 
     const getCategoryByTag = async () => {
@@ -193,31 +156,12 @@ const Page = ({params}) => {
         }
     };
 
-    // const getCityByTag = async () => {
-    //     try {
-    //         const response = await cityService.fetchByTag(params.city);
-    //         setCity(response.city);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
-
     const getContractors = async (id, data) => {
         console.log("hello")
         try {
             const response = await contractorService.category(id, data);
             setContractors(response.contractors);
             setLoading(false);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const getReviews = async (id) => {
-        try {
-            const response = await reviewService.category(id);
-            console.log(response);
-            setReviews(response.contractorReviews);
         } catch (error) {
             console.error(error);
         }
@@ -232,11 +176,6 @@ const Page = ({params}) => {
         fetchFilter()
     }, [])
 
-    useEffect(() => {
-        if (category) {
-            getReviews(category.id);
-        }
-    }, [category]);
 
     useEffect(() => {
         let isRatings = false;
@@ -263,34 +202,6 @@ const Page = ({params}) => {
         }
     }, [category, highlights, languages, ratings]);
 
-    const handleInputChange = (e) => {
-        setInputCity(e.target.value);
-    };
-
-    const handleCitySubmit = () => {
-        // if (inputCity.trim() === "") {
-        //     fetchCityName();
-        // } else {
-        //     setCityName(inputCity);
-        // }
-        location.replace(`/category/on/${inputCity.toLowerCase()}/${selectedCategory ? selectedCategory : params?.category}`)
-
-    };
-
-
-    // const itemsPerPage = 6;
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const handlePageChange = (event, newPage) => {
-    //     setCurrentPage(newPage);
-    // };
-
-    // const [paginatedData, setPaginatedData] = useState([]);
-
-    // useEffect(() => {
-    //     const startIndex = (currentPage - 1) * itemsPerPage;
-    //     const endIndex = startIndex + itemsPerPage;
-    //     setPaginatedData(contractors.slice(startIndex, endIndex));
-    // }, [currentPage, contractors]);
 
     const [searchData, setSearchData] = useState('')
 
@@ -370,12 +281,6 @@ const Page = ({params}) => {
                 city.name.toLowerCase().includes(inputValueLowerCase) ||
                 city.tag.toLowerCase().includes(inputValueLowerCase)
         );
-    };
-
-    const onCitySuggestionsFetchRequested = ({value}) => {
-        const suggestions = getCitySuggestions(value);
-        setCitySuggestions(suggestions);
-        setCitySelectedOption(value);
     };
 
     const [slicedCategory, setSlicedCategory] = useState(9)
@@ -670,8 +575,8 @@ const Page = ({params}) => {
                                                                     name="review"
                                                                     value={value.name}
                                                                     className="cursor-pointer"
-                                                                    checked={ratings.includes(value.id)}
-                                                                    onChange={() => ratingCheck(value.id)}
+                                                                    checked={ratings.includes(value.value)}
+                                                                    onChange={() => ratingCheck(value.value)}
                                                                 />
                                                                 <label
                                                                     for={`review-${index}`}
@@ -900,83 +805,6 @@ const Page = ({params}) => {
                                 </div>
                             </div>
                         </div>
-                        {/*<div className="bg-[#F7F9FB] md:px-[4rem] px-6 py-10  ">*/}
-                        {/*    <div className="max-w-[1100px] justify-center mx-auto">*/}
-                        {/*        <h5 className="sm:text-[1.8rem] text-2xl font-[600] ">*/}
-                        {/*            Featured Reviews for {category?.name}*/}
-                        {/*        </h5>*/}
-
-                        {/*        <div className="grid lg:grid-cols-2 gap-5 sm:mt-[3rem] mt-3">*/}
-                        {/*            {paginatedDataReview?.map((value, index) => (*/}
-                        {/*                <div*/}
-                        {/*                    key={index}*/}
-                        {/*                    className="bg-white sm:px-5 sm:py-8 py-4 rounded-xl  "*/}
-                        {/*                >*/}
-                        {/*                    <div className="flex gap-5">*/}
-
-                        {/*                        <div>*/}
-                        {/*                            <h4 className="text-[1.1rem] font-[500] ">*/}
-                        {/*                                {value.name}*/}
-                        {/*                            </h4>*/}
-                        {/*                            <h4 className="text-[.9rem] font-[600] ">*/}
-                        {/*                                {value.title}*/}
-                        {/*                            </h4>*/}
-                        {/*                            <div className="flex items-center ">*/}
-                        {/*                                <MdStar*/}
-                        {/*                                    className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>*/}
-                        {/*                                <MdStar*/}
-                        {/*                                    className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>*/}
-                        {/*                                <MdStar*/}
-                        {/*                                    className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>*/}
-                        {/*                                <MdStar*/}
-                        {/*                                    className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>*/}
-                        {/*                                <MdStar*/}
-                        {/*                                    className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>*/}
-
-                        {/*                                <p className="sm:ml-5 ml-1 sm:text-[.8rem] text-[10px]  text-gray-500 ">*/}
-                        {/*                                    {moment(value.created_date).format("ll")}*/}
-                        {/*                                </p>*/}
-                        {/*                            </div>*/}
-                        {/*                        </div>*/}
-                        {/*                    </div>*/}
-
-                        {/*                    <p className="mt-5 text-[.9rem] max-md:text-[.8rem] ">*/}
-                        {/*                        " {value.review} "*/}
-                        {/*                    </p>*/}
-                        {/*                </div>*/}
-                        {/*            ))}*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*    <ThemeProvider theme={theme}>*/}
-                        {/*        <Stack direction="row" justifyContent="center" marginTop={2}>*/}
-                        {/*            <Pagination*/}
-                        {/*                count={Math.ceil(reviews.length / itemsPerPageReviews)}*/}
-                        {/*                page={currentPageReviews}*/}
-                        {/*                onChange={handlePageChangeReviews}*/}
-                        {/*                color="primary"*/}
-                        {/*                renderItem={(item) => (*/}
-                        {/*                    <PaginationItem*/}
-                        {/*                        components={{*/}
-                        {/*                            previous: (props) => <button {...props}*/}
-                        {/*                                                         className="display-none"></button>,*/}
-                        {/*                            next: (props) => <button {...props}*/}
-                        {/*                                                     className=" p-[4px] !bg-[#12937C] px-4 rounded-md">Next</button>,*/}
-                        {/*                        }}*/}
-                        {/*                        style={{*/}
-                        {/*                            paddingTop: '1.5rem',*/}
-                        {/*                            paddingBottom: '1.5rem',*/}
-                        {/*                            fontSize: '0.875rem',*/}
-                        {/*                            color: '#333',*/}
-                        {/*                            padding: '15px'*/}
-                        {/*                        }}*/}
-                        {/*                        {...item}*/}
-                        {/*                    />*/}
-                        {/*                )}*/}
-
-                        {/*            />*/}
-                        {/*        </Stack>*/}
-                        {/*    </ThemeProvider>*/}
-                        {/*</div>*/}
                     </div>
                 </>
             )}
