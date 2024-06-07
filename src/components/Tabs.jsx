@@ -475,6 +475,15 @@ const limitedImages = allImages.slice(0, 8);
   const [selectedImage , setSelectedImage] = useState()
   const [selectedImage2 , setSelectedImage2] = useState()
 
+  const [selectedProjectValue , setSelectedProjectValue] = useState(details?.subcategories[0]?.subcategory)
+  console.log('selectedProjectValue',selectedProjectValue)
+
+  useEffect(() => {
+    if(!selectedProjectValue){
+      setSelectedProjectValue(details?.subcategories[0]?.subcategory)
+    }
+  },[selectedProjectValue , details])
+
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
              <CarousalModal  open={openModal} handleClose={handleOpen} images={modalView} selectedImage={selectedImage} />
@@ -879,14 +888,14 @@ Please provide a valid postal code !
               <div className="md:my-20 my-8">
                 <div className="profile_container max-w-[1200px] mx-auto md:px-6 px-1">
                   <h2 className="text-2xl md:text-3xl font-semibold mb-5 text-text">
-                    Projects
+                    Projectss
                   </h2>
 
                   <div className="flex mb-10 items-center gap-2 lg:gap-6 flex-wrap">
                     {details?.subcategories?.map((item, index) => (
                       <button
                         key={index}
-                        onClick={() => setSelectedButton(index)}
+                        onClick={() => {setSelectedButton(index) ; setSelectedProjectValue(item?.subcategory)}}
                         className={` ${selectedButton === index ? ' text-white bg-opacity-100 bg-secondary' : ' bg-secondary bg-opacity-10' } transition-all whitespace-nowrap  md:text-md text-sm min-w-[120px] border border-secondary text-text text-transform: capitalize  font-semibold sm:py-3 py-[7px] sm:px-4 px-[10px] rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white`}
                       >
                         {item.name}{" "}
@@ -904,23 +913,27 @@ Please provide a valid postal code !
                     Filtered results based on the selected room categories{" "}
                   </p>
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0 md:gap-10 lg:gap-[72px]">
-                    {details?.projects?.slice(0, 3).map((project, index) => (
-                      <div
-                        className="mt-9"
-                        key={index}
+                  {details?.projects?.slice(0, 3).map((project, index) => (
+    <>
+        {selectedProjectValue === project?.subcategory && (
+            <div
+                className="mt-9"
+                key={index}
+                onClick={() => handleModalOpen(project?.images)}
+            >
+                <img
+                    src={`${IMAGE_PATH}${project.images[0].image}`}
+                    alt={project.title}
+                    className="rounded-[22px] w-full h-[250px] object-cover"
+                />
+                <h2 className="text-lg md:text-[22px] text-center md:text-left font-semibold mt-5 text-text">
+                    {project.title}
+                </h2>
+            </div>
+        )}
+    </>
+))}
 
-                        onClick={() => handleModalOpen(project?.images)}
-                        >
-                        <img
-                          src={`${IMAGE_PATH}${project.images[0].image}`}
-                          alt={project.title}
-                          className="rounded-[22px] w-full h-[250px] object-cover"
-                        />
-                        <h2 className="text-lg md:text-[22px] text-center md:text-left font-semibold mt-5 text-text">
-                          {project.title}
-                        </h2>
-                      </div>
-                    ))}
                   </div>
                   {zoomedImageUrl && (
                     <ZoomedImageModal
