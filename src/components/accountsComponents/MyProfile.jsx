@@ -42,8 +42,15 @@ console.log('formData' , formData)
 
     return (
         <div>
-            <div className="max-w-[1100px] px-10  bg-gray-100 py-12 shadow-lg m-auto rounded-xl p-6">
-                <div className='flex gap-4 max-md:flex-col justify-between'>
+            <div className="max-w-[1100px] px-10  bg-gray-100 py-12 shadow-lg m-auto rounded-xl p-6 ">
+            <div className='flex-1 pb-20'>
+                    <div className=" flex flex-col items-start  gap-10 max-w-xl p-1">
+                        <h3 className='font-bold text-3xl lg:text-5xl'>Manage Profile.</h3>
+                        <div className='bg-[#27A9E1] h-1.5 rounded-full w-[130px]'/>
+                    </div> 
+
+                </div>
+                <div className='flex gap-4 pb-4 max-md:flex-col justify-between'>
                     <div className="mb-4 w-full">
                         <label className="text-left text-gray-700 font-bold mb-2">
                             Display Name
@@ -74,7 +81,7 @@ console.log('formData' , formData)
                     </div>
 
                 </div>
-                <div className='flex gap-4 max-md:flex-col justify-between'>
+                <div className='flex gap-4 pb-4 max-md:flex-col justify-between'>
                     <div className="mb-4 w-full">
                         <label className="text-left text-gray-700 font-bold mb-2">
                             Address
