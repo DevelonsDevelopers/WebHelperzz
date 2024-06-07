@@ -40,7 +40,32 @@ const customerService = {
         } catch (error) {
             throw error.response.data
         }
-    }
+    } ,
+    getProfile: async (id) => {
+        try {
+            const response = await axiosInstance.get('/customers/single/' + id)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    } ,
+    getReviews: async (id) => {
+        try {
+            const response = await axiosInstance.get('/customers/reviews/' + id)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    } ,
+    getRequest: async (id) => {
+        try {
+            const response = await axiosInstance.get('/customers/requests/' + id)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    } ,
+
 }
 
 export default customerService

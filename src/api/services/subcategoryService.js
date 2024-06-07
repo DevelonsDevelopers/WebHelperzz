@@ -8,7 +8,7 @@ const subcategoryService = {
         } catch (error) {
             throw error.response.data
         }
-    }
+    },
 }
 
 export default subcategoryService

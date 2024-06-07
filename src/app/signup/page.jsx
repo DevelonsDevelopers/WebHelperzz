@@ -111,19 +111,19 @@ const Page = () => {
                             }
 
                         } else {
-                            toast.error("Enter a Strong password");
+                            toast.error("Enter a strong password");
                         }
                     } else {
-                        toast.error("Enter a valid Phone");
+                        toast.error("Enter a valid phone");
                     }
                 } else {
-                    toast.error("Enter your Address");
+                    toast.error("Enter your address");
                 }
             } else {
                 toast.error("Enter a valid email");
             }
         } else {
-            toast.error("Enter your Display name");
+            toast.error("Enter your display name");
         }
     };
 

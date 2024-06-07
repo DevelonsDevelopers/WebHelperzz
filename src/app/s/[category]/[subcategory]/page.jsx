@@ -22,10 +22,10 @@ import {useRouter} from "next/navigation";
 import {Footer} from "@/components/Footer";
 import categoryService from "@/api/services/categoryService";
 import cityService from "@/api/services/cityService";
+import subcategoryService from "@/api/services/subcategoryService";
 import Autosuggest from "react-autosuggest";
 import Head from 'next/head';
-import { usePathname } from 'next/navigation'
-import toast from 'react-hot-toast';
+import {usePathname} from 'next/navigation'
 
 
 import {
@@ -81,7 +81,7 @@ const Page = ({params}) => {
     const [isVisible, setIsVisible] = useState(true);
     const [ID, setID] = useState();
     const [contractors, setContractors] = useState([]);
-    const [reviews, setReviews] = useState([]);
+    // const [reviews, setReviews] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [category, setCategory] = useState();
     const [city, setCity] = useState();
@@ -91,12 +91,15 @@ const Page = ({params}) => {
     const [languages, setLanguages] = useState([])
     const [ratings, setRatings] = useState([])
 
-    const [selectedCategory , setSelectedCategory] = useState('')
+    const [selectedCategory, setSelectedCategory] = useState('')
 
     const [filterData, setFilterData] = useState()
 
-    const [categorySearch , setCategorySearch] = useState('')
+    const [categorySearch, setCategorySearch] = useState('')
     const pathname = usePathname()
+
+
+    const [subCategories , setSubCategories ] = useState([])
 
 
     const highlightCheck = (value) => {
@@ -107,7 +110,7 @@ const Page = ({params}) => {
         }
     }
 
-    console.log('params' , params)
+    console.log('params', params)
 
     const languageCheck = (value) => {
         if (languages.includes(value)) {
@@ -140,9 +143,7 @@ const Page = ({params}) => {
         const {value} = e.target;
         setSelectedOptions((prevOptions) => [value, ...prevOptions]);
         setSelectedCategory(e.target.value)
-        // console.log('e target' , e.target.value.replaceAll(" ", "-")
-        // .toLowerCase())
-        location.replace(`/category/on/${inputCity ? inputCity : params.city}/${e.target.value.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}`)
+        location.replace(`/s/${params?.category}/${e.target.value.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}`)
     };
 
     const handleOptionClose = (option) => {
@@ -152,7 +153,6 @@ const Page = ({params}) => {
     };
 
     const location = useRouter();
-    // const params = new URLSearchParams(location.query);
 
     const handleBoxClose = () => {
         setIsVisible(false);
@@ -182,26 +182,48 @@ const Page = ({params}) => {
         console.log(params);
         setID(26);
         getCategoryByTag();
-        getCityByTag();
     }, []);
+
+    useEffect(() => {
+            const getCategoryByName = async () => {
+                try {
+                    const response = await categoryService.fetchByTag(params?.category);
+                    setCategory(response.category);
+                    console.log('response of category' , response)
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+            getCategoryByName()
+    },[params])
+
+    useEffect(() => {
+            const getSubCategoryByName = async () => {
+                try {
+                    const response = await subcategoryService.fetchByCategory(category?.id);
+                    setSubCategories(response?.subcategories);
+                    console.log('response of subcategory' , response)
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+            getSubCategoryByName()
+    },[category , params])
+
+    console.log('subCategories ', subCategories)
+  
+
+
 
     const getCategoryByTag = async () => {
         try {
-            const response = await categoryService.fetchByTag(params.category);
+            const response = await categoryService.fetchByTag(params?.tag);
             setCategory(response.category);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const getCityByTag = async () => {
-        try {
-            const response = await cityService.fetchByTag(params.city);
-            setCity(response.city);
-        } catch (error) {
-            console.error(error);
-        }
-    };
 
     const getContractors = async (id, data) => {
         console.log("hello")
@@ -214,15 +236,7 @@ const Page = ({params}) => {
         }
     };
 
-    const getReviews = async (id) => {
-        try {
-            const response = await reviewService.category(id);
-            console.log(response);
-            setReviews(response.contractorReviews);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+   
 
     useEffect(() => {
         const fetchFilter = async () => {
@@ -233,18 +247,12 @@ const Page = ({params}) => {
         fetchFilter()
     }, [])
 
-    useEffect(() => {
-        if (category) {
-            getReviews(category.id);
-        }
-    }, [category]);
 
     useEffect(() => {
         let isRatings = false;
         let isLanguages = false;
         let isHighlights = false;
         if (ratings.length > 0) {
-            console.log(ratings)
             isRatings = true
         }
         if (languages.length > 0) {
@@ -270,18 +278,12 @@ const Page = ({params}) => {
     };
 
     const handleCitySubmit = () => {
-if(inputCity) {
-
-    location.replace(`/category/on/${inputCity.toLowerCase()}/${selectedCategory ?  selectedCategory : params?.category}`)
-} else {
-    toast.error('select city first')
-}
+        location.replace(`/category/on/${inputCity.toLowerCase()}/${selectedCategory ? selectedCategory : params?.category}`)
 
     };
 
 
-
-    const [searchData , setSearchData] = useState('')
+    const [searchData, setSearchData] = useState('')
 
 
     const itemsPerPage = 6;
@@ -297,10 +299,9 @@ if(inputCity) {
     useEffect(() => {
         if (contractors) {
             const filteredResult = contractors.filter((item) =>
-                ( item.company_name && item.company_name?.toLowerCase().includes(searchData?.toLowerCase())) ||
-                ( item.skills && item.skills?.toLowerCase().includes(searchData?.toLowerCase())) ||
-                ( item.name && item.name?.toLowerCase().includes(searchData?.toLowerCase()))
-
+                (item.company_name && item.company_name?.toLowerCase().includes(searchData?.toLowerCase())) ||
+                (item.skills && item.skills?.toLowerCase().includes(searchData?.toLowerCase())) ||
+                (item.name && item.name?.toLowerCase().includes(searchData?.toLowerCase()))
             );
             setFilteredData(filteredResult);
             setCurrentPage(1);
@@ -319,20 +320,6 @@ if(inputCity) {
 
 
 
-    const [paginatedDataReview, setPaginatedDataReview] = useState([]);
-
-    const itemsPerPageReviews = 4;
-    const [currentPageReviews, setCurrentPageReviews] = useState(1);
-    const handlePageChangeReviews = (event, newPage) => {
-        setCurrentPageReviews(newPage);
-    };
-
-    useEffect(() => {
-        const startIndex = (currentPageReviews - 1) * itemsPerPageReviews;
-        const endIndex = startIndex + itemsPerPageReviews;
-        setPaginatedDataReview(reviews.slice(startIndex, endIndex));
-    }, [currentPageReviews, reviews]);
-
 
     const [citySuggestions, setCitySuggestions] = useState([]);
     const [cities, setCities] = useState([])
@@ -350,7 +337,7 @@ if(inputCity) {
             }
         };
         getCities()
-    },[])
+    }, [])
 
 
     const getCitySuggestions = (inputValue) => {
@@ -362,51 +349,41 @@ if(inputCity) {
         );
     };
 
-    const onCitySuggestionsFetchRequested = ({ value }) => {
+    const onCitySuggestionsFetchRequested = ({value}) => {
         const suggestions = getCitySuggestions(value);
         setCitySuggestions(suggestions);
         setCitySelectedOption(value);
     };
 
-    const [slicedCategory , setSlicedCategory] = useState(9)
+    const [slicedCategory, setSlicedCategory] = useState(9)
 
 
 
     return (
         <>
-            <Head>
-                <title>
-                    {pathname.replaceAll('/','')}
-                </title>
-                <meta
-                    name="description"
-                    content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
-                    key="desc"
-                />
-            </Head>
 
             <Header/>
-            {loading ? (
-                <>
+            {/* {loading ? ( */}
+                {/* <>
                     <div className="flex space-x-2 justify-center items-center bg-white h-screen">
                         <span className="sr-only">Loading...</span>
                         <div className="h-6 w-6 bg-black rounded-full animate-bounce [animation-delay:-0.3s]"></div>
                         <div className="h-6 w-6 bg-black rounded-full animate-bounce [animation-delay:-0.15s]"></div>
                         <div className="h-6 w-6 bg-black rounded-full animate-bounce"></div>
                     </div>
-                </>
-            ) : (
+                </> */}
+            {/* // ) : ( */}
                 <>
                     <div className="mt-[80px]">
 
-                        <Search />
+                        <Search/>
 
                         <div className="py-10 md:px-[4rem] px-4  max-w-[1200px] justify-center mx-auto">
                             <h1 className="sm:text-[1.8rem] text-2xl font-[500] ">
-                                {category?.name} in {city?.name}
+                                {category?.name} Contractors
                             </h1>
                             <h3 className="text-gray-600 sm:text-md text-sm mt-4">
-                                {category?.name} in {city?.name}: {category?.details}
+                                {category?.name} Contractors: {category?.details}
                             </h3>{" "}
                             <div className="flex max-sm:flex-col mt-10 w-full justify-between items-center ">
                                 <div className="flex flex-wrap gap-3 lg:gap-5 max-md:gap-2">
@@ -444,37 +421,6 @@ if(inputCity) {
                             </div>
                             <div className="flex max-md:flex-col gap-5 mt-10 ">
                                 <div className="w-[25%] max-md:hidden ">
-                                    <div className="bg-[#E8F5F2] p-4 rounded-lg ">
-                                        <h5 className="text-[1.3rem] font-[600] ">Location</h5>
-
-
-                                        <Autosuggest
-                                            suggestions={citySuggestions?.slice(0,10)}
-                                            onSuggestionsFetchRequested={onCitySuggestionsFetchRequested}
-                                            onSuggestionsClearRequested={() => setCitySuggestions([])}
-                                            getSuggestionValue={(suggestion) => suggestion.name}
-                                            renderSuggestion={(suggestion) => (
-                                                <div className=" p-2 border-[.5px] z-2 border-gray-200 bg-[#F7F9FB] sm:text-xs text-gray-800 bg-white cursor-pointer">
-                                                    {suggestion.name}
-                                                </div>
-                                            )}
-                                            inputProps={{
-                                                placeholder: 'Toronto ||',
-                                                value: inputCity,
-                                                onChange: (_, { newValue }) => setInputCity(newValue),
-                                                className: 'placeholder:text-[#696969] z-2 text-[#696969] bg-[#F7F9FB] font-normal py-2 rounded-md sm:text-xs ml-2 h-full outline-none w-full mt-2 pl-4',
-                                            }}
-                                        />
-
-
-
-                                        <button
-                                            onClick={handleCitySubmit}
-                                            className="py-1 px-5 mt-4 bg-[#12937C] text-white text-[15px] rounded-[10px] w-full cursor-pointer hover:bg-opacity-80 font-[550]"
-                                        >
-                                            Filter City
-                                        </button>
-                                    </div>
                                     <div className="bg-[#E8F5F2] p-2 rounded-lg mt-5">
 
                                         <div class="w-full border-gray-300  py-5 rounded-t border-b">
@@ -483,7 +429,7 @@ if(inputCity) {
                                                 class="mb-3 p-1 bg-transparent flex items-center  rounded transition-all ease-in-out duration-500 "
                                             >
                                                 <div class="p-1 text-lg md:text-md font-[500] w-full text-gray-800">
-                                                    Professional Category
+                                                    Subcategory
                                                 </div>
                                                 <div class="text-black w-8 py-1 pl-2 pr-1  flex items-center">
                                                     {categoryOpen ? (
@@ -505,7 +451,7 @@ if(inputCity) {
                                                     value={categorySearch}
                                                     onChange={(e) => setCategorySearch(e.target.value)}
                                                     className="bg-transparent border-[1px] border-gray-400 py-1 px-4 rounded-xl focus:outline-none w-full pl-10 placeholder:text-xs max-md:rounded-lg"
-                                                    placeholder="Search Professional Category"
+                                                    placeholder="Search Subcategory"
                                                 />
                                                 <IoSearch
                                                     className="ml-2 mt-[-28px] text-gray-500"
@@ -515,7 +461,7 @@ if(inputCity) {
                                             {categoryOpen && (
                                                 <div class="w-full items-center flex mx-3 mt-6">
                                                     <form action="" className="flex flex-col gap-2">
-                                                        {filterData?.categories
+                                                        {subCategories
                                                             ?.filter(value => value.name.toLowerCase().includes(categorySearch.toLowerCase()))
                                                             .slice(0, slicedCategory)
                                                             .map((value, index) => (
@@ -528,7 +474,7 @@ if(inputCity) {
                                                                         id={`category-${index}`}
                                                                         name="categories"
                                                                         value={value.name}
-                                                                        checked={category?.name.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase() === value?.name.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}
+                                                                        checked={params?.subcategory?.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase() === value?.name.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}
                                                                         onChange={handleRadioChange}
                                                                         className="cursor-pointer form-checkbox w-[13px] h-[13px] border-[1px] border-gray-500 rounded-lg bg-transparent checked:bg-[#12937C] checked:border-green-600"
                                                                     />
@@ -545,9 +491,13 @@ if(inputCity) {
                                                 </div>
                                             )}
                                             {slicedCategory === 9 ?
-                                                <h1 onClick={() => setSlicedCategory(filterData?.categories?.length)} className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show more</h1>
+                                                <h1 onClick={() => setSlicedCategory(filterData?.categories?.length)}
+                                                    className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show
+                                                    more</h1>
                                                 :
-                                                <h1 onClick={() => setSlicedCategory(9)} className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show less </h1>
+                                                <h1 onClick={() => setSlicedCategory(9)}
+                                                    className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show
+                                                    less </h1>
                                             }
                                         </div>
 
@@ -687,8 +637,8 @@ if(inputCity) {
                                                                     name="review"
                                                                     value={value.name}
                                                                     className="cursor-pointer"
-                                                                    checked={ratings.includes(value.value)}
-                                                                    onChange={() => ratingCheck(value.value)}
+                                                                    checked={ratings.includes(value.id)}
+                                                                    onChange={() => ratingCheck(value.id)}
                                                                 />
                                                                 <label
                                                                     for={`review-${index}`}
@@ -917,87 +867,11 @@ if(inputCity) {
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-[#F7F9FB] md:px-[4rem] px-6 py-10  ">
-                            <div className="max-w-[1100px] justify-center mx-auto">
-                                <h5 className="sm:text-[1.8rem] text-2xl font-[600] ">
-                                    Featured Reviews for {category?.name} in {city?.name}
-                                </h5>
 
-                                <div className="grid lg:grid-cols-2 gap-5 sm:mt-[3rem] mt-3">
-                                    {paginatedDataReview?.map((value, index) => (
-                                        <div
-                                            key={index}
-                                            className="bg-white sm:px-5 sm:py-8 py-4 rounded-xl  "
-                                        >
-                                            <div className="flex gap-5">
-
-                                                <div>
-                                                    <h4 className="text-[1.1rem] font-[500] ">
-                                                        {value.name}
-                                                    </h4>
-                                                    <h4 className="text-[.9rem] font-[600] ">
-                                                        {value.title}
-                                                    </h4>
-                                                    <div className="flex items-center ">
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-
-                                                        <p className="sm:ml-5 ml-1 sm:text-[.8rem] text-[10px]  text-gray-500 ">
-                                                            {moment(value.created_date).format("ll")}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <p className="mt-5 text-[.9rem] max-md:text-[.8rem] ">
-                                                " {value.review} "
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <ThemeProvider theme={theme}>
-                                <Stack direction="row" justifyContent="center" marginTop={2}>
-                                    <Pagination
-                                        count={Math.ceil(reviews.length / itemsPerPageReviews)}
-                                        page={currentPageReviews}
-                                        onChange={handlePageChangeReviews}
-                                        color="primary"
-                                        renderItem={(item) => (
-                                            <PaginationItem
-                                                components={{
-                                                    previous: (props) => <button {...props}
-                                                                                 className="display-none"></button>,
-                                                    next: (props) => <button {...props}
-                                                                             className=" p-[4px] !bg-[#12937C] px-4 rounded-md">Next</button>,
-                                                }}
-                                                style={{
-                                                    paddingTop: '1.5rem',
-                                                    paddingBottom: '1.5rem',
-                                                    fontSize: '0.875rem',
-                                                    color: '#333',
-                                                    padding: '15px'
-                                                }}
-                                                {...item}
-                                            />
-                                        )}
-
-                                    />
-                                </Stack>
-                            </ThemeProvider>
-                        </div>
                     </div>
                 </>
-            )}
-            <Footer  showNewsLetter={false}  postProject={false} />
+            {/* )} */}
+            <Footer showNewsLetter={false} postProject={false}/>
         </>
     );
 };

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ProfessionCard from "../cards/ProfessionCard";
 import {
   OutdoorListData,
   RemodelingData,
@@ -9,10 +8,15 @@ import {
   servicesListData,
 } from "../../../public/data/professionData";
 
+import {useRouter} from 'next/navigation'
+
 const PopularList = ({ categories }) => {
-  useEffect(() => {
-    console.log(categories);
-  }, [categories]);
+
+const navigation = useRouter()
+const handlSubmit = (name) => {
+  navigation.push(`/subcategory/${name?.replaceAll(" ","-").replaceAll("/","-").toLowerCase()}`)
+}
+
 
   return (
     <div>
@@ -26,7 +30,9 @@ const PopularList = ({ categories }) => {
                 </h2>
                 <div className="grid grid-cols-4 max-md:grid-cols-2 mt-2">
                   {value?.subcategories.map((item, index) => (
-                    <ProfessionCard key={index} item={item} />
+                     <span  onClick={() => handlSubmit(item?.name)} className="text-[15px] font-[500] cursor-pointer mt-[4px]">
+                     {item?.name}
+                   </span>
                   ))}
                 </div>
               </>

@@ -253,11 +253,9 @@ const JoinUsComponent = ({params}) => {
                                     <input type='text' required
                                            className='border-2 w-full p-2' {...register("businessname")}
                                            placeholder='Your Business Name'/>
-                                    {errors.businessname && (
-                                        <span className="text-sm text-red-500">
-                                            {errors.businessname.message}
+                                        <span className={`${errors.businessname ? 'text-red-500' :'text-transparent'} text-sm `}>
+                                            {errors.businessname?.message}
                                         </span>
-                                    )}
                                 </div>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Category</label>
@@ -278,19 +276,15 @@ const JoinUsComponent = ({params}) => {
                                     <label className='font-bold text-sm'>First Name</label>
                                     <input required type='text' className='border-2 w-full p-2'
                                            placeholder='First Name' {...register("firstname")}/>
-                                    {errors.firstname && (
-                                        <span className="text-sm text-red-500">
-                                            {errors.firstname.message}
+                                   <span    className={`${errors.firstname ? 'text-red-500' :'text-transparent'} text-sm `}>
+                                            {errors.firstname?.message}
                                         </span>
-                                    )}
                                 </div>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Last Name</label>
                                     <input required type='text' className='border-2 w-full p-2'
                                            placeholder='Last Name' {...register("lastname")}/>
-                                    {errors.lastname && (
-                                        <span className="text-sm text-red-500">{errors.lastname.message}</span>
-                                    )}
+                                        <span className={`${errors.lastname ? 'text-red-500' :'text-transparent'} text-sm `}>{errors.lastname?.message}</span>
                                 </div>
                             </div>
                             <div className='flex flex-col lg:flex-row gap-4 w-full'>
@@ -298,11 +292,9 @@ const JoinUsComponent = ({params}) => {
                                     <label className='font-bold text-sm'>Email</label>
                                     <input required type='text' className='border-2 w-full p-2'
                                            placeholder='Email Address' {...register("email")}/>
-                                    {errors.email && (
-                                        <span className="text-sm text-red-500">
-                      {errors.email.message}
+                                        <span className={`${errors.email ? 'text-red-500' :'text-transparent'} text-sm `}>
+                      {errors.email?.message}
                     </span>
-                                    )}
                                 </div>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>Phone Number</label>
@@ -316,14 +308,10 @@ const JoinUsComponent = ({params}) => {
                                         required
                                     />
 
-                                    {/* <input required type='number' className='border-2 w-full p-2'
-                                           placeholder='Phone Number' {...register("phone_number")}/> */}
-
-                                    {errors.phone_number && (
-                                        <span className="text-sm text-red-500">
-                      {errors.phone_number.message}
+                                   
+                                        <span className={`${errors.phone_number ? 'text-red-500' :'text-transparent'} text-sm `}>
+                      {errors.phone_number?.message}
                     </span>
-                                    )}
 
                                 </div>
                             </div>
@@ -349,22 +337,18 @@ const JoinUsComponent = ({params}) => {
                                     <label className='font-bold text-sm'>Address</label>
                                     <input required type='text' className='border-2 w-full p-2' {...register("address")}
                                            placeholder='Address'/>
-                                    {errors.address && (
-                                        <span className="text-sm text-red-500">
-                                        {errors.address.message}
+                                        <span className={`${errors.address ? 'text-red-500' :'text-transparent'} text-sm `}>
+                                        {errors.address?.message}
                                     </span>
-                                    )}
                                 </div>
                                 <div className='flex-initial flex flex-col'>
                                     <label className='font-bold text-sm'>Postal Code</label>
                                     <input required type='text'
                                            className='border-2 w-full p-2' {...register("postal_code")}
                                            placeholder='Postal Code'/>
-                                    {errors.postal_code && (
-                                        <span className="text-sm text-red-500">
-                                            {errors.postal_code.message}
+                                        <span className={`${errors.postal_code ? 'text-red-500' :'text-transparent'} text-sm `}>
+                                            {errors.postal_code?.message ? errors.postal_code?.message  :'fake text' }
                                         </span>
-                                    )}
                                 </div>
                             </div>
                             <div className="min-w-[250px] w-[100%] mb-6 ">
@@ -426,9 +410,7 @@ const JoinUsComponent = ({params}) => {
                                         onChange={(e) => setValue('licenses', e.target.files)}
                                     />
                                 </div>
-                                {errors.licenses && !licenses?.length && (
-                                    <span className="text-sm text-red-500">{errors.licenses.message}</span>
-                                )}
+                                    <span className={`${errors.licenses && !licenses?.length ? 'text-red-500' :'text-transparent'} text-sm `}>{errors.licenses?.message}</span>
                             </div>
                             <div className="min-w-[250px] w-[100%] mb-6 ">
                                 <label className='font-bold text-sm'>Company Logo</label>
@@ -485,11 +467,9 @@ const JoinUsComponent = ({params}) => {
                                         onChange={(e) => setValue('logo', e.target.files)}
                                     />
                                 </div>
-                                {errors.logo && !logo?.length && (
-                                    <span className="text-sm text-red-500">
-                    {errors.logo.message}
+                                    <span className={`${errors.logo && !logo?.length ? 'text-red-500' :'text-transparent'} text-sm `}>
+                    {errors.logo?.message}
                   </span>
-                                )}
                             </div>
                             <div className="min-w-[250px] w-[100%] mb-6 ">
                                 <label className='font-bold text-sm'>Incorporation Certificate</label>
@@ -546,11 +526,9 @@ const JoinUsComponent = ({params}) => {
                                         onChange={(e) => setValue('certificate', e.target.files)}
                                     />
                                 </div>
-                                {errors.certificate && !certificate?.length && (
-                                    <span className="text-sm text-red-500">
-                    {errors.certificate.message}
+                                    <span className={`${errors.certificate && !certificate?.length ? 'text-red-500' :'text-transparent'} text-sm `}>
+                    {errors.certificate?.message}
                   </span>
-                                )}
                             </div>
                             {submitting ?
                                 <button type="submit" onClick={(e) => e.preventDefault()}
