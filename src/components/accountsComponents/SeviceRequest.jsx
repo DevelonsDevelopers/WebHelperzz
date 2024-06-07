@@ -12,35 +12,35 @@ import moment from 'moment';
 import { IoIosArrowDown } from "react-icons/io";
 
 
-const ServicesRequests = ({ params }) => {
+const ServicesRequests = () => {
   const [active, setActive] = useState(0);
   const [chatActive, setChatActive] = useState(0);
   const [showChat, setShowChat] = useState(true);
 
   const [request, setRequest] = useState([]);
   const [data, setData] = useState([]);
-  
+
   useEffect(() => {
       const dataWithDropdown = request.map(item => ({
           ...item,
-          dropdown: false  
+          dropdown: false
       }));
       setData(dataWithDropdown);
   }, [request]);
 
-  console.log('data main' , data)
-  const [id, setId] = useState(params?.id);
- 
-  useEffect(() => {
-    if (params) {
-      setId(params?.id);
-    }
-  }, [params]);
+  // console.log('data main' , data)
+  // const [id, setId] = useState(params?.id);
+  //
+  // useEffect(() => {
+  //   if (params) {
+  //     setId(params?.id);
+  //   }
+  // }, [params]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await customerService.getRequest(id);
+        const response = await customerService.getRequest();
         console.log("response", response);
         setRequest(response?.requests)
       } catch (error) {
@@ -49,7 +49,7 @@ const ServicesRequests = ({ params }) => {
     };
 
     fetchData();
-  }, [id]);
+  }, []);
 
   return (
     <div className="flex flex-col items-start gap-10 max-w-[1100px] px-10 mx-auto justify-center">
@@ -110,7 +110,7 @@ const ServicesRequests = ({ params }) => {
                 { "bg-[#12937C] bg-opacity-10": value?.dropDown }
             )}
         >
-            
+
             <div className="flex flex-col items-start gap-1 mt-1 sm:w-[240px] w-screen ml-2">
                 <h6 className="text-black font-semibold text-left text-opacity-80 text-base line-clamp-1 text-ellipsis">
                     {value.subcategory_name}

@@ -58,6 +58,7 @@ const Page = () => {
             .then((response) => {
                 // setSubmitting(false)
                 localStorage.setItem("HELPERZZ-USER", JSON.stringify(response.user));
+                console.log(response.token)
                 Cookies.set("helperzz-customer-auth-token", response.token, {
                     secure: true,
                     sameSite: "Lax",

@@ -8,29 +8,28 @@ import customerService from '@/api/services/customerService'
 
 const data = [{id:1} ,{id:1} ,{id:1} ,{id:1} ,{id:1} ,{id:1} ]
 
-const MyReviews = ({params}) => {
+const MyReviews = () => {
 
-    const [id, setId] = useState(params?.id);
-    console.log('params in reviews' , id)
+    // const [id, setId] = useState(params?.id);
 
-  useEffect(() => {
-      if(params) {
-          setId(params?.id)
-      }
-  },[params])
-  
+  // useEffect(() => {
+  //     if(params) {
+  //         setId(params?.id)
+  //     }
+  // },[params])
+
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await customerService.getReviews(id);
+          const response = await customerService.getReviews();
           console.log('response' , response);
         } catch (error) {
           console.error("Error fetching profile:", error);
         }
       };
-  
+
       fetchData();
-    }, [id]);
+    }, []);
 
   return (
     <div className="max-w-[1100px] m-auto ">
@@ -50,15 +49,15 @@ const MyReviews = ({params}) => {
             className={`md:h-6 md:w-6  h-4 w-4 cursor-pointer  `}
           />
         </div>
-         
+
       </div>
        <div className="grid grid-cols-2 gap-4 py-10">
-      
+
       {data.map((value, index) => (
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2 bg-white rounded-2xl p-4">
             <div className="flex gap-2">
-           
+
               <div className="flex flex-col justify-between">
                 <p className="font-bold line-clamp-1 text-ellipsis">
                   BELINA{" "}

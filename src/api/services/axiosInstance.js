@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
 const axiosInstance = axios.create({
     baseURL: 'https://api.helperzz.com/api',
@@ -10,10 +10,10 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     (config) => {
-        // const token = Cookies.get('helperzz-jwt-auth-token');
-        // if (token) {
-        //     config.headers.Authorization = `Bearer ${token}`;
-        // }
+        const token = Cookies.get('helperzz-customer-auth-token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
         if (config.data instanceof FormData) {
             config.headers['Content-Type'] = 'multipart/form-data';
         }

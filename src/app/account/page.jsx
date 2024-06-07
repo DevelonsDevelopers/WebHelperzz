@@ -14,21 +14,21 @@ import { Fragment } from "react";
 import { Tab } from "@headlessui/react";
 import Header from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import trustsealbadge from "../../../../public/assets/trustsealbadge.png";
-import contractorService from "../../../api/services/contractorService";
-import customerService from "../../../api/services/customerService";
-import image from "../../../../public/assets/bath.png";
+import trustsealbadge from "../../../public/assets/trustsealbadge.png";
+import contractorService from "../../api/services/contractorService";
+import customerService from "../../api/services/customerService";
+import image from "../../../public/assets/bath.png";
 import Head from "next/head";
 import { usePathname } from "next/navigation";
 
 import { useRouter } from "next/navigation";
 import Loading from "@/components/loading";
 import { ExclamationMarkIcon, StarIcon } from "@/components/svg";
-import ServicesRequests from "../../../components/accountsComponents/SeviceRequest";
+import ServicesRequests from "../../components/accountsComponents/SeviceRequest";
 import MyProfile from "@/components/accountsComponents/MyProfile";
 import MyReviews from "@/components/accountsComponents/MyReviews";
 
-function Page({ params }) {
+function Page() {
   const [ID, setID] = useState();
   const [details, setDetails] = useState();
   const [loading, setLoading] = useState(false);
@@ -38,20 +38,16 @@ function Page({ params }) {
     {
       label: "My Service Requests",
       child: ServicesRequests,
-      params: { params },
     },
     {
       label: "My Profile",
       child: MyProfile,
-      params: { params },
     },
     {
       label: "My Reviews",
       child: MyReviews,
-      params: { params },
     },
   ];
-  console.log('params' , params)
 
 
   return (
@@ -93,11 +89,11 @@ function Page({ params }) {
             </div>
           </Tab.List>
           <Tab.Panels>
-            {data.map(({ child, params }, index) => {
+            {data.map(({ child }, index) => {
               const TabContent = child;
               return (
                 <Tab.Panel key={index}>
-                  <TabContent {...params} />
+                  <TabContent />
                 </Tab.Panel>
               );
             })}
@@ -157,7 +153,7 @@ const Reviews = ({ details }) => {
             <div style={{ display: "flex", marginTop: "8px" }}>
               <p className="sm:text-2xl font-semibold text-md">Newest</p>
               <Image
-                src={require("../../../../public/assets/up-down-arrow-svgrepo-com 1.png")}
+                src={require("../../../public/assets/up-down-arrow-svgrepo-com 1.png")}
                 className="filter_imag ml-3 md:h-9 md:w-9 h-4 w-4"
               />
             </div>
@@ -167,7 +163,7 @@ const Reviews = ({ details }) => {
                 Reviews with Photos
               </p>
               <Image
-                src={require("../../../../public/assets/checkbox.png")}
+                src={require("../../../public/assets/checkbox.png")}
                 className="filter_imag ml-3  md:h-9 md:w-9 h-4 w-4"
               />
             </div>
@@ -178,7 +174,7 @@ const Reviews = ({ details }) => {
                 <SubReview
                   key={value.id}
                   name={value.name}
-                  profileImage={require("../../../../public/assets/profileImage.png")}
+                  profileImage={require("../../../public/assets/profileImage.png")}
                   jobPrice={`${value.price}`}
                   title={value.title}
                   date={moment(value.created_date).format("ll")}

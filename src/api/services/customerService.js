@@ -41,9 +41,9 @@ const customerService = {
             throw error.response.data
         }
     } ,
-    getProfile: async (id) => {
+    getProfile: async () => {
         try {
-            const response = await axiosInstance.get('/customers/single/' + id)
+            const response = await axiosInstance.get('/customers/profile')
             return response.data
         } catch (error) {
             throw error.response.data
@@ -51,7 +51,7 @@ const customerService = {
     } ,
     getReviews: async (id) => {
         try {
-            const response = await axiosInstance.get('/customers/reviews/' + id)
+            const response = await axiosInstance.get('/customers/reviews')
             return response.data
         } catch (error) {
             throw error.response.data
@@ -59,7 +59,7 @@ const customerService = {
     } ,
     getRequest: async (id) => {
         try {
-            const response = await axiosInstance.get('/customers/requests/' + id)
+            const response = await axiosInstance.get('/customers/requests')
             return response.data
         } catch (error) {
             throw error.response.data
