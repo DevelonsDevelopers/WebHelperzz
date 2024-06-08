@@ -5,6 +5,7 @@ import seoService from "@/api/services/seoService";
 export async function generateMetadata() {
 
     const res = await seoService.fetchSEObyRoute("category_list")
+    console.log('res ', res)
 
     return {
         title: res?.seo?.title,

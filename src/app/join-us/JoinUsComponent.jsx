@@ -301,7 +301,7 @@ const JoinUsComponent = ({params}) => {
                                     <select
                                         required
                                         className='bg-white  border-2 w-full p-2' value={category} 
-                                        onChange={(e) => setCategory(e.target.value)}
+                                        onChange={(e) => {setCategory(e.target.value) ;setSecondSub(null) ; setSubcategoryValue([]) }}
                                       >
                                         <option value="" selected disabled>Select Category</option>
                                         {
