@@ -28,6 +28,8 @@ const ServicesRequests = () => {
   const [reviews , setReviews] = useState()
   const [trustSeal , setTrustSeal] = useState()
   const [contractor , setContractor] = useState()
+  const [noData , setNoData] = useState(false)
+
 
 
   useEffect(() => {
@@ -39,12 +41,14 @@ const ServicesRequests = () => {
   }, [request]);
 
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await customerService.getRequest();
         console.log("response", response);
         setRequest(response?.requests)
+        setNoData(response?.requests.length === 0)
       } catch (error) {
         console.error("Error fetching profile:", error);
       }
@@ -56,9 +60,9 @@ const ServicesRequests = () => {
   return (
     <div className="flex flex-col items-start gap-10 max-w-[1100px] px-10 mx-auto justify-center">
 
-      <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full">
-        <div className="lg:w-[72%] w-screen">
-          <div className="flex flex-wrap border rounded-3xl divide-x-2 w-full duration-100">
+      <div className="flex flex-wrap lg:flex-nowrap gap-5 w-full pb-10">
+        <div className="lg:w-[72%] w-screen border-2 rounded-3xl">
+          <div className="flex flex-wrap   divide-x-2 w-full duration-100">
             <div className="   lg:w-[45%] flex-1 w-screen">
               <div className="flex items-center justify-between p-5 h-20">
                 <p className="text-[#000000] text-opacity-80 text-base font-semibold">
@@ -66,7 +70,7 @@ const ServicesRequests = () => {
                 </p>
               </div>
 
-              <h6 className="text-xl font-bold px-5 ">Service Request</h6>
+              <h6 className={`text-xl font-bold px-5 ${noData ? '' : 'text-center '}`}>{data?.length > 0 ? 'Service Request' :'No service request'} </h6>
               <div className="flex flex-col gap-5 pt-8">
               {data.map((value, index) => (
     <div key={index}>
@@ -170,12 +174,17 @@ const ServicesRequests = () => {
             <h6 className="text-xl font-semibold line-clamp-1 text-ellipsis">
              {contractor}
             </h6>
-            <div className="flex items-center w-full md:justify-between justify-center md:gap-0 gap-5">
+
+
+
+            {contractor && (
+          <div className="flex items-center w-full md:justify-between justify-center md:gap-0 gap-5">
               <h6 className="text-base font-semibold pl-3">Star Score </h6>
               <div className="flex items-center gap-2 ">
                 <IoStarSharp className="text-[#12937C]" size={30} />
                 <p className="text-base">{ratings?.average ? parseFloat(ratings.average).toFixed(2) : 0 } / 5</p>
               </div>
+
               {trustSeal != 0 && (
                 <Image
                 src={trustsealbadge}
@@ -185,6 +194,7 @@ const ServicesRequests = () => {
                 />
               )}
             </div>
+            )}
             <div className="flex flex-col w-full">
               <div className="flex gap-1 items-center">
                 <p className="w-[200px] text-right text-sm">Average Rating</p>
@@ -222,6 +232,7 @@ const ServicesRequests = () => {
                           </progress>
                 <IoAlertCircle className="text-[#E0E0E0] " size={30} />
               </div>
+
             {contractor && (
               <button 
               onClick={() => navigation.push(`/profile/${contractor?.replaceAll(" ","-").replaceAll("/" ,"-").toLowerCase()}`)} 
@@ -234,7 +245,8 @@ const ServicesRequests = () => {
             </div>
           </div>
           <div className="flex flex-col gap-5 items-center w-full border bg-[#F7F9FB] rounded-3xl p-5">
-            <h6 className="text-xl font-bold">Recent Reviews</h6>
+
+            <h6 className="text-xl font-bold">{contractor ? 'Recent Reviews' :'No Contractor Selected' }</h6>
 {reviews?.map((value , index) => (
 
             <div key={index} className="flex flex-col gap-2">
