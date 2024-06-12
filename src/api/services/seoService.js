@@ -73,5 +73,15 @@ const seoService = {
             console.log('error seo' , error)
         }
     },
+    CityCategorySeo: async (body) => {
+        console.log('res of seo tags' , body)
+        try {
+            const response = await axiosInstance.post('/seo/cityCategoryByTag',body)
+            return response.data
+        } catch (error) {
+            // throw error.response.data
+            console.log('error seo' , error)
+        }
+    },
 }
 export default seoService
