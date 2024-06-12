@@ -105,9 +105,6 @@ const JoinUsComponent = ({params}) => {
     });
 
 
-    console.log('form data', formData)
-
-
     const handleFileChange = (e) => {
         const {name, files} = e.target;
         if (name === 'license') {
@@ -210,7 +207,44 @@ const JoinUsComponent = ({params}) => {
     }, [secondSub]);
 
 
+useEffect(() => {
+    let hasError = false;
+    const newError = { ...error };
+
+     for (const key in formData) {
+      if (!formData[key] || (Array.isArray(formData[key]) && formData[key].length === 0)) {
+        newError[key] = true;
+        hasError = true;
+      } else {
+        newError[key] = false;
+      }
+    }
+
+    if (!firstName) {
+      newError.firstName = true;
+      hasError = true;
+    } else {
+      newError.firstName = false;
+    }
+
+    if (!lastName) {
+      newError.lastName = true;
+      hasError = true;
+    } else {
+      newError.lastName = false;
+    }
+
+    setError(newError);
+
+    if (hasError) {
+      console.log('Form has errors');
+      return;
+    }
+},[formData])
+
+
     const handleSubmit = async (e) => {
+        
         e.preventDefault()
 
         let hasError = false;
@@ -281,10 +315,7 @@ const JoinUsComponent = ({params}) => {
 
     }
 
-// console.log('form data' , formData)
-console.log('errors' , error)
 
-console.log('formdata' , formData)
 
 
     return (
@@ -318,7 +349,7 @@ console.log('formdata' , formData)
                                         name={name?.company_name}
                                         value={formData.company_name}
                                         onChange={(e) => setFormData({...formData, company_name: e.target.value})}
-                                        className="border-2 w-full p-2"
+                                        className={`${error.company_name ? 'border-red-500' : ''} border-2 w-full p-2`}
                                         placeholder="Your Business Name"
                                     />
 
@@ -327,8 +358,8 @@ console.log('formdata' , formData)
                                     <label className="font-bold text-sm">Category</label>
                                     <select
 
-                                        className="bg-white  border-2 w-full p-2"
-                                        value={category}
+className={`${error.category ? 'border-red-500' : ''} border-2 w-full p-2`}
+value={category}
                                         name={name?.category}
                                         onChange={(e) => {
                                             setCategory(e.target.value);
@@ -356,7 +387,7 @@ console.log('formdata' , formData)
                                     name={name?.subcategory}
                                     value={subcategoryValue}
                                     onChange={(e) => setSubcategoryValue(e)}
-                                    className="bg-white border-2 w-full !focus:outline-none"
+                                    className={`${error.subcategory ? 'border-red-500' : ''} border-2 w-full p-2`}
                                     options={subcategory.map((value, index) => ({
                                         label: value.name,
                                         value: value.id,
@@ -386,8 +417,9 @@ console.log('formdata' , formData)
                                         type="text"
                                         name={name?.firstName}
                                         value={firstName}
+                                        
                                         onChange={(e) => setFirstName(e.target.value)}
-                                        className="border-2 w-full p-2"
+                                        className={`${error.firstName ? 'border-red-500' : ''} border-2 w-full p-2`}
                                         placeholder="First Name"
                                     />
 
@@ -400,7 +432,7 @@ console.log('formdata' , formData)
                                         name={name?.lastName}
                                         value={lastName}
                                         onChange={(e) => setLastName(e.target.value)}
-                                        className="border-2 w-full p-2"
+                                        className={`${error.lastName ? 'border-red-500' : ''} border-2 w-full p-2`}
                                         placeholder="Last Name"
                                     />
                                 </div>
@@ -414,7 +446,7 @@ console.log('formdata' , formData)
                                         name={name?.email}
                                         value={formData.email}
                                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                        className="border-2 w-full p-2"
+                                        className={`${error.email ? 'border-red-500' : ''} border-2 w-full p-2`}
                                         placeholder="Email Address"
                                     />
 
@@ -428,7 +460,7 @@ console.log('formdata' , formData)
                                         name={name?.phone}
                                         onValueChange={(value) => setFormData({...formData, phone:value.value})}
                                         placeholder="Phone Number"
-                                        className="border-2 w-full p-2"
+                                        className={`${error.phone ? 'border-red-500' : ''} border-2 w-full p-2`}
 
                                     />
 
@@ -440,8 +472,8 @@ console.log('formdata' , formData)
                                 <label className="font-bold text-sm">City</label>
                                 <select
 
-                                    className="bg-white  border-2 w-full p-2"
-                                    value={formData.city}
+className={`${error.city ? 'border-red-500' : ''} border-2 w-full p-2`}
+value={formData.city}
                                     name={name?.city}
                                     onChange={(e) => setFormData({...formData, city: e.target.value})}
                                 >
@@ -465,7 +497,7 @@ console.log('formdata' , formData)
                                         value={formData.address}
                                         name={name?.address}
                                         onChange={(e) => setFormData({...formData  ,address:e.target.value})}
-                                        className="border-2 w-full p-2"
+                                        className={`${error.address ? 'border-red-500' : ''} border-2 w-full p-2`}
                                         placeholder="Address"
                                     />
 
@@ -478,7 +510,7 @@ console.log('formdata' , formData)
                                         name={name?.postal_code}
                                         value={formData.postal_code}
                                         onChange={(e) => setFormData({...formData, postal_code: e.target.value})}
-                                        className="border-2 w-full p-2"
+                                        className={`${error.postal_code ? 'border-red-500' : ''} border-2 w-full p-2`}
                                         placeholder="Postal Code"
                                     />
 
@@ -489,7 +521,7 @@ console.log('formdata' , formData)
                                 <div
                                     htmlFor="dropzone-file"
                                     onClick={() => licensesRef.current?.click()}
-                                    className="flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300"
+                                    className={` ${error.license ? 'border-red-500' : ''} flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300`}
                                 >
                                     {licenses.length > 0 ? (
                                         <div className="flex flex-wrap gap-1 py-3">
@@ -527,7 +559,7 @@ console.log('formdata' , formData)
                                 <label className="font-bold text-sm">Company Logo</label>
                                 <div
                                     onClick={() => companyLogoRef.current?.click()}
-                                    className="flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300"
+                                    className={` ${error.companyLogo ? 'border-red-500' : ''} flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300`}
                                 >
                                     {companyLogo ? (
                                         <img
@@ -562,7 +594,7 @@ console.log('formdata' , formData)
                                 </label>
                                 <div
                                     onClick={() => certificatesRef.current?.click()}
-                                    className="flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300"
+                                    className={` ${error.certificates ? 'border-red-500' : ''} flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 mt-3 border-gray-300`}
                                 >
                                     {certificates.length > 0 ? (
                                         <div className="flex flex-wrap gap-1 py-3">
