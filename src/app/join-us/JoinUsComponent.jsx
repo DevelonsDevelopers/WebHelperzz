@@ -54,8 +54,8 @@ const JoinUsComponent = ({params}) => {
         company_name: 'company_name',
         category: 'category',
         subcategory: 'subcategory',
-        first_name: 'first_name',
-        last_name: 'last_name',
+        firstName: 'firstName',
+        lastName: 'lastName',
         email: 'email',
         phone: 'phone',
         city: 'city',
@@ -70,8 +70,8 @@ const JoinUsComponent = ({params}) => {
         company_name: false,
         category: false,
         subcategory: false,
-        first_name: false,
-        last_name: false,
+        firstName: false,
+        lastName: false,
         email: false,
         phone: false,
         city: false,
@@ -82,20 +82,11 @@ const JoinUsComponent = ({params}) => {
         certificates: false
     })
 
-    const [contractorData, setContractorData] = useState({
-        name: firstName + lastName,
-        email: '',
-        phone: '',
-        password: '',
-        address: address,
-        image: null,
-        status: 0,
-        checked: 0
-    })
+     
 
     const [formData, setFormData] = useState({
         company_name: '',
-        category: category,
+        category: '',
         subcategory: '',
         city: '',
         address: address,
@@ -103,6 +94,14 @@ const JoinUsComponent = ({params}) => {
         license: null,
         companyLogo: null,
         certificates: null,
+        name: firstName + lastName,
+        email: '',
+        phone: '',
+        password: '123456',
+        image: 'one',
+        status: '0',
+        checked: '0',
+        skills: 'nothing'
     });
 
 
@@ -157,10 +156,7 @@ const JoinUsComponent = ({params}) => {
         }
     };
 
-
-    useEffect(() => {
-        setFormData({...formData, category: category})
-    }, [category])
+    
 
     useEffect(() => {
         setFormData({...formData, subcategory: secondSub})
@@ -171,7 +167,7 @@ const JoinUsComponent = ({params}) => {
     }, [address])
 
     useEffect(() => {
-        setContractorData({...contractorData, name: firstName + lastName})
+        setFormData({...formData, name: firstName + lastName})
     }, [firstName, lastName])
 
 
@@ -218,23 +214,38 @@ const JoinUsComponent = ({params}) => {
         e.preventDefault()
 
         let hasError = false;
-        const newError = {...error};
+    const newError = { ...error };
 
-        for (const key in name) {
-            if (!formData[key] || (Array.isArray(formData[key]) && formData[key].length === 0)) {
-                newError[key] = true;
-                hasError = true;
-            } else {
-                newError[key] = false;
-            }
-        }
+     for (const key in formData) {
+      if (!formData[key] || (Array.isArray(formData[key]) && formData[key].length === 0)) {
+        newError[key] = true;
+        hasError = true;
+      } else {
+        newError[key] = false;
+      }
+    }
 
-        setError(newError);
+    if (!firstName) {
+      newError.firstName = true;
+      hasError = true;
+    } else {
+      newError.firstName = false;
+    }
 
-        if (hasError) {
-            console.log('Form has errors');
-            return;
-        } else {
+    if (!lastName) {
+      newError.lastName = true;
+      hasError = true;
+    } else {
+      newError.lastName = false;
+    }
+
+    setError(newError);
+
+    if (hasError) {
+      console.log('Form has errors');
+      return;
+    }
+         else {
             const logoFile = await uploadService.single(companyLogo[0]);
             let contractor = {...formData}
             contractor.image = logoFile.fileName
@@ -268,7 +279,10 @@ const JoinUsComponent = ({params}) => {
 
     }
 
+// console.log('form data' , formData)
+console.log('errors' , error)
 
+console.log('fname' , firstName , lastName)
 
     return (
         <>
@@ -317,6 +331,7 @@ const JoinUsComponent = ({params}) => {
                                             setCategory(e.target.value);
                                             setSecondSub(null);
                                             setSubcategoryValue([]);
+                                            setFormData({...formData , category:e.target.value})
                                         }}
                                     >
                                         <option value="" selected disabled>
@@ -366,7 +381,7 @@ const JoinUsComponent = ({params}) => {
                                     <input
 
                                         type="text"
-                                        name={name?.first_name}
+                                        name={name?.firstName}
                                         value={firstName}
                                         onChange={(e) => setFirstName(e.target.value)}
                                         className="border-2 w-full p-2"
@@ -379,8 +394,8 @@ const JoinUsComponent = ({params}) => {
                                     <input
 
                                         type="text"
+                                        name={name?.lastName}
                                         value={lastName}
-                                        name={name?.last_name}
                                         onChange={(e) => setLastName(e.target.value)}
                                         className="border-2 w-full p-2"
                                         placeholder="Last Name"
@@ -394,8 +409,8 @@ const JoinUsComponent = ({params}) => {
 
                                         type="text"
                                         name={name?.email}
-                                        value={contractorData.email}
-                                        onChange={(e) => setContractorData({...formData, email: e.target.value})}
+                                        value={formData.email}
+                                        onChange={(e) => setFormData({...formData, email: e.target.value})}
                                         className="border-2 w-full p-2"
                                         placeholder="Email Address"
                                     />
@@ -408,7 +423,7 @@ const JoinUsComponent = ({params}) => {
                                         type="tel"
                                         format="+1 (###) ###-####"
                                         name={name?.phone}
-                                        onValueChange={(value) => setPhoneNumber(value.value)}
+                                        onValueChange={(value) => setFormData({...formData, phone:value.value})}
                                         placeholder="Phone Number"
                                         className="border-2 w-full p-2"
 
@@ -444,9 +459,9 @@ const JoinUsComponent = ({params}) => {
                                     <input
 
                                         type="text"
-                                        value={address}
+                                        value={formData.address}
                                         name={name?.address}
-                                        onChange={(e) => setAddress(e.target.value)}
+                                        onChange={(e) => setFormData({...formData  ,address:e.target.value})}
                                         className="border-2 w-full p-2"
                                         placeholder="Address"
                                     />
