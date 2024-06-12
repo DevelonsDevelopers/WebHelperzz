@@ -284,7 +284,8 @@ const JoinUsComponent = ({params}) => {
 // console.log('form data' , formData)
 console.log('errors' , error)
 
-console.log('fname' , firstName , lastName)
+console.log('formdata' , formData)
+
 
     return (
         <>
