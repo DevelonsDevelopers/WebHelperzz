@@ -38,7 +38,8 @@ const schema = object({
     logo: mixed().label('Logo').required(),
     certificate: mixed().label('Cerificate').required(),
     category: string().label('Category').required(),
-    city: string().label('City').required()
+    city: string().label('City').required(),
+    subcategories: mixed().label('Subcategory').required()
 });
 const JoinUsComponent = ({params}) => {
     const pathname = usePathname()
@@ -53,7 +54,7 @@ const JoinUsComponent = ({params}) => {
     const [submitting, setSubmitting] = useState(false)
     const [subcategory , setSubcategory] = useState([])
     const [subcategoryValue , setSubcategoryValue] = useState()
- 
+
     const [phoneNumber, setPhoneNumber] = useState('')
     const [contractorData, setContractorData] = useState({
         name: "",
@@ -94,7 +95,7 @@ const JoinUsComponent = ({params}) => {
         trust_seal: 0,
     })
 
- 
+
     useEffect(() => {
         if (certificateDone && licenseDone) {
             setSubmitting(false)
@@ -178,6 +179,7 @@ const JoinUsComponent = ({params}) => {
             setSendEmail(data.email);
             setSendName(`${data.firstname} ${data.lastname}`);
 
+            console.log(data)
             if (!data.businessname || !data.email) {
                 setSubmitting(false);
                 return;
@@ -239,23 +241,21 @@ const JoinUsComponent = ({params}) => {
         getCategories();
     }, []);
 
-    console.log('subcategoryValue', subcategoryValue);
     const [secondSub, setSecondSub] = useState(subcategoryValue);
-    
+
     useEffect(() => {
         setSecondSub(subcategoryValue);
     }, [subcategoryValue]);
-    
+
     useEffect(() => {
         if (Array.isArray(secondSub) && secondSub.length > 0) {
             const concatenatedValues = secondSub.map(option => option.value).toString();
             setSecondSub(concatenatedValues);
         }
     }, [secondSub]);
-    
-    console.log('secondSub', secondSub);
-    
-    
+
+
+
 
 
     return (
@@ -300,7 +300,7 @@ const JoinUsComponent = ({params}) => {
                                     <label className='font-bold text-sm'>Category</label>
                                     <select
                                         required
-                                        className='bg-white  border-2 w-full p-2' value={category} 
+                                        className='bg-white  border-2 w-full p-2' value={category}
                                         onChange={(e) => {setCategory(e.target.value) ;setSecondSub(null) ; setSubcategoryValue([]) }}
                                       >
                                         <option value="" selected disabled>Select Category</option>
@@ -323,25 +323,25 @@ const JoinUsComponent = ({params}) => {
     options={subcategory.map((value , index) => (
         { label: value.name, value: value.id }
     ))}
-    isMulti={true}  
+    isMulti={true}
     styles={{
         control: (provided) => ({
           ...provided,
-          border: 'none',  
+          border: 'none',
         }),
         menu: (provided) => ({
           ...provided,
-          border: 'none',  
+          border: 'none',
         }),
         multiValue: (provided) => ({
           ...provided,
-          borderRadius: '0',  
+          borderRadius: '0',
         }),
     }}
 />
 
-                                        
-                                 
+
+
                                 </div>
                             <div className='flex flex-col lg:flex-row gap-4 w-full'>
                                 <div className='flex-1 flex flex-col'>
@@ -380,7 +380,7 @@ const JoinUsComponent = ({params}) => {
                                         required
                                     />
 
-                                   
+
                                         <span className={`${errors.phone_number ? 'text-red-500' :'text-transparent'} text-sm `}>
                       {errors.phone_number?.message}
                     </span>
