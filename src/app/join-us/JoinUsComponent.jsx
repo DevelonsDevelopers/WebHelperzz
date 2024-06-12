@@ -82,7 +82,7 @@ const JoinUsComponent = ({params}) => {
         certificates: false
     })
 
-     
+
 
     const [formData, setFormData] = useState({
         company_name: '',
@@ -111,7 +111,7 @@ const JoinUsComponent = ({params}) => {
     const handleFileChange = (e) => {
         const {name, files} = e.target;
         if (name === 'license') {
-            setLicenses(files);
+            setLicenses(Array.from(files));
             setFormData((prevFormData) => ({
                 ...prevFormData,
                 [name]: files,
@@ -156,7 +156,7 @@ const JoinUsComponent = ({params}) => {
         }
     };
 
-    
+
 
     useEffect(() => {
         setFormData({...formData, subcategory: secondSub})
@@ -246,11 +246,13 @@ const JoinUsComponent = ({params}) => {
       return;
     }
          else {
-            const logoFile = await uploadService.single(companyLogo[0]);
+            const logoFile = await uploadService.single(companyLogo);
             let contractor = {...formData}
             contractor.image = logoFile.fileName
 
             const submittedContractor = await contractorService.join(contractor);
+
+            console.log(licenses)
 
             if (submittedContractor.contractor !== null) {
                 licenses.map(async (license) => {
@@ -263,7 +265,7 @@ const JoinUsComponent = ({params}) => {
                     await contractorService.createDocument(docData);
                 })
 
-                const certificateFile = await uploadService.single(certificate[0]);
+                const certificateFile = await uploadService.single(certificates[0]);
                 const certificateData = {
                     contractor: submittedContractor.contractor,
                     title: 'Incorporate Certificate',
@@ -271,7 +273,7 @@ const JoinUsComponent = ({params}) => {
                 };
                 await contractorService.createDocument(certificateData);
 
-                navigate('/')
+                navigate.push('/')
             }
 
         }
@@ -490,7 +492,7 @@ console.log('fname' , firstName , lastName)
                                 >
                                     {licenses.length > 0 ? (
                                         <div className="flex flex-wrap gap-1 py-3">
-                                            {Array.from(licenses).map((license, i) => (
+                                            {licenses.map((license, i) => (
                                                 <img
                                                     key={i}
                                                     src={URL.createObjectURL(license)}
