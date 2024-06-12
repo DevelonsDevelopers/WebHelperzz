@@ -52,8 +52,8 @@ const JoinUsComponent = ({params}) => {
     const [certificateDone, setCertificateDone] = useState(false)
     const [licenseDone, setLicenseDone] = useState(false)
     const [submitting, setSubmitting] = useState(false)
-    const [subcategory , setSubcategory] = useState([])
-    const [subcategoryValue , setSubcategoryValue] = useState()
+    const [subcategory, setSubcategory] = useState([])
+    const [subcategoryValue, setSubcategoryValue] = useState()
 
     const [phoneNumber, setPhoneNumber] = useState('')
     const [contractorData, setContractorData] = useState({
@@ -111,7 +111,7 @@ const JoinUsComponent = ({params}) => {
     const licensesRef = useRef(null);
 
     // console.log('email ' , sendEmail , company )
-    const [category , setCategory] = useState()
+    const [category, setCategory] = useState()
 
     const {
         setValue,
@@ -143,20 +143,21 @@ const JoinUsComponent = ({params}) => {
         getCities()
     }, [])
 
-        const getSubcategoryByCategory = async (category) => {
-            try {
-                const response = await subcategoryService.fetchByCategory(category);
-                setSubcategory(response.subcategories);
-                console.log('cities ', response)
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        useEffect(() => {
-            if(category) {
-                getSubcategoryByCategory(category)
-            }
-        },[category])
+    const getSubcategoryByCategory = async (category) => {
+        try {
+            const response = await subcategoryService.fetchByCategory(category);
+            setSubcategory(response.subcategories);
+            console.log('cities ', response)
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        if (category) {
+            getSubcategoryByCategory(category)
+        }
+    }, [category])
 
 
 
@@ -257,7 +258,6 @@ const JoinUsComponent = ({params}) => {
 
 
 
-
     return (
         <>
             <Head>
@@ -292,7 +292,8 @@ const JoinUsComponent = ({params}) => {
                                     <input type='text' required
                                            className='border-2 w-full p-2' {...register("businessname")}
                                            placeholder='Your Business Name'/>
-                                        <span className={`${errors.businessname ? 'text-red-500' :'text-transparent'} text-sm `}>
+                                    <span
+                                        className={`${errors.businessname ? 'text-red-500' : 'text-transparent'} text-sm `}>
                                             {errors.businessname?.message}
                                         </span>
                                 </div>
@@ -301,8 +302,12 @@ const JoinUsComponent = ({params}) => {
                                     <select
                                         required
                                         className='bg-white  border-2 w-full p-2' value={category}
-                                        onChange={(e) => {setCategory(e.target.value) ;setSecondSub(null) ; setSubcategoryValue([]) }}
-                                      >
+                                        onChange={(e) => {
+                                            setCategory(e.target.value);
+                                            setSecondSub(null);
+                                            setSubcategoryValue([])
+                                        }}
+                                    >
                                         <option value="" selected disabled>Select Category</option>
                                         {
                                             options.map((option, i) => (
@@ -312,43 +317,43 @@ const JoinUsComponent = ({params}) => {
                                     </select>
                                 </div>
                             </div>
-                                <div className='flex-1 flex flex-col'>
-                                    <label className='font-bold text-sm'>Subcategories</label>
-                                    <Select
+                            <div className='flex-1 flex flex-col'>
+                                <label className='font-bold text-sm'>Subcategories</label>
+                                <Select
                                     placeholder="Select category first"
                                     required
-    value={subcategoryValue}
-    onChange={(e) => setSubcategoryValue(e)}
-    className='bg-white border-2 w-full !focus:outline-none'
-    options={subcategory.map((value , index) => (
-        { label: value.name, value: value.id }
-    ))}
-    isMulti={true}
-    styles={{
-        control: (provided) => ({
-          ...provided,
-          border: 'none',
-        }),
-        menu: (provided) => ({
-          ...provided,
-          border: 'none',
-        }),
-        multiValue: (provided) => ({
-          ...provided,
-          borderRadius: '0',
-        }),
-    }}
-/>
+                                    value={subcategoryValue}
+                                    onChange={(e) => setSubcategoryValue(e)}
+                                    className='bg-white border-2 w-full !focus:outline-none'
+                                    options={subcategory.map((value, index) => (
+                                        {label: value.name, value: value.id}
+                                    ))}
+                                    isMulti={true}
+                                    styles={{
+                                        control: (provided) => ({
+                                            ...provided,
+                                            border: 'none',
+                                        }),
+                                        menu: (provided) => ({
+                                            ...provided,
+                                            border: 'none',
+                                        }),
+                                        multiValue: (provided) => ({
+                                            ...provided,
+                                            borderRadius: '0',
+                                        }),
+                                    }}
+                                />
 
 
-
-                                </div>
+                            </div>
                             <div className='flex flex-col lg:flex-row gap-4 w-full'>
                                 <div className='flex-1 flex flex-col'>
                                     <label className='font-bold text-sm'>First Name</label>
                                     <input required type='text' className='border-2 w-full p-2'
                                            placeholder='First Name' {...register("firstname")}/>
-                                   <span    className={`${errors.firstname ? 'text-red-500' :'text-transparent'} text-sm `}>
+                                    <span
+                                        className={`${errors.firstname ? 'text-red-500' : 'text-transparent'} text-sm `}>
                                             {errors.firstname?.message}
                                         </span>
                                 </div>
@@ -356,7 +361,8 @@ const JoinUsComponent = ({params}) => {
                                     <label className='font-bold text-sm'>Last Name</label>
                                     <input required type='text' className='border-2 w-full p-2'
                                            placeholder='Last Name' {...register("lastname")}/>
-                                        <span className={`${errors.lastname ? 'text-red-500' :'text-transparent'} text-sm `}>{errors.lastname?.message}</span>
+                                    <span
+                                        className={`${errors.lastname ? 'text-red-500' : 'text-transparent'} text-sm `}>{errors.lastname?.message}</span>
                                 </div>
                             </div>
                             <div className='flex flex-col lg:flex-row gap-4 w-full'>
@@ -364,7 +370,7 @@ const JoinUsComponent = ({params}) => {
                                     <label className='font-bold text-sm'>Email</label>
                                     <input required type='text' className='border-2 w-full p-2'
                                            placeholder='Email Address' {...register("email")}/>
-                                        <span className={`${errors.email ? 'text-red-500' :'text-transparent'} text-sm `}>
+                                    <span className={`${errors.email ? 'text-red-500' : 'text-transparent'} text-sm `}>
                       {errors.email?.message}
                     </span>
                                 </div>
@@ -381,7 +387,8 @@ const JoinUsComponent = ({params}) => {
                                     />
 
 
-                                        <span className={`${errors.phone_number ? 'text-red-500' :'text-transparent'} text-sm `}>
+                                    <span
+                                        className={`${errors.phone_number ? 'text-red-500' : 'text-transparent'} text-sm `}>
                       {errors.phone_number?.message}
                     </span>
 
@@ -409,7 +416,8 @@ const JoinUsComponent = ({params}) => {
                                     <label className='font-bold text-sm'>Address</label>
                                     <input required type='text' className='border-2 w-full p-2' {...register("address")}
                                            placeholder='Address'/>
-                                        <span className={`${errors.address ? 'text-red-500' :'text-transparent'} text-sm `}>
+                                    <span
+                                        className={`${errors.address ? 'text-red-500' : 'text-transparent'} text-sm `}>
                                         {errors.address?.message}
                                     </span>
                                 </div>
@@ -418,8 +426,9 @@ const JoinUsComponent = ({params}) => {
                                     <input required type='text'
                                            className='border-2 w-full p-2' {...register("postal_code")}
                                            placeholder='Postal Code'/>
-                                        <span className={`${errors.postal_code ? 'text-red-500' :'text-transparent'} text-sm `}>
-                                            {errors.postal_code?.message ? errors.postal_code?.message  :'fake text' }
+                                    <span
+                                        className={`${errors.postal_code ? 'text-red-500' : 'text-transparent'} text-sm `}>
+                                            {errors.postal_code?.message ? errors.postal_code?.message : 'fake text'}
                                         </span>
                                 </div>
                             </div>
@@ -482,7 +491,8 @@ const JoinUsComponent = ({params}) => {
                                         onChange={(e) => setValue('licenses', e.target.files)}
                                     />
                                 </div>
-                                    <span className={`${errors.licenses && !licenses?.length ? 'text-red-500' :'text-transparent'} text-sm `}>{errors.licenses?.message}</span>
+                                <span
+                                    className={`${errors.licenses && !licenses?.length ? 'text-red-500' : 'text-transparent'} text-sm `}>{errors.licenses?.message}</span>
                             </div>
                             <div className="min-w-[250px] w-[100%] mb-6 ">
                                 <label className='font-bold text-sm'>Company Logo</label>
@@ -539,7 +549,8 @@ const JoinUsComponent = ({params}) => {
                                         onChange={(e) => setValue('logo', e.target.files)}
                                     />
                                 </div>
-                                    <span className={`${errors.logo && !logo?.length ? 'text-red-500' :'text-transparent'} text-sm `}>
+                                <span
+                                    className={`${errors.logo && !logo?.length ? 'text-red-500' : 'text-transparent'} text-sm `}>
                     {errors.logo?.message}
                   </span>
                             </div>
@@ -598,7 +609,8 @@ const JoinUsComponent = ({params}) => {
                                         onChange={(e) => setValue('certificate', e.target.files)}
                                     />
                                 </div>
-                                    <span className={`${errors.certificate && !certificate?.length ? 'text-red-500' :'text-transparent'} text-sm `}>
+                                <span
+                                    className={`${errors.certificate && !certificate?.length ? 'text-red-500' : 'text-transparent'} text-sm `}>
                     {errors.certificate?.message}
                   </span>
                             </div>
