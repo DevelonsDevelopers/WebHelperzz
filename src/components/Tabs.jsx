@@ -1070,7 +1070,8 @@ Please provide a valid postal code !
                           </p>
                         </div>
                         <button
-  onClick={() => navigate.push(`/getquotes/create/${details?.details?.category_name.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}/any`)}
+  // onClick={() => navigate.push(`/getquotes/create/${details?.details?.category_name.replaceAll(" ", "-").replaceAll("/", "-").toLowerCase()}/any`)}
+  onClick={() =>  window.scrollTo({ top: 290, behavior: 'smooth' })}
   className="bg-[#12937C] text-white font-bold py-2 px-4 sm:text-lg rounded-2xl w-full mt-10 mb-5"
 >
   GET A QUOTE
@@ -1092,28 +1093,17 @@ Please provide a valid postal code !
                             <p className="ml-2 text-sm">(416) 770 7805</p>
                           </div>
                           <div className="divider"> </div>
-                          <div className="flex my-4">
+                          <div className="flex my-4 items-center">
                             <Image
                               src={require("../../public/assets/search-globe-svgrepo-com.png")}
                               className="w-8 h-8"
                             />
                             <p className="ml-2  text-sm break-words">
                               <a
-                                href="https://www.homeimprovementpeople.com"
-                                rel="nofollow"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  navigator.clipboard
-                                    .writeText(
-                                      "https://www.homeimprovementpeople.com"
-                                    )
-                                    .then(() => {
-                                      alert("Link copied to clipboard");
-                                    })
-                                    .catch((err) => {
-                                      console.error("Failed to copy: ", err);
-                                    });
-                                }}
+                                  href={`${details?.details?.website}`}
+                                  className="text-md font-semibold  break-words underline text-gray-600"
+                                  rel="nofollow"
+                                  target="_blank"
                               >
                                 {details?.details?.website}
                               </a>
@@ -1128,11 +1118,7 @@ Please provide a valid postal code !
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387269.2782824296!2dlongitude!3dlatitude!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zxxxxxxxxxxxxxxx!5e0!3m2!1sen!2sus!4v1561132387270!5m2!1sen!2sus"
                             allowFullScreen
                           ></iframe>
-                          <center className="lg:w-full w-[screen] mt-6">
-                            <button className="hover:bg-secondary hover:text-white transition-all cursor-pointer bg-transparent  font-semibold py-2 px-6  border sm:text-md  border-[#12937C] rounded-2xl mx-auto mt-2  ">
-                              VIEW SERVICE AREA{" "}
-                            </button>
-                          </center>
+                          
                         </div>
                       </div>
                     </div>
@@ -1503,21 +1489,10 @@ Please provide a valid postal code !
                             />
                             <p className="ml-2  text-sm break-words">
                               <a
-                                href="https://www.homeimprovementpeople.com"
-                                rel="nofollow"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  navigator.clipboard
-                                    .writeText(
-                                      "https://www.homeimprovementpeople.com"
-                                    )
-                                    .then(() => {
-                                      alert("Link copied to clipboard");
-                                    })
-                                    .catch((err) => {
-                                      console.error("Failed to copy: ", err);
-                                    });
-                                }}
+                                 href={`${details?.details?.website}`}
+                                 className="text-sm font-semibold mb-4 break-words underline text-blue-600"
+                                 rel="nofollow"
+                                 target="_blank"
                               >
                                 {details?.details?.website}
                               </a>

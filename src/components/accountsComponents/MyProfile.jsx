@@ -42,7 +42,7 @@ console.log('formData' , formData)
 
     return (
         <div>
-            <div className="max-w-[1100px] px-10  bg-gray-100 py-12 shadow-lg m-auto rounded-xl p-6 ">
+            <div className="max-w-[1100px] px-10  bg-gray-100 py-12 shadow-lg m-auto rounded-xl p-6 mb-10">
             <div className='flex-1 pb-20'>
                     <div className=" flex flex-col items-start  gap-10 max-w-xl p-1">
                         <h3 className='font-bold text-3xl lg:text-5xl'>Manage Profile.</h3>

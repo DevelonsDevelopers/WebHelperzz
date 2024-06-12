@@ -7,31 +7,41 @@ import customerService from '@/api/services/customerService'
 import moment from 'moment';
 
 
-// const data = [{id:1} ,{id:1} ,{id:1} ,{id:1} ,{id:1} ,{id:1} ]
-
 const MyReviews = () => {
 
   const [data , setData] = useState([])
 
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await customerService.getReviews();
-          setData(response.reviews)
-          console.log('response' , response);
-        } catch (error) {
-          console.error("Error fetching profile:", error);
-        }
-      };
+  const [noData , setNoData] = useState(false)
 
-      fetchData();
-    }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await customerService.getReviews();
+        setData(response.reviews);
+        setNoData(response.reviews.length === 0);
+        console.log('response', response);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+  
 
   return (
-    <div className="max-w-[1100px] m-auto ">
-      <h1 className="ml-4 text-2xl ">My Rewiews </h1>
+    <div className="max-w-[1100px] m-auto py-12">
+{noData ?
+  <h1 className="text-center text-2xl font-[600]  py-12 "> No Reviews Yet </h1>
+  :
 
-      <div className="flex max-md:flex-col ml-4  md:pl-0 gap-2 items-center mt-10 ">
+<>
+
+
+      <h1 className="ml-4 text-2xl ">My Reviews </h1>
+
+      {/* <div className="flex max-md:flex-col ml-4  md:pl-0 gap-2 items-center mt-10 ">
         <div className="flex items-center gap-4  max-md:mr-auto">
           <p className="sm:text-2xl  font-semibold text-lg">Sort by:</p>
           <p className="sm:text-2xl font-semibold text-md">Newest</p>
@@ -46,7 +56,8 @@ const MyReviews = () => {
           />
         </div>
 
-      </div>
+      </div> */}
+
        <div className="grid grid-cols-2 gap-4 py-10">
 
       {data.map((value, index) => (
@@ -79,6 +90,9 @@ const MyReviews = () => {
         </div>
       ))}
       </div>
+      </>
+      
+      }
     </div>
   );
 };
