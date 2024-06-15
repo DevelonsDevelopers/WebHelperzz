@@ -285,7 +285,7 @@ const Component = ({params}) => {
 
     const [slicedCategory, setSlicedCategory] = useState(9)
 
-    console.log('categort na' , category)
+    console.log('categort na', category)
 
 
     return (
@@ -322,7 +322,7 @@ const Component = ({params}) => {
                                 {category?.name} Contractors
                             </h1>
                             <h3 className="text-gray-600 sm:text-md text-sm mt-4">
-                             {category?.page_description}
+                                {category?.page_description}
                             </h3>{" "}
                             <div className="flex max-sm:flex-col mt-10 w-full justify-between items-center ">
                                 <div className="flex flex-wrap gap-3 lg:gap-5 max-md:gap-2">
@@ -804,6 +804,13 @@ const Component = ({params}) => {
                                         </div>
                                     }
                                 </div>
+                            </div>
+                            <div className={`grid grid-cols-3 mt-5`}>
+                                {cities.map(value => (
+                                    <div className={`w-full bg-gray-50 shadow-lg rounded-2xl m-1 text-center font-bold text-sm p-7`}>
+                                        <div className={`bg-amber-100 p-3`}>{value.name}</div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>

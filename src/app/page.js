@@ -95,7 +95,7 @@ function CategoryCart(props) {
     return (
         <div
             className="Cart_category cursor-pointer"
-            onClick={() => navigate.push(`/category/on/toronto/${tag}`)}
+            onClick={() => navigate.push(`/c/${tag}`)}
         >
             <img
                 src={imageSrc}

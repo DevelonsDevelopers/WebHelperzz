@@ -19,13 +19,13 @@ import contractorService from "@/api/services/contractorService";
 import categoryService from "@/api/services/categoryService";
 import {useRouter} from 'next/navigation';
 import Head from 'next/head';
-import { usePathname } from 'next/navigation'
+import {usePathname} from 'next/navigation'
 
 function CategoryListComponent({params}) {
 
     const [categories, setCategories] = useState([])
     const [categoryLoading, setCategoryLoading] = useState(true)
-    
+
     const pathname = usePathname()
 
     const navigation = useRouter()
@@ -46,22 +46,24 @@ function CategoryListComponent({params}) {
 
     return (
         <>
-         <Head>
-        <title>
-         {pathname.replaceAll('/','')}
-        </title>
-        <meta
-          name="description"
-          content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
-          key="desc"
-        />
-      </Head>
+            <Head>
+                <title>
+                    {pathname.replaceAll('/', '')}
+                </title>
+                <meta
+                    name="description"
+                    content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
+                    key="desc"
+                />
+            </Head>
             <div className="shadow-lg">
                 <Header/>
             </div>
 
             <div className="main-title max-w-[1150px] px-10 m-auto mt-[6rem]  my-8 ">
-                <h1 className="text-[18px]"><span className="cursor-pointer pr-2" onClick={() => navigation.push('/')}> Helperzz  </span> / <span className="cursor-pointer pl-2"> Browse All Categories </span></h1>
+                <h1 className="text-[18px]"><span className="cursor-pointer pr-2"
+                                                  onClick={() => navigation.push('/')}> Helperzz  </span> / <span
+                    className="cursor-pointer pl-2"> Browse All Categories </span></h1>
             </div>
 
             <Search/>
@@ -74,9 +76,9 @@ function CategoryListComponent({params}) {
 
             <div className="professions-container  mt-[50px]">
                 <div className="max-w-[1100px] px-10 m-auto">
-                <TitleComponent title="Browse All Professionals"/>
+                    <TitleComponent title="Browse All Professionals"/>
 
-                <PopularList categories={categories}/>
+                    <PopularList categories={categories}/>
                 </div>
             </div>
 

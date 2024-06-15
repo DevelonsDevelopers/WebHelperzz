@@ -51,7 +51,7 @@ const JoinUsComponent = ({ params }) => {
   const [name, setName] = useState({
     company_name: "company_name",
     category: "category",
-    subcategory: "subcategory",
+    subcategories: "subcategories",
     firstName: "firstName",
     lastName: "lastName",
     email: "email",
@@ -67,7 +67,7 @@ const JoinUsComponent = ({ params }) => {
   const [error, setError] = useState({
     company_name: false,
     category: false,
-    subcategory: false,
+    subcategories: false,
     firstName: false,
     lastName: false,
     email: false,
@@ -83,7 +83,7 @@ const JoinUsComponent = ({ params }) => {
   const [formData, setFormData] = useState({
     company_name: "",
     category: "",
-    subcategory: "",
+    subcategories: "",
     city: "",
     address: address,
     postal_code: "",
@@ -159,7 +159,7 @@ const JoinUsComponent = ({ params }) => {
   };
 
   useEffect(() => {
-    setFormData({ ...formData, subcategory: secondSub });
+    setFormData({ ...formData, subcategories: secondSub });
   }, [secondSub]);
 
   useEffect(() => {
@@ -167,7 +167,7 @@ const JoinUsComponent = ({ params }) => {
   }, [address]);
 
   useEffect(() => {
-    setFormData({ ...formData, name: firstName + lastName });
+    setFormData({ ...formData, name: firstName + " " + lastName });
   }, [firstName, lastName]);
 
   useEffect(() => {
@@ -208,7 +208,7 @@ const JoinUsComponent = ({ params }) => {
 
   const handlePostalCodeChange = (e) => {
     let { value } = e.target;
-    value = value.replace(/[^\dA-Za-z]/g, '').toUpperCase();  
+    value = value.replace(/[^\dA-Za-z]/g, '').toUpperCase();
     if (value.length > 3) {
       value = `${value.slice(0, 3)} ${value.slice(3, 6)}`;
     }
@@ -368,14 +368,14 @@ const JoinUsComponent = ({ params }) => {
                 <label className="font-bold text-sm">Subcategories</label>
                 <Select
                   placeholder="Select category first"
-                  name={name?.subcategory}
+                  name={name?.subcategories}
                   value={subcategoryValue}
                   onChange={(e) => {setSubcategoryValue(e) ;  setError((prevError) => ({
                     ...prevError,
-                    subcategory: false,
+                    subcategories: false,
                   }));}}
                   className={`${
-                    error.subcategory ? "border-red-500" : ""
+                    error.subcategories ? "border-red-500" : ""
                   } border-2 w-full p-2`}
                   options={subcategory.map((value, index) => ({
                     label: value.name,
