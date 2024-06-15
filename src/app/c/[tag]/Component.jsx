@@ -808,7 +808,7 @@ const Component = ({params}) => {
                             <div className={`grid grid-cols-3 mt-5`}>
                                 {cities.map((value, index) => (
                                     <div key={index} className={`w-full bg-gray-50 shadow-lg rounded-2xl m-1 text-center font-bold text-sm p-7`}>
-                                        <div className={`bg-amber-100 p-3`}>{value.name}</div>
+                                        <div className={`p-3`}>{value.name}</div>
                                     </div>
                                 ))}
                             </div>

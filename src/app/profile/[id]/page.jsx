@@ -5,10 +5,10 @@ import React from 'react';
 export async function generateMetadata({params}) {
 
     const res = await seoService.contractorSeo(params?.id)
- 
+
     return {
         title: res?.seo?.title,
-        description: res?.seo?.meta_description
+        description: res?.seo?.description
     }
 }
 
