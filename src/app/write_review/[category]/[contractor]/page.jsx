@@ -32,6 +32,7 @@ const Page = ({params}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [displayName, setDisplayName] = useState("");
+    const [postalCode, setPostalCode] = useState("")
 
     const [names, setNames] = useState([]);
     const [errors, setErrors] = useState([]);
@@ -183,6 +184,26 @@ const Page = ({params}) => {
         let rating = (reviewData.satisfaction + reviewData.recommendation) / 2;
         setReviewData((data) => ({...data, rating: parseInt(rating)}));
     }, [reviewData.satisfaction, reviewData.recommendation]);
+
+    const handlePostalChange = (e) => {
+        let inputPostal = e.target.value;
+        inputPostal = inputPostal.toUpperCase()
+        if (inputPostal.length > postalCode.length) {
+            if (!inputPostal.includes(" ")) {
+                if (inputPostal.length > 2) {
+                    let p1 = inputPostal.substring(0, 3)
+                    let p2 = inputPostal.substring(3, 5)
+                    inputPostal = p1 + " " + p2;
+                }
+            }
+        }
+        console.log(inputPostal)
+        setPostalCode(inputPostal);
+        setReviewData((data) => ({
+            ...data,
+            postal_code: inputPostal,
+        }))
+    };
 
     const handleFileChange = (event) => {
         const files = event.target.files;
@@ -402,11 +423,10 @@ const Page = ({params}) => {
                                         type="text"
                                         name="title"
                                         placeholder="Postal Code"
+                                        value={postalCode}
+                                        maxLength={7}
                                         onChange={(e) =>
-                                            setReviewData((data) => ({
-                                                ...data,
-                                                postal_code: e.target.value,
-                                            }))
+                                            handlePostalChange(e)
                                         }
                                         className={`w-full border-[1px] bg-transparent px-4 py-2  outline-none border-gray-300`}
                                     />
