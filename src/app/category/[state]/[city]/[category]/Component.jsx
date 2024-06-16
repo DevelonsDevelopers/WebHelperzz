@@ -218,7 +218,7 @@ const Page = ({params}) => {
     const getContractors = async (id, data) => {
         console.log("hello")
         try {
-            const response = await contractorService.category(id, data);
+            const response = await contractorService.cityCategory(id, data);
             setContractors(response.contractors);
             setLoading(false);
         } catch (error) {
@@ -266,16 +266,19 @@ const Page = ({params}) => {
             isHighlights = true
         }
         if (category) {
-            getContractors(category.id, {
-                highlights: highlights.toString(),
-                languages: languages.toString(),
-                ratings: ratings.toString(),
-                isRatings: isRatings,
-                isLanguage: isLanguages,
-                isHighlight: isHighlights
-            });
+            if (city) {
+                getContractors(category.id, {
+                    city: city?.id,
+                    highlights: highlights.toString(),
+                    languages: languages.toString(),
+                    ratings: ratings.toString(),
+                    isRatings: isRatings,
+                    isLanguage: isLanguages,
+                    isHighlight: isHighlights
+                });
+            }
         }
-    }, [category, highlights, languages, ratings]);
+    }, [category, city, highlights, languages, ratings]);
 
     const handleInputChange = (e) => {
         setInputCity(e.target.value);
