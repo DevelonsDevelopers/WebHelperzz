@@ -24,7 +24,7 @@ import categoryService from "@/api/services/categoryService";
 import cityService from "@/api/services/cityService";
 import Autosuggest from "react-autosuggest";
 import Head from 'next/head';
-import { usePathname } from 'next/navigation'
+import {usePathname} from 'next/navigation'
 import toast from 'react-hot-toast';
 
 
@@ -36,6 +36,7 @@ import {
     PaginationItem
 } from "@mui/material";
 import Search from "@/components/search/Search";
+import seoService from "@/api/services/seoService";
 
 const data = {
     suggestedFilters: ["Verified Licence", "Hired On Helperzz"],
@@ -85,17 +86,18 @@ const Page = ({params}) => {
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [category, setCategory] = useState();
     const [city, setCity] = useState();
+    const [seo, setSeo] = useState();
     const [loading, setLoading] = useState(true);
 
     const [highlights, setHighlights] = useState([])
     const [languages, setLanguages] = useState([])
     const [ratings, setRatings] = useState([])
 
-    const [selectedCategory , setSelectedCategory] = useState('')
+    const [selectedCategory, setSelectedCategory] = useState('')
 
     const [filterData, setFilterData] = useState()
 
-    const [categorySearch , setCategorySearch] = useState('')
+    const [categorySearch, setCategorySearch] = useState('')
     const pathname = usePathname()
 
 
@@ -107,7 +109,7 @@ const Page = ({params}) => {
         }
     }
 
-    console.log('params' , params)
+    console.log('params', params)
 
     const languageCheck = (value) => {
         if (languages.includes(value)) {
@@ -183,6 +185,7 @@ const Page = ({params}) => {
         setID(26);
         getCategoryByTag();
         getCityByTag();
+        getSeo();
     }, []);
 
     const getCategoryByTag = async () => {
@@ -198,6 +201,15 @@ const Page = ({params}) => {
         try {
             const response = await cityService.fetchByTag(params.city);
             setCity(response.city);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const getSeo = async () => {
+        try {
+            const response = await seoService.CityCategorySeo({city:params.city , category:params.category})
+            setSeo(response.seo);
         } catch (error) {
             console.error(error);
         }
@@ -270,18 +282,18 @@ const Page = ({params}) => {
     };
 
     const handleCitySubmit = () => {
-if(inputCity) {
+        if (inputCity) {
 
-    location.replace(`/category/on/${inputCity.toLowerCase()}/${selectedCategory ?  selectedCategory : params?.category}`)
-} else {
-    toast.error('select city first')
-}
+            location.replace(`/category/on/${inputCity.toLowerCase()}/${selectedCategory ? selectedCategory : params?.category}`)
+        } else {
+            toast.error('select city first')
+        }
 
     };
 
 
 
-    const [searchData , setSearchData] = useState('')
+    const [searchData, setSearchData] = useState('')
 
 
     const itemsPerPage = 6;
@@ -297,10 +309,9 @@ if(inputCity) {
     useEffect(() => {
         if (contractors) {
             const filteredResult = contractors.filter((item) =>
-                ( item.company_name && item.company_name?.toLowerCase().includes(searchData?.toLowerCase())) ||
-                ( item.skills && item.skills?.toLowerCase().includes(searchData?.toLowerCase())) ||
-                ( item.name && item.name?.toLowerCase().includes(searchData?.toLowerCase()))
-
+                (item.company_name && item.company_name?.toLowerCase().includes(searchData?.toLowerCase())) ||
+                (item.skills && item.skills?.toLowerCase().includes(searchData?.toLowerCase())) ||
+                (item.name && item.name?.toLowerCase().includes(searchData?.toLowerCase()))
             );
             setFilteredData(filteredResult);
             setCurrentPage(1);
@@ -350,7 +361,7 @@ if(inputCity) {
             }
         };
         getCities()
-    },[])
+    }, [])
 
 
     const getCitySuggestions = (inputValue) => {
@@ -362,13 +373,13 @@ if(inputCity) {
         );
     };
 
-    const onCitySuggestionsFetchRequested = ({ value }) => {
+    const onCitySuggestionsFetchRequested = ({value}) => {
         const suggestions = getCitySuggestions(value);
         setCitySuggestions(suggestions);
         setCitySelectedOption(value);
     };
 
-    const [slicedCategory , setSlicedCategory] = useState(9)
+    const [slicedCategory, setSlicedCategory] = useState(9)
 
 
 
@@ -376,7 +387,7 @@ if(inputCity) {
         <>
             <Head>
                 <title>
-                    {pathname.replaceAll('/','')}
+                    {pathname.replaceAll('/', '')}
                 </title>
                 <meta
                     name="description"
@@ -399,14 +410,14 @@ if(inputCity) {
                 <>
                     <div className="mt-[80px]">
 
-                        <Search />
+                        <Search/>
 
                         <div className="py-10 md:px-[4rem] px-4  max-w-[1200px] justify-center mx-auto">
                             <h1 className="sm:text-[1.8rem] text-2xl font-[500] ">
                                 {category?.name} in {city?.name}
                             </h1>
                             <h3 className="text-gray-600 sm:text-md text-sm mt-4">
-                                {category?.name} in {city?.name}: {category?.details}
+                                {seo?.page_description ? seo.page_description : "Coming Soon"}
                             </h3>{" "}
                             <div className="flex max-sm:flex-col mt-10 w-full justify-between items-center ">
                                 <div className="flex flex-wrap gap-3 lg:gap-5 max-md:gap-2">
@@ -449,23 +460,23 @@ if(inputCity) {
 
 
                                         <Autosuggest
-                                            suggestions={citySuggestions?.slice(0,10)}
+                                            suggestions={citySuggestions?.slice(0, 10)}
                                             onSuggestionsFetchRequested={onCitySuggestionsFetchRequested}
                                             onSuggestionsClearRequested={() => setCitySuggestions([])}
                                             getSuggestionValue={(suggestion) => suggestion.name}
                                             renderSuggestion={(suggestion) => (
-                                                <div className=" p-2 border-[.5px] z-2 border-gray-200 bg-[#F7F9FB] sm:text-xs text-gray-800 bg-white cursor-pointer">
+                                                <div
+                                                    className=" p-2 border-[.5px] z-2 border-gray-200 bg-[#F7F9FB] sm:text-xs text-gray-800 bg-white cursor-pointer">
                                                     {suggestion.name}
                                                 </div>
                                             )}
                                             inputProps={{
-                                                placeholder: 'Toronto ||',
+                                                placeholder: city?.name,
                                                 value: inputCity,
-                                                onChange: (_, { newValue }) => setInputCity(newValue),
+                                                onChange: (_, {newValue}) => setInputCity(newValue),
                                                 className: 'placeholder:text-[#696969] z-2 text-[#696969] bg-[#F7F9FB] font-normal py-2 rounded-md sm:text-xs ml-2 h-full outline-none w-full mt-2 pl-4',
                                             }}
                                         />
-
 
 
                                         <button
@@ -545,9 +556,13 @@ if(inputCity) {
                                                 </div>
                                             )}
                                             {slicedCategory === 9 ?
-                                                <h1 onClick={() => setSlicedCategory(filterData?.categories?.length)} className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show more</h1>
+                                                <h1 onClick={() => setSlicedCategory(filterData?.categories?.length)}
+                                                    className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show
+                                                    more</h1>
                                                 :
-                                                <h1 onClick={() => setSlicedCategory(9)} className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show less </h1>
+                                                <h1 onClick={() => setSlicedCategory(9)}
+                                                    className="mt-2 ml-2 cursor-pointer text-[13px] text-[#2B937C]  hover:underline">Show
+                                                    less </h1>
                                             }
                                         </div>
 
@@ -997,7 +1012,7 @@ if(inputCity) {
                     </div>
                 </>
             )}
-            <Footer  showNewsLetter={false}  postProject={false} />
+            <Footer showNewsLetter={false} postProject={false}/>
         </>
     );
 };
