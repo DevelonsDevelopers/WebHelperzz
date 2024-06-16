@@ -805,10 +805,10 @@ const Component = ({params}) => {
                                     }
                                 </div>
                             </div>
-                            <div className={`grid grid-cols-3 mt-5`}>
+                            <div className={`grid grid-cols-3 mt-5 gap-5`}>
                                 {cities.map((value, index) => (
-                                    <div key={index} className={`w-full bg-gray-50 shadow-lg rounded-2xl m-1 text-center font-bold text-sm p-7`}>
-                                        <div className={`p-3`}>{value.name}</div>
+                                    <div onClick={() => location.push(`/category/on/${value.name.toLowerCase().replaceAll(" ", "-")}/${category?.tag}`)} key={index} className={`w-full bg-gray-50 shadow-lg rounded-2xl text-center font-bold text-sm p-7 hover:scale-110 cursor-pointer`}>
+                                        <div className={`p-3`}>{category?.name} in {value.name}</div>
                                     </div>
                                 ))}
                             </div>
