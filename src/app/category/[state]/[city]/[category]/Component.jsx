@@ -208,7 +208,7 @@ const Page = ({params}) => {
 
     const getSeo = async () => {
         try {
-            const response = await seoService.CityCategorySeo({city:params.city , category:params.category})
+            const response = await seoService.CityCategorySeo({city: params.city, category: params.category})
             setSeo(response.seo);
         } catch (error) {
             console.error(error);
@@ -933,6 +933,13 @@ const Page = ({params}) => {
                                         </div>
                                     }
                                 </div>
+                            </div>
+                            <div className={`grid grid-cols-3 mt-5 gap-5`}>
+                                {cities.map((value, index) => (
+                                    <div onClick={() => location.replace(`/category/on/${value.name.toLowerCase().replaceAll(" ", "-")}/${category?.tag}`)} key={index} className={`w-full bg-gray-50 shadow-lg rounded-2xl text-center font-bold text-sm p-7 hover:scale-110 cursor-pointer`}>
+                                        <div className={`p-3`}>{category?.name} in {value.name}</div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                         <div className="bg-[#F7F9FB] md:px-[4rem] px-6 py-10  ">
