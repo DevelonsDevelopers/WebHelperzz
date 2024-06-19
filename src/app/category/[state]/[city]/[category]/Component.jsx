@@ -934,90 +934,61 @@ const Page = ({params}) => {
                                     }
                                 </div>
                             </div>
-                            <div className={`grid grid-cols-3 mt-5 gap-5`}>
+                            <div className="bg-[#F7F9FB] md:px-[4rem] px-6 py-10 mt-10">
+                                <div className="max-w-[1100px] justify-center mx-auto">
+                                    <h5 className="sm:text-[1.8rem] text-2xl font-[600] ">
+                                        Featured Reviews for {category?.name} in {city?.name}
+                                    </h5>
+
+                                    <div className="grid lg:grid-cols-2 gap-5 sm:mt-[3rem] mt-3">
+                                        {paginatedDataReview?.map((value, index) => (
+                                            <div
+                                                key={index}
+                                                className="bg-white sm:px-5 sm:py-8 py-4 rounded-xl  "
+                                            >
+                                                <div className="flex gap-5">
+
+                                                    <div>
+                                                        <h4 className="text-[1.1rem] font-[500] ">
+                                                            {value.name}
+                                                        </h4>
+                                                        <h4 className="text-[.9rem] font-[600] ">
+                                                            {value.title}
+                                                        </h4>
+                                                        <div className="flex items-center ">
+                                                            <MdStar
+                                                                className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+                                                            <MdStar
+                                                                className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+                                                            <MdStar
+                                                                className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+                                                            <MdStar
+                                                                className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+                                                            <MdStar
+                                                                className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+
+                                                            <p className="sm:ml-5 ml-1 sm:text-[.8rem] text-[10px]  text-gray-500 ">
+                                                                {moment(value.created_date).format("ll")}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <p className="mt-5 text-[.9rem] max-md:text-[.8rem] ">
+                                                    " {value.review} "
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={`grid grid-cols-3 bg-[#F7F9FB] gap-5`}>
                                 {cities.map((value, index) => (
-                                    <div onClick={() => location.replace(`/category/on/${value.name.toLowerCase().replaceAll(" ", "-")}/${category?.tag}`)} key={index} className={`w-full bg-gray-50 shadow-lg rounded-2xl text-center font-bold text-sm p-7 hover:scale-110 cursor-pointer`}>
+                                    <div onClick={() => location.replace(`/category/on/${value.name.toLowerCase().replaceAll(" ", "-")}/${category?.tag}`)} key={index} className={`w-full bg-white shadow-lg rounded-2xl text-center font-bold text-sm p-7 hover:scale-110 cursor-pointer`}>
                                         <div className={`p-3`}>{category?.name} in {value.name}</div>
                                     </div>
                                 ))}
                             </div>
-                        </div>
-                        <div className="bg-[#F7F9FB] md:px-[4rem] px-6 py-10  ">
-                            <div className="max-w-[1100px] justify-center mx-auto">
-                                <h5 className="sm:text-[1.8rem] text-2xl font-[600] ">
-                                    Featured Reviews for {category?.name} in {city?.name}
-                                </h5>
-
-                                <div className="grid lg:grid-cols-2 gap-5 sm:mt-[3rem] mt-3">
-                                    {paginatedDataReview?.map((value, index) => (
-                                        <div
-                                            key={index}
-                                            className="bg-white sm:px-5 sm:py-8 py-4 rounded-xl  "
-                                        >
-                                            <div className="flex gap-5">
-
-                                                <div>
-                                                    <h4 className="text-[1.1rem] font-[500] ">
-                                                        {value.name}
-                                                    </h4>
-                                                    <h4 className="text-[.9rem] font-[600] ">
-                                                        {value.title}
-                                                    </h4>
-                                                    <div className="flex items-center ">
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-                                                        <MdStar
-                                                            className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
-
-                                                        <p className="sm:ml-5 ml-1 sm:text-[.8rem] text-[10px]  text-gray-500 ">
-                                                            {moment(value.created_date).format("ll")}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <p className="mt-5 text-[.9rem] max-md:text-[.8rem] ">
-                                                " {value.review} "
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <ThemeProvider theme={theme}>
-                                <Stack direction="row" justifyContent="center" marginTop={2}>
-                                    <Pagination
-                                        count={Math.ceil(reviews.length / itemsPerPageReviews)}
-                                        page={currentPageReviews}
-                                        onChange={handlePageChangeReviews}
-                                        color="primary"
-                                        renderItem={(item) => (
-                                            <PaginationItem
-                                                components={{
-                                                    previous: (props) => <button {...props}
-                                                                                 className="display-none"></button>,
-                                                    next: (props) => <button {...props}
-                                                                             className=" p-[4px] !bg-[#12937C] px-4 rounded-md">Next</button>,
-                                                }}
-                                                style={{
-                                                    paddingTop: '1.5rem',
-                                                    paddingBottom: '1.5rem',
-                                                    fontSize: '0.875rem',
-                                                    color: '#333',
-                                                    padding: '15px'
-                                                }}
-                                                {...item}
-                                            />
-                                        )}
-
-                                    />
-                                </Stack>
-                            </ThemeProvider>
                         </div>
                     </div>
                 </>

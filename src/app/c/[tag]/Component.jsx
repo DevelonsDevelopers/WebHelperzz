@@ -157,11 +157,20 @@ const Component = ({params}) => {
     };
 
     const getContractors = async (id, data) => {
-        console.log("hello")
         try {
             const response = await contractorService.category(id, data);
             setContractors(response.contractors);
             setLoading(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const getReviews = async (id) => {
+        try {
+            const response = await reviewService.category(id);
+            console.log(response);
+            setReviews(response.contractorReviews);
         } catch (error) {
             console.error(error);
         }
@@ -274,6 +283,12 @@ const Component = ({params}) => {
     }, [])
 
 
+    useEffect(() => {
+        if (category) {
+            getReviews(category.id);
+        }
+    }, [category]);
+
     const getCitySuggestions = (inputValue) => {
         const inputValueLowerCase = inputValue.trim().toLowerCase();
         return cities.filter(
@@ -284,9 +299,6 @@ const Component = ({params}) => {
     };
 
     const [slicedCategory, setSlicedCategory] = useState(9)
-
-    console.log('categort na', category)
-
 
     return (
         <>
@@ -805,9 +817,57 @@ const Component = ({params}) => {
                                     }
                                 </div>
                             </div>
-                            <div className={`grid grid-cols-3 mt-5 gap-5`}>
+                            <div className="bg-[#F7F9FB] md:px-[4rem] px-6 py-10 mt-10">
+                                <div className="max-w-[1100px] justify-center mx-auto">
+                                    <h5 className="sm:text-[1.8rem] text-2xl font-[600] ">
+                                        Featured Reviews for {category?.name}
+                                    </h5>
+
+                                    <div className="grid lg:grid-cols-2 gap-5 sm:mt-[3rem] mt-3">
+                                        {paginatedDataReview?.map((value, index) => (
+                                            <div
+                                                key={index}
+                                                className="bg-white sm:px-5 sm:py-8 py-4 rounded-xl  "
+                                            >
+                                                <div className="flex gap-5">
+
+                                                    <div>
+                                                        <h4 className="text-[1.1rem] font-[500] ">
+                                                            {value.name}
+                                                        </h4>
+                                                        <h4 className="text-[.9rem] font-[600] ">
+                                                            {value.title}
+                                                        </h4>
+                                                        <div className="flex items-center ">
+                                                            <MdStar
+                                                                className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+                                                            <MdStar
+                                                                className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+                                                            <MdStar
+                                                                className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+                                                            <MdStar
+                                                                className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+                                                            <MdStar
+                                                                className="text-[#12937C] text-[1.5rem] max-md:text-[1.2rem] "/>
+
+                                                            <p className="sm:ml-5 ml-1 sm:text-[.8rem] text-[10px]  text-gray-500 ">
+                                                                {moment(value.created_date).format("ll")}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <p className="mt-5 text-[.9rem] max-md:text-[.8rem] ">
+                                                    " {value.review} "
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={`grid grid-cols-3 bg-[#F7F9FB] gap-5 p-5`}>
                                 {cities.map((value, index) => (
-                                    <div onClick={() => location.push(`/category/on/${value.name.toLowerCase().replaceAll(" ", "-")}/${category?.tag}`)} key={index} className={`w-full bg-gray-50 shadow-lg rounded-2xl text-center font-bold text-sm p-7 hover:scale-110 cursor-pointer`}>
+                                    <div onClick={() => location.push(`/category/on/${value.name.toLowerCase().replaceAll(" ", "-")}/${category?.tag}`)} key={index} className={`w-full bg-white shadow-lg rounded-2xl text-center font-bold text-sm p-7 hover:scale-110 cursor-pointer`}>
                                         <div className={`p-3`}>{category?.name} in {value.name}</div>
                                     </div>
                                 ))}

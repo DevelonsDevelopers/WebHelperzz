@@ -251,7 +251,7 @@ const JoinUsComponent = ({ params }) => {
 
         const submittedContractor = await contractorService.join(contractor);
 
-        if (submittedContractor.responseCode === 407) {
+        if (submittedContractor.responseCode === 201) {
           if (submittedContractor.contractor !== null) {
             for (const license of licenses) {
               const licenseFile = await uploadService.single(license);
@@ -277,7 +277,7 @@ const JoinUsComponent = ({ params }) => {
             navigate.push("/");
           }
         } else {
-          toast.error(submittedContractor.responseCode);
+          toast.error(submittedContractor.message);
         }
       } catch (error) {
         console.error("Error during submission:", error);
