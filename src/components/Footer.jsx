@@ -89,7 +89,7 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                             </h2>
                             <nav className="list-none mb-10">
                                 <li>
-                                    <Link href="/category_list/toronto" className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                    <Link href="/categories" className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Browse Categories
                                     </Link>
                                 </li>
@@ -99,7 +99,7 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                                     </a>
                                 </li>
                                 <li>
-                                    <Link href="/write_review" className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                    <Link href="/write-review" className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Write A Review
                                     </Link>
                                 </li>

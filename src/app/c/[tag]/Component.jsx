@@ -867,7 +867,7 @@ const Component = ({params}) => {
                             </div>
                             <div className={`grid grid-cols-3 bg-[#F7F9FB] gap-5 p-5`}>
                                 {cities.map((value, index) => (
-                                    <div onClick={() => location.push(`/category/on/${value.name.toLowerCase().replaceAll(" ", "-")}/${category?.tag}`)} key={index} className={`w-full bg-white shadow-lg rounded-2xl text-center font-bold text-sm p-7 hover:scale-110 cursor-pointer`}>
+                                    <div onClick={() => location.push(`/category/on/${value.name.toLowerCase().replaceAll(" ", "-")}/${category?.tag}`)} key={index} className={`w-full bg-white shadow-lg rounded-2xl text-center font-bold text-sm p-4 hover:scale-110 cursor-pointer`}>
                                         <div className={`p-3`}>{category?.name} in {value.name}</div>
                                     </div>
                                 ))}

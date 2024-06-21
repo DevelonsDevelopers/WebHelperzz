@@ -97,7 +97,7 @@ function Header() {
 
     const handleClick = (event) => {
         // setAnchorEl(event.currentTarget);
-        navigate.push("/category_list/toronto");
+        navigate.push("/categories");
     };
 
     const handleClose = () => {
@@ -144,7 +144,7 @@ function Header() {
             if (cityValue) {
                 // let postal = cityValue.postalCode.replaceAll(" ", "-").toLowerCase();
                 navigate.push("/category/on/" + cityValue.name.replaceAll(" ", "-").toLowerCase() + "/" + value.name.replaceAll(" ", "-").toLowerCase());
-            } 
+            }
             else {
                 toast.error('Select city first')
             }

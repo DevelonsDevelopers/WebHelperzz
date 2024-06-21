@@ -34,7 +34,7 @@ export const PopularServicesData = [
   },
   {
     id: 2,
-    image: "/newImages/roofing-contractor-svgrepo-com 3.svg",
+    image: "/newImages/roofing-[contractor]-svgrepo-com 3.svg",
     text: "Roofing",
   },
   {
@@ -146,7 +146,7 @@ export const HomeServicesData = [
   },
   {
     id: 2,
-    image: "/newImages/roofing-contractor-svgrepo-com 3.svg",
+    image: "/newImages/roofing-[contractor]-svgrepo-com 3.svg",
     text: "Roofing & Gutters",
   },
   {

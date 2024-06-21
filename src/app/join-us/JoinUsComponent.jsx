@@ -240,7 +240,7 @@ const JoinUsComponent = ({ params }) => {
     setError(newError);
 
     if (hasError) {
-      console.log("Form has errors");
+      toast.error("Please fill all the required fields");
       setSubmiting(false);
       return;
     } else {
