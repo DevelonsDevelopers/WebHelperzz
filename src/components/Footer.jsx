@@ -94,34 +94,34 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
-                                        Browse Tasks
-                                    </a>
+                                    <Link href="/top-contractors" className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                        Browse Top Contractors
+                                    </Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link href="/write-review" className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
                                         Write A Review
                                     </Link>
-                                </li>
+                                </li> */}
                                 <li>
-                                    <Link href="/blog" className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                    <Link href="/blog" className="text-gray-800 cursor-pointer text-xs hover:text-gray-800 mb-2 block">
                                         Blog
                                     </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                <Link href="/Homeowner-faq" className="text-gray-800 cursor-pointer text-xs hover:text-gray-800 mb-2 block">
                                         Homeowner FAQ
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                <Link href="/Review-Guidline" className="text-gray-800 cursor-pointer text-xs hover:text-gray-800 mb-2 block">
                                         Review Guidelines
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                <Link href="/homeowner-trust" className="text-gray-800 cursor-pointer text-xs hover:text-gray-800 mb-2 block">
                                         Homeowner Trust
-                                    </a>
+                                        </Link>
                                 </li>
                             </nav>
                         </div>
@@ -131,24 +131,24 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                             </h2>
                             <nav className="list-none mb-10">
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                <Link href="/join-us" className="text-gray-800 cursor-pointer text-xs hover:text-gray-800 mb-2 block">
                                         Join Helperzz
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                <Link href="/join-us" className="text-gray-800 cursor-pointer text-xs hover:text-gray-800 mb-2 block">
                                         Home Professional FAQ
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                <Link href="/building-trust" className="text-gray-800 cursor-pointer text-xs hover:text-gray-800 mb-2 block">
                                         Building Trust
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                <Link href="/home-professional-terms" className="text-gray-800 cursor-pointer text-xs hover:text-gray-800 mb-2 block">
                                         Home Professional Terms
-                                    </a>
+                                    </Link>
                                 </li>
                             </nav>
                         </div>
@@ -158,30 +158,30 @@ export const Footer = ({ showNewsLetter = true  , postProject = true}) => {
                             </h2>
                             <nav className="list-none mb-10">
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                <Link href="/about" className="text-gray-800 cursor-pointer text-xs hover:text-gray-800 mb-2 block">
                                         About
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                    <Link href="career-at-helperzz" className="text-gray-800 cursor-pointer text-xs hover:text-gray-800 mb-2 block">
                                         Careers at Helperzz
-                                    </a>
+                                    </Link>
                                 </li>
 
                                 <li>
-                                    <Link href='/contact-us' className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                    <Link href='/contact-us' className="text-gray-800 text-xs cursor-pointer hover:text-gray-800 mb-2 block">
                                         Contact Us
                                     </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                <Link href='/terms-of-use' className="text-gray-800 text-xs cursor-pointer hover:text-gray-800 mb-2 block">
                                         Terms of Use
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="text-gray-800 text-xs hover:text-gray-800 mb-2 block">
+                                <Link href='/privacy' className="text-gray-800 text-xs cursor-pointer hover:text-gray-800 mb-2 block">
                                         Privacy{" "}
-                                    </a>
+                                    </Link>
                                 </li>
                             </nav>
                         </div>
