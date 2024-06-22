@@ -568,7 +568,7 @@ function Home() {
                                     placeholder="Postal Code"
                                     value={postalCode}
                                     maxLength="7"
-                                    onChange={(e) => setPostalCode(e.target.value)}
+                                    onChange={(e) => handlePostalChange(e)}
                                     className="placeholder:text-[#696969] font-semibold ml-2 h-full outline-none max-w-28"
                                 />
                             </div>
