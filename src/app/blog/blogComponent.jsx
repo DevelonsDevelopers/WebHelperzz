@@ -403,7 +403,7 @@ const Blog = () => {
               {blogs?.designs.map((value, index) => (
                 <div key={index} className="max-md:mt-4 ">
                   <img
-                    src={`https://api.helperzz.com/public/uploads/${value.image}`}
+                    src={`${IMAGE_PATH}${value.image}`}
                     alt={value?.title.split(0, 50)}
                     className="w-full h-[320px] object-cover rounded-xl"
                   />
@@ -447,7 +447,7 @@ const Blog = () => {
               {blogs?.improvements?.map((value, index) => (
                 <div key={index} className="max-md:mt-4 ">
                   <img
-                    src={`https://api.helperzz.com/public/uploads/${value.image}`}
+                    src={`${IMAGE_PATH}${value.image}`}
                     alt={value?.title}
                     className="w-full h-[320px] object-cover rounded-xl"
                   />
