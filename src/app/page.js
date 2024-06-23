@@ -599,7 +599,7 @@ function Home() {
                             <input
                                 type="text"
                                 placeholder="Postal Code"
-                                maxlength='7'
+                                maxLength='7'
                                 value={postalCode}
                                 onChange={(e) => handlePostalChange(e)}
                                 className=" placeholder:text-[#696969] font-medium ml-2 h-full outline-none max-w-28"
