@@ -85,7 +85,7 @@ const Component = ({params}) => {
                         </div>
                         <div className='relative flex flex-col lg:w-[40%] w-full gap-10 -mt-24'>
                             <GetQuotes/>
-                            <MoreBlogs/>
+                            <MoreBlogs category={blog?.category} id={blog?.id}/>
                         </div>
                     </div>
                 </div>
@@ -166,13 +166,16 @@ export const GetQuotesForm = (props) => {
 
 
 export const GetQuotes = (props) => {
+
+    const navigation = useRouter()
+
     return (
         <div className="sticky top-10 mr-4 ml-auto flex flex-col gap-5 lg:w-[80%] w-full bg-secondary text-white rounded-3xl p-8">
             <h1 className="text-left font-bold text-[20px] capitalize ">
                 Ready to start this project?
             </h1>
             <p className="font-medium">Find top local pros.</p>
-            <button
+            <button onClick={() => navigation.push('/create-project')}
                 type="submit"
                 className="bg-white text-black  w-full hover:bg-opacity-70 font-semibold p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white"
             >
@@ -210,24 +213,24 @@ export const GuideCard = (props) => {
     )
 }
 
-export const BlogCard = (props) => {
+export const BlogCard = ({blog, id}) => {
     return (
         <div className="flex bg-secondary rounded-3xl bg-opacity-10 overflow-hidden select-text">
             <img
                 className="object-cover w-[40%] h-[250px] object-center rounded-3xl"
-                src={`/cali-constructions.png`}
+                src={`${IMAGE_PATH}${blog?.image}`}
                 alt="blog"
             />
             <div className="flex-1 flex flex-col gap-5 p-3">
                 <h2 className="title-font text-lg font-bold text-gray-900 select-text">
-                    Successful Contractor Life
+                    {blog?.title}
                 </h2>
                 <div className="flex justify-between -mt-2">
-                    <p className="text-sm text-[#26262699]">By: Helperzz</p>
-                    <p className="text-sm text-[#26262699]">July 6, 2024</p>
+                    <p className="text-sm text-[#26262699]">{blog?.author}</p>
+                    <p className="text-sm text-[#26262699]">{moment(blog?.created_date).format("ll")}</p>
                 </div>
                 <p className="text-sm mb-3 overflow-ellipsis select-text text-gray-600">
-                    A modern, renovated deck combines beauty and function to create the perfect entertaining space...
+                    {blog?.subtitle}
                 </p>
                 <a href='' className="text-secondary text-sm font-bold transition-all inline-flex items-center md:mb-2 lg:mb-0 sm:w-auto w-full sm:justify-start justify-center">
                     Read more
@@ -237,13 +240,13 @@ export const BlogCard = (props) => {
     )
 }
 
-export const MoreBlogs = (props) => {
-    const [blogs, setBlogs] = useState()
+export const MoreBlogs = ({category, id}) => {
+    const [blogs, setBlogs] = useState([])
 
 
     const getBlogs = async () => {
         try {
-            const response = await blogService.fetchAll();
+            const response = await blogService.fetchRelated(category);
             setBlogs(response.blogs);
         } catch (error) {
             console.error(error);
@@ -251,14 +254,21 @@ export const MoreBlogs = (props) => {
     };
 
     useEffect(() => {
-        getBlogs();
-    }, []);
+        if (category) {
+            getBlogs();
+        }
+    }, [category]);
     return (
         <div className="flex flex-col gap-5 w-full p-4">
             <h4 className="font-bold text-2xl">You may also like</h4>
             {
-                blogs?.slice(0,5).map((_, i) => (
-                    <BlogCard key={i}/>
+                blogs.slice(0,5).map((blog, i) => (
+                    <>
+                        {blog.id !== id ?
+                                <BlogCard key={i} blog={blog}/>
+                                : ''
+                        }
+                    </>
                 ))
             }
         </div>

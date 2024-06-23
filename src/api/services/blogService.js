@@ -25,6 +25,14 @@ const blogService = {
             throw error.response.data
         }
     },
+    fetchRelated: async (category) => {
+        try {
+            const response = await axiosInstance.get('/blogs/related/' + category)
+            return response.data
+        } catch (error) {
+            throw error.response.data
+        }
+    },
     fetchBlogs: async () => {
         try {
             const response = await axiosInstance.get('/blogs/page')
