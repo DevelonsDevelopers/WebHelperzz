@@ -255,7 +255,7 @@ const Blog = () => {
                   alt={blogs?.featured?.[1].subtitle.split(0, 50)}
                   src={
                     blogs?.featured?.[1]?.image
-                      ? `https://api.helperzz.com/public/uploads/${blogs.featured[1].image}`
+                      ? `${IMAGE_PATH}${blogs.featured[1].image}`
                       : ""
                   }
                 />
@@ -277,7 +277,7 @@ const Blog = () => {
                   <img
                     src={
                       blogs?.featured?.[1]?.image
-                        ? `https://api.helperzz.com/public/uploads/${blogs.featured[1].image}`
+                        ? `${IMAGE_PATH}${blogs.featured[1].image}`
                         : ""
                     }
                     alt={blogs?.featured?.[1].title.split(0, 50)}
@@ -330,7 +330,7 @@ const Blog = () => {
                   <img
                     src={
                       blogs?.featured?.[2]?.image
-                        ? `https://api.helperzz.com/public/uploads/${blogs.featured[2].image}`
+                        ? `${IMAGE_PATH}${blogs.featured[2].image}`
                         : ""
                     }
                     alt={blogs?.featured?.[2].title.split(0, 50)}
